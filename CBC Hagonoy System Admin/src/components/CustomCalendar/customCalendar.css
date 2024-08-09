@@ -1,0 +1,64 @@
+/* src/components/CustomCalendar.css */
+
+.custom-calendar {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border: 1px solid whitesmoke;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: #28282bab 4px 4px 8px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f8ba33;
+}
+
+.calendar-header select {
+    padding: 5px;
+    font-family: "Poppins";
+    border: none;
+    background-color: whitesmoke;
+    color: #28282b;
+    outline: none;
+    border-radius: 5px;
+    transition: all .5s ease-in-out;
+}
+
+.calendar-header select:hover{
+    cursor: pointer;
+}
+
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    padding: 10px;
+    background-color: whitesmoke;
+}
+
+.calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.calendar-day:hover {
+    background-color: #1106524d;
+}
+
+.calendar-day.selected {
+    background-color: #120652;
+    color: whitesmoke;
+}
+
+.calendar-day-name{
+    
+}

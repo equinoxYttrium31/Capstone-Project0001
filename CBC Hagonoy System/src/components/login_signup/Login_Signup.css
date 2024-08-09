@@ -1,0 +1,779 @@
+
+/*import of fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+
+
+/*main style*/
+.main_container{
+    top: 0px;
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    z-index: 10000;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login_container{
+    background-color: whitesmoke;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin: 5% auto;
+    width: 65vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.img_holder{
+    margin-top: -36px;
+    width: 150%;
+    height: 107%;
+    overflow: hidden;
+}
+
+.backbutton{
+    z-index: 1000;
+    position: relative;
+    height: 32px;
+    top: 50px;
+    left: 15px;
+}
+
+.login_img{
+    top: 0px;
+    width: 950px;
+    height: 560px;
+    opacity: 0.8;
+}
+
+.input_holder{
+    margin: 0 auto;
+    padding: 5%;
+    width: 100%;
+    align-items: center;
+}
+
+.logo_holder{
+    margin-bottom: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.logo{
+    position: relative;
+    top: 0rem;
+    left: 10.5rem;
+}
+
+.greetings{
+    font-family: "Cinzel";
+    font-weight: 500;
+    font-size: 1.5em;
+    text-align: center;
+    color: #28282B;
+    margin-bottom: 3rem;
+}
+
+.input_fields{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.email{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in;
+}
+
+.email:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+  /* Label styling */
+.email_text {
+    position: absolute;
+    top: 5px; /* Space from the top of the container */
+    left: 10px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent; /* Transparent background */
+}
+
+
+.email:focus ~ .email_text,
+.email:not(:placeholder-shown) ~ .email_text {
+    top: -10px; 
+    left: 10px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.password{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    transition: all .4s ease-in-out;
+}
+
+.password:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.password_text{
+    position: absolute;
+    top: 53px; /* Space from the top of the container */
+    left: 10px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent; /* Transparent background */
+}
+
+.password:focus ~ .password_text,
+.password:not(:placeholder-shown) ~ .password_text {
+    top: 38px; 
+    left: 10px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+
+.checkboxes-container {
+    width: 130%;
+    display: flex;
+    margin-left: 1%;
+    flex-direction: row; /* Stack checkbox items vertically */
+    align-items: flex-start; /* Align items to the start of the container */
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-right: 3.5rem; /* Center items vertically within each item */
+    margin-bottom: 20px; /* Space between checkbox items */
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkfield_label {
+    position: relative;
+    padding-left: 30px; /* Space for the custom checkbox */
+    cursor: pointer;
+    font-size: .9em;
+    color: #28282B;
+    font-family: "Lato";
+    line-height: 20px;
+}
+
+.checkfield_label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px; /* Smaller width */
+    height: 16px; /* Smaller height */
+    background: whitesmoke; /* Default background color */
+    border: 2px solid #28282B; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+.checkbox-input:checked + .checkfield_label::before {
+    background: #4c4caf; /* Checked background color */
+    border-color: #4c4caf; /* Checked border color */
+}
+
+.checkfield_label::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 1px;
+    width: 4px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    transform-origin: bottom left; /* Rotation point */
+}
+
+.checkbox-input:checked + .checkfield_label::after {
+    opacity: 1;
+    transform: rotate(45deg) translate(0, -3px); /* Adjust to fit within the checkbox */
+}
+
+
+
+
+
+/* Button styling */
+.Login_btn {
+    padding: 7px;
+    font-family: "Lato";
+    background-color: #EFB934;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.125em;
+    color: whitesmoke;
+    margin-bottom: 0.5em;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.Login_btn:hover {
+    background-color: #d79b04ef;
+    cursor: pointer;
+}
+
+/* Link styling */
+.input_fields a {
+    font-family: "Lato";
+    text-decoration: none;
+    color: #4c4caf;
+    font-size: 1em;
+    text-align: center;
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+.input_fields a:hover {
+    cursor: pointer;
+    color: #00002c;
+}
+
+.no_acc_container{
+    margin-top: 15%;
+    margin-left: 23%;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    gap: 2%;
+}
+
+.no_acc_container p{
+    text-align: center;
+    font-size: 1em;
+}
+
+.no_acc_link{
+    font-family: "Lato";
+    text-decoration: none;
+    color: #4c4caf;
+    font-size: 1em;
+    border: none;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.no_acc_link:hover {
+    cursor: pointer;
+    color: #00002c;
+}
+
+/*Sign up Part*/
+.signup_container{
+    position: absolute;
+    background-color: whitesmoke;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 20%;
+    margin: 5% auto;
+    width: 65vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.img_holder_signup{
+    margin-top: 0px;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.signup_img{
+    top: 0px;
+    width: 950px;
+    height: 560px;
+    opacity: 0.8;
+}
+
+.registration_field{
+    margin: 0;
+    padding: 0 5%;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.reg_back_btn_cont{
+    position: absolute;
+    top: 4%;
+    left: 2%;
+}
+
+.input_fields{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 10% 0;
+}
+
+.reg_logo_holder{
+    margin-bottom: 5px;
+    align-items: center;
+}
+.reg_logo{
+    width: 70px;
+    position: relative;
+    left: 40%;
+}
+
+.general_cont{
+    margin-top: -25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.row_cont{
+    display: flex;
+    flex-direction: row;
+    margin-left: -10px;
+}
+
+.F_name{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.F_name_text{
+    position: absolute;
+    top: 139px; /* Space from the top of the container */
+    left: 0px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+}
+
+.F_name:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.F_name:focus ~ .F_name_text,
+.F_name:not(:placeholder-shown) ~ .F_name_text {
+    top: 125px; 
+    left: 0px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.L_name{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-left: 1em;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.L_name_text{
+    position: absolute;
+    top: 139px; /* Space from the top of the container */
+    left: 203px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+}
+
+.L_name:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.L_name:focus ~ .L_name_text,
+.L_name:not(:placeholder-shown) ~ .L_name_text {
+    top: 125px;
+    left: 203px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.Email_Add{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.Email_Add_text{
+    position: absolute;
+    top: 187px; /* Space from the top of the container */
+    left: 0px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+}
+
+.Email_Add:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.Email_Add:focus ~ .Email_Add_text,
+.Email_Add:not(:placeholder-shown) ~ .Email_Add_text {
+    top: 173px; 
+    left: 0px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.B_Date {
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-left: 1em;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.B_date_text {
+    position: absolute;
+    top: 187px; /* Adjust as necessary */
+    left: 203px;
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+}
+
+.B_Date:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.B_Date:focus ~ .B_date_text,
+.B_Date:valid ~ .B_date_text {
+    top: 173px;  /* Adjust as necessary */
+    left: 203px; /* Adjust as necessary */
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.B_Date::-webkit-datetime-edit, 
+.B_Date::-webkit-datetime-edit-fields-wrapper,
+.B_Date::-webkit-datetime-edit-month-field,
+.B_Date::-webkit-datetime-edit-day-field,
+.B_Date::-webkit-datetime-edit-year-field {
+    opacity: 0; /* Initial opacity */
+}
+
+.B_Date:focus::-webkit-datetime-edit, 
+.B_Date:focus::-webkit-datetime-edit-fields-wrapper,
+.B_Date:focus::-webkit-datetime-edit-month-field,
+.B_Date:focus::-webkit-datetime-edit-day-field,
+.B_Date:focus::-webkit-datetime-edit-year-field,
+.B_Date:valid::-webkit-datetime-edit, 
+.B_Date:valid::-webkit-datetime-edit-fields-wrapper,
+.B_Date:valid::-webkit-datetime-edit-month-field,
+.B_Date:valid::-webkit-datetime-edit-day-field,
+.B_Date:valid::-webkit-datetime-edit-year-field {
+    opacity: 1;
+}
+
+.reg_pass{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.reg_pass_text{
+    position: absolute;
+    top: 235px; /* Space from the top of the container */
+    left: 0px; /* Space from the left of the container */
+    font-size: 1em;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+}
+
+.reg_pass:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.reg_pass:focus ~ .reg_pass_text,
+.reg_pass:not(:placeholder-shown) ~ .reg_pass_text {
+    top: 221px; 
+    left: 0px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    padding: 0 5px; 
+    color: #28282B;
+}
+
+.conf_pass{
+    width: 90%;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    padding: 0 15px;
+    border: 1px solid #28282B;
+    background: transparent;
+    outline: none;
+    color: #28282B;
+    font-family: "Lato";
+    font-weight: 300;
+    margin-left: 1em;
+    margin-bottom: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.conf_pass_text{
+    position: absolute;
+    top: 235px; /* Space from the top of the container */
+    left: 203px; /* Space from the left of the container */
+    font-size: 1em;
+    font-family: "Lato", sans-serif;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevent interaction with the label */
+    background: transparent;
+    transition: all .4s ease-in-out;
+    color: #28282b65;
+}
+
+.conf_pass:focus {
+    border: 1px solid #EFB934;
+    outline: none;
+}
+
+.conf_pass:focus ~ .conf_pass_text,
+.conf_pass:not(:placeholder-shown) ~ .conf_pass_text {
+    top: 221px; 
+    left: 203px;
+    font-size: 0.75em; 
+    background: whitesmoke;
+    color: #28282B;
+    padding: 0 5px; 
+}
+
+.checkbox_holder{
+    margin-top: 0px;
+    display: flex;
+    margin-left: -0.5rem;
+    align-items: center;
+    margin-right: 3.5rem; /* Center items vertically within each item */
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.agreement_label{
+    position: relative;
+    margin-top: 20px;
+    padding-left: 30px; /* Space for the custom checkbox */
+    cursor: pointer;
+    font-size: .9em;
+    color: #28282B;
+    font-family: "Lato";
+    line-height: 20px;
+}
+
+.agreement_label::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px; /* Smaller width */
+    height: 16px; /* Smaller height */
+    background: whitesmoke; /* Default background color */
+    border: 2px solid #28282B; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+.checkbox-input:checked + .agreement_label::before {
+    background: #4c4caf; /* Checked background color */
+    border-color: #4c4caf; /* Checked border color */
+}
+
+.agreement_label::after{
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 1px;
+    width: 4px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    transform-origin: bottom left; /* Rotation point */
+}
+
+.checkbox-input:checked + .agreement_label::after {
+    opacity: 1;
+    transform: rotate(45deg) translate(0, -3px); /* Adjust to fit within the checkbox */
+}
+
+.signup_btn{
+    padding: 7px;
+    font-family: "Lato";
+    background-color: #EFB934;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.125em;
+    color: whitesmoke;
+    margin-bottom: 0.5em;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.signup_btn:hover {
+    background-color: #d79b04ef;
+    cursor: pointer;
+}
+
+.has_acc_container{
+    margin-top: 10%;
+    margin-left: 23%;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    align-items: center;
+    gap: 2%;
+}
+
+.has_acc_container p{
+    text-align: center;
+    font-size: 1em;
+}
+
+.has_acc_link{
+    font-family: "Lato";
+    text-decoration: none;
+    color: #4c4caf;
+    font-size: 1em;
+    border: none;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.has_acc_link:hover {
+    cursor: pointer;
+    color: #00002c;
+}

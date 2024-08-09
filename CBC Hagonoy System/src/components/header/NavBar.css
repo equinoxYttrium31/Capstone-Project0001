@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+
+.container{
+    width: 80%;
+    height: 10%;
+    margin: 2px;
+    padding: 5px;
+}
+
+.navbar-contents{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    align-items: center;
+    gap: 10%;
+}
+
+.navbar_logo{
+    position: relative;
+    top: .3rem;
+    margin-left: 7rem;
+    width: 65px;
+    height: 65px;
+}
+
+.nav-links{
+    margin-left: 100px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    list-style-type: none;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 1px;
+    position: absolute;
+    left: 30%;
+    color: #28282B;
+}
+
+.buttons-container{
+    display: flex;
+    gap: 30px;
+    position: absolute;
+    right: 100px;
+}
+
+.sign-up{
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    font-family: "Lato", sans-serif;
+    color: #2424f1;
+    margin-top: 0px;
+    transition: border-bottom 0.3s ease, color 0.3s ease;
+}
+
+.sign-up:hover{
+    border-bottom: 1px solid lightblue;
+    color: lightblue;
+    cursor: pointer;
+}
+
+.login{
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    color: beige;
+    background-color: #F8BB33;
+    border: none;
+    height: 40px;
+    width: 120px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login:hover{
+    background-color: rgba(201, 133, 45, 0.93);
+    cursor: pointer;
+}
+
+li:hover{
+    cursor: pointer;
+}

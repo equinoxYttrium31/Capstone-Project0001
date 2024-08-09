@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.dashboard_container_main{
+    width: 98vw;
+    height: 87.5vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.left_dashboard_cont{
+    padding: 1.125rem;
+    height: 82vh;
+    width: 17vw;
+    border-radius: 25px;
+    background: #f8bb33;
+    margin-right: 1rem;
+}
+
+.dashboard_title_left{
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+    align-items: center;
+    gap: 5.5rem;
+    overflow: hidden;
+}
+
+.dashboar_title_p{
+    font-family: "Poppins";
+    font-weight: 500;
+    color: whitesmoke;
+    letter-spacing: .1em;
+    text-shadow: 2px 2px 5px #28282b;
+}
+
+.menu_icon_dashboard{
+    margin-top: .1rem;
+    filter: drop-shadow(2px 1px 3px #28282B); 
+    width: 24px;
+    height: 24px;
+}
+
+.dashboard_contents_left{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 1.125rem;
+}
+
+.divider_dashboard_content{
+    width: 95%;
+    border: #28282B 2px solid;
+    margin-top: -.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contents_dashboard{
+    font-size: .9em;
+    font-family: "Poppins";
+    color: #28282B;
+    transition: all ease-in-out .2s;
+}
+
+.contents_dashboard:hover{
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.admin_dashboard{
+    position: absolute;
+    top: 10vh;
+    visibility: hidden;
+}
+
+.announcement_management_admin{
+    position: absolute;
+    top: 10vh;
+    visibility: hidden;
+}

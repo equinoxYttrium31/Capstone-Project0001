@@ -1,0 +1,12 @@
+.App{
+    background-color: rgb(255, 253, 229);
+    margin: -10px 0px;
+    padding: 0;
+    height: 100%;
+    width: 100vw;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}

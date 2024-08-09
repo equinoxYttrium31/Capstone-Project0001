@@ -1,0 +1,55 @@
+.record_monitoring_mainCont{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.record_upper_part{
+    margin: 0;
+    padding: 0;
+    height: 10vh;
+    width: 77.5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 17rem;
+    background-color: aqua;
+}
+
+.church_name_record{
+    margin-top: 2rem;
+    font-family: "Lato";
+    font-size: .75em;
+    margin-bottom: -1rem;
+    color: #28282b;
+}
+
+.record_monitor_title{
+    font-family: "Poppins";
+    margin-top: .8rem;
+    font-size: 1.8em;
+    color: #120652;
+}
+
+.search_record{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search_record{
+    width: 19rem;
+    height: 2rem;
+    border: none;
+    outline: none;
+    background: lightgray;
+    border-radius: 25px;
+    padding-left: 1.125rem;
+}
+
+.search_record_icon{
+    position: absolute;
+    top: 6rem;
+}

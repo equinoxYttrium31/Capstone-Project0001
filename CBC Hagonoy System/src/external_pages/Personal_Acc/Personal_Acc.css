@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.personal_user_acc_main_cont{
+    width: 40vw;
+    height: 86.5vh;
+}
+
+.personal_title_cont{
+    width: 32.9vw;
+    height: max-content;
+    text-align: start;
+    padding: 3rem 3rem;
+}
+
+.personal_title{
+    font-weight: 700;
+    color: #2d2f65;
+    letter-spacing: .05em;
+    font-family: "Poppins", "Lato";
+}
+
+.personal_user_info{
+    display: flex;
+    flex-direction: row;
+    width: 32.9vw;
+    height: max-content;
+    padding: 0rem 3rem;
+    margin-top: -2rem;
+    gap: 2rem;
+    align-items: center;
+}
+
+.personal_img_holder{
+    background-color: gray;
+    overflow: hidden;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.personal_profile_pic{
+    margin: auto;
+    width: 12rem;
+    height: 12rem;
+}
+
+.personal_user_info_text{
+    display: flex;
+    flex-direction: column;
+}
+
+.personal_user_name{
+    margin-bottom: -.5rem;
+    font-family: "Lato";
+    font-weight: 600;
+    font-size: 2em;
+}
+
+.personal_age_gender{
+    font-family: "Poppins";
+    font-size: 1em;
+}
+
+.personal_record_cont{
+    width: 32vw;
+    height: 37%;
+    margin: 1em auto;
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 0px 16px rgba(0, 0, 0, 0.792);
+}
+
+.date_edit_container{
+    width: 25vw;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0rem auto 2.5rem;
+}
+
+.month_text, .week_text{
+    margin-top: 1em;
+    color: #2d2f65;
+    font-weight: 700;
+    font-family: "Poppins";
+    margin-right: .5em;
+}
+
+.edit_icon{
+    position: absolute;
+    right: 36.5rem;
+    height: 24px;
+    width: 24px;
+}
+
+/*trial of check boxes*/
+
+.record_info_checker {
+    width: 25vw;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left_side_container, .right_side_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.personal_checkboxes_cont {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.personal_checkboxes {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.personal_checkboxes_label {
+    position: relative;
+    padding-left: 30px; /* Space for the custom checkbox */
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #28282B;
+    font-family: "Lato";
+    line-height: 20px;
+}
+
+.personal_checkboxes_label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background: whitesmoke;
+    border: 2px solid #c49329;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.personal_checkboxes:checked + .personal_checkboxes_label::before {
+    background: #F8BB33;
+    border-color: #F8BB33;
+}
+
+.personal_checkboxes_label::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 4px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: bottom left;
+}
+
+.personal_checkboxes:checked + .personal_checkboxes_label::after {
+    opacity: 1;
+    transform: rotate(45deg) translate(0, -2px);
+}
+

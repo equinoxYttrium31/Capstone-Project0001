@@ -1,0 +1,12 @@
+.main_cont{
+    margin: -7px -5px;
+    padding: 0px;
+    width: 100vw;
+    height: 99vh;
+    overflow: scroll;
+    background-color: beige;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}

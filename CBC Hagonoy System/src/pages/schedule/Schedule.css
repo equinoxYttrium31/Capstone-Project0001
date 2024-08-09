@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+
+.main-container{
+    margin: 0;
+    padding: 0;
+    height: 110vh;
+    width: 100vw;
+    display: flex;
+}
+
+.table-container{
+    margin-top: 7%;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+}
+
+.title-header{
+    font-size: 3em;
+    font-family: "Cinzel";
+    font-weight: 400;
+    color: #28282B;
+    margin-bottom: 5%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px; /* Add border radius to the table */
+    overflow: hidden; /* Ensure rounded corners */
+    border: 1px solid #ddd; /* Add border to the table */
+}
+
+th, td {
+    padding: 25px;
+    border: 1px solid #002D62;
+}
+
+td{
+    text-align: start;
+    font-family: "Lato";
+    color: #28282B;
+}
+
+th {
+    font-weight: 700;
+    font-family: "Cinzel";
+    text-transform: uppercase;
+    background-color: #4c4caf;
+    color: whitesmoke;
+}
+
+
+tr:nth-child(odd) {
+    background-color: #B9D9EB;
+}
+
+tr:nth-child(even) {
+    background-color: #F0F8FF;
+}
+
+tr:hover {
+    background-color: #e2e2e2;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+

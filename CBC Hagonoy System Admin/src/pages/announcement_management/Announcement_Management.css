@@ -1,0 +1,267 @@
+.announcement_main_container{
+    width: 77vw;
+    height: 87vh;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.announcement_header{
+    height: 10vh;
+    width: 100%;
+}
+
+.church_name_announcement{
+    font-family: "Lato";
+    font-size: .75em;
+    margin-bottom: -1rem;
+    color: #28282b;
+}
+
+.page_title_announcement{
+    font-family: "Poppins";
+    margin-top: .8rem;
+    font-size: 1.8em;
+    color: #120652;
+}
+
+.create_announcement_title_cont{
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.create_announcement_title{
+    font-family: "Poppins";
+    font-size: 1.125em;
+    color: #28282b;
+}
+
+.add_title_cont{
+    width: 97%;
+    height: 10vh;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+}
+
+.add_title_text{
+    font-family: "Lato";
+    font-size: .8em;
+    font-weight: 600;
+    color: #28282b;
+}
+
+.add_title{
+    width: 73%;
+    height: 2rem;
+    font-size: 1em;
+    font-family: "Lato";
+    padding-left: 15px;
+    border-radius: 15px;
+    background-color: lightgrey;
+    border: none;
+    outline: none;
+    color: #28282b;
+}
+
+.rich_text_input_container{
+    width: 97%;
+    height: 30vh;
+    margin-left: 2rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 9rem;
+}
+
+.announcement_content_label{
+    margin-top: .3rem;
+    font-family: "Lato";
+    font-size: .8em;
+    font-weight: 600;
+    color: #28282b;
+}
+
+.announcement_content{
+    height: 8.5rem;
+    width: 75%;
+    padding: 0;
+    background-color: lightgray;
+    border-radius: 15px;
+    color: #28282b;
+}
+
+.ql-container {
+    background-color: lightgray; /* Set the desired background color */
+    border-radius: 15px;
+}
+/* Change background color of the editable area */
+.ql-editor {
+    background-color: whitesmoke;
+    border-radius: 15px;
+}
+.ql-toolbar {
+    border-radius: 15px;
+}
+
+.audience_content_container{
+    width: 97%;
+    height: 10vh;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9rem;
+}
+
+.audience_label{
+    font-family: "Lato";
+    font-size: .8em;
+    font-weight: 600;
+    color: #28282b;
+}
+
+.radio-buttons{
+    gap: 8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.radio-square input[type="radio"] {
+    display: none;
+}
+
+.radio-square {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: .9em;
+    user-select: none;
+    font-family: "Lato";
+    color: #28282b;
+}
+
+.checkmark {
+    position: absolute;
+    top: 55%;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    background-color: beige;
+    border: 2px solid #120652;
+    border-radius: 4px; 
+    transform: translateY(-50%);
+}
+
+.radio-square input[type="radio"]:checked + .checkmark {
+    background-color: #120652;
+    border-color: #120652;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.radio-square input[type="radio"]:checked + .checkmark:after {
+    display: block;
+    left: 3px;
+    top: 0px;
+    width: 6px;
+    height: 10px;
+    border: solid beige;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.date_publish_container{
+    width: 97%;
+    height: 10vh;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 7rem;
+}
+
+.date_publish_label{
+    margin-top: .65rem;
+    font-family: "Lato";
+    font-size: .8em;
+    font-weight: 600;
+    color: #28282b;
+}
+
+.input_container_date{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.publishing_date{
+    width: 10rem;
+    height: 2rem;
+    border-radius: 10px;
+    border: #120652 2px solid;
+    background-color: transparent;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #28282b;
+    outline: none;
+}
+
+.button_container_announcement{
+    width: 100%;
+    height: 9vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.announcement_draft{
+    position: relative;
+    left: 49rem;
+    border: none;
+    color: #28282b;
+    background-color: lightgray;
+    height: 2rem;
+    width: 6rem;
+    font-family: "Poppins";
+    border-radius: 50px;
+    transition: all ease-in-out .3s;
+}
+
+.announcement_draft:hover{
+    background-color: #c4c4c4;
+}
+
+.announcement_post{
+    position: relative;
+    left: 49rem;
+    border: none;
+    color: #28282b;
+    background-color: #f8bb33;
+    height: 2rem;
+    width: 6rem;
+    font-family: "Poppins";
+    border-radius: 50px;
+    transition: all ease-in-out .3s;
+}
+
+.announcement_post:hover{
+    background-color: #f8ba33aa;
+}

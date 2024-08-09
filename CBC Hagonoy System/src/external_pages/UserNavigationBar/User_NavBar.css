@@ -1,0 +1,81 @@
+/*import of fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+
+.nav_bar_cont{
+    margin: 0;
+    padding: 0;
+    background-color: #2d2f65;
+}
+
+.main_cont_nav{
+    margin: 0 auto;
+    width: 80vw;
+    height: 13.5vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.left_side_nav{
+    width: 50%;
+    height: 100%;
+    padding: .5rem 0;
+}
+
+.user_nav_logo{
+    height: 4.5rem;
+}
+
+.right_side_nav{
+    width: 50%;
+    height: 100%;
+    padding: .5rem 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-left: -2rem;
+}
+
+.user_nav_links{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: -5rem;
+    margin-top: -1rem;
+}
+
+.user_nav_links_contents{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    gap: 2rem;
+    list-style-type: none;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: whitesmoke;
+    letter-spacing: 1px;
+}
+
+li{
+    width: 5rem;
+}
+
+.user_nav_icons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 6.5rem;
+    margin-top: -1em;
+    gap: 1.5rem;
+}
+
+.user_nav_icons img{
+    height: 28px;
+    width: 28px;
+}
+
+.user_nav_icons img:hover{
+    cursor: pointer;
+}
+
