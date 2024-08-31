@@ -1,11 +1,11 @@
-.record_monitoring_mainCont{
+.record_monitoring_mainCont {
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
 }
 
-.record_upper_part{
+.record_upper_part {
     margin: 0;
     padding: 0;
     height: 10vh;
@@ -13,11 +13,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 17rem;
-    background-color: aqua;
+    gap: 20rem; /* Adjust gap as needed */
 }
 
-.church_name_record{
+.church_name_record {
     margin-top: 2rem;
     font-family: "Lato";
     font-size: .75em;
@@ -25,31 +24,168 @@
     color: #28282b;
 }
 
-.record_monitor_title{
+.record_monitor_title {
     font-family: "Poppins";
     margin-top: .8rem;
     font-size: 1.8em;
     color: #120652;
 }
 
-.search_record{
+.search_record {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     align-items: center;
 }
 
-.search_record{
+.search_bar_cont {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+}
+
+.search_record_input {
     width: 19rem;
     height: 2rem;
     border: none;
     outline: none;
     background: lightgray;
+    font-family: "Lato";
+    font-size: 1em;
     border-radius: 25px;
     padding-left: 1.125rem;
 }
 
-.search_record_icon{
+.search_record_icon {
     position: absolute;
-    top: 6rem;
+    right: 1rem;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.filter_record_icon {
+    width: 1.5rem;
+}
+
+.record_lower_part {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.record_lower_part_left {
+    width: 75%;
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns per row */
+    gap: 1rem; /* Space between cards */
+}
+
+.record_content_card {
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 13vh; 
+    align-items: center;
+    gap: 1em;
+    transition: all ease-out .3s;
+}
+
+.record_content_card:hover{
+    background-color: #f8ba3369;
+}
+
+.record_container_profile {
+    height: 15vh;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.record_content_card_deets {
+    margin-top: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.record_person_name {
+    font-size: 1.2em;
+    font-family: "Poppins";
+    color: #120652;
+    margin: 0;
+}
+
+.record_person_age_and_gender {
+    font-size: 1em;
+    color: #28282b;
+    font-family: "Lato";
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+.record_person_type {
+    margin-top: 0rem;
+    padding: 5px 20px;
+    border-radius: 15px;
+    background-color: #28282b;
+}
+
+.record_type_text {
+    font-size: 1em;
+    font-family: "Lato";
+    color: whitesmoke;
+    margin: 0;
+}
+
+.divider_lower{
+    background-color: #28282b;
+    margin: 1rem .5rem;
+    width: .2rem;
+    height: 72.5vh;
+}
+
+.record_lower_part_right{
+    width: 20%;
+    height: 70vh;
+    margin-top: 2rem;
+    padding: 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selection_container_record{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    margin: .5rem 0rem;
+    flex-direction: row;
+    align-items: center;
+    background-color: lightgray;
+    padding: 0rem 1rem;
+    gap: 1rem;
+    border-radius: 12px;
+}
+
+.selection_icon{
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: cover;
+}
+
+.selection_title{
+    font-family: "Poppins";
+    font-size: 1rem;
+    font-weight: 500;
+    color: #28282b;
 }
