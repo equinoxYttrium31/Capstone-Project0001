@@ -14,6 +14,7 @@ import './App.css';
 function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
 
   const handleLoginClick = (type) => {
     setOverlayType(type);
@@ -38,6 +39,12 @@ function App() {
     }
   }, [showOverlay]);
 
+  // Simulate a login action (for demonstration purposes)
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true); // Set the user as logged in
+    setShowOverlay(false); // Close the login/signup overlay
+  };
+
   return (
     <Router>
       <div className='App'>
@@ -61,7 +68,7 @@ function App() {
                 <Contact_Us />
               </div>
               <div className='testing_of_external_page'>
-                  <User_Interface/>
+                {isLoggedIn && <User_Interface />} {/* Only show if logged in */}
               </div>
             </>
           } />
@@ -70,7 +77,12 @@ function App() {
         {/* Overlay Component */}
         {showOverlay && (
           <div className='overlay'>
-            <Login_Signup type={overlayType} onClose={handleClose} toggleOverlayType={toggleOverlayType} />
+            <Login_Signup
+              type={overlayType}
+              onClose={handleClose}
+              toggleOverlayType={toggleOverlayType}
+              onLoginSuccess={handleLoginSuccess} // Pass the login success handler
+            />
           </div>
         )}
       </div>

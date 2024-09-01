@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Login_Signup_bg, cbc_logo, bck_btn } from '../../assets/Assets';
 import './Login_Signup.css';
 
-function Login_Signup({ type, onClose, toggleOverlayType }) {
+function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Added state for password visibility
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // Temporary credentials for demonstration
+    const demoEmail = 'user@example.com';
+    const demoPassword = 'password123';
+
+    if (email === demoEmail && password === demoPassword) {
+      onLoginSuccess(); // Call the login success callback
+    } else {
+      setError('Invalid email or password');
+    }
+  };
+
   return (
     <div className='main_container'>
       {/* Login Form */}
@@ -20,22 +39,46 @@ function Login_Signup({ type, onClose, toggleOverlayType }) {
               <h3 className='greetings'>Welcome Back!</h3>
             </div>
             <div className="input_fields">
-              <input className='email' type='text' placeholder=" " required />
-              <label className='email_text'>Email</label>
-              <input className='password' type='password' placeholder=" " required />
-              <label className="password_text">Password</label>
+              <form onSubmit={handleLogin}>
+                <input
+                  className='email'
+                  type='text'
+                  placeholder=" "
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <label className='email_text'>Email</label>
+                <input
+                  className='password'
+                  type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                  placeholder=" "
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <label className="password_text">Password</label>
 
-              <div className="checkboxes-container">
-                <div className="checkbox-item">
-                  <input type="checkbox" id="showPass" className="checkbox-input" />
-                  <label htmlFor="showPass" className="checkfield_label">Show Password</label>
+                {error && <p className="error_message">{error}</p>}
+
+                <div className="checkboxes-container">
+                  <div className="checkbox-item">
+                    <input
+                      type="checkbox"
+                      id="showPass"
+                      className="checkbox-input"
+                      checked={showPassword}
+                      onChange={() => setShowPassword(!showPassword)} // Toggle password visibility
+                    />
+                    <label htmlFor="showPass" className="checkfield_label">Show Password</label>
+                  </div>
+                  <div className="checkbox-item">
+                    <input type="checkbox" id="keepMe" className="checkbox-input" />
+                    <label htmlFor="keepMe" className="checkfield_label">Keep Me Logged In</label>
+                  </div>
                 </div>
-                <div className="checkbox-item">
-                  <input type="checkbox" id="keepMe" className="checkbox-input" />
-                  <label htmlFor="keepMe" className="checkfield_label">Keep Me Logged In</label>
-                </div>
-              </div>
-              <button className='Login_btn' type='submit'>Login</button>
+                <button className='Login_btn' type='submit'>Login</button>
+              </form>
               <a href=''>Forgot Password</a>
             </div>
             <div className="no_acc_container">

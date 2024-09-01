@@ -10,9 +10,14 @@ import { menus } from '../../assets/Assets';
 
 function User_Interface() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [activeContent, setActiveContent] = useState('Personal'); // Set 'Personal' as the default
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
+  };
+
+  const handleContentClick = (content) => {
+    setActiveContent(content);
   };
 
   return (
@@ -32,21 +37,46 @@ function User_Interface() {
             />
           </div>
           <div className="content_list_dashboard">
-            <p className="content_item">Personal Record</p>
+            <p
+              className={`content_item ${activeContent === 'Personal' ? 'active' : ''}`}
+              onClick={() => handleContentClick('Personal')}
+            >
+              Personal Record
+            </p>
             <div className="divider"></div>
-            <p className="content_item">Cellgroup Record</p>
+            <p
+              className={`content_item ${activeContent === 'Cellgroup' ? 'active' : ''}`}
+              onClick={() => handleContentClick('Cellgroup')}
+            >
+              Cellgroup Record
+            </p>
             <div className="divider"></div>
-            <p className="content_item">Network Monitoring</p>
+            <p
+              className={`content_item ${activeContent === 'Network' ? 'active' : ''}`}
+              onClick={() => handleContentClick('Network')}
+            >
+              Network Monitoring
+            </p>
             <div className="divider"></div>
           </div>
         </div>
         <div className={`content_display_area ${isSidebarVisible ? '' : 'expanded'}`}>
-          <Network_Record />
-          <Cellgroup_File />
-          <div className="dynamic_container_personal">
-            <Personal_Acc />
-            <User_Chart />
-          </div>
+          {activeContent === 'Network' && (
+            <div className="container_network_record active">
+              <Network_Record />
+            </div>
+          )}
+          {activeContent === 'Cellgroup' && (
+            <div className="container_cellgroup active">
+              <Cellgroup_File />
+            </div>
+          )}
+          {activeContent === 'Personal' && (
+            <div className="dynamic_container_personal active">
+              <Personal_Acc />
+              <User_Chart />
+            </div>
+          )}
         </div>
       </div>
     </div>
