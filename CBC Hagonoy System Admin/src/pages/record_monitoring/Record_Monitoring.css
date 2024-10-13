@@ -793,6 +793,10 @@
     justify-content: space-between;
 }
 
+.close_cellgroup_modal:hover{
+    cursor: pointer;
+}
+
 .cellgroup_header{
     font-size: 1.5rem;
     font-family: "Poppins";
@@ -850,6 +854,118 @@
     background-color: #2d2f65;
     color: whitesmoke;
     font-family: "Poppins";
+}
+
+/*Archived Modal*/
+.archivedRecordsModal{
+    background-color: #00000036;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.2px);
+    -webkit-backdrop-filter: blur(4.2px);
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn .2s ease-in-out;
+}
+
+.close_archive_modal:hover{
+    cursor: pointer;
+}
+
+.showArchiveRecords_Cont{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 40rem;
+    width: 80rem;
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    box-shadow: #28282B 1px 1px 5px;
+}
+
+.header_archived_cont{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 3rem;
+    border-bottom: #28282b93 2px solid;
+}
+
+.archiveHeader_text{
+    font-family: "Poppins";
+    color: #2d2f65;
+}
+
+.main_container_archive{
+    padding: 0rem 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.archive_preText{
+    font-family: "Lato";
+    font-size: .9rem;
+}
+
+.archive_list_mainContainer{
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.archived-accounts-table{
+    width: 100%;
+    border-collapse: collapse;
+    border: none; /* No outer border */
+    border-radius: 1rem;
+    background-color: #28282b93;
+}
+
+.archived-accounts-thead{
+    font-family: "Lato";
+    color: #2d2f65;
+}
+
+.archived-accounts-table th, 
+.archived-accounts-table td {
+    border: 1px solid #ccc; /* Inner borders */
+}
+
+.archived-accounts-table tr:first-child th {
+    border-top: none; /* Remove top border */
+}
+
+.archived-accounts-table tr:last-child td {
+    border-bottom: none; /* Remove bottom border */
+}
+
+/* Remove the border from the first and last columns (left and right) */
+.archived-accounts-table th:first-child, 
+.archived-accounts-table td:first-child {
+    border-left: none; /* Remove left border */
+}
+
+.archived-accounts-table th:last-child, 
+.archived-accounts-table td:last-child {
+    border-right: none; /* Remove right border */
+}
+
+.archived-accounts-header-number{
+    width: 5%;
+}
+
+.archived-accounts-header-name{
+    width: 30%;
+}
+
+.archieve-accounts-body-main{
+    height: 29rem;
+    overflow-y: scroll;
 }
 
 

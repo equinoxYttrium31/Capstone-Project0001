@@ -33,6 +33,7 @@ function Record_Monitoring() {
   const [filterModal, setFilterModal] = useState(false);
   const [addNewUserModal, setAddNewUserModal] = useState(false);
   const [newCellGroupModal, setNewCellGroupModal] = useState(false);
+  const [openArchive, setOpenArchiveModal] = useState(false);
   const [selectedRange, setSelectedRange] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedMemberType, setSelectedMemberType] = useState("");
@@ -124,6 +125,18 @@ function Record_Monitoring() {
   };
 
   //this is where Adding stops
+
+  //Archive Modal Configuration Start
+
+  const handleOpenArchived = () => {
+    setOpenArchiveModal(true);
+  };
+
+  const handleCloseArchieved = () =>{
+    setOpenArchiveModal(false);
+  }
+
+  //Archive Modal Ends
 
   const toggleFilter = () => {
     setFilterModal(!filterModal);
@@ -295,7 +308,10 @@ function Record_Monitoring() {
             />
             <h2 className="selection_title">Add New Cell Group</h2>
           </div>
-          <div className="selection_container_record">
+          <div
+            className="selection_container_record"
+            onClick={handleOpenArchived}
+          >
             <img
               src={archived_ic}
               alt="archive_records_ic"
@@ -557,6 +573,47 @@ function Record_Monitoring() {
                     Create Cellgroup
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/**New Modal for Archived Records*/}
+      {openArchive && (
+        <div className="archivedRecordsModal">
+          <div className="showArchiveRecords_Cont">
+            <div className="header_archived_cont">
+              <h2 className="archiveHeader_text">Archived Records</h2>
+              <img
+                src={close_ic}
+                alt="close_button"
+                className="close_archive_modal"
+                onClick={handleCloseArchieved}
+              />
+            </div>
+            <div className="main_container_archive">
+              <div className="archive_preText_cont">
+                <p className="archive_preText">
+                  Archived records are records that have been moved to temporary
+                  deletion.
+                </p>
+              </div>
+              <div className="archive_list_mainContainer">
+                <table className="archived-accounts-table">
+                  <thead className="archived-accounts-thead">
+                    <tr className="archived-accounts-header-row">
+                      <th className="archived-accounts-header-number"> No.</th>
+                      <th className="archived-accounts-header-name">Name</th>
+                      <th className="archived-accounts-header-age">Age</th>
+                      <th className="archived-accounts-header-gender">Gender</th>
+                      <th className="archived-accounts-header-date">Date Archived</th>
+                    </tr>
+                  </thead>
+                  <tbody className="archieve-accounts-body-main">
+
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
