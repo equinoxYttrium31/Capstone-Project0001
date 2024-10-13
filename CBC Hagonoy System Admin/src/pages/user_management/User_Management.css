@@ -3,6 +3,7 @@
     height: 40.5rem;
     display: flex;
     flex-direction: column;
+    
 }
 
 .header_user_management{
@@ -55,14 +56,311 @@
 .description-cell{
     width: 100%;
     margin-top: 2rem;
+    font-family: "Lato";
+    font-size: .9rem;
     padding: 0rem 2rem;
 }
 
 .user_management_container{
     margin: -.5rem 2rem;
+    overflow: scroll;
 }
 
 .user-management-accounts-table{
-    border: #28282b 2px solid;
+    border-collapse: collapse;
     width: 100%;
+}
+
+.user-management-table-headers{
+    font-family: "Poppins";
+    color: #2d2f65;
+}
+
+.table-header-row, .table-body tr {
+    border: 2px solid #28282B; /* Add bottom borders to rows */
+}
+
+.table-header {
+    border-bottom: 2px solid #28282B; /* Thicker border for header row */
+    padding: 8px; /* Add some padding */
+    background-color: #9fb6ff86; /* Optional: Add background color to headers */
+}
+
+.user-management-accounts-table td, .user-management-accounts-table th {
+    border-right: 2px solid #28282B; /* Add right borders */
+}
+
+.user-management-accounts-table td:last-child, 
+.user-management-accounts-table th:last-child {
+    border-right: 2px solid #28282b; /* Remove the right border for the last column */
+}
+
+.table-body-userManagement td {
+    padding: 8px;
+    border: 2px solid #28282B; /* Add border for each row */
+}
+
+.number_management{
+    width: 5%;
+}
+
+.name_management{
+    width: 40%;
+}
+
+.table-body-userManagement{
+    font-family: "Lato";
+    background-color: rgba(245, 245, 245, 0.192);
+    overflow-y: scroll;
+    margin-bottom: 5rem;
+    animation: slowLoading .3s ease-in-out;
+}
+
+.user_number_management{
+    text-align: end;
+}
+
+.user_age_management{
+    text-align: center;
+}
+
+.user_gender_management{
+    text-align: center;
+}
+
+.user_edit_management{
+    width: 30%;
+}
+
+.user_edit_management_btn_cont{
+    width: 50%;
+    padding-left: 5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.edit_user_btn{
+    background-color: #2d2f65;
+    width: 5rem;
+    border: 1px solid #2d2f65;
+    color: whitesmoke;
+    font-family: "Poppins";
+    border-radius: 1rem;
+}
+
+.archive_user_btn{
+    background-color: red;
+    width: 5rem;
+    border: 1px solid red;
+    color: whitesmoke;
+    font-family: "Poppins";
+    border-radius: 1rem;
+}
+
+.archive_user_btn:hover,
+.edit_user_btn:hover {
+    cursor: pointer;
+}
+
+/*Modal Config*/
+.edit_modal_container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 15;
+    animation: slowLoading .3s ease-in;
+}
+
+.modal_content_edit{
+    width: 60rem;
+    height: 40rem;
+    border-radius: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: whitesmoke;
+    box-shadow: #28282B 2px 2px 5px;
+}
+
+.edit_modal_header{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 3rem;
+    border-bottom: #28282bab 2px solid;
+}
+
+.close_edit_button:hover{
+    cursor: pointer;
+}
+
+.edit_modal-text_header{
+    font-family: "Poppins";
+    color: #2d2f65;
+}
+
+.edit_modal_context_cont{
+    padding: 0rem 3rem;
+    color: #28282b;
+    font-family: "Lato";
+    font-size: 0.85em;
+}
+
+.form_edit_cont{
+    padding: 1rem 3rem;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.form_edit_cont_left,
+.form_edit_cont_right{
+    width: 50%;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_edit_cont_rows{
+    width: 90%;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.editLabel_firstName,
+.editLabel_lastName,
+.editLabel_userGender,
+.editLabel_birthDate,
+.editLabel_cellLeader,
+.editLabel_netLeader,
+.editLabel_telNumber,
+.editLabel_cellNumber{
+    font-family: "Poppins";
+    color: #28282b;
+}
+
+.editInp_firstName,
+.editInp_lastName,
+.editInp_birthDate{
+    width: 12rem;
+    padding: 0.5rem 2rem;
+    font-family: "Poppins";
+    color: #28282b;
+    border: #2d2f65 2px solid;
+}
+
+.editInp_cellNumber,
+.editInp_telNumber,
+.editInp_netLeader,
+.editInp_cellLeader{
+    width: 10rem;
+    padding: 0.51rem 2rem;
+    color: #28282b;
+    font-family: "Poppins";
+    border: #2d2f65 2px solid;
+}
+
+.editInp_userGender{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    padding-right: 2rem;
+    font-family: "Poppins";
+    color: #28282b;
+    border: #2d2f65 2px solid;
+    font-family: "Poppins";
+    width: 16.2rem;
+    padding: .5rem 2rem;
+}
+
+.form_edit_cont_lower{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 3rem;
+}
+
+.address_header_edit{
+    font-size: 1.3rem;
+    font-family: "Poppins";
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.form_edit_cont_lower_rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form_edit_cont_lower_columns{
+    width: 13rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.editInp_street,
+.editInp_barangay,
+.editInp_city,
+.editInp_province{
+    font-family: "Poppins";
+    width: 70%;
+    padding: 0.53rem 2rem;
+    color: #28282b;
+    border: #2d2f65 2px solid;
+}
+
+.editLbl_province,
+.editLbl_city,
+.editLbl_barangay,
+.editLbl_street{
+    font-family: "Poppins";
+    font-size: .7em;
+    margin: 0 .5rem;
+}
+
+.personal_info_edit_text{
+    margin-left: 3rem;
+    font-size: 1.3rem;
+    font-family: "Poppins";
+    margin-top: 2.5rem;
+    margin-bottom: 0;
+}
+
+.edit_button_container_modal{
+    width: 90.7%;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.edit_Modal_button{
+    border: #2d2f65 2px solid;
+    padding: .5rem 2rem;
+    background-color: #2d2f65;
+    color: whitesmoke;
+    font-family: "Poppins";
+    border-radius: .5rem;
+}
+
+
+
+@keyframes slowLoading {
+    from{
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
 }

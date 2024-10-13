@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // CORS configuration
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true, // Allow cookies to be sent and received
+  credentials: true, 
 }));
 
 // Define your routes

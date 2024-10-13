@@ -47,8 +47,77 @@ const addNewRecord = async (req, res) => {
     }
 };
 
+const updateRecord = async (req, res) => {
+  try {
+      // Get the userId from the request parameters instead of from the token
+      const userId = req.params.userId; 
+
+      // Validate if userId is provided
+      if (!userId) {
+          return res.status(400).json({ error: 'User ID is required' });
+      }
+
+      // Destructure necessary fields from the request body
+      const {
+          firstName,
+          lastName,
+          email,
+          birthDate,
+          gender,
+          address, // Expecting an array of address objects
+          CellNum,
+          TelNum,
+          CellLead,
+          NetLead,
+      } = req.body;
+
+      // Validate required fields
+      if (!firstName || !lastName || !email) {
+          return res.status(400).json({ error: 'Missing required fields' });
+      }
+
+      // Prepare the update object
+      const updateData = {
+          firstName,
+          lastName,
+          email,
+          birthDate,
+          gender,
+          address, // Directly use the address array from the frontend
+          CellNum,
+          TelNum,
+          CellLead,
+          NetLead,
+      };
+
+      // Find and update the user in the database
+      let updatedUser;
+      try {
+          updatedUser = await ChurchUser.findByIdAndUpdate(
+              userId,
+              updateData,
+              { new: true, select: '-password' } // Return the updated document, excluding the password
+          );
+      } catch (dbError) {
+          console.error('Database update error:', dbError);
+          return res.status(500).json({ error: 'Database error' });
+      }
+
+      // Check if the user was found
+      if (!updatedUser) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Return the updated user data
+      res.json(updatedUser);
+  } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+};
 
 module.exports = {
   getRecords,
   addNewRecord,
+  updateRecord,
 };

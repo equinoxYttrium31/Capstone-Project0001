@@ -51,7 +51,7 @@ function Users_Profiles() {
         setIsFirstEdit(userProfile.isFirstEdit); // Set first edit state
       } catch (error) {
         console.error('Failed to fetch user profile:', error);
-        setError('Failed to fetch user profile'); // Set error state
+        setError('Failed to fetch user profile'); 
       }
     };
 
