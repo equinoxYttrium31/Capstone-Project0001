@@ -1,5 +1,5 @@
-import React, { useState, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { useState, useEffect, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import './Main_Dashboard.css';
 import { menu } from '../../assets/Images';
 
@@ -10,10 +10,16 @@ const Record_Monitoring = React.lazy(() => import('../record_monitoring/Record_M
 
 function Main_Dashboard() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-
+  const [isActive, setIsActive] = useState();
+  
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
+
+  // Automatically set the active link when the URL changes
+  useEffect(() => {
+    setIsActive(location.pathname);
+  }, [location.pathname]);
 
   return (
     <Router>
@@ -31,41 +37,63 @@ function Main_Dashboard() {
             />
           </div>
           <div className="dashboard_contents_left">
-            <Link to="/announcement-management" className="contents_dashboard">
+            <Link
+              to="/announcement-management"
+              className={`contents_dashboard ${isActive === '/announcement-management' ? 'active' : ''}`}
+              onClick={() => setIsActive('/announcement-management')}>
               Announcement Management
             </Link>
-            <div className="divider_dashboard_content"></div>
-            <Link to="/record-monitoring" className="contents_dashboard">
+            
+            <Link
+              to="/record-monitoring"
+              className={`contents_dashboard ${isActive === '/record-monitoring' ? 'active' : ''}`}
+              onClick={() => setIsActive('/record-monitoring')}>
               Recording Management
             </Link>
-            <div className="divider_dashboard_content"></div>
-            <Link to="/admin-dashboard" className="contents_dashboard">
+            
+            <Link
+              to="/admin-dashboard"
+              className={`contents_dashboard ${isActive === '/admin-dashboard' ? 'active' : ''}`}
+              onClick={() => setIsActive('/admin-dashboard')}>
               Monitoring and Analytics
             </Link>
-            <div className="divider_dashboard_content"></div>
-            <Link to="/user-management" className="contents_dashboard">
+            
+            <Link
+              to="/user-management"
+              className={`contents_dashboard ${isActive === '/user-management' ? 'active' : ''}`}
+              onClick={() => setIsActive('/user-management')}>
               User Management
             </Link>
-            <div className="divider_dashboard_content"></div>
-            <Link to="/communication-tools" className="contents_dashboard">
+            
+            <Link
+              to="/communication-tools"
+              className={`contents_dashboard ${isActive === '/communication-tools' ? 'active' : ''}`}
+              onClick={() => setIsActive('/communication-tools')}>
               Communication Tools
             </Link>
-            <div className="divider_dashboard_content"></div>
-            <Link to="/audit-trail-logging" className="contents_dashboard">
+            
+            <Link
+              to="/audit-trail-logging"
+              className={`contents_dashboard ${isActive === '/audit-trail-logging' ? 'active' : ''}`}
+              onClick={() => setIsActive('/audit-trail-logging')}>
               Audit Trail and Logging
             </Link>
-            <div className="divider_dashboard_content"></div>
+            
           </div>
         </div>
         <div className="right_dashboard_cont">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
+              <Route path="/" element={<Announcement_Management />} /> {/* Default route */}
               <Route path="/announcement-management" element={<Announcement_Management />} />
               <Route path="/record-monitoring" element={<Record_Monitoring />} />
               <Route path="/admin-dashboard" element={<Admin_Dashboard />} />
-              {/* Add more routes here as needed */}
             </Routes>
           </Suspense>
+        </div>
+
+        <div className="icons_container_admin">
+          
         </div>
       </div>
     </Router>

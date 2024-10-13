@@ -1,20 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import NavBar from './components/header/NavBar';
 import Hero_Section from './pages/hero/Hero_Section';
 import Activities from './pages/activities/Activities';
 import Qoutes from './pages/qoutes/Qoutes';
 import Schedule from './pages/schedule/Schedule';
 import Contact_Us from './components/footer/Contact_Us';
+import Setting_Page from './external_pages/SettingFolder/Setting_Page';
 import Login_Signup from './components/login_signup/Login_Signup';
-
 import User_Interface from './external_pages/UserInterface/User_Interface';
+import BiblePage from './components/NavBar_Components/Bible/BiblePage';
+import AboutUs from './components/NavBar_Components/About Us/AboutUs';
+import Beliefs from './components/NavBar_Components/Beliefs/Beliefs';
+
+
+import { Toaster } from 'react-hot-toast';
+
 import './App.css';
 
 function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate(); // Use navigate for redirecting
+
+  
 
   const handleLoginClick = (type) => {
     setOverlayType(type);
@@ -30,64 +41,113 @@ function App() {
     setOverlayType((prevType) => (prevType === 'login' ? 'signup' : 'login'));
   };
 
+
+  useEffect(() => {
+    const checkAuth = async () => {
+    try {
+        const response = await axios.get('http://localhost:8000/check-auth', {
+            withCredentials: true,
+        });
+        setIsLoggedIn(response.data.isLoggedIn);
+    } catch (error) {
+        console.error('Error checking auth:', error.response ? error.response.data : error.message);
+        // Handle unauthorized error
+        if (error.response && error.response.status === 401) {
+            console.log('User is not authenticated');
+            setIsLoggedIn(false);
+        }
+    }
+};
+
+    checkAuth();
+}, []);
+
   // Effect to lock/unlock scrolling
   useEffect(() => {
-    if (showOverlay) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [showOverlay]);
+    document.body.style.overflow = showOverlay || isLoggedIn ? 'hidden' : 'auto';
+  }, [showOverlay, isLoggedIn]);
 
-  // Simulate a login action (for demonstration purposes)
   const handleLoginSuccess = () => {
-    setIsLoggedIn(true); // Set the user as logged in
-    setShowOverlay(false); // Close the login/signup overlay
+    setIsLoggedIn(true);
+    setShowOverlay(false);
+    navigate('/user-interface'); // Redirect to user interface page
   };
 
-  return (
-    <Router>
-      <div className='App'>
-        <NavBar onLoginClick={handleLoginClick} />
-        <Routes>
-          <Route path="/" element={
-            <>
-              <div className='herosection'>
-                <Hero_Section />
-              </div>
-              <div className='activity'>
-                <Activities />
-              </div>
-              <div className='qoutesection'>
-                <Qoutes />
-              </div>
-              <div className='schedules'>
-                <Schedule />
-              </div>
-              <div className="footer">
-                <Contact_Us />
-              </div>
-              <div className='testing_of_external_page'>
-                {isLoggedIn && <User_Interface />} {/* Only show if logged in */}
-              </div>
-            </>
-          } />
-        </Routes>
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:8000/logout', {}, { withCredentials: true });
+      document.cookie = 'token=; Max-Age=0'; // Clear the token
+      setIsLoggedIn(false); // Set isLoggedIn to false
+      document.body.style.overflow = 'auto'; // Re-enable scrolling after logout
+      navigate('/'); // Redirect to the landing page
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
-        {/* Overlay Component */}
-        {showOverlay && (
-          <div className='overlay'>
-            <Login_Signup
-              type={overlayType}
-              onClose={handleClose}
-              toggleOverlayType={toggleOverlayType}
-              onLoginSuccess={handleLoginSuccess} // Pass the login success handler
-            />
-          </div>
-        )}
-      </div>
-    </Router>
+  
+
+  return (
+    <div className='App'>
+      {/* Conditionally render either the NavBar or User_NavBar */}
+      <NavBar onLoginClick={handleLoginClick} />
+
+      <Routes>
+        <Route path="/" element={
+          <>
+            <div className='herosection'>
+              <Hero_Section />
+            </div>
+            <div className='activity'>
+              <Activities />
+            </div>
+            <div className='qoutesection'>
+              <Qoutes />
+            </div>
+            <div className='schedules'>
+              <Schedule />
+            </div>
+            <div className="footer">
+              <Contact_Us />
+            </div>
+          </>
+        } />
+        <Route path="/settings" element={<Setting_Page onLogout={handleLogout} />} />
+        <Route path="/bible" element={<BiblePage />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/beliefs' element={<Beliefs />} />
+        <Route path='/user-interface' element={<User_Interface />} />
+
+      </Routes>
+
+      {/* Login/signup overlay */}
+      {showOverlay && (
+        <div className='overlay'>
+          <Login_Signup
+            type={overlayType}
+            onClose={handleClose}
+            toggleOverlayType={toggleOverlayType}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        </div>
+      )}
+
+      {/* Toast notifications */}
+      <Toaster position='bottom-right'
+        reverseOrder={false}
+        gutter={3}
+        toastOptions={{
+          duration: 2000,
+          style: { zIndex: 9999 }
+        }} />
+    </div>
   );
 }
 
-export default App;
+export default function AppWrapper() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}

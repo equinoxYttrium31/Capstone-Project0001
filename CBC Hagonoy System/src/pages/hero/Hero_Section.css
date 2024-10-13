@@ -35,3 +35,26 @@
     font-size: 1.5em;
 }
 
+@media (max-width: 425px){
+
+    .first{
+        margin-top: 8rem;
+    }
+
+    .church-name {
+            font-family: "Cinzel";
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1em;
+            font-size:  2.5em;
+
+        }
+    
+        .church-motto {
+            font-family: "Lato";
+            font-weight: 300;
+            line-height: 1em;
+            font-size: 1em;
+        }
+}

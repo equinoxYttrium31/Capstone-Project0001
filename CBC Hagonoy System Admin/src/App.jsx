@@ -1,4 +1,3 @@
-import React from 'react'
 import './App.css'
 import Header from './components/header/Header'
 import Main_Dashboard from './pages/main_dashboard/Main_Dashboard'

@@ -76,3 +76,19 @@ table {
     border-collapse: collapse;
 }
 
+@media (max-width: 425px) {
+    .main-container{
+        margin-top: 6.5rem;
+        margin-bottom: -8rem;
+    }
+
+    .title-header{
+        margin-left: 2rem;
+        text-wrap: nowrap;
+        font-size: 2.5em;
+    }
+
+    .table-container{
+        margin-left: 1rem;
+    }
+}

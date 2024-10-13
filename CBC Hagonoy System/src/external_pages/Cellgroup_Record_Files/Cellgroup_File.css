@@ -75,97 +75,84 @@
     margin-left: -.5rem;
 }
 
-.cellgroup_bottomlayer_cont{
+.record_lower_part {
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    height: 63vh;
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
 }
 
-.cellgroup_member_cont{
-    width: 20vw;
+.record_lower_part_left {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem;
+    overflow-y: scroll;
     margin-top: 1rem;
-    margin-left: 1rem;
+    margin-block-end: 16rem;
+}
+
+.record_row {
+    display: contents;
+}
+
+.record_content_card {
     background-color: whitesmoke;
-    border-radius: 25px;
-    padding: 1rem;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    box-shadow: #28282B 1px 1px 5px;
-    transition: background-color ease-in-out .4s;
-}
-
-.cellgroup_member_cont:hover{
-    background-color: rgba(65, 65, 65, 0.423);
-}
-
-.cellgroup_member_profpic{
-    width: 15vh;
-    height: 15vh;
+    border-radius: 10px;
+    margin-bottom: 1rem;
     overflow: hidden;
-    border-radius: 50%;
-    margin-right: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 13vh;
+    align-items: center;
+    gap: 1em;
+    transition: all ease-out .3s;
 }
 
-.member_prof_pic{
-    width: 15vh;
+.record_content_card:hover {
+    background-color: rgba(128, 128, 128, 0.658);
+}
+
+.record_container_profile {
     height: 15vh;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-.cellgroup_member_info{
+.record_content_card_deets {
+    margin-top: .5rem;
     display: flex;
     flex-direction: column;
+    align-items: start;
 }
 
-.cellgroup_member_name{
-    font-family: "Poppins";
-    font-weight: 600;
+.record_person_name {
     font-size: 1.125em;
-    color: #28282B;
+    text-wrap: nowrap;
+    font-family: "Poppins";
+    color: #120652;
+    margin: 0;
 }
 
-.age_and_gender{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: .1rem;
-    margin-top: -10px;
+.record_person_age_and_gender {
+    font-size: 1em;
+    color: #28282b;
+    font-family: "Lato";
+    margin-top: -5px;
+    margin-bottom: 10px;
 }
 
-.cellgroup_member_age, 
-.cellgroup_member_coma, 
-.cellgroup_member_gender{
+.record_person_type {
+    margin-top: 0rem;
+    padding: 5px 20px;
+    border-radius: 15px;
+    background-color: #28282b;
+}
+
+.record_type_text {
     font-size: 1em;
     font-family: "Lato";
-    font-weight: 400;
-    color: #28282B;
-}
-
-.cellgroup_member_coma{
-    margin-right: .2em;
-}
-
-.cellgroup_member_class_container{
-    width: 7rem;
-    border-radius: 25px;
-    background-color: #28282B;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.cellgroup_member_class{
-    font-family: "Lato";
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: -2px;
     color: whitesmoke;
-}
-
-.cellgroup_bottomlayer_cont_rows{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+    margin: 0;
 }

@@ -1,5 +1,5 @@
 .user_chart_main_cont {
-  margin-top: 6.3rem;
+  margin-top: 5rem;
   margin-left: 15%;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
 }
 
 .chart_header {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 .months_selector {
@@ -45,7 +45,7 @@
   width: 55%;
   height: 55%;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: beige;
   font-size: 20px;
   font-weight: bold;
   color: #333;
@@ -63,4 +63,53 @@
   font-size: 16px;
   font-weight: bold;
   font-family: "Poppins";
+}
+
+.legends_container{
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.legends_title{
+  color: #2d2f65;
+  font-family: "Poppins";
+  font-size: 18px;
+}
+
+.individual_legend_cont{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.legend_color_label{
+  font-family: "Poppins";
+  font-size: 13px;
+}
+
+.legend_color_div{
+  width: 13px;
+  height: 13px;
+  margin-right: 1rem;
+  border-radius: 10px;
+}
+
+.CG{
+  background-color: green;
+}
+
+.PD{
+  background-color: red;
+}
+
+.FD{
+ background-color: darkblue; 
+}
+
+.PM{
+  background-color: orangered;
+}
+
+.WS{
+  background-color: indigo;
 }

@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.container_bible {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "Poppins";
+  }
+  
+  .controls {
+    box-shadow: 1px 1px 5px #28282b;
+    border-radius: 15px;
+    padding: 1rem 0rem;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: sticky;
+    top: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+  }
+  
+  .controls label {
+    margin-bottom: 10px;
+    font-family: "Lato";
+    font-weight: 500;
+    font-size: 1em;
+  }
+
+  .container_verse{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 2rem;
+  }
+
+  .container_book{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 2rem;
+  }
+
+  .container_chapter{
+    display: flex;
+    flex-direction: column;
+    margin: 0px 2rem;
+  }
+  
+  select, input {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid whitesmoke;
+    font-family: "Lato";
+    border-radius: 4px;
+    width: 156px;
+    box-shadow: 1px 1px 5px #666;
+  }
+  
+  .buttons_book button,
+  .buttons_chapter button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4c4caf;
+    color: whitesmoke;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #666;
+  }
+
+    .verse_button{
+    margin-right: 5px;
+    background-color: #4c4caf;
+    color: whitesmoke;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    width: 214px;
+    box-shadow: 1px 1px 5px #666;
+  }
+  
+  .buttons_book button:hover, 
+  .buttons_chapter button:hover,
+  .buttons_verse button:hover {
+    background-color: #4c4caf;
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .verse-section {
+    margin: 20px 0;
+    font-family: "Lato";
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 1rem 5rem;
+    z-index: 0;
+  }
+  
+  .header {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .header h1 {
+    font-size: 2em;
+    font-family: "Cinzel";
+    font-weight: 500;
+    color: #28282b;
+    margin: 0;
+  }
+  
+  .header h2 {
+    font-size: 1.5em;
+    font-family: "Lato";
+    font-weight: 400;
+    margin: -.5rem 0rem;
+    color: #28282bb0;
+  }
+  
+  .chapter_content_text {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    color: #28282b;
+  
+  }
+  
+  .chapter-content {
+    margin-top: 20px;
+  }
+  
+  .chapter-content p {
+    text-align: justify;
+    margin: 10px 0;
+    line-height: 1.5;
+  
+  }
+  
+
+
+/* Assuming footnotes are in <sup> tags */
+.footnote {
+    font-size: 0.8em; /* Smaller font size */
+    color: #666; /* Slightly lighter color for differentiation */
+  }
+  
+  /* If footnotes are in a specific class */
+  .footnote {
+    font-size: 0.8em; /* Smaller font size */
+    color: #666; /* Slightly lighter color for differentiation */
+  }
+  
+
+@media (max-width: 425px) {
+    .container_bible{
+      width: 80vw;
+      padding: 1rem 2rem;
+    }
+
+    .controls{
+      display: flex;
+      flex-direction: column;
+      align-items: justify;
+    }
+
+    .container_book{
+      width: 20rem;
+    }
+
+    .container_book select{
+      width: 13.5rem;
+    }
+
+    .buttons_book{
+      display: flex;
+      flex-direction: row;
+      margin-left: 1rem;
+      gap: 1rem;
+    }
+
+    .container_chapter{
+      width: 20rem;
+    }
+
+    .container_chapter input{
+      width: 11.5rem;
+    }
+
+    .buttons_chapter{
+      display: flex;
+      flex-direction: row;
+      margin-left: .2rem;
+      gap: 1rem;
+    }
+
+    .container_verse{
+      width: 20rem;
+    }
+
+    .container_verse input{
+      width: 12.5rem;
+    }
+
+    .verse_button{
+      margin-left: 1.5rem;
+    }
+
+    .verse-section{
+      text-align: justify;
+      width: 15rem;
+      margin-left: -2rem;
+    }
+}

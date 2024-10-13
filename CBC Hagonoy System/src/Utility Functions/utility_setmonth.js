@@ -7,3 +7,7 @@ export const getCurrentMonth = () => {
     return monthNames[monthIndex];
   };
   
+export const getCurrentYear = () => {
+  const date = new Date();
+  return date.getFullYear(); // Ensure this function exists
+};

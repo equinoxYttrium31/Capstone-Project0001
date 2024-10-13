@@ -10,6 +10,51 @@
   overflow: hidden; /* Restricts scrolling */
 }
 
+.icon_personal_user{
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 12.5rem;
+  opacity: 0;
+  transition: all .1s ease-in-out;
+}
+
+.user_dashboard_cont.minimized .icon_personal_user {
+  left: 1.7rem;
+  opacity: 1;
+  filter: drop-shadow(2px 2px 1px #28282B);
+}
+
+.icon_cellgroup_user {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 18.15rem;
+  opacity: 0;
+  transition: all .1s ease-in-out;
+}
+
+.user_dashboard_cont.minimized .icon_cellgroup_user {
+  left: 1.7rem;
+  opacity: 1;
+  filter: drop-shadow(2px 2px 1px #28282B);
+}
+
+.icon_network_user {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 23.45rem;
+  opacity: 0;
+  transition: all .1s ease-in-out;
+}
+
+.user_dashboard_cont.minimized .icon_network_user {
+  left: 1.7rem;
+  opacity: 1;
+  filter: drop-shadow(2px 2px 1px #28282B);
+}
+
 /* Main container styling */
 .main_user_cont {
   margin: 0;
@@ -24,13 +69,29 @@
 .user_dashboard_cont {
   margin: 0.5rem;
   padding: 1rem 1.5rem;
-  width: 250px; /* Fixed width */
-  height: 79vh; /* Adjusted height to fill more space */
+  width: 16rem; /* Fixed width */
+  height: 80vh; /* Adjusted height to fill more space */
   border-radius: 15px;
   background-color: #F8BB33;
   transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+}
+
+.content_list_dashboard .active{
+  transition: all .2s ease-in-out;
+  border: 5px solid #2d2f65;
+  padding: .5rem 2rem;
+  border-radius: 2rem;
+  font-size: 1em;
+  text-wrap: nowrap;
+  background-color: #2d2f65;
+  color: whitesmoke;
+  transition: opacity .1s ease-in-out;
+}
+
+.content_list_dashboard.minimized .active{
+  opacity: 0;
 }
 
 .user_dashboard_cont.minimized {
@@ -56,7 +117,7 @@
   font-size: 1.125em;
   letter-spacing: 0.1em;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity .1s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .dashboard_main_text {
@@ -71,23 +132,24 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
-  position: absolute;
-  right: 69rem; /* Adjusted initial position */
+  position: relative;
+  right: 0rem; /* Adjusted initial position */
   transition: left 0.3s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .hamburger_menu {
-  left: 2.5%; /* Centers the icon when minimized */
-  transform: translateX(-5%);
+   /* Centers the icon when minimized */
+  transform: translateX(-450%);
 }
 
 /* Content list dashboard styling */
 .content_list_dashboard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2.5rem;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
+  text-wrap: nowrap;
 }
 
 .user_dashboard_cont.minimized .content_list_dashboard {
@@ -102,19 +164,12 @@
   letter-spacing: 0.1em;
   color: #28282B;
   cursor: pointer;
-  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .content_list_dashboard p:hover {
   color: whitesmoke;
   transform: translateX(5px); /* Slight move to the right on hover */
-}
-
-/* Divider styling */
-.divider {
-  border: #28282B 2px solid;
-  margin-top: -1rem;
-  margin-bottom: 1rem;
 }
 
 /* Dynamic container and its variants styling */
@@ -161,9 +216,70 @@
 .dynamic_container_personal.active {
   display: flex;
   visibility: visible;
+  animation: slowLoad .5s ease-in-out;
 }
 
 /* Prevent scrolling */
 body {
   overflow: hidden;
+}
+
+.credits_group{
+  position: absolute;
+  bottom: .5rem;
+  width: 15rem;
+  text-align: center;
+  transition: all .3s ease-in-out;
+  z-index: 0;
+}
+
+.credits_text{
+  font-size: 12px;
+  color: #28282B;
+  opacity: .5;
+}
+
+.user_dashboard_cont.minimized .credits_group{
+  opacity: 0;
+}
+
+.icon_label{
+  position: absolute;
+  opacity: 0;
+}
+
+.user_dashboard_cont.minimized .icon_label{
+  font-size: 10px;
+  color: whitesmoke;
+  width: 60px;
+  line-height: 15px;
+  text-align: center;
+  font-family: "Poppins";
+  text-shadow: #28282B 1.5px 1.5px 2px;
+  opacity: 1;
+}
+
+.personal{
+  position: absolute;
+  top: 15rem;
+}
+
+.cellgroup{
+  position: absolute;
+  top: 20.2rem;
+}
+
+.network{
+  position: absolute;
+  top: 26rem;
+}
+
+@keyframes slowLoad {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

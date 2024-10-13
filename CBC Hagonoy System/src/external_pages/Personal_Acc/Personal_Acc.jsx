@@ -1,70 +1,246 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Personal_Acc.css';
-import { 
-    edit_ic,
-    user_placeholder
- } from '../../assets/Assets';
-import { getCurrentMonth } from '../../Utility Functions/utility_setmonth';
+import { edit_ic, user_placeholder } from '../../assets/Assets';
+import { getCurrentMonth, getCurrentYear } from '../../Utility Functions/utility_setmonth';
 import { getCurrentWeekNumber } from '../../Utility Functions/utility_date';
+import axios from 'axios'; 
+import { toast } from 'react-hot-toast';
 
-function Personal_Acc() {
+const calculateAge = (birthDate) => {
+  const today = new Date();
+  const birthDateObj = new Date(birthDate);
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const monthDifference = today.getMonth() - birthDateObj.getMonth();
+
+  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
+    age--;
+  }
+  return age;
+};
+
+const Personal_Acc = () => {
+  const [user, setUser] = useState(null);
   const [currentMonth, setCurrentMonth] = useState('');
+  const [currentYear, setCurrentYear] = useState('');
   const [currentWeek, setCurrentWeek] = useState('');
+  const [error, setError] = useState(null);
+  const [hasProfilePicture, setHasProfilePicture] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(user_placeholder);
+  const [attendanceData, setAttendanceData] = useState({
+    cellGroup: false,
+    personalDevotion: false,
+    familyDevotion: false,
+    prayerMeeting: false,
+    worshipService: false,
+});
 
-  useEffect(() => {
+  // Function to submit attendance data to the backend
+  const submitAttendanceData = async (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+    const userId = user?._id; // Assuming user has an _id field
+    const month = currentMonth; // Current month
+    const year = currentYear; // Current year
+    const weekNumber = currentWeek; // Current week number
+
+    // Get checkbox states from the form elements
+    const attendanceData = {
+      cellGroup: event.target.cellGroup.checked,
+      personalDevotion: event.target.personalDevotion.checked,
+      familyDevotion: event.target.familyDevotion.checked,
+      prayerMeeting: event.target.prayerMeeting.checked,
+      worshipService: event.target.worshipService.checked,
+    };
+
+    const attendancePayload = {
+      userId,
+      month,
+      year,
+      weekNumber,
+      attendanceData, // Use the collected data here
+    };
+
+    try {
+      await axios.post('http://localhost:8000/attendance', attendancePayload, {
+        withCredentials: true,
+      });
+      toast.success('Attendance recorded successfully!');
+    } catch (error) {
+      console.error('Error submitting attendance data:', error);
+      toast.error('Failed to submit attendance data.');
+    }
+  };
+
+  // Function to fetch user profile
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/profile', {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      toast.error('Error fetching user profile:', error);
+      throw error;
+    }
+  };
+
+  // Function to fetch attendance data
+  const fetchAttendanceData = async () => {
+    const userId = user?._id; // Get user ID from the user object
+    const month = currentMonth; // Current month
+    const year = currentYear; // Current year
+    const weekNumber = currentWeek; // Current week number
+
+    try {
+        const response = await axios.get(`http://localhost:8000/attendance/get 
+          .032${userId}/${month}/${year}/${weekNumber}`, {
+            withCredentials: true,
+        });
+        return response.data; // Assuming the response contains the attendance data
+    } catch (error) {
+        console.error('Error fetching attendance data:', error.response ? error.response.data : error.message);
+        toast.error('Failed to fetch attendance data.');
+        throw error;
+    }
+};
+
+ useEffect(() => {
+    const getUserProfile = async () => {
+      try {
+        const userProfile = await fetchUserProfile();
+        setUser(userProfile);
+      } catch (error) {
+        console.error('Failed to fetch user profile:', error);
+        setError('Failed to fetch user profile');
+      }
+    };
+
+    getUserProfile();
     setCurrentMonth(getCurrentMonth());
+    setCurrentYear(getCurrentYear());
     setCurrentWeek(getCurrentWeekNumber());
   }, []);
 
+  useEffect(() => {
+  // Fetch user data to check if they have a profile picture
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/profile/picture', { withCredentials: true });
+      const { profilePic } = response.data; // Assuming the API returns a field 'profilePic'
+
+      if (profilePic) {
+        setHasProfilePicture(true);
+        // Check if the profile picture string starts with the correct prefix
+        const formattedProfilePic = profilePic.startsWith('data:image/jpeg;base64,') ? profilePic : `data:image/jpeg;base64,${profilePic}`;
+        setProfilePicture(formattedProfilePic); // Set the profile picture
+      }
+    } catch (error) {
+      toast.error("Failed to fetch user profile.");
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  fetchUserProfile();
+}, []);
+  // Effect to load attendance data from the backend
+  useEffect(() => {
+    if (user) {
+      const getAttendanceData = async () => {
+        try {
+          const attendanceData = await fetchAttendanceData();
+          // Set tempAttendanceData based on the fetched data
+          setAttendanceData(attendanceData);
+        } catch (error) {
+          console.error('Failed to fetch attendance data:', error);
+        }
+      };
+
+      getAttendanceData();
+    }
+  }, [user, currentWeek, currentMonth, currentYear]); // Run when user or current week/month/year changes
+
   return (
     <div className='personal_user_acc_main_cont'>
-        <div className="personal_title_cont">
-            <h2 className='personal_title'>My Personal Record</h2>
-        </div>    
-        <div className="personal_user_info">
-            <div className="personal_img_holder">
-                <img src={user_placeholder} alt="user_profile" className="personal_profile_pic" />
-            </div>
-            <div className="personal_user_info_text">
-                <h2 className="personal_user_name">Name</h2>
-                <p className="personal_age_gender">age, gender</p>
-            </div>
+      <div className="personal_title_cont">
+        <h2 className='personal_title'>My Personal Record</h2>
+      </div>
+      {error && <p className="error-message">{error}</p>}
+      <div className="personal_user_info">
+        <div className="personal_img_holder">
+          <img src={profilePicture} alt="user_profile" className="personal_profile_pic" />
         </div>
-        <div className="personal_record_cont">
-            <div className="date_edit_container">
-                <h4 className="month_text">{currentMonth}</h4> {/* Display current month */}
-                <h4 className="week_text">Week {currentWeek}</h4> {/* Display current week number */}
-                <img src={edit_ic} alt="edit_icon" className="edit_icon" />
-            </div>
-            <div className="record_info_checker">
-                <div className="left_side_container">
-                    <div className="personal_checkboxes_cont">
-                        <input type="checkbox" id="Cell_Group" className="personal_checkboxes" />
-                        <label htmlFor="Cell_Group" className="personal_checkboxes_label">Cell Group</label>
-                    </div>
-                    <div className="personal_checkboxes_cont">
-                        <input type="checkbox" id="Personal_Devotion" className="personal_checkboxes" />
-                        <label htmlFor="Personal_Devotion" className="personal_checkboxes_label">Personal Devotion</label>
-                    </div>
-                    <div className="personal_checkboxes_cont">
-                        <input type="checkbox" id="Family_Devotion" className="personal_checkboxes" />
-                        <label htmlFor="Family_Devotion" className="personal_checkboxes_label">Family Devotion</label>
-                    </div>
-                </div>
-                <div className="right_side_container">
-                    <div className="personal_checkboxes_cont">
-                        <input type="checkbox" id="Prayer_Meeting" className="personal_checkboxes" />
-                        <label htmlFor="Prayer_Meeting" className="personal_checkboxes_label">Prayer Meeting</label>
-                    </div>
-                    <div className="personal_checkboxes_cont">
-                        <input type="checkbox" id="Worship_Service" className="personal_checkboxes" />
-                        <label htmlFor="Worship_Service" className="personal_checkboxes_label">Worship Service</label>
-                    </div>
-                </div>
-            </div>
+        <div className="personal_user_info_text">
+          {!!user && (
+            <>
+              <h2 className="personal_user_name">{user.firstName} {user.lastName}</h2>
+              <p className="personal_age_gender">{calculateAge(user.birthDate)}, {user.gender}</p>
+            </>
+          )}
         </div>
+      </div>
+      <div className="personal_record_cont">
+        <div className="date_edit_container">
+          <h4 className="month_text">{currentMonth}</h4>
+          <h4 className="week_text">Week {currentWeek}</h4>
+        </div>
+        <form onSubmit={submitAttendanceData}>
+          <div className="record_info_checker">
+            <div className="checkbox_columns">
+              <div className="checkbox_column">
+                <div className="personal_checkboxes_cont">
+                  <input
+                    type="checkbox"
+                    id="cellGroup"
+                    className="personal_checkboxes"
+                    defaultChecked={attendanceData.cellGroup} // Use defaultChecked for initial state
+                  />
+                  <label htmlFor="cellGroup" className="personal_checkboxes_label">Cell Group</label>
+                </div>
+                <div className="personal_checkboxes_cont">
+                  <input
+                    type="checkbox"
+                    id="personalDevotion"
+                    className="personal_checkboxes"
+                    defaultChecked={attendanceData.personalDevotion} // Use defaultChecked for initial state
+                  />
+                  <label htmlFor="personalDevotion" className="personal_checkboxes_label">Personal Devotion</label>
+                </div>
+                <div className="personal_checkboxes_cont">
+                  <input
+                    type="checkbox"
+                    id="familyDevotion"
+                    className="personal_checkboxes"
+                    defaultChecked={attendanceData.familyDevotion} // Use defaultChecked for initial state
+                  />
+                  <label htmlFor="familyDevotion" className="personal_checkboxes_label">Family Devotion</label>
+                </div>
+              </div>
+              <div className="checkbox_column">
+                <div className="personal_checkboxes_cont">
+                  <input
+                    type="checkbox"
+                    id="prayerMeeting"
+                    className="personal_checkboxes"
+                    defaultChecked={attendanceData.prayerMeeting} // Use defaultChecked for initial state
+                  />
+                  <label htmlFor="prayerMeeting" className="personal_checkboxes_label">Prayer Meeting</label>
+                </div>
+                <div className="personal_checkboxes_cont">
+                  <input
+                    type="checkbox"
+                    id="worshipService"
+                    className="personal_checkboxes"
+                    defaultChecked={attendanceData.worshipService} // Use defaultChecked for initial state
+                  />
+                  <label htmlFor="worshipService" className="personal_checkboxes_label">Worship Service</label>
+                </div>
+                <button type="submit" className="submit_attendance_button">Submit Attendance</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
-}
+};
 
 export default Personal_Acc;

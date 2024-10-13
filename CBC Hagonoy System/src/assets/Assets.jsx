@@ -25,6 +25,14 @@ import edit_ic from './edit_ic.png'
 import user_placeholder from './user_placeholder.jpg'
 import search_ic from './search_ic.png'
 import filter_ic from './filter_ic.png'
+import intro_bg from './intro_bg.jpg'
+import ideals_bg from './ideals_bg.jpg'
+import network_ic from './network_ic.png'
+import cellgroup_ic from './cellgroup_ic.png'
+import personal_ic from './personal_ic.png'
+import acc_ic_selected from './acc_ic_selected.png'
+import setting_ic_selected from './settings_ic_selected.png'
+import logout_ic from './logout_ic.png'
 
 export {
     facebook_icon_dark,
@@ -54,4 +62,12 @@ export {
     user_placeholder,
     search_ic,
     filter_ic,
+    intro_bg,
+    ideals_bg,
+    network_ic,
+    cellgroup_ic,
+    personal_ic,
+    acc_ic_selected,
+    setting_ic_selected,
+    logout_ic,
 };

@@ -35,13 +35,13 @@ function Contact_Us() {
                 </div>
                 <div className="office-hours">
                     <h3>Parish Office Hours</h3>
-                    <p>Monday: Closed</p>
-                    <p>Tuesday: 8am – 5pm</p>
-                    <p>Wednesday: 8am – 5pm</p>
-                    <p>Thursday: 8am – 12nn</p>
-                    <p>Friday: 8am – 5pm</p>
-                    <p>Saturday: 8am – 7pm</p>
-                    <p>Sunday: 7am – 7pm</p>
+                    <p><b>Monday:</b> Closed</p>
+                    <p><b>Tuesday:</b> 8:00am – 5:00pm</p>
+                    <p><b>Wednesday:</b> 8:00am – 5:00pm</p>
+                    <p><b>Thursday:</b> 8:00am – 12:00nn</p>
+                    <p><b>Friday:</b> 8:00am – 5:00pm</p>
+                    <p><b>Saturday:</b> 8:00am – 7:00pm</p>
+                    <p><b>Sunday:</b> 7:00am – 7:00pm</p>
                 </div>
                 <div className="social-bar">
                     <h3>Social</h3>
