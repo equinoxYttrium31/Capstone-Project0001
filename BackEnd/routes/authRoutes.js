@@ -21,7 +21,9 @@ const {
 const {
     getRecords,
     addNewRecord,
-    updateRecord
+    updateRecord,
+    archiveRecord,
+    getUserById,
 } = require('../controllers/authController_Admin')
 const cors = require('cors');
 
@@ -86,8 +88,9 @@ router.get('/check-auth', checkAuth);
 //Routes from admin
 router.get('/records', getRecords);
 router.post('/add-record', addNewRecord);
-
+router.delete('/archive/:userId', archiveRecord);
 router.put('/update-record/:userId', updateRecord);
+router.get('/churchUser/:userId', getUserById);
 
 
 // Export the router

@@ -1,6 +1,19 @@
-const ChurchUser = require('../models/ChurchUser');  // Adjust to your model
+const ChurchUser = require('../models/ChurchUser'); 
+const ArchieveUserModel = require('../models/ArchieveRecords'); // Adjust to your model
 const { hashPassword, comparePassword } = require('../helpers/auth');
 
+
+const today = new Date();
+// Get individual components
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based, pad with zero if needed
+const day = String(today.getDate()).padStart(2, '0'); // Pad with zero if needed
+const hours = String(today.getHours()).padStart(2, '0'); // Pad with zero if needed
+const minutes = String(today.getMinutes()).padStart(2, '0'); // Pad with zero if needed
+const seconds = String(today.getSeconds()).padStart(2, '0'); // Pad with zero if needed
+
+// Concatenate into a formatted string
+const ArchievedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 // Controller to get all records
 const getRecords = async (req, res) => {
   try {
@@ -116,8 +129,70 @@ const updateRecord = async (req, res) => {
   }
 };
 
+// Controller to archive a user
+const archiveRecord = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Get user ID from the request parameters
+  
+      // Find the user in the ChurchUser collection
+      const user = await ChurchUser.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Create a new archived user in the ArchieveUser collection
+      const archivedUser = new ArchieveUserModel({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        birthDate: user.birthDate,
+        profilePic: user.profilePic,
+        address: user.address,
+        CellNum: user.CellNum,
+        TelNum: user.TelNum,
+        CellLead: user.CellLead,
+        NetLead: user.NetLead,
+        gender: user.gender,
+        dateArchieved: ArchievedDate,
+      });
+  
+      // Save the archived user
+      await archivedUser.save();
+  
+      // Delete the user from the ChurchUser collection
+      await ChurchUser.findByIdAndDelete(userId);
+  
+      return res.json({ message: "User archived successfully" });
+    } catch (error) {
+      console.error("Error archiving user:", error);
+      res.status(500).json({ message: "Server error", error });
+    }
+  };
+
+  // Controller to get a user by ID
+const getUserById = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Get user ID from the request parameters
+
+        // Find the user in the ChurchUser collection
+        const user = await ChurchUser.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.json(user); // Return the found user
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
+
 module.exports = {
   getRecords,
   addNewRecord,
   updateRecord,
+  archiveRecord,
+  getUserById,
 };

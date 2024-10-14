@@ -28,7 +28,7 @@ function App() {
   
 
   const handleLoginClick = (type) => {
-    setOverlayType(type);
+    setOverlayType(type);           
     setShowOverlay(true);
   };
 

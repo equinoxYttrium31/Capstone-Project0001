@@ -20,6 +20,43 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
+//confirmation modal
+
+function ConfirmationModal({ record, onClose, onConfirm }) {
+  return (
+    <div className="confirmation_modal_container">
+      <div className="confirmation_modal_content">
+        <h2 className="confirm_modal_header">Archive User</h2>
+        <p className="confirm_modal_context">
+          Are you sure you want to archive{" "}
+          <strong>{record.firstName} {record.lastName}</strong>?
+        </p>
+        <div className="confirmation_modal_actions">
+          <button className="edit_Modal_button" onClick={onConfirm}>
+            Confirm
+          </button>
+          <button className="modal_cancel_button" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ConfirmationModal.propTypes = {
+  record: PropTypes.shape({
+    _id: PropTypes.string.isRequired, // Make sure _id is required
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+}
+
+
+//end of confirmation
+
 function EditUserModal({ record, onClose, onSave }) {
   const [firstName, setFirstName] = useState(record.firstName || "");
   const [lastName, setLastName] = useState(record.lastName || "");
@@ -243,12 +280,13 @@ export default function User_Management() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [modalEdit, setModalEdit] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
   const [userId, setUserId] = useState("");
 
   const fetchRecords = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/records");
+      const response = await axios.get("http://localhost:8001/records");
       console.log(response.data);
       setRecords(response.data);
       setFilteredRecords(response.data);
@@ -260,6 +298,31 @@ export default function User_Management() {
   useEffect(() => {
     fetchRecords();
   }, []);
+
+  const handleConfirmArchive = async () => {
+    try {
+      await axios.delete(`http://localhost:8001/archive/${userId}`, {
+        withCredentials: true, // If authentication is required
+      });
+      toast.success("User archived successfully");
+      setConfirmationModal(false);
+      fetchRecords(); // Refresh the list after archiving
+    } catch (error) {
+      console.error("Error archiving user:", error);
+      toast.error("Failed to archive user. Please try again.");
+    }
+  };
+  
+
+  const handleOpenConfirmation = (record) =>{
+    if (record && record._id) {
+      setUserId(record._id);
+      setCurrentRecord(record);
+      setConfirmationModal(true);
+    } else {
+      console.error("Invalid record:", record);
+    }
+  };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -377,7 +440,10 @@ export default function User_Management() {
                       >
                         Edit
                       </button>
-                      <button className="archive_user_btn">Archive</button>
+                      <button 
+                        className="archive_user_btn"
+                        onClick={() => handleOpenConfirmation(record)}
+                        >Archive</button>
                     </div>
                   </td>
                 </tr>
@@ -400,6 +466,15 @@ export default function User_Management() {
           onSave={handleSaveChanges} // Pass the new handleSaveChanges function
         />
       )}
+
+      {confirmationModal && currentRecord && (
+        <ConfirmationModal
+          record={currentRecord}
+          onClose={() => setConfirmationModal(false)}
+          onConfirm={handleConfirmArchive}
+        />
+      )}
+
     </div>
   );
 }

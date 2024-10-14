@@ -355,6 +355,63 @@
     border-radius: .5rem;
 }
 
+/*Confirmation Modal*/
+.confirmation_modal_container{
+    position: absolute;
+    z-index: 15;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    animation: slowLoading .3s;
+}
+
+.confirmation_modal_content{
+    background-color: ivory;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30rem;
+    height: 10rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: #28282b 2px 2px 5px;
+}
+
+.confirm_modal_header{
+    font-size: 1.5rem;
+    font-family: "Poppins";
+    margin-top: 0;
+    color: #ff010e;
+}
+
+.confirm_modal_context{
+    font-family: "Lato";
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.confirmation_modal_actions{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 3rem;
+}
+
+.modal_cancel_button{
+    background-color: transparent;
+    border: #2d2f65 2px solid;
+    padding: .5rem 2rem;
+    font-weight: 600;
+    color: #28282b;
+    font-family: "Poppins";
+    border-radius: .5rem;
+}
+
 
 
 @keyframes slowLoading {
