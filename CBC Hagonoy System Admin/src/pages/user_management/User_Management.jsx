@@ -83,6 +83,9 @@ function EditUserModal({ record, onClose, onSave }) {
       CellLead,
       address,
     });
+    setTimeout(function() {
+      window.location.reload();
+    }, 1000);
     onClose();
   };
 

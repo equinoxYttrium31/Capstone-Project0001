@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const http = require('http'); // Import the http module for creating the server
+const socketIo = require('socket.io'); // Import socket.io
+
 require('dotenv').config();
 
 // Connect to MongoDB
@@ -10,6 +13,10 @@ mongoose.connect(process.env.Mongo_URL)
   .catch((err) => console.log('Failed to Connect!', err));
 
 const app = express();
+
+// Create a server with http and integrate Socket.io
+const server = http.createServer(app);
+const io = socketIo(server); // Initialize Socket.io with the server
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -25,13 +32,34 @@ app.use(cors({
 const authRoutes = require('./routes/authRoutes');
 app.use('/', authRoutes);
 
+// Socket.io connection
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  // Handle custom events, e.g., fetch records
+  socket.on('fetchRecords', async () => {
+    try {
+      const records = await ChurchUser.find(); // Fetch records from the database
+      socket.emit('updateRecords', records); // Send the records back to the client
+    } catch (error) {
+      console.error('Error fetching records:', error);
+    }
+  });
+
+  // Clean up when the user disconnects
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+// Global error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Server listening on port 8000
+// Server listening on port 8001
 const PORT = 8001;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

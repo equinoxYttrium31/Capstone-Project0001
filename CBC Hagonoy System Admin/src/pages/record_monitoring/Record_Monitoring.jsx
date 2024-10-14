@@ -1,5 +1,5 @@
 import "./Record_Monitoring.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios"; // Import Axios
 import { toast } from "react-hot-toast";
 import {
@@ -11,6 +11,7 @@ import {
   close_ic,
 } from "../../assets/Images";
 import { groupCards } from "../../components/Utility Functions/layoutUtility.js";
+import { io } from "socket.io-client"; // Import Socket.IO client
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -39,6 +40,7 @@ function Record_Monitoring() {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedMemberType, setSelectedMemberType] = useState("");
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
+  const socket = useRef(null); // Create a ref for the socket
 
   useEffect(() => {
     const fetchArchivedUsers = async () => {
@@ -52,7 +54,7 @@ function Record_Monitoring() {
 
     fetchArchivedUsers();
   }, []); // Empty dependency array to run once on component mount
-
+  
   const handleClearButton = () => {
     setSelectedRange("");
     setSelectedGender("");
@@ -84,6 +86,7 @@ function Record_Monitoring() {
     if (confirmAction) {
       confirmAction();
     }
+    
     setConfirmationModal(false);
   };
 
@@ -131,6 +134,9 @@ function Record_Monitoring() {
           birthDate: "",
         });
         toast.success("Record Added. Thank You!");
+        setTimeout(function() {
+          window.location.reload();
+        }, 1500);
       }
     } catch (error) {
       console.log(error);
@@ -183,22 +189,46 @@ function Record_Monitoring() {
     }
   };
 
-  const fetchRecords = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/records"); // Fetch all records
-      console.log(response.data); // Log the response data for debugging
-      setRecords(response.data);
-      setFilteredRecords(response.data); // Set initial filtered records to all fetched records
-    } catch (error) {
-      console.error("Error fetching records:", error);
-    }
-  };
-
+  // Initialize WebSocket connection
   useEffect(() => {
+    socket.current = io("http://localhost:8001"); // Connect to the WebSocket server
+
+    socket.current.on("updateRecords", (newRecord) => {
+      // Add new record to existing records or update if needed
+      setRecords((prevRecords) => {
+        const updatedRecords = prevRecords.map((record) => 
+          record.id === newRecord.id ? newRecord : record // Update existing record
+        );
+
+        if (!updatedRecords.find(record => record.id === newRecord.id)) {
+          // If record doesn't exist, add it
+          updatedRecords.push(newRecord);
+        }
+
+        return updatedRecords; // Return updated records
+      });
+    });
+
+    // Fetch initial records
+    const fetchRecords = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/records"); // Fetch all records
+        console.log(response.data); // Log the response data for debugging
+        setRecords(response.data);
+        setFilteredRecords(response.data); // Set initial filtered records to all fetched records
+      } catch (error) {
+        console.error("Error fetching records:", error);
+      }
+    };
+
     fetchRecords(); // Fetch all records on initial render
+
+    return () => {
+      socket.current.disconnect(); // Cleanup on component unmount
+    };
   }, []);
 
-  // Function to filter records based on search input and selected filters
+  
   const filterRecords = (query) => {
     return records.filter((record) => {
       const matchesSearchQuery =
