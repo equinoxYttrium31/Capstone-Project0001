@@ -70,6 +70,10 @@
     width: 20px;
 }
 
+.filter_ic:hover{
+    cursor: pointer;
+}
+
 .filter_ic{
     width: 24px;
     margin-left: -.5rem;
@@ -156,3 +160,112 @@
     color: whitesmoke;
     margin: 0;
 }
+
+
+.filter_Modal_Container{
+    position: absolute;
+    top: 11.5rem;
+    left: 59rem;
+    width: 30rem;
+    height: 25rem;
+    border-radius: .5rem;
+    background-color: rgb(245, 245, 245);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: #28282b 2px 2px 5px;
+}
+
+/*Upper Part Modal*/
+.top_container{
+    padding-top: 1rem;
+    width: 93.5%;
+    height: 3rem;
+    padding-left: 2rem;
+    border-bottom: #2d2f659c 2px solid;
+}
+
+.filter_header{
+    font-family: "Poppins";
+    letter-spacing: .1rem;
+    color: #28282b;
+}
+
+/*Middle Part Modal*/
+.middle_container{
+    padding-left: 2rem;
+    margin-top: 0rem;
+}
+
+.filter_text{
+    font-family: "Lato";
+    font-size: .85em;
+    color: #28282b;
+}
+
+.filter_selections{
+    margin-top: 2rem;
+}
+
+.row_filter_selection{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.filter_selection_label{
+    font-family: "Poppins";
+    font-size: 1em;
+    width: 9rem;
+}
+
+.filter_select_input{
+    appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: whitesmoke;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
+        background-repeat: no-repeat;
+        background-position: right 0rem center;
+        padding-right: 1rem;
+        border: 1px solid #ccc;
+        border-radius: .3rem;
+        font-family: "Poppins";
+        width: 10rem;
+        padding: .5rem 1rem;
+}
+
+.filter_select_input:focus {
+    border-color: #7b9acc;
+    outline: none;
+}
+
+/*Lower Part Modal*/
+
+.lower_container{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 2.5rem 2rem;
+}
+
+.buttons_cont_filter{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.buttons_cont_filter button{
+    width: 7rem;
+    height: 2rem;
+    border-radius: .5rem;
+    font-family: "Poppins";
+    font-size: .9em;
+    border: #28282b 2px solid;
+}
+
+.apply_filter_button{
+    background-color: #2d2f65;
+    color: whitesmoke;
+}
+
