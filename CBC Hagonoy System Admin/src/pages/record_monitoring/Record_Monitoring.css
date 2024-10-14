@@ -922,37 +922,37 @@
     width: 100%;
     border-collapse: collapse;
     border: none; /* No outer border */
-    border-radius: 1rem;
-    background-color: #28282b93;
 }
 
 .archived-accounts-thead{
-    font-family: "Lato";
+    background-color: #9fb6ff86;
+    font-family: "Poppins";
     color: #2d2f65;
 }
 
 .archived-accounts-table th, 
 .archived-accounts-table td {
-    border: 1px solid #ccc; /* Inner borders */
+    padding: .5rem;
+    border: 2px solid #28282B; /* Inner borders */
 }
 
 .archived-accounts-table tr:first-child th {
-    border-top: none; /* Remove top border */
+    border: 2px solid #28282B; /* Remove top border */
 }
 
 .archived-accounts-table tr:last-child td {
-    border-bottom: none; /* Remove bottom border */
+    border: 2px solid #28282B; /* Remove bottom border */
 }
 
 /* Remove the border from the first and last columns (left and right) */
 .archived-accounts-table th:first-child, 
 .archived-accounts-table td:first-child {
-    border-left: none; /* Remove left border */
+    border: 2px solid #28282B; /* Remove left border */
 }
 
 .archived-accounts-table th:last-child, 
 .archived-accounts-table td:last-child {
-    border-right: none; /* Remove right border */
+    border: 2px solid #28282B; /* Remove right border */
 }
 
 .archived-accounts-header-number{
@@ -964,8 +964,21 @@
 }
 
 .archieve-accounts-body-main{
-    height: 29rem;
-    overflow-y: scroll;
+    font-family: "Lato";
+}
+
+td{
+    padding: .5rem;
+}
+
+.archived-accounts-number{
+    text-align: end;
+}
+
+.archived-accounts-gender,
+.archived-accounts-age,
+.archived-accounts-date{
+    text-align: center;
 }
 
 

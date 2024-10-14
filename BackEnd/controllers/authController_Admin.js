@@ -2,18 +2,31 @@ const ChurchUser = require('../models/ChurchUser');
 const ArchieveUserModel = require('../models/ArchieveRecords'); // Adjust to your model
 const { hashPassword, comparePassword } = require('../helpers/auth');
 
+const getMonthName = (monthIndex) => {
+    const months = [
+      "January", "February", "March", "April", "May", "June", 
+      "July", "August", "September", "October", "November", "December"
+    ];
+    
+    // Check if the month index is valid (0-11)
+    if (monthIndex < 0 || monthIndex > 11) {
+      throw new Error("Invalid month index");
+    }
+  
+    return months[monthIndex];
+  };
 
 const today = new Date();
 // Get individual components
 const year = today.getFullYear();
-const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based, pad with zero if needed
+const monthIndex = today.getMonth(); // Months are 0-based, pad with zero if needed
 const day = String(today.getDate()).padStart(2, '0'); // Pad with zero if needed
 const hours = String(today.getHours()).padStart(2, '0'); // Pad with zero if needed
 const minutes = String(today.getMinutes()).padStart(2, '0'); // Pad with zero if needed
-const seconds = String(today.getSeconds()).padStart(2, '0'); // Pad with zero if needed
+const month = getMonthName(monthIndex);
 
 // Concatenate into a formatted string
-const ArchievedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+const ArchievedDate = `${month} ${day}, ${year} time: ${hours}:${minutes}`;
 // Controller to get all records
 const getRecords = async (req, res) => {
   try {
@@ -188,6 +201,21 @@ const getUserById = async (req, res) => {
     }
 };
 
+// Controller to get all archived users
+const getArchivedUsers = async (req, res) => {
+    try {
+      const archivedUsers = await ArchieveUserModel.find(); // Fetch archived users from the database
+      res.json(archivedUsers);
+    } catch (error) {
+      console.error('Error fetching archived users:', error);
+      res.status(500).json({ message: 'Server error', error });
+    }
+  };
+  
+ 
+    
+  
+
 
 module.exports = {
   getRecords,
@@ -195,4 +223,5 @@ module.exports = {
   updateRecord,
   archiveRecord,
   getUserById,
+  getArchivedUsers,
 };

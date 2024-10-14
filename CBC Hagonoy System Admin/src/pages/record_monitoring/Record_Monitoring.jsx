@@ -30,6 +30,7 @@ const calculateAge = (birthDate) => {
 function Record_Monitoring() {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
+  const [archivedUsers, setArchivedUsers] = useState([]);
   const [filterModal, setFilterModal] = useState(false);
   const [addNewUserModal, setAddNewUserModal] = useState(false);
   const [newCellGroupModal, setNewCellGroupModal] = useState(false);
@@ -38,6 +39,19 @@ function Record_Monitoring() {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedMemberType, setSelectedMemberType] = useState("");
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
+
+  useEffect(() => {
+    const fetchArchivedUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8001/archivedUsers'); // Adjust the endpoint as needed
+        setArchivedUsers(response.data); // Set the response data to state
+      } catch (error) {
+        console.error('Error fetching archived users:', error);
+      }
+    };
+
+    fetchArchivedUsers();
+  }, []); // Empty dependency array to run once on component mount
 
   const handleClearButton = () => {
     setSelectedRange("");
@@ -611,7 +625,15 @@ function Record_Monitoring() {
                     </tr>
                   </thead>
                   <tbody className="archieve-accounts-body-main">
-
+                    {archivedUsers.map((user, index) => (
+                        <tr key={user._id} className="archived-accounts-row">
+                          <td className="archived-accounts-number">{index + 1}</td>
+                          <td className="archived-accounts-name">{`${user.firstName} ${user.lastName}`}</td>
+                          <td className="archived-accounts-age">{calculateAge(user.birthDate)}</td>
+                          <td className="archived-accounts-gender">{user.gender}</td>
+                          <td className="archived-accounts-date">{user.dateArchieved}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
