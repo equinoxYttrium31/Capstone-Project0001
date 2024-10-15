@@ -9,6 +9,7 @@
     margin-right: 10px;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
     transition: all 0.3s ease-in-out;
 }
 

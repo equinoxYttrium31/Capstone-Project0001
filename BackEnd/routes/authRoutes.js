@@ -26,6 +26,8 @@ const {
     getUserById,
     getArchivedUsers,
     createNewCellGroup,
+    getCellGroups,
+    fetchCellGroups,
 } = require('../controllers/authController_Admin')
 const cors = require('cors');
 
@@ -95,6 +97,7 @@ router.put('/update-record/:userId', updateRecord);
 router.get('/churchUser/:userId', getUserById);
 router.get('/archivedUsers', getArchivedUsers);
 router.post('/create-cellgroup', createNewCellGroup);
+router.get('/fetch-cellgroups', fetchCellGroups);
 
 // Export the router
 module.exports = router;

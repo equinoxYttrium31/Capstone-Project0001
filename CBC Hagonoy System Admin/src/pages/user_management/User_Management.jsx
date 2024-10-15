@@ -209,6 +209,7 @@ function EditUserModal({ record, onClose, onSave }) {
                 <option value="Member">Member</option>
                 <option value="Cellgroup Leader">Cellgroup Leader</option>
                 <option value="Network Leader">Network Leader</option>
+                <option value="Guest">Guest</option>
               </select>
               <label className="editLabel_memberType">Member Type:</label>
             </div>

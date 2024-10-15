@@ -41,6 +41,30 @@ function Record_Monitoring() {
   const [selectedMemberType, setSelectedMemberType] = useState("");
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
+  const [cellGroups, setCellGroups] = useState([]);
+  const [expanded, setExpanded] = useState({}); // Track which categories are expanded
+
+  //expandable cellgroups
+  useEffect(() => {
+      const fetchCellGroups = async () => {
+          try {
+              const response = await axios.get("http://localhost:8000/fetch-cellgroups"); // Adjust the URL as needed
+              setCellGroups(response.data);
+              console.log(response.data);
+          } catch (error) {
+              console.error('Error fetching cell groups:', error);
+          }
+      };
+
+      fetchCellGroups();
+  }, []);
+
+  const toggleExpand = (id) => {
+      setExpanded((prev) => ({
+          ...prev,
+          [id]: !prev[id], // Toggle the current state
+      }));
+  };
 
   //This will be where the Adding Starts
   const setAddModalActive = () => {
@@ -352,7 +376,13 @@ function Record_Monitoring() {
     }
   };
 
-  const groupedRecords = groupCards(filteredRecords, 3); // Group filtered records for display
+  // Group filtered records by CellLead
+  const groupedRecords = cellGroups.map((cellGroup) => {
+    const leadersRecords = filteredRecords.filter(
+      (record) => record.CellLead === cellGroup.cellgroupLeader
+    );
+    return { cellGroup, records: leadersRecords };
+  });
 
   return (
     <div className="record_monitoring_mainCont">
@@ -390,28 +420,40 @@ function Record_Monitoring() {
       </div>
       <div className="record_lower_part">
         <div className="record_lower_part_left">
-          {groupedRecords.map((group, index) => (
-            <div className="record_row" key={index}>
-              {group.map((record, idx) => (
-                <div className="record_content_card" key={idx}>
-                  <img
-                    src={record.profilePic || user_placeholder}
-                    alt="profile_picture"
-                    className="record_container_profile"
-                  />
-                  <div className="record_content_card_deets">
-                    <h2 className="record_person_name">{record.firstName}</h2>
-                    <p className="record_person_age_and_gender">
-                      {calculateAge(record.birthDate)} , {record.gender}
-                    </p>
-                    <div className="record_person_type">
-                      <h2 className="record_type_text">{record.memberType}</h2>
+          <div className="expandable-container">
+            {groupedRecords.map(({ cellGroup, records }) => (
+              <div className="category" key={cellGroup._id}>
+                <h3 className="category-header" onClick={() => toggleExpand(cellGroup._id)}>
+                  {cellGroup.cellgroupName}
+                </h3>
+                {expanded[cellGroup._id] && (
+                  <div className="category-contentLeader">
+                    <p className="LeaderName">Leader: {cellGroup.cellgroupLeader}</p>
+                    <div className="category-content">
+                    {records.map((record) => (
+                      <div className="record_content_card" key={record._id}>
+                        <img
+                          src={record.profilePic || user_placeholder}
+                          alt="profile_picture"
+                          className="record_container_profile"
+                        />
+                        <div className="record_content_card_deets">
+                          <h2 className="record_person_name">{record.firstName}</h2>
+                          <p className="record_person_age_and_gender">
+                            {calculateAge(record.birthDate)}, {record.gender}
+                          </p>
+                          <div className="record_person_type">
+                            <h2 className="record_type_text">{record.memberType}</h2>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="divider_lower"></div>
         <div className="record_lower_part_right">
@@ -507,9 +549,10 @@ function Record_Monitoring() {
                     <option disabled value=" ">
                       Select Type
                     </option>
-                    <option value="Member">Member</option>
-                    <option value="Cellgroup Leader">Cellgroup Leader</option>
-                    <option value="Network Leader">Network Leader</option>
+                    <option value="Member">Members</option>
+                    <option value="Cellgroup Leader">Cellgroup Leaders</option>
+                    <option value="Network Leader">Network Leaders</option>
+                    <option value="Guest">Guests</option>
                   </select>
                 </div>
               </div>

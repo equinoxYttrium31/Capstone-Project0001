@@ -245,7 +245,14 @@ const getArchivedUsers = async (req, res) => {
   };
   
  
-    
+  const fetchCellGroups = async (req, res) =>{
+    try {
+      const cellGroups = await CellGroup.find(); // Assuming you have a Mongoose model
+      res.json(cellGroups);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch cell groups' });
+    }
+  };
   
 
 
@@ -257,4 +264,5 @@ module.exports = {
   getUserById,
   getArchivedUsers,
   createNewCellGroup,
+  fetchCellGroups,
 };
