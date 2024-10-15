@@ -295,6 +295,7 @@ EditUserModal.propTypes = {
     TelNum: PropTypes.string,
     NetLead: PropTypes.string,
     CellLead: PropTypes.string,
+    memberType: PropTypes.string,
     // Add other necessary fields as per your data structure
   }).isRequired,
   onClose: PropTypes.func.isRequired,
