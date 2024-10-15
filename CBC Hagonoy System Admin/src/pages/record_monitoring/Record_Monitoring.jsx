@@ -42,29 +42,15 @@ function Record_Monitoring() {
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
 
-  useEffect(() => {
-    const fetchArchivedUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:8001/archivedUsers'); // Adjust the endpoint as needed
-        setArchivedUsers(response.data); // Set the response data to state
-      } catch (error) {
-        console.error('Error fetching archived users:', error);
-      }
-    };
-
-    fetchArchivedUsers();
-  }, []); // Empty dependency array to run once on component mount
-  
-  const handleClearButton = () => {
-    setSelectedRange("");
-    setSelectedGender("");
-    setSelectedMemberType("");
-    setSearchedUser(""); // Clear the search input
-    setFilteredRecords(records); // Reset filtered records to show all
-    toggleFilter(false);
+  //This will be where the Adding Starts
+  const setAddModalActive = () => {
+    setAddNewUserModal(true);
   };
 
-  //This will be where the Adding Starts
+  const handleCloseAddModal = () => {
+    setAddNewUserModal(false);
+  };
+
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -97,6 +83,7 @@ function Record_Monitoring() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
+    setCellData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleAddingRecord = (e) => {
@@ -124,7 +111,6 @@ function Record_Monitoring() {
       if (data.error) {
         toast.error(data.error);
       } else {
-        // Reset data to clear input fields
         setData({
           firstName: "",
           lastName: "",
@@ -144,10 +130,100 @@ function Record_Monitoring() {
     }
   };
 
-  //this is where Adding stops
+  //Cellgroup Modal Functions
+  const [hasTyped, setHasTyped] = useState(false);
+  const [cellData, setCellData] = useState({
+    cellgroupName: "",
+    cellgroupLeader: ""
+  });
+
+  const handleChangeCellGroup = (e) => {
+    const { name, value } = e.target;
+
+    // Update cellData
+    setCellData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Set hasTyped to true if the user types into cellgroupName
+    if (name === 'cellgroupName') {
+      setHasTyped(value.length > 0);
+    }
+
+    // If the user clears the cellgroupLeader, clear the cellgroupName too
+    if (name === 'cellgroupLeader') {
+      if (value === '') {
+        setCellData((prevData) => ({
+          ...prevData,
+          cellgroupName: '',
+        }));
+      } else {
+        // Automatically update cellgroupName when the cellgroupLeader is set
+        setCellData((prevData) => ({
+          ...prevData,
+          cellgroupName: `${value}'s CellGroup`,
+        }));
+      }
+
+    }
+  };
+
+  // Determine the displayed value for cellgroupName
+  const displayValue =
+    !hasTyped && cellData.cellgroupLeader
+      ? `${cellData.cellgroupLeader}'s CellGroup`
+      : cellData.cellgroupName;
+
+  const setCellGroupModal = () => {
+    setNewCellGroupModal(true);
+  };
+
+  const handleCloseCellgroup = () => {
+    setCellData({
+      cellgroupName: "",
+      cellgroupLeader: ""
+    });
+    setHasTyped(false); // Reset hasTyped when closing the modal
+    setNewCellGroupModal(false);
+  };
+
+  const handleAddCellgroup = async () => {
+    const { cellgroupName, cellgroupLeader } = cellData;
+
+    console.log("Sending data:", { cellgroupName, cellgroupLeader });
+    // Check for required fields before sending
+    if (!cellgroupName || !cellgroupLeader) {
+      toast.error("Both fields are required!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8001/create-cellgroup", {
+        cellgroupName,
+        cellgroupLeader
+      });
+      
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        // Clear form and show success message
+        handleCloseCellgroup(); // Use existing close function to reset state
+        toast.success("CellGroup Added. Thank You!");
+
+        // Delay the page refresh
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Creation of CellGroup failed. Please try again.");
+    }
+  };
+
 
   //Archive Modal Configuration Start
-
   const handleOpenArchived = () => {
     setOpenArchiveModal(true);
   };
@@ -156,26 +232,32 @@ function Record_Monitoring() {
     setOpenArchiveModal(false);
   }
 
-  //Archive Modal Ends
+  useEffect(() => {
+    const fetchArchivedUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8001/archivedUsers'); 
+        setArchivedUsers(response.data); 
+      } catch (error) {
+        console.error('Error fetching archived users:', error);
+      }
+    };
 
+    fetchArchivedUsers();
+  }, []); 
+  
+
+  //Modal Filter & Search Function
   const toggleFilter = () => {
     setFilterModal(!filterModal);
   };
 
-  const setAddModalActive = () => {
-    setAddNewUserModal(true);
-  };
-
-  const setCellGroupModal = () => {
-    setNewCellGroupModal(true);
-  };
-
-  const handleCloseCellgroup = () => {
-    setNewCellGroupModal(false);
-  };
-
-  const handleCloseAddModal = () => {
-    setAddNewUserModal(false);
+  const handleClearButton = () => {
+    setSelectedRange("");
+    setSelectedGender("");
+    setSelectedMemberType("");
+    setSearchedUser(""); 
+    setFilteredRecords(records); 
+    toggleFilter(false);
   };
 
   const handleSelectChange = (e) => {
@@ -189,42 +271,37 @@ function Record_Monitoring() {
     }
   };
 
-  // Initialize WebSocket connection
+  
   useEffect(() => {
-    socket.current = io("http://localhost:8001"); // Connect to the WebSocket server
-
+    socket.current = io("http://localhost:8001"); 
     socket.current.on("updateRecords", (newRecord) => {
-      // Add new record to existing records or update if needed
       setRecords((prevRecords) => {
         const updatedRecords = prevRecords.map((record) => 
-          record.id === newRecord.id ? newRecord : record // Update existing record
+          record.id === newRecord.id ? newRecord : record 
         );
-
         if (!updatedRecords.find(record => record.id === newRecord.id)) {
-          // If record doesn't exist, add it
           updatedRecords.push(newRecord);
         }
 
-        return updatedRecords; // Return updated records
+        return updatedRecords;
       });
     });
 
-    // Fetch initial records
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/records"); // Fetch all records
-        console.log(response.data); // Log the response data for debugging
+        const response = await axios.get("http://localhost:8000/records"); 
+        console.log(response.data); 
         setRecords(response.data);
-        setFilteredRecords(response.data); // Set initial filtered records to all fetched records
+        setFilteredRecords(response.data); 
       } catch (error) {
         console.error("Error fetching records:", error);
       }
     };
 
-    fetchRecords(); // Fetch all records on initial render
+    fetchRecords(); 
 
     return () => {
-      socket.current.disconnect(); // Cleanup on component unmount
+      socket.current.disconnect();
     };
   }, []);
 
@@ -252,19 +329,19 @@ function Record_Monitoring() {
   };
 
   const handleApplyFilters = () => {
-    const filtered = filterRecords(searchedUser); // Get filtered records based on search and filters
-    setFilteredRecords(filtered); // Update the displayed records
-    toggleFilter(false); // Close the filter modal after applying
+    const filtered = filterRecords(searchedUser); 
+    setFilteredRecords(filtered); 
+    toggleFilter(false); 
   };
 
-  // Update filtered records based on search input in real-time
+  
   const handleSearchChange = (e) => {
-    const query = e.target.value.trim(); // Get the current search input and trim whitespace
-    setSearchedUser(query); // Update the searched user input
+    const query = e.target.value.trim(); 
+    setSearchedUser(query); 
 
     if (query === "") {
       const filtered = filterRecords(query);
-      setFilteredRecords(filtered); // Show all records if the search is cleared
+      setFilteredRecords(filtered); 
     } else {
       const filtered = filterRecords(query); // Filter records based on the current query
       setFilteredRecords(filtered); // Update the displayed records
@@ -606,18 +683,34 @@ function Record_Monitoring() {
               <div className="cellgroup_form_cont">
                 <div className="cellgroup_inputs_cont">
                   <h3 className="cellgroup_name_label">Cellgroup Name:</h3>
-                  <input type="text" className="cellgroup_name_input" />
+                  <input 
+                    name="cellgroupName"
+                    placeholder=""
+                    value={displayValue}
+                    onChange={handleChangeCellGroup}
+                    type="text" 
+                    className="cellgroup_name_input" 
+                  />
                 </div>
                 <div className="cellgroup_inputs_cont">
                   <h3 className="cellgroup_name_label">Cellgroup Leader:</h3>
-                  <input type="text" className="cellgroup_name_input" />
-                </div>
-                <div className="cellgroup_create_btn">
-                  <button className="create_cellgroup_btn">
-                    Create Cellgroup
-                  </button>
+                  <input 
+                    name="cellgroupLeader"
+                    placeholder=""
+                    value={cellData.cellgroupLeader}
+                    onChange={handleChangeCellGroup}
+                    type="text" 
+                    className="cellgroup_name_input" 
+                  />
                 </div>
               </div>
+              <div className="cellgroup_create_btn">
+                  <button 
+                    className="create_cellgroup_btn"
+                    onClick={handleAddCellgroup}>
+                      Create Cellgroup
+                  </button>
+                </div>
             </div>
           </div>
         </div>

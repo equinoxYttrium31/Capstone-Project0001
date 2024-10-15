@@ -1,4 +1,5 @@
 const ChurchUser = require('../models/ChurchUser'); 
+const CellGroup = require('../models/CellGroup');
 const ArchieveUserModel = require('../models/ArchieveRecords'); // Adjust to your model
 const { hashPassword, comparePassword } = require('../helpers/auth');
 
@@ -142,6 +143,35 @@ const updateRecord = async (req, res) => {
   }
 };
 
+// Controller for creating a new CellGroup
+const createNewCellGroup = async (req, res) => {
+  try {
+    const { cellgroupName, cellgroupLeader } = req.body;
+
+    // Validate input fields
+    if (!cellgroupName || !cellgroupLeader) {
+      return res.status(400).json({ error: "Input fields are required" });
+    }
+
+    // Create new CellGroup
+    const newCellGroup = await CellGroup.create({
+      cellgroupName,
+      cellgroupLeader
+    });
+
+    // Respond with the newly created CellGroup
+    return res.status(201).json({
+      message: "CellGroup created successfully",
+      data: newCellGroup
+    });
+
+  } catch (error) {
+    console.error('Error during creation of CellGroup:', error); // Log the error
+    return res.status(500).json({ error: 'Server error' }); // Return server error to client
+  }
+};
+
+
 // Controller to archive a user
 const archiveRecord = async (req, res) => {
     try {
@@ -224,4 +254,5 @@ module.exports = {
   archiveRecord,
   getUserById,
   getArchivedUsers,
+  createNewCellGroup,
 };

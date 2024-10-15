@@ -350,7 +350,7 @@ export default function User_Management() {
 
   const handleEditModal = (record) => {
     if (record && record._id) {
-      setUserId(record._id); // Assuming user has an _id property// Check if record is valid and has an _id
+      setUserId(record._id); 
       setCurrentRecord(record);
       setModalEdit(true);
     } else {
@@ -366,7 +366,7 @@ export default function User_Management() {
   const handleSaveChanges = async (updatedRecord) => {
     if (!userId) {
       console.error("User ID is not defined.");
-      return; // Early return if userId is not set
+      return; 
     }
 
     try {
@@ -375,9 +375,6 @@ export default function User_Management() {
         updatedRecord,
         {
           withCredentials: true,
-          headers: {
-            // Optional: Include token if needed
-          },
         }
       );
       toast.success("User updated successfully");

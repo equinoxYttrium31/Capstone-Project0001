@@ -25,6 +25,7 @@ const {
     archiveRecord,
     getUserById,
     getArchivedUsers,
+    createNewCellGroup,
 } = require('../controllers/authController_Admin')
 const cors = require('cors');
 
@@ -93,6 +94,7 @@ router.delete('/archive/:userId', archiveRecord);
 router.put('/update-record/:userId', updateRecord);
 router.get('/churchUser/:userId', getUserById);
 router.get('/archivedUsers', getArchivedUsers);
+router.post('/create-cellgroup', createNewCellGroup);
 
 // Export the router
 module.exports = router;

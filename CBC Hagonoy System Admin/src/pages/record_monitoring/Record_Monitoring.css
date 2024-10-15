@@ -818,6 +818,8 @@
     margin-top: -2rem;
     margin-left: 3rem;
     padding: .1rem 0rem;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .cellgroup_name_label{
