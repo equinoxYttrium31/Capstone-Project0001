@@ -47,7 +47,11 @@ function Cellgroup_File() {
         ? record.gender === selectedGender
         : true;
 
-      return matchesSearchQuery && matchesAgeFilter && matchesGenderFilter;
+      const matchesTypeFilter = selectedMemberType
+        ? record.memberType === selectedMemberType
+        : true;
+
+      return matchesSearchQuery && matchesAgeFilter && matchesTypeFilter && matchesGenderFilter;
     });
   };
 
@@ -166,7 +170,7 @@ function Cellgroup_File() {
                     <h2 className="record_person_name">{record.firstName}</h2>
                     <p className="record_person_age_and_gender">{calculateAge(record.birthDate)} , {record.gender}</p>
                     <div className="record_person_type">
-                      <h2 className="record_type_text">Member</h2>
+                      <h2 className="record_type_text">{record.memberType}</h2>
                     </div>
                   </div>
                 </div>
@@ -238,8 +242,8 @@ function Cellgroup_File() {
                       Select Type
                     </option>
                     <option value="Member">Member</option>
-                    <option value="CellgroupLeader">Cellgroup Leader</option>
-                    <option value="NetworkLeader">NetworkLeader</option>
+                    <option value="Cellgroup Leader">Cellgroup Leader</option>
+                    <option value="Network Leader">Network Leader</option>
                   </select>
                 </div>
               </div>

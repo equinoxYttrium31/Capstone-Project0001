@@ -193,7 +193,7 @@
 }
 
 .member_type_profile{
-    width: 15%;
+    width: fit-content;
     text-align: center;
     background-color: #efb934;
     padding: 5px 25px;

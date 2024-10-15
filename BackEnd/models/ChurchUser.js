@@ -27,6 +27,7 @@ const ChurchUser = new Schema({
     CellLead: { type: String, default: null },
     NetLead: { type: String, default: null },
     gender: {type: String, default: null},
+    memberType: {type: String, default: null},
 })
 
 const ChurchUserModel = mongoose.model('ChurchUser', ChurchUser, 'ChurchUser');

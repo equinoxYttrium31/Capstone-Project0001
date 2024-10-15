@@ -213,7 +213,7 @@ function Users_Profiles() {
             />
           </div>
           <div className="member_type_profile">
-            <h3 className="member_type_label">Member</h3>
+            <h3 className="member_type_label">{user.memberType}</h3>
           </div>
           <div className="additional_info_cont">
             <div className="row_user_info">

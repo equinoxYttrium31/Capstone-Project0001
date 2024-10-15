@@ -66,6 +66,7 @@ function EditUserModal({ record, onClose, onSave }) {
   const [TelNum, setTelNum] = useState(record.TelNum || "");
   const [NetLead, setNetLead] = useState(record.NetLead || "");
   const [CellLead, setCellLead] = useState(record.CellLead || "");
+  const [memberType, setMemberType] = useState(record.memberType || "");
   const [address, setAddress] = useState(
     record.address || { baseAddress: "", barangay: "", city: "", province: "" }
   );
@@ -82,6 +83,7 @@ function EditUserModal({ record, onClose, onSave }) {
       NetLead,
       CellLead,
       address,
+      memberType,
     });
     setTimeout(function() {
       window.location.reload();
@@ -194,6 +196,24 @@ function EditUserModal({ record, onClose, onSave }) {
             </div>
           </div>
         </div>
+
+        <div className="form_userType_cont_rows">
+              <select
+                className="editInp_userType"
+                value={memberType}
+                onChange={(e) => setMemberType(e.target.value)}
+              >
+                <option disabled value="">
+                  Select Member Type
+                </option>
+                <option value="Member">Member</option>
+                <option value="Cellgroup Leader">Cellgroup Leader</option>
+                <option value="Network Leader">Network Leader</option>
+              </select>
+              <label className="editLabel_memberType">Member Type:</label>
+            </div>
+
+
         <div className="form_edit_cont_lower">
           <h3 className="address_header_edit">Address</h3>
           <div className="form_edit_cont_lower_rows">
@@ -244,7 +264,9 @@ function EditUserModal({ record, onClose, onSave }) {
               <label className="editLbl_province">Province:</label>
             </div>
           </div>
+          
         </div>
+        
                 <div className="edit_button_container_modal">
                     <button className="edit_Modal_button" onClick={handleSave}>Save Changes</button>
                 </div>

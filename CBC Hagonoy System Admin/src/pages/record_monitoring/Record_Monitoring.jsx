@@ -324,7 +324,11 @@ function Record_Monitoring() {
         ? record.gender === selectedGender
         : true;
 
-      return matchesSearchQuery && matchesAgeFilter && matchesGenderFilter;
+        const matchesTypeFilter = selectedMemberType
+        ? record.memberType === selectedMemberType
+        : true;
+
+      return matchesSearchQuery && matchesAgeFilter && matchesTypeFilter && matchesGenderFilter;
     });
   };
 
@@ -401,7 +405,7 @@ function Record_Monitoring() {
                       {calculateAge(record.birthDate)} , {record.gender}
                     </p>
                     <div className="record_person_type">
-                      <h2 className="record_type_text">Member</h2>
+                      <h2 className="record_type_text">{record.memberType}</h2>
                     </div>
                   </div>
                 </div>
@@ -504,8 +508,8 @@ function Record_Monitoring() {
                       Select Type
                     </option>
                     <option value="Member">Member</option>
-                    <option value="CellgroupLeader">Cellgroup Leader</option>
-                    <option value="NetworkLeader">NetworkLeader</option>
+                    <option value="Cellgroup Leader">Cellgroup Leader</option>
+                    <option value="Network Leader">Network Leader</option>
                   </select>
                 </div>
               </div>

@@ -96,6 +96,7 @@ const updateRecord = async (req, res) => {
           TelNum,
           CellLead,
           NetLead,
+          memberType,
       } = req.body;
 
       // Validate required fields
@@ -115,6 +116,7 @@ const updateRecord = async (req, res) => {
           TelNum,
           CellLead,
           NetLead,
+          memberType,
       };
 
       // Find and update the user in the database

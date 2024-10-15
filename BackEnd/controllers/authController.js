@@ -117,7 +117,8 @@ const loginUser = async (req, res) => {
                 email: churchUser.email, 
                 firstName: churchUser.firstName, 
                 lastName: churchUser.lastName, 
-                birthDate: churchUser.birthDate
+                birthDate: churchUser.birthDate,
+                memberType: churchUser.memberType,
             },
             process.env.JWT_SECRET,
             { expiresIn: '7days' } // Set expiration here

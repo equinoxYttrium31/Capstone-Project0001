@@ -173,6 +173,9 @@ const Personal_Acc = () => {
             <>
               <h2 className="personal_user_name">{user.firstName} {user.lastName}</h2>
               <p className="personal_age_gender">{calculateAge(user.birthDate)}, {user.gender}</p>
+              <div className="member_type_profile">
+                <h3 className="member_type_label">{user.memberType}</h3>
+              </div>
             </>
           )}
         </div>

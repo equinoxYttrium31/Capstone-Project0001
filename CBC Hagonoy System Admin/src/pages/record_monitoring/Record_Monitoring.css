@@ -159,6 +159,7 @@
     font-size: 1em;
     font-family: "Lato";
     color: whitesmoke;
+    text-wrap: nowrap;
     margin: 0;
 }
 

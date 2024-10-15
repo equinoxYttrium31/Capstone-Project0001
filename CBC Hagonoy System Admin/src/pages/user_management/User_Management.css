@@ -243,7 +243,8 @@
 .editLabel_cellLeader,
 .editLabel_netLeader,
 .editLabel_telNumber,
-.editLabel_cellNumber{
+.editLabel_cellNumber,
+.editLabel_memberType{
     font-family: "Poppins";
     color: #28282b;
 }
@@ -269,7 +270,8 @@
     border: #2d2f65 2px solid;
 }
 
-.editInp_userGender{
+.editInp_userGender,
+.editInp_userType{
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -340,7 +342,7 @@
 
 .edit_button_container_modal{
     width: 90.7%;
-    padding: 2rem 3rem;
+    padding: 0rem 3rem;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -410,6 +412,17 @@
     color: #28282b;
     font-family: "Poppins";
     border-radius: .5rem;
+}
+
+.form_userType_cont_rows{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    width: 100%;
+    margin-left: -32.8rem;
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 
