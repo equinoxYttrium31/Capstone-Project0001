@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: scroll;
 }
 
 .announcement_header{
@@ -32,7 +33,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .create_announcement_title{
@@ -63,8 +64,8 @@
     height: 2rem;
     font-size: 1em;
     font-family: "Lato";
-    padding-left: 15px;
-    border-radius: 15px;
+    padding-left: 0.938rem;
+    border-radius: 0.938rem;
     background-color: lightgrey;
     border: none;
     outline: none;
@@ -95,21 +96,21 @@
     width: 75%;
     padding: 0;
     background-color: lightgray;
-    border-radius: 15px;
+    border-radius: 0.938rem;
     color: #28282b;
 }
 
 .ql-container {
     background-color: lightgray; /* Set the desired background color */
-    border-radius: 15px;
+    border-radius: 0.938rem;
 }
 /* Change background color of the editable area */
 .ql-editor {
     background-color: whitesmoke;
-    border-radius: 15px;
+    border-radius: 0.938rem;
 }
 .ql-toolbar {
-    border-radius: 15px;
+    border-radius: 0.938rem;
 }
 
 .audience_content_container{
@@ -122,7 +123,8 @@
     gap: 9rem;
 }
 
-.audience_label{
+.audience_label,
+.attach_image_label{
     font-family: "Lato";
     font-size: .8em;
     font-weight: 600;
@@ -156,8 +158,8 @@
     position: absolute;
     top: 55%;
     left: 0;
-    width: 15px;
-    height: 15px;
+    width: 0.938rem;
+    height: 0.938rem;
     background-color: beige;
     border: 2px solid #120652;
     border-radius: 4px; 
@@ -249,9 +251,14 @@
     background-color: #c4c4c4;
 }
 
+.to_label{
+    font-family: "Lato";
+    font-size: .8em;
+}
+
 .announcement_post{
     position: relative;
-    left: 49rem;
+    left: 62.5rem;
     border: none;
     color: #28282b;
     background-color: #f8bb33;
@@ -264,4 +271,17 @@
 
 .announcement_post:hover{
     background-color: #f8ba33aa;
+}
+
+.imageUploadContainer{
+    width: 97%;
+    height: 10vh;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+}
+.Image_Upload_Announcement{
+    padding-left: 2.9rem;
 }

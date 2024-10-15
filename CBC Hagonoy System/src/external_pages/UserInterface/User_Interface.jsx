@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';  
 import User_Chart from '../User_Chart/user_chart';
 import Personal_Acc from '../Personal_Acc/Personal_Acc';
 import User_NavBar from '../UserNavigationBar/User_NavBar';
@@ -6,11 +7,35 @@ import Cellgroup_File from '../Cellgroup_Record_Files/Cellgroup_File';
 import Network_Record from '../Network_Record_Files/Network_Record';
 
 import './User_Interface.css';
-import { cellgroup_ic, menus, network_ic, personal_ic } from '../../assets/Assets'; // Import your images here
+import { cellgroup_ic, menus, network_ic, personal_ic } from '../../assets/Assets';
 
 function User_Interface() {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const [activeContent, setActiveContent] = useState('Personal'); // Set 'Personal' as the default
+  const [activeContent, setActiveContent] = useState('Personal');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/profile', {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUserData(response.data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -18,6 +43,36 @@ function User_Interface() {
 
   const handleContentClick = (content) => {
     setActiveContent(content);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading user data: {error.message}</div>;
+
+  const memberType = userData?.memberType; // Optional chaining to avoid errors
+
+  const renderContent = () => {
+    if (activeContent === 'Personal') {
+      return (
+        <div className="dynamic_container_personal active">
+          <Personal_Acc />
+          <User_Chart />
+        </div>
+      );
+    } else if (activeContent === 'Cellgroup' && (memberType === 'Cellgroup Leader' || memberType === 'Network Leader')) {
+      return (
+        <div className={`container_cellgroup active`}>
+          <Cellgroup_File />
+        </div>
+      );
+    } else if (activeContent === 'Network' && memberType === 'Network Leader') {
+      return (
+        <div className={`container_network_record active`}>
+          <Network_Record />
+        </div>
+      );
+    } else {
+      return <div>Access Denied: You do not have permission to view this content.</div>;
+    }
   };
 
   return (
@@ -37,68 +92,60 @@ function User_Interface() {
             />
           </div>
 
-          
-
           <div className="icon_container">
-              <img src={personal_ic} alt="Personal Icon" className="icon_personal_user" />
-              <p className="icon_label personal">Personal Account</p>
+            <img src={personal_ic} alt="Personal Icon" className="icon_personal_user" />
+            <p className="icon_label personal" onClick={() => handleContentClick('Personal')}>Personal Account</p>
           </div>
-          <div className="icon_container">
+          { (memberType === 'Cellgroup Leader' || memberType === 'Network Leader') && (
+            <div className="icon_container">
               <img src={cellgroup_ic} alt="Cellgroup Icon" className="icon_cellgroup_user" />
-              <p className="icon_label cellgroup">Cellgroup Record</p>
-          </div>
-          <div className="icon_container">
+              <p className="icon_label cellgroup" onClick={() => handleContentClick('Cellgroup')}>Cellgroup Record</p>
+            </div>
+          )}
+          { memberType === 'Network Leader' && (
+            <div className="icon_container">
               <img src={network_ic} alt="Network Icon" className="icon_network_user" />
-              <p className="icon_label network">Network Monitoring</p>
-          </div>
-
-          
+              <p className="icon_label network" onClick={() => handleContentClick('Network')}>Network Monitoring</p>
+            </div>
+          )}
 
           <div className="content_list_dashboard">
             <p
               className={`content_item ${activeContent === 'Personal' ? 'active' : ''}`}
               onClick={() => handleContentClick('Personal')}
             >
-                  Personal Record
+              Personal Record
             </p>
 
-            <p
-              className={`content_item ${activeContent === 'Cellgroup' ? 'active' : ''}`}
-              onClick={() => handleContentClick('Cellgroup')}
-            >
-                  Cellgroup Record
-            </p>
+            { (memberType === 'Cellgroup Leader' || memberType === 'Network Leader') && (
+              <p
+                className={`content_item ${activeContent === 'Cellgroup' ? 'active' : ''}`}
+                onClick={() => handleContentClick('Cellgroup')}
+              >
+                Cellgroup Record
+              </p>
+            )}
 
-            <p
-              className={`content_item ${activeContent === 'Network' ? 'active' : ''}`}
-              onClick={() => handleContentClick('Network')}
-            >
-                  Network Monitoring
-            </p>
+            { memberType === 'Network Leader' && (
+              <p
+                className={`content_item ${activeContent === 'Network' ? 'active' : ''}`}
+                onClick={() => handleContentClick('Network')}
+              >
+                Network Monitoring
+              </p>
+            )}
           </div>
+
           <div className="credits_group">
-              <p className="credits_text">&copy; 2024 All Rights Reserved.</p>
+            <p className="credits_text">&copy; 2024 All Rights Reserved.</p>
           </div>  
         </div>
         <div className={`content_display_area ${isSidebarVisible ? '' : 'expanded'}`}>
-          {activeContent === 'Network' && (
-            <div className="container_network_record active">
-              <Network_Record />
-            </div>
-          )}
-          {activeContent === 'Cellgroup' && (
-            <div className="container_cellgroup active">
-              <Cellgroup_File />
-            </div>
-          )}
-          {activeContent === 'Personal' && (
-            <div className="dynamic_container_personal active">
-              <Personal_Acc />
-              <User_Chart />
-            </div>
-          )}
+          {renderContent()}
         </div>
       </div>
+
+
     </div>
   );
 }

@@ -1,7 +1,10 @@
 const ChurchUser = require('../models/ChurchUser'); 
 const CellGroup = require('../models/CellGroup');
-const ArchieveUserModel = require('../models/ArchieveRecords'); // Adjust to your model
+const ArchieveUserModel = require('../models/ArchieveRecords');
+const AnnouncementModel = require('../models/Announcements'); // Adjust to your model
 const { hashPassword, comparePassword } = require('../helpers/auth');
+const sharp = require('sharp'); // Import sharp at the top of your file
+
 
 const getMonthName = (monthIndex) => {
     const months = [
@@ -253,7 +256,36 @@ const getArchivedUsers = async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch cell groups' });
     }
   };
-  
+
+
+  const addAnnouncements = async (req, res) => {
+    try {
+        const { title, content, audience, publishDate, endDate, announcementPic } = req.body;
+
+        // Validate the incoming data
+        if (!title || !content || !audience || !publishDate || !endDate) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        // Create a new announcement instance
+        const newAnnouncement = new AnnouncementModel({
+            title,
+            content,
+            audience,
+            publishDate,
+            endDate,
+            announcementPic: announcementPic || null, // Store the base64 string directly
+        });
+
+        await newAnnouncement.save();
+        res.status(201).json(newAnnouncement);
+    } catch (error) {
+        console.error("Error saving announcement:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -265,4 +297,5 @@ module.exports = {
   getArchivedUsers,
   createNewCellGroup,
   fetchCellGroups,
+  addAnnouncements,
 };
