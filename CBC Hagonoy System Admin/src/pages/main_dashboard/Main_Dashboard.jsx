@@ -8,7 +8,7 @@ const Admin_Dashboard = React.lazy(() => import('../admin_dashboard/Admin_Dashbo
 const Announcement_Management = React.lazy(() => import('../announcement_management/Announcement_Management'));
 const Record_Monitoring = React.lazy(() => import('../record_monitoring/Record_Monitoring'));
 const User_Management = React.lazy(() => import('../user_management/User_Management'));
-
+const Communication_Tools = React.lazy(() => import('../communication_tools/Communication_Tools'));
 
 function Main_Dashboard() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -91,6 +91,7 @@ function Main_Dashboard() {
               <Route path="/record-monitoring" element={<Record_Monitoring />} />
               <Route path="/admin-dashboard" element={<Admin_Dashboard />} />
               <Route path="/user-management" element={<User_Management />} />
+              <Route path='/communication-tools' element = {<Communication_Tools/>}/>
             </Routes>
           </Suspense>
         </div>

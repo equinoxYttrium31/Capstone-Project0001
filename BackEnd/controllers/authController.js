@@ -1,4 +1,5 @@
 const ChurchUser = require('../models/ChurchUser');
+const CellGroupModel = require('../models/CellGroup'); // Adjust path accordingly
 const UserAttendanceModel = require('../models/UserAttendance');
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const jwt = require('jsonwebtoken');
@@ -507,6 +508,26 @@ const checkAuth = async (req, res) => {
     }
 };
 
+const getCellgroupByLeader = async (req, res) => {
+    const leaderName = req.params.leaderName;
+
+    console.log(leaderName);
+  
+    try {
+      // Query the Cellgroup based on the leader's name
+      const cellgroup = await CellGroupModel.findOne({ cellgroupLeader: leaderName });
+      
+      if (!cellgroup) {
+        return res.status(404).json({ message: 'Cellgroup not found' });
+      }
+  
+      res.json({ cellgroupName: cellgroup.cellgroupName });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
 
 // Export the functions
 module.exports = {
@@ -528,4 +549,5 @@ module.exports = {
     getMonthlyAttendanceSummary,
     getProgressByMonthYear,
     checkAuth,
+    getCellgroupByLeader,
 };

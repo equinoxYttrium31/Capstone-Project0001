@@ -274,6 +274,10 @@ body {
   top: 26rem;
 }
 
+.icon_container .active{
+  background-color: #2d2f65;
+}
+
 @keyframes slowLoad {
   from {
     opacity: 0;

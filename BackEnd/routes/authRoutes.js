@@ -16,6 +16,7 @@ const {
     getMonthlyAttendanceSummary,
     getProgressByMonthYear,
     checkAuth,
+    getCellgroupByLeader,
 } = require('../controllers/authController');
 
 const {
@@ -53,6 +54,7 @@ router.post('/uploadProfilePic', authenticateToken, uploadProfilePicture);
 router.get('/profile/picture', authenticateToken, fetchProfilePicture);
 router.put('/profile/update', authenticateToken, updateUserProfile);
 router.post('/profile/initial-edit', authenticateToken, initialEditUserProfile);
+router.get('/leader/:leaderName', getCellgroupByLeader);
 
 router.post('/attendance', authenticateToken, createOrUpdateAttendance);
 router.get('/attendance/:userId/:month/:year', authenticateToken, getAttendanceByMonthYear);

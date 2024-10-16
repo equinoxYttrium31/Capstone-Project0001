@@ -1,0 +1,70 @@
+.communication_tools_container{
+    padding: 0;
+    margin: 0;
+    width: 75vw;
+    height: 95vh;
+}
+
+.communication_main_container{
+    width: 100%;
+    height: 100%;
+    background-color: beige;
+}
+
+.communication_header_container{
+    margin-top: 0;
+    height: 10vh;
+    width: 100%;
+}
+
+.communication_church_name{
+    font-family: "Lato";
+    font-size: .75em;
+    margin-bottom: -1rem;
+    color: #28282b;
+}
+
+.communication_header_Lbl{
+    font-family: "Poppins";
+    margin-top: .8rem;
+    font-size: 1.8em;
+    color: #120652;
+}
+
+.communication_main_comms{
+    width: 100%;
+    height: 79%;
+    border-radius: 1rem;
+    box-shadow: #28282b 2px 2px 5px;
+}
+
+.list_of_contacts{
+    width: 25%;
+    height: 100%;
+    border-right: #120652 2px solid;
+}
+
+.list_of_contacts_header{
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.communication_search_bar{
+    width: 75%;
+    height: 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: #28282b 1px 1px 3px;
+    padding-left: 1.5rem;
+    font-family: "Lato";
+}
+
+.communication_search_ic{
+    height: 1rem;
+    position: absolute;
+    left: 21.8rem;
+}

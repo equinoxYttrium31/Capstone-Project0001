@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { filter_ic, search_ic, user_placeholder } from '../../assets/Assets';
 import './Cellgroup_File.css';
-import { groupCards } from '../../../../CBC Hagonoy System Admin/src/components/Utility Functions/layoutUtility';
 import axios from "axios";
-import io from 'socket.io-client'; // Import Socket.io client
-
-const socket = io('http://localhost:8000'); // Connect to your Socket.io server
+import { toast } from "react-hot-toast";
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -22,112 +19,116 @@ const calculateAge = (birthDate) => {
 function Cellgroup_File() {
   const [filterModal, setFilterModal] = useState(false);
   const [filteredRecords, setFilteredRecords] = useState([]);
-  const [selectedRange, setSelectedRange] = useState("");
-  const [selectedGender, setSelectedGender] = useState("");
-  const [selectedMemberType, setSelectedMemberType] = useState("");
-  const [records, setRecords] = useState([]);  // State to hold fetched records
+  const [filters, setFilters] = useState({
+    age: "",
+    gender: "",
+    memberType: "",
+  });
+  const [records, setRecords] = useState([]);
   const [searchedUser, setSearchedUser] = useState("");
+  const [cellGroups, setCellGroups] = useState([]);
+  const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
 
-   // Function to filter records based on search input and selected filters
-   const filterRecords = (query) => {
-    return records.filter((record) => {
-      const matchesSearchQuery =
-        record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
-        record.lastName.toLowerCase().startsWith(query.toLowerCase());
-
-      const matchesAgeFilter = selectedRange
-        ? (() => {
-            const [minAge, maxAge] = selectedRange.split("-").map(Number);
-            const age = calculateAge(record.birthDate);
-            return age >= minAge && age <= maxAge;
-          })()
-        : true;
-
-      const matchesGenderFilter = selectedGender
-        ? record.gender === selectedGender
-        : true;
-
-      const matchesTypeFilter = selectedMemberType
-        ? record.memberType === selectedMemberType
-        : true;
-
-      return matchesSearchQuery && matchesAgeFilter && matchesTypeFilter && matchesGenderFilter;
-    });
-  };
-
-  const handleApplyFilters = () => {
-    const filtered = filterRecords(searchedUser); // Get filtered records based on search and filters
-    setFilteredRecords(filtered); // Update the displayed records
-    toggleFilter(false); // Close the filter modal after applying
-  };
-
-  const toggleFilter = () => {
-    setFilterModal(!filterModal);
+  const handleSearchChange = (e) => {
+    const query = e.target.value.trim();
+    setSearchedUser(query);
   };
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    if (name === "age") {
-      setSelectedRange(value);
-    } else if (name === "gender") {
-      setSelectedGender(value);
-    } else if (name === "memberType") {
-      setSelectedMemberType(value);
-    }
-  };
-
-  // Update filtered records based on search input in real-time
-  const handleSearchChange = (e) => {
-    const query = e.target.value.trim(); // Get the current search input and trim whitespace
-    setSearchedUser(query); // Update the searched user input
-
-    if (query === "") {
-      const filtered = filterRecords(query);
-      setFilteredRecords(filtered); // Show all records if the search is cleared
-    } else {
-      const filtered = filterRecords(query); // Filter records based on the current query
-      setFilteredRecords(filtered); // Update the displayed records
-    }
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleClearButton = () => {
-    setSelectedRange("");
-    setSelectedGender("");
-    setSelectedMemberType("");
-    setSearchedUser(""); // Clear the search input
-    setFilteredRecords(records); // Reset filtered records to show all
-    toggleFilter(false);
+    setFilters({
+      age: "",
+      gender: "",
+      memberType: "",
+    });
+    setSearchedUser("");
+    setFilteredRecords(records);
+    setFilterModal(false);
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get('http://localhost:8001/profile', { withCredentials: true });
+      const { firstName, lastName } = response.data;
+      const name = `${firstName} ${lastName}`;
+      setLeaderName(name); // Set leaderName in state
+      return name; 
+    } catch (error) {
+      toast.error('Error fetching user profile:', error.message);
+      throw error;
+    }
+  };
+
+  const fetchCellGroupByLeader = async (leaderName) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/leader/${leaderName}`);
+      console.log('Searching for cell group with leader:', leaderName);
+      console.log(response.data);
+      setCellGroups(response.data);
+    } catch (error) {
+      console.error('Error fetching cell group by leader:', error);
+    }
+  };
+
+  const groupedRecords = filteredRecords.filter(
+    (record) => record.CellLead === leaderName
+  );
+
   useEffect(() => {
-    // Function to fetch records from the backend
+    const fetchProfileAndCellGroup = async () => {
+      try {
+        const name = await fetchUserProfile(); 
+        if (name) {
+          await fetchCellGroupByLeader(name);
+        }
+      } catch (error) {
+        console.error('Error during profile and cell group fetch:', error);
+      }
+    };
+
+    fetchProfileAndCellGroup();
+  }, []);
+
+  useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/records");
-        console.log(response.data); // Log the response data for debugging
+        const response = await axios.get("http://localhost:8001/records");
+        console.log(response.data);
         setRecords(response.data);
-        setFilteredRecords(response.data);  // Set the fetched records to state
+        setFilteredRecords(response.data);
       } catch (error) {
         console.error('Error fetching records:', error);
       }
     };
 
-    fetchRecords();  // Call the fetch function
+    fetchRecords();
+  }, []);
 
-    // Listen for real-time updates from the server
-    socket.on('updateData', (newData) => {
-      console.log('Received updated data:', newData);
-      setRecords(newData); // Update records state with new data
-      setFilteredRecords(newData); // Also update filtered records
-    });
+  const applyFilters = (record) => {
+    const ageFilter = (filters.age) ? (() => {
+      const [minAge, maxAge] = filters.age.split("-").map(Number);
+      const age = calculateAge(record.birthDate);
+      return age >= minAge && age <= maxAge;
+    })() : true;
 
-    // Cleanup the socket listener on component unmount
-    return () => {
-      socket.off('updateData'); // Remove the event listener
-    };
-  }, []);  // Empty dependency array to run once on component mount
+    const genderFilter = filters.gender ? record.gender === filters.gender : true;
+    const memberTypeFilter = filters.memberType ? record.memberType === filters.memberType : true;
 
-  const groupedRecords = groupCards(filteredRecords, 3); 
+    return ageFilter && genderFilter && memberTypeFilter;
+  };
+
+  const handleApplyFilters = () => {
+    const filtered = records.filter(applyFilters); // Filter the records based on selected filters
+    setFilteredRecords(filtered); 
+    setFilterModal(false);
+  };
 
   return (
     <div className='cellgroup_main_cont'>
@@ -154,33 +155,40 @@ function Cellgroup_File() {
             src={filter_ic} 
             alt="filter_ic" 
             className="filter_ic" 
-            onClick={toggleFilter}
+            onClick={() => setFilterModal(true)} // Make sure to set the filter modal
           />
         </div>
       </div>
 
       <div className="record_lower_part">
-        <div className="record_lower_part_left">
-          {groupedRecords.map((group, index) => (
-            <div className="record_row" key={index}>
-              {group.map((record, idx) => (
-                <div className="record_content_card" key={idx}>
-                  <img src={record.profilePic || user_placeholder} alt="profile_picture" className='record_container_profile' />
-                  <div className="record_content_card_deets">
-                    <h2 className="record_person_name">{record.firstName}</h2>
-                    <p className="record_person_age_and_gender">{calculateAge(record.birthDate)} , {record.gender}</p>
-                    <div className="record_person_type">
-                      <h2 className="record_type_text">{record.memberType}</h2>
+            <div className="record_lower_part_left">
+              {groupedRecords.length > 0 ? (
+                groupedRecords.map((record) => (
+                  <div className="record_content_card" key={record._id}>
+                    <img 
+                      src={record.profilePic || user_placeholder} 
+                      alt="profile_picture" 
+                      className="record_container_profile" 
+                    />
+                    <div className="record_content_card_deets">
+                      <h2 className="record_person_name">{record.firstName}</h2>
+                      <p className="record_person_age_and_gender">
+                        {calculateAge(record.birthDate)}, {record.gender}
+                      </p>
+                      <div className="record_person_type">
+                        <h2 className="record_type_text">{record.memberType}</h2>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No records found.</p>
+              )}
             </div>
-          ))}
-        </div>
-        <div />
-      </div>
+            <div />
+          </div>
 
+           {/* Filter modal and other UI elements */}
       {filterModal && (
         <div className="filter_modal">
           <div className="filter_Modal_Container">
@@ -198,7 +206,7 @@ function Cellgroup_File() {
                     name="age"
                     className="filter_select_input"
                     onChange={handleSelectChange}
-                    value={selectedRange || " "}
+                    value={filters.age || " "}
                   >
                     <option disabled value=" ">
                       Select Age
@@ -221,7 +229,7 @@ function Cellgroup_File() {
                     name="gender"
                     className="filter_select_input"
                     onChange={handleSelectChange}
-                    value={selectedGender || " "}
+                    value={filters.gender || " "}
                   >
                     <option disabled value=" ">
                       Select Gender
@@ -236,7 +244,7 @@ function Cellgroup_File() {
                     name="memberType"
                     className="filter_select_input"
                     onChange={handleSelectChange}
-                    value={selectedMemberType || " "}
+                    value={filters.memberType || " "}
                   >
                     <option disabled value=" ">
                       Select Type
@@ -268,7 +276,7 @@ function Cellgroup_File() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default Cellgroup_File;
