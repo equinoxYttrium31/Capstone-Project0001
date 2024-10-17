@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { edit_ic, user_placeholder } from '../../assets/Assets';
+import { 
+  edit_ic, 
+  user_placeholder,
+  avatar_female,
+  avatar_male,
+ } from '../../assets/Assets';
 import './Users_Profiles.css';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -48,7 +53,8 @@ function Users_Profiles() {
         const userProfile = await fetchUserProfile(); // Fetch user profile
         setUser(userProfile); // Update local state with user profile
         setOriginalUser(userProfile); // Store original profile data for cancel
-        setIsFirstEdit(userProfile.isFirstEdit); // Set first edit state
+        setIsFirstEdit(userProfile.isFirstEdit); 
+        setProfilePicture(userProfile.gender === 'Male' ? avatar_male : userProfile.gender === 'Female' ? avatar_female : user_placeholder);// Set first edit state
       } catch (error) {
         console.error('Failed to fetch user profile:', error);
         setError('Failed to fetch user profile'); 
@@ -70,6 +76,9 @@ function Users_Profiles() {
         // Check if the profile picture string starts with the correct prefix
         const formattedProfilePic = profilePic.startsWith('data:image/jpeg;base64,') ? profilePic : `data:image/jpeg;base64,${profilePic}`;
         setProfilePicture(formattedProfilePic); // Set the profile picture
+      } else {
+        // No profile picture available, default to placeholder
+        setProfilePicture(user.gender === "Male" ? avatar_male : (user.gender === "Female" ? avatar_female : user_placeholder));
       }
     } catch (error) {
       toast.error("Failed to fetch user profile.");
@@ -78,7 +87,7 @@ function Users_Profiles() {
   };
 
   fetchUserProfile();
-}, []);
+}, [user.gender]);
 
 
 
@@ -166,6 +175,12 @@ function Users_Profiles() {
       setOriginalUser(updatedUser); // Sync originalUser with saved data
       setIsEditing(false);
       setIsFirstEdit(false);
+
+      toast.success("Successfully updated the user!")
+
+      setTimeout(() => {
+        window.location.reload(); // Refresh the page
+      }, 3000);
     } catch (error) {
       toast.error("Failed to update profile.");
       console.error('Error updating profile:', error);
@@ -178,6 +193,7 @@ function Users_Profiles() {
     setIsEditing(false); // Exit editing mode
   };
 
+  
   return (
     <div className='User_Profile_mainCont'>
       <div className="profile_tab">

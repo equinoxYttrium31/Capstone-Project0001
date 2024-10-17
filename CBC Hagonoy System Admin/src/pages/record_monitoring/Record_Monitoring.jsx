@@ -5,12 +5,13 @@ import { toast } from "react-hot-toast";
 import {
   search_ic,
   filter_ic,
-  user_placeholder,
   add_ic,
   archived_ic,
   close_ic,
+  avatar_male,
+  avatar_female,
+  user_placeholder,
 } from "../../assets/Images";
-import { groupCards } from "../../components/Utility Functions/layoutUtility.js";
 import { io } from "socket.io-client"; // Import Socket.IO client
 
 const calculateAge = (birthDate) => {
@@ -42,8 +43,8 @@ function Record_Monitoring() {
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
   const [cellGroups, setCellGroups] = useState([]);
-  const [expanded, setExpanded] = useState({}); // Track which categories are expanded
-
+  const [expanded, setExpanded] = useState({});
+  
   //expandable cellgroups
   useEffect(() => {
       const fetchCellGroups = async () => {
@@ -420,7 +421,7 @@ function Record_Monitoring() {
       </div>
       <div className="record_lower_part">
         <div className="record_lower_part_left">
-          <div className="expandable-container">
+        <div className="expandable-container">
             {groupedRecords.map(({ cellGroup, records }) => (
               <div className="category" key={cellGroup._id}>
                 <h3 className="category-header" onClick={() => toggleExpand(cellGroup._id)}>
@@ -430,24 +431,36 @@ function Record_Monitoring() {
                   <div className="category-contentLeader">
                     <p className="LeaderName">Leader: {cellGroup.cellgroupLeader}</p>
                     <div className="category-content">
-                    {records.map((record) => (
-                      <div className="record_content_card" key={record._id}>
-                        <img
-                          src={record.profilePic || user_placeholder}
-                          alt="profile_picture"
-                          className="record_container_profile"
-                        />
-                        <div className="record_content_card_deets">
-                          <h2 className="record_person_name">{record.firstName}</h2>
-                          <p className="record_person_age_and_gender">
-                            {calculateAge(record.birthDate)}, {record.gender}
-                          </p>
-                          <div className="record_person_type">
-                            <h2 className="record_type_text">{record.memberType}</h2>
+                      {records.map((record) => {
+                        // Determine the appropriate avatar based on gender
+                        let avatar;
+                        if (record.gender === "Male") {
+                          avatar = avatar_male; // Ensure you have Avatar_Male imported
+                        } else if (record.gender === "Female") {
+                          avatar = avatar_female; // Ensure you have Avatar_Female imported
+                        } else {
+                          avatar = user_placeholder; // Default avatar for other cases
+                        }
+
+                        return (
+                          <div className="record_content_card" key={record._id}>
+                            <img
+                              src={record.profilePic || avatar} // Use profilePic or gender-based avatar
+                              alt="profile_picture"
+                              className="record_container_profile"
+                            />
+                            <div className="record_content_card_deets">
+                              <h2 className="record_person_name">{record.firstName}</h2>
+                              <p className="record_person_age_and_gender">
+                                {calculateAge(record.birthDate)}, {record.gender}
+                              </p>
+                              <div className="record_person_type">
+                                <h2 className="record_type_text">{record.memberType}</h2>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}

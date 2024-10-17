@@ -33,6 +33,8 @@ import personal_ic from './personal_ic.png'
 import acc_ic_selected from './acc_ic_selected.png'
 import setting_ic_selected from './settings_ic_selected.png'
 import logout_ic from './logout_ic.png'
+import avatar_female from './avatar_female.png'
+import avatar_male from './avatar_male.png'
 
 export {
     facebook_icon_dark,
@@ -70,4 +72,6 @@ export {
     acc_ic_selected,
     setting_ic_selected,
     logout_ic,
+    avatar_male,
+    avatar_female,
 };

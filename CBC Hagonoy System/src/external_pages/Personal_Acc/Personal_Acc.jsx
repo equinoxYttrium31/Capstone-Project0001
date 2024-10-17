@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import './Personal_Acc.css';
-import { user_placeholder } from '../../assets/Assets';
+import { 
+  user_placeholder,
+  avatar_female,
+  avatar_male,
+ } from '../../assets/Assets';
 import { getCurrentMonth, getCurrentYear } from '../../Utility Functions/utility_setmonth';
 import { getCurrentWeekNumber } from '../../Utility Functions/utility_date';
 import axios from 'axios'; 
@@ -32,7 +36,7 @@ const Personal_Acc = ({onSubmit}) => {
   const [currentWeek, setCurrentWeek] = useState('');
   const [error, setError] = useState(null);
   const [hasProfilePicture, setHasProfilePicture] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(user_placeholder);
+  const [profilePicture, setProfilePicture] = useState();
   const [attendanceData, setAttendanceData] = useState({
     cellGroup: false,
     personalDevotion: false,
@@ -165,6 +169,22 @@ const Personal_Acc = ({onSubmit}) => {
     }
   }, [user, currentWeek, currentMonth, currentYear]); // Run when user or current week/month/year changes
 
+  let avatar;
+  if (profilePicture) {
+    avatar = profilePicture; // Use the profile picture if available
+  } else if (user) {
+    if (user.gender === "Male") {
+      avatar = avatar_male; 
+    } else if (user.gender === "Female") {
+      avatar = avatar_female; 
+    } else {
+      avatar = user_placeholder; // Default for unspecified gender
+    }
+  } else {
+    avatar = user_placeholder; // Default avatar if user is not defined
+  } // Variable to store the avatar element
+
+
   return (
     <div className='personal_user_acc_main_cont'>
       <div className="personal_title_cont">
@@ -173,7 +193,7 @@ const Personal_Acc = ({onSubmit}) => {
       {error && <p className="error-message">{error}</p>}
       <div className="personal_user_info">
         <div className="personal_img_holder">
-          <img src={profilePicture} alt="user_profile" className="personal_profile_pic" />
+          <img src={profilePicture || avatar} alt="user_profile" className="personal_profile_pic" />
         </div>
         <div className="personal_user_info_text">
           {!!user && (

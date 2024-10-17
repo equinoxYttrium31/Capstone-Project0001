@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { filter_ic, search_ic, user_placeholder } from '../../assets/Assets';
+import { 
+  filter_ic, 
+  search_ic, 
+  user_placeholder,
+  avatar_female,
+  avatar_male,
+    } from '../../assets/Assets';
 import './Cellgroup_File.css';
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -28,6 +34,7 @@ function Cellgroup_File() {
   const [searchedUser, setSearchedUser] = useState("");
   const [cellGroups, setCellGroups] = useState([]);
   const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
+
 
   const handleSearchChange = (e) => {
     const query = e.target.value.trim();
@@ -161,32 +168,44 @@ function Cellgroup_File() {
       </div>
 
       <div className="record_lower_part">
-            <div className="record_lower_part_left">
-              {groupedRecords.length > 0 ? (
-                groupedRecords.map((record) => (
-                  <div className="record_content_card" key={record._id}>
-                    <img 
-                      src={record.profilePic || user_placeholder} 
-                      alt="profile_picture" 
-                      className="record_container_profile" 
-                    />
-                    <div className="record_content_card_deets">
-                      <h2 className="record_person_name">{record.firstName}</h2>
-                      <p className="record_person_age_and_gender">
-                        {calculateAge(record.birthDate)}, {record.gender}
-                      </p>
-                      <div className="record_person_type">
-                        <h2 className="record_type_text">{record.memberType}</h2>
-                      </div>
+        <div className="record_lower_part_left">
+          {groupedRecords.length > 0 ? (
+            groupedRecords.map((record) => {
+              // Determine the appropriate avatar based on gender
+              let avatar;
+              if (record.gender === "Male") {
+                avatar = avatar_male; // Ensure Avatar_Male is imported
+              } else if (record.gender === "Female") {
+                avatar = avatar_female; // Ensure Avatar_Female is imported
+              } else {
+                avatar = user_placeholder; // Default avatar for other cases
+              }
+
+              return (
+                <div className="record_content_card" key={record._id}>
+                  <img 
+                    src={record.profilePic || avatar} // Use profilePic or gender-based avatar
+                    alt="profile_picture" 
+                    className="record_container_profile" 
+                  />
+                  <div className="record_content_card_deets">
+                    <h2 className="record_person_name">{record.firstName}</h2>
+                    <p className="record_person_age_and_gender">
+                      {calculateAge(record.birthDate)}, {record.gender}
+                    </p>
+                    <div className="record_person_type">
+                      <h2 className="record_type_text">{record.memberType}</h2>
                     </div>
                   </div>
-                ))
-              ) : (
-                <p>No records found.</p>
-              )}
-            </div>
-            <div />
-          </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No records found.</p>
+          )}
+        </div>
+        <div />
+      </div>
 
            {/* Filter modal and other UI elements */}
       {filterModal && (

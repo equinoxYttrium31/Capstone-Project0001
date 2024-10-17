@@ -8,10 +8,12 @@ import add_ic from './icons/add_ic.png'
 import archived_ic from './icons/archived_ic.png'
 import delete_ic from './icons/delete_ic.png'
 import close_ic from './icons/close_ic.png'
+import avatar_male from './avatar_male.png'
+import avatar_female from './avatar_female.png'
 import user_placeholder from './user_placeholder.jpg'
 
 export{
     cbc_logo, notif_ic_dark, setting_ic_dark, menu,
     search_ic, filter_ic, add_ic, archived_ic, delete_ic,
-    user_placeholder, close_ic,
+    avatar_male, close_ic, avatar_female,user_placeholder
 }
