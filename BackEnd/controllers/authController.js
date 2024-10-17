@@ -2,6 +2,7 @@ const ChurchUser = require('../models/ChurchUser');
 const CellGroupModel = require('../models/CellGroup'); // Adjust path accordingly
 const UserAttendanceModel = require('../models/UserAttendance');
 const { hashPassword, comparePassword } = require('../helpers/auth');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const sharp = require('sharp');
 
@@ -366,16 +367,18 @@ const logoutUser = async (req, res) => {
     }
 };
 
+
 // Get Weekly Attendance
 const getWeeklyAttendance = async (req, res) => {
-    const { userId, month, year } = req.body; // Ensure you are sending userId, month, year in the request body
+    const { userId, month, year, weekNumber } = req.params; // Now using req.params for URL parameters
 
     // Validate input
-    if (!userId || !month || !year) {
+    if (!userId || !month || !year || !weekNumber) {
         return res.status(400).json({ message: 'Missing required parameters.' });
     }
 
     try {
+        // Find the monthly attendance for the user
         const attendance = await UserAttendanceModel.findOne({ userId, month, year });
         
         if (!attendance) {
@@ -383,16 +386,25 @@ const getWeeklyAttendance = async (req, res) => {
             return res.status(404).json({ message: 'Attendance record not found.' });
         }
 
-        res.json(attendance); // Return the found attendance record
+        // Retrieve attendance for the specified week number
+        const weeklyAttendance = attendance.getWeeklyAttendance(parseInt(weekNumber, 10)); // Ensure weekNumber is an integer
+
+        if (!weeklyAttendance) {
+            return res.status(404).json({ message: 'Weekly attendance record not found.' });
+        }
+
+        res.json(weeklyAttendance); // Return the found weekly attendance record
     } catch (error) {
         console.error('Error fetching attendance:', error);
         res.status(500).json({ message: 'Error fetching attendance.' });
     }
 };
 
+
 // Get Monthly Attendance Summary
 const getMonthlyAttendanceSummary = async (req, res) => {
     const { userId, month, year } = req.body; // Changed from req.params to req.body
+
 
     try {
         const attendance = await UserAttendanceModel.findOne({ userId, month, year });
@@ -438,21 +450,29 @@ const createOrUpdateAttendance = async (req, res) => {
     }
 };
 
-// Get User Attendance by Month and Year
+// Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
-    const { userId, month, year } = req.body; // Changed from req.params to req.body
+    const { userId, month, year } = req.params;
 
     try {
-        const attendance = await UserAttendanceModel.findOne({ userId, month, year });
-        
+        // Convert userId string to ObjectId
+        const userObjectId = new mongoose.Types.ObjectId(userId);
+
+        // Fetch attendance data using the ObjectId
+        const attendance = await UserAttendanceModel.findOne({
+            userId: userObjectId,
+            month,
+            year: parseInt(year, 10), // Convert year to integer if needed
+        });
+
         if (!attendance) {
             return res.status(404).json({ message: 'Attendance not found' });
         }
 
-        return res.status(200).json(attendance);
+        return res.json(attendance);
     } catch (error) {
-        console.error('Error fetching attendance:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error fetching attendance data:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
@@ -461,19 +481,66 @@ const getProgressByMonthYear = async (req, res) => {
     const { userId, month, year } = req.body; // Changed from req.params to req.body
 
     try {
-        const progress = await progressSchema.findOne({ userId, month, year });
+        // Fetch the monthly attendance for the user
+        const attendance = await UserAttendanceModel.findOne({ userId, month, year });
 
-        if (!progress) {
-            return res.status(404).json({ message: 'Progress not found' });
-            console.log('Fetching attendance for:', { userId, month, year });
-
+        if (!attendance) {
+            return res.status(404).json({ message: 'Attendance not found for this user.' });
         }
+
+        // Calculate progress for each activity
+        const totalWeeks = attendance.weeklyAttendance.length;
+        const summary = {
+            cellGroup: 0,
+            personalDevotion: 0,
+            familyDevotion: 0,
+            prayerMeeting: 0,
+            worshipService: 0,
+        };
+
+        // Sum up how many weeks each activity was attended
+        attendance.weeklyAttendance.forEach(week => {
+            Object.keys(summary).forEach(activity => {
+                if (week[activity]) {
+                    summary[activity] += 1;
+                }
+            });
+        });
+
+        // Send progress with calculated attendance count
+        const progress = {
+            cellGroup: summary.cellGroup,
+            personalDevotion: summary.personalDevotion,
+            familyDevotion: summary.familyDevotion,
+            prayerMeeting: summary.prayerMeeting,
+            worshipService: summary.worshipService,
+            totalWeeks, // Total number of weeks tracked in this month
+        };
 
         return res.status(200).json(progress);
     } catch (error) {
         console.error('Error fetching progress:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
+};
+
+
+const submitDefault = async (req, res) =>{
+    const { userId, month, year, weekNumber, attendanceData } = req.body;
+
+  // Validate input
+  if (!userId || !month || !year || !weekNumber || !attendanceData) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+
+  try {
+    const newAttendance = new UserAttendanceModel({ userId, month, year, weekNumber, attendanceData });
+    await newAttendance.save();
+    return res.status(201).json({ message: 'Attendance created successfully!' });
+  } catch (error) {
+    console.error('Error saving attendance:', error);
+    return res.status(500).json({ error: 'Failed to save attendance' });
+  }
 };
 
 const checkAuth = async (req, res) => {
@@ -540,7 +607,8 @@ module.exports = {
     updateProfilePicture,
     updateUserProfile,
     initialEditUserProfile ,
-    logoutUser,// Export the new function
+    logoutUser,
+    submitDefault,// Export the new function
 
     //Exporting attendance functions
     createOrUpdateAttendance,

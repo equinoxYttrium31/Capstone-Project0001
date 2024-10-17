@@ -26,6 +26,10 @@ function User_Interface() {
             Authorization: `Bearer ${token}`
           }
         });
+        
+        // Log the fetched user data
+        console.log('Fetched User Data:', response.data);
+
         setUserData(response.data);
       } catch (err) {
         setError(err);
@@ -45,17 +49,30 @@ function User_Interface() {
     setActiveContent(content);
   };
 
+  const [refresh, setRefresh] = useState(false);
+
+  const handleAttendanceSubmit = (shouldRefresh) => {
+    if (shouldRefresh) {
+      setRefresh(true); // Set refresh to true
+      setTimeout(() => setRefresh(false), 100); // Reset it back to false immediately // Toggle the refresh state to trigger a re-fetch in UserChart
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading user data: {error.message}</div>;
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
+  const userId = userData?._id; // Assuming _id is the userId you want to use
+
+  // Log the userId to check its value
+  console.log('Extracted User ID:', userId);
 
   const renderContent = () => {
     if (activeContent === 'Personal') {
       return (
         <div className="dynamic_container_personal active">
-          <Personal_Acc />
-          <User_Chart />
+          <Personal_Acc onSubmit={handleAttendanceSubmit}/>
+          <User_Chart userId={userId} refresh={refresh}/> {/* Pass userId here */}
         </div>
       );
     } else if (activeContent === 'Cellgroup' && (memberType === 'Cellgroup Leader' || memberType === 'Network Leader')) {
@@ -144,8 +161,6 @@ function User_Interface() {
           {renderContent()}
         </div>
       </div>
-
-
     </div>
   );
 }

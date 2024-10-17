@@ -17,6 +17,7 @@ const {
     getProgressByMonthYear,
     checkAuth,
     getCellgroupByLeader,
+    submitDefault,
 } = require('../controllers/authController');
 
 const {
@@ -56,9 +57,10 @@ router.put('/profile/update', authenticateToken, updateUserProfile);
 router.post('/profile/initial-edit', authenticateToken, initialEditUserProfile);
 router.get('/leader/:leaderName', getCellgroupByLeader);
 
+router.post('/default-attendance', authenticateToken, submitDefault)
 router.post('/attendance', authenticateToken, createOrUpdateAttendance);
-router.get('/attendance/:userId/:month/:year', authenticateToken, getAttendanceByMonthYear);
-router.get('/attendance/:userId/:month/:year/week/:weekNumber', authenticateToken, getWeeklyAttendance);
+router.get('/attendance-month/:userId/:month/:year', authenticateToken, getAttendanceByMonthYear);
+router.get('/attendance-weekly/get/:userId/:month/:year/:weekNumber', authenticateToken, getWeeklyAttendance);
 router.get('/attendance/summary/:userId/:month/:year', authenticateToken, getMonthlyAttendanceSummary);
 
 // Attendance fetch function

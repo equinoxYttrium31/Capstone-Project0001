@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import './Personal_Acc.css';
-import { edit_ic, user_placeholder } from '../../assets/Assets';
+import { user_placeholder } from '../../assets/Assets';
 import { getCurrentMonth, getCurrentYear } from '../../Utility Functions/utility_setmonth';
 import { getCurrentWeekNumber } from '../../Utility Functions/utility_date';
 import axios from 'axios'; 
 import { toast } from 'react-hot-toast';
+import PropTypes from 'prop-types'
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -18,7 +19,13 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
-const Personal_Acc = () => {
+const Personal_Acc = ({onSubmit}) => {
+  //PropTypes Validation
+  Personal_Acc.propTypes = {
+    onSubmit: PropTypes.func.isRequired
+  }
+
+
   const [user, setUser] = useState(null);
   const [currentMonth, setCurrentMonth] = useState('');
   const [currentYear, setCurrentYear] = useState('');
@@ -64,6 +71,7 @@ const Personal_Acc = () => {
         withCredentials: true,
       });
       toast.success('Attendance recorded successfully!');
+      onSubmit(true);
     } catch (error) {
       console.error('Error submitting attendance data:', error);
       toast.error('Failed to submit attendance data.');
@@ -85,23 +93,22 @@ const Personal_Acc = () => {
 
   // Function to fetch attendance data
   const fetchAttendanceData = async () => {
-    const userId = user?._id; // Get user ID from the user object
-    const month = currentMonth; // Current month
-    const year = currentYear; // Current year
-    const weekNumber = currentWeek; // Current week number
+    const userId = user?._id;
+    const month = currentMonth;
+    const year = currentYear;
+    const weekNumber = currentWeek;
 
     try {
-        const response = await axios.get(`http://localhost:8000/attendance/get 
-          .032${userId}/${month}/${year}/${weekNumber}`, {
+        const response = await axios.get(`http://localhost:8000/attendance-weekly/get/${userId}/${month}/${year}/${weekNumber}`, {
             withCredentials: true,
         });
-        return response.data; // Assuming the response contains the attendance data
+        return response.data; // Assuming the response contains the weekly attendance data
     } catch (error) {
         console.error('Error fetching attendance data:', error.response ? error.response.data : error.message);
-        toast.error('Failed to fetch attendance data.');
         throw error;
     }
 };
+
 
  useEffect(() => {
     const getUserProfile = async () => {
@@ -121,26 +128,26 @@ const Personal_Acc = () => {
   }, []);
 
   useEffect(() => {
-  // Fetch user data to check if they have a profile picture
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/profile/picture', { withCredentials: true });
-      const { profilePic } = response.data; // Assuming the API returns a field 'profilePic'
+    // Fetch user data to check if they have a profile picture
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/profile/picture', { withCredentials: true });
+        const { profilePic } = response.data; // Assuming the API returns a field 'profilePic'
 
-      if (profilePic) {
-        setHasProfilePicture(true);
-        // Check if the profile picture string starts with the correct prefix
-        const formattedProfilePic = profilePic.startsWith('data:image/jpeg;base64,') ? profilePic : `data:image/jpeg;base64,${profilePic}`;
-        setProfilePicture(formattedProfilePic); // Set the profile picture
+        if (profilePic) {
+          setHasProfilePicture(true);
+          // Check if the profile picture string starts with the correct prefix
+          const formattedProfilePic = profilePic.startsWith('data:image/jpeg;base64,') ? profilePic : `data:image/jpeg;base64,${profilePic}`;
+          setProfilePicture(formattedProfilePic); // Set the profile picture
+        }
+      } catch (error) {
+        toast.error("Failed to fetch user profile.");
+        console.error('Error fetching user profile:', error);
       }
-    } catch (error) {
-      toast.error("Failed to fetch user profile.");
-      console.error('Error fetching user profile:', error);
-    }
-  };
+    };
 
-  fetchUserProfile();
-}, []);
+    fetchUserProfile();
+  }, []);
   // Effect to load attendance data from the backend
   useEffect(() => {
     if (user) {
@@ -194,7 +201,8 @@ const Personal_Acc = () => {
                     type="checkbox"
                     id="cellGroup"
                     className="personal_checkboxes"
-                    defaultChecked={attendanceData.cellGroup} // Use defaultChecked for initial state
+                    checked={attendanceData.cellGroup} 
+                    onChange={(e) => setAttendanceData(prev => ({ ...prev, cellGroup: e.target.checked }))}
                   />
                   <label htmlFor="cellGroup" className="personal_checkboxes_label">Cell Group</label>
                 </div>
@@ -203,7 +211,8 @@ const Personal_Acc = () => {
                     type="checkbox"
                     id="personalDevotion"
                     className="personal_checkboxes"
-                    defaultChecked={attendanceData.personalDevotion} // Use defaultChecked for initial state
+                    checked={attendanceData.personalDevotion} 
+                    onChange={(e) => setAttendanceData(prev => ({ ...prev, personalDevotion: e.target.checked }))}// Use defaultChecked for initial state
                   />
                   <label htmlFor="personalDevotion" className="personal_checkboxes_label">Personal Devotion</label>
                 </div>
@@ -212,7 +221,8 @@ const Personal_Acc = () => {
                     type="checkbox"
                     id="familyDevotion"
                     className="personal_checkboxes"
-                    defaultChecked={attendanceData.familyDevotion} // Use defaultChecked for initial state
+                    checked={attendanceData.familyDevotion} 
+                    onChange={(e) => setAttendanceData(prev => ({ ...prev, familyDevotion: e.target.checked }))} // Use defaultChecked for initial state
                   />
                   <label htmlFor="familyDevotion" className="personal_checkboxes_label">Family Devotion</label>
                 </div>
@@ -223,7 +233,8 @@ const Personal_Acc = () => {
                     type="checkbox"
                     id="prayerMeeting"
                     className="personal_checkboxes"
-                    defaultChecked={attendanceData.prayerMeeting} // Use defaultChecked for initial state
+                    checked={attendanceData.prayerMeeting} 
+                    onChange={(e) => setAttendanceData(prev => ({ ...prev, prayerMeeting: e.target.checked }))} // Use defaultChecked for initial state
                   />
                   <label htmlFor="prayerMeeting" className="personal_checkboxes_label">Prayer Meeting</label>
                 </div>
@@ -232,7 +243,8 @@ const Personal_Acc = () => {
                     type="checkbox"
                     id="worshipService"
                     className="personal_checkboxes"
-                    defaultChecked={attendanceData.worshipService} // Use defaultChecked for initial state
+                    checked={attendanceData.worshipService} 
+                    onChange={(e) => setAttendanceData(prev => ({ ...prev, worshipService: e.target.checked }))} // Use defaultChecked for initial state
                   />
                   <label htmlFor="worshipService" className="personal_checkboxes_label">Worship Service</label>
                 </div>
