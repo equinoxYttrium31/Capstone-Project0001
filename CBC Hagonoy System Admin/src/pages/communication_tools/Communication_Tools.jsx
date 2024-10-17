@@ -1,5 +1,5 @@
 import './Communication_Tools.css'
-import {search_ic} from '../../assets/Images'
+import {search_ic, user_placeholder} from '../../assets/Images'
 
 export default function Communication_Tools() {
     //Implementations
@@ -26,13 +26,21 @@ export default function Communication_Tools() {
                         <img src={search_ic} alt="" className="communication_search_ic" />
                     </div>
 
-                    <div className="list_of_user_conntainer">
-                        <div className="commnunication_user_container">
-                            <img src="" alt="user_profile" className="communication_user_profile" />
-                            <h3 className="communication_user_name">user</h3>
+                    <div className="list_of_user_container">
+                        <div className="communication_user_container">
+                            <img src={user_placeholder} alt="user_profile" className="communication_user_profile" />
+                            <h3 className="communication_user_name">Username</h3>
                         </div>
                     </div>
-
+                </div>
+                <div className="prayer_request_area">
+                    <div className="header_prayer_request_area">
+                        <img src={user_placeholder} alt="userprofile" className="profile_prayer_request_area" />
+                        <h3 className="username_prayer_request_area">Username</h3>
+                    </div>
+                    <div className="prayer_request_area_cont">
+                        
+                    </div>
                 </div>
             </div>
 

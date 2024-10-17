@@ -28,6 +28,7 @@ const ChurchUser = new Schema({
     NetLead: { type: String, default: null },
     gender: {type: String, default: null},
     memberType: {type: String, default: null},
+    isBaptized: {type: String, default: null},
 })
 
 const ChurchUserModel = mongoose.model('ChurchUser', ChurchUser, 'ChurchUser');

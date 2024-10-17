@@ -119,7 +119,7 @@
     flex-direction: column;
     align-items: start;
     margin: 20px;
-
+    width: 19rem;
 }
 
 .event_header_admin{
@@ -132,12 +132,13 @@
 
 .events_holder_scroll{
     height: 25vh;
-    width: 100%;
+    width: 25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: scroll;
     margin-top: -15px;
+    margin-left: -.8rem;
     scroll-behavior: smooth;
 }
 
@@ -154,7 +155,13 @@
 .event_title_admin{
     margin-bottom: -1rem;
     font-family: "Poppins";
-    color: #28282b;
+    color: #120652;
+}
+
+.event_date_admin{
+    font-family: "Poppins";
+    font-size: .8em;
+    margin-left: .1rem;
 }
 
 .event_details_admin{

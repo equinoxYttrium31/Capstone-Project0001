@@ -100,6 +100,7 @@ const updateRecord = async (req, res) => {
           CellLead,
           NetLead,
           memberType,
+          isBaptized,
       } = req.body;
 
       // Validate required fields
@@ -120,6 +121,7 @@ const updateRecord = async (req, res) => {
           CellLead,
           NetLead,
           memberType,
+          isBaptized,
       };
 
       // Find and update the user in the database
@@ -285,6 +287,15 @@ const getArchivedUsers = async (req, res) => {
     }
 };
 
+const fetchAnnouncements = async (req, res) =>{
+  try {
+    const announcements = await AnnouncementModel.find().sort({ date: -1 }); // Sort by latest
+    res.json(announcements);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching announcements', error: err });
+  }
+};
+
 
 
 
@@ -298,4 +309,5 @@ module.exports = {
   createNewCellGroup,
   fetchCellGroups,
   addAnnouncements,
+  fetchAnnouncements,
 };

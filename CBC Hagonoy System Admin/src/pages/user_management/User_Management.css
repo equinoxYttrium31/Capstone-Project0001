@@ -287,6 +287,22 @@
     padding: .5rem 2rem;
 }
 
+.editInp_isBaptized{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    padding-right: 2rem;
+    font-family: "Poppins";
+    color: #28282b;
+    border: #2d2f65 2px solid;
+    font-family: "Poppins";
+    width: 14.2rem;
+    padding: .5rem 2rem;
+}
+
 .form_edit_cont_lower{
     display: flex;
     flex-direction: column;

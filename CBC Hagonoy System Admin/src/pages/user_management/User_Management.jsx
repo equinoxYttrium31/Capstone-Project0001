@@ -70,6 +70,7 @@ function EditUserModal({ record, onClose, onSave }) {
   const [address, setAddress] = useState(
     record.address || { baseAddress: "", barangay: "", city: "", province: "" }
   );
+  const [isBaptized, setIsBaptized] = useState(record.isBaptized || "");
 
   const handleSave = () => {
     onSave({
@@ -84,6 +85,7 @@ function EditUserModal({ record, onClose, onSave }) {
       CellLead,
       address,
       memberType,
+      isBaptized,
     });
     setTimeout(function() {
       window.location.reload();
@@ -155,6 +157,22 @@ function EditUserModal({ record, onClose, onSave }) {
               />
               <label className="editLabel_birthDate">Birth Date:</label>
             </div>
+            <div className="form_edit_cont_rows">
+              <select
+                className="editInp_userType"
+                value={memberType}
+                onChange={(e) => setMemberType(e.target.value)}
+              >
+                <option disabled value="">
+                  Select Member Type
+                </option>
+                <option value="Member">Member</option>
+                <option value="Cellgroup Leader">Cellgroup Leader</option>
+                <option value="Network Leader">Network Leader</option>
+                <option value="Guest">Guest</option>
+              </select>
+              <label className="editLabel_memberType">Member Type:</label>
+            </div>
           </div>
 
           <div className="form_edit_cont_right">
@@ -194,25 +212,24 @@ function EditUserModal({ record, onClose, onSave }) {
               />
               <label className="editLabel_cellLeader">Cellgroup Leader:</label>
             </div>
+            <div className="form_edit_cont_rows">
+                <select
+                    className="editInp_isBaptized"
+                    value={isBaptized}
+                    onChange={(e) => setIsBaptized(e.target.value)}
+                  >
+                    <option disabled value="">
+                      Baptism Status
+                    </option>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Not Baptize">Not Baptize</option>
+                    <option value="Baptized">Baptized</option>
+                    <option value="Guest">Guest</option>
+                  </select>
+              <label className="editLabel_cellLeader">Baptism Status:</label>
+            </div>
           </div>
         </div>
-
-        <div className="form_userType_cont_rows">
-              <select
-                className="editInp_userType"
-                value={memberType}
-                onChange={(e) => setMemberType(e.target.value)}
-              >
-                <option disabled value="">
-                  Select Member Type
-                </option>
-                <option value="Member">Member</option>
-                <option value="Cellgroup Leader">Cellgroup Leader</option>
-                <option value="Network Leader">Network Leader</option>
-                <option value="Guest">Guest</option>
-              </select>
-              <label className="editLabel_memberType">Member Type:</label>
-            </div>
 
 
         <div className="form_edit_cont_lower">
@@ -296,6 +313,7 @@ EditUserModal.propTypes = {
     NetLead: PropTypes.string,
     CellLead: PropTypes.string,
     memberType: PropTypes.string,
+    isBaptized: PropTypes.string,
     // Add other necessary fields as per your data structure
   }).isRequired,
   onClose: PropTypes.func.isRequired,

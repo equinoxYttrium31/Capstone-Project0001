@@ -1,6 +1,6 @@
 // src/components/CustomCalendar.jsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './customCalendar.css'; // Import your styles
 
 const CustomCalendar = () => {
