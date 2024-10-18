@@ -2,194 +2,226 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.main_container_about{
-    margin: 0;
-    padding: 0;
-    position: relative;
-    background-color: rgb(255, 253, 229);
-    height: 1000vh;
-}
-
-.greeting_container{
-    padding: 0;
-    margin: 0;
-    height: fit-content;
-    width: 100vw;
+.aboutUs_page_cont{
     overflow: hidden;
 }
 
-.intro_bg{
-    height: 15rem;
+.greating_header_image{
     width: 100vw;
-    opacity: 1;
+    height: 45vh;
     object-fit: cover;
     object-position: center;
-    position: absolute;
-    top: 0rem;
+    animation: dropIn 1.5s ease-in-out;
 }
 
-.text_container_about{
-    background: transparent;
-    display: flex;
-    width: 100vw;
-    flex-direction: column;
+.greeting_text_container{
+    width: 70%;
     text-align: center;
-    position: absolute;
-    top: 20rem;
-    color: #28282B;
-}
-
-.short_passage_cont{
-    position: absolute;
-    top: 32rem;
-    height: 25rem;
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    margin-left: 10rem;
+    margin: 6.5rem auto;
 }
 
 .header_text{
     font-family: "Cinzel";
+    color: #28282b;
     font-weight: 400;
     font-size: 3.5em;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    animation: 
+        typing 3s steps(40, end),
+        blink-caret .75s step-end infinite;
 }
 
 .intro_text{
     font-family: "Lato";
+    color: #28282b;
     font-weight: 300;
     font-size: 2.125em;
     line-height: 1;
     margin-bottom: 2rem;
+    animation: flyIn 1.5s ease-in-out;
+
 }
 
-.text_cont_passage{
-    width: 65%;
-    margin-right: 2%;
-    height: 50vh;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.get_to_know_header{
+    font-family: Cinzel;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    color: #28282b;
+    font-size: 2.5em;
+    opacity: 0; /* Initially hidden */
+    transform: translateX(-250px); /* Initial off-screen position */
+    transition: all 2s ease-in-out;
+}
+
+.get_to_know_introduction{
+    font-family: "Lato";
+    color: #28282b;
     text-align: justify;
-    text-justify: inter-word;
-    color: #28282B;
-}
-
-.passage{
-    font-family: "Poppins";
     font-size: 1.125em;
+    opacity: 0; /* Initially hidden */
+    transform: translateX(-250px); /* Initial off-screen position */
+    transition: all 2s ease-in-out;
 }
 
-.image_cont_passage{
-    width: 30%;
-    height: 50vh;
-    overflow: hidden;
-    border-radius: 15px;
-    margin-left: 3rem;
-    margin-right: 0;
-}
 
-.intro_bg_passage{
-    width: 100%;
-    height: 50vh;
-    object-fit: fill;
-    object-position: center;
-}
-
-.ideals_container{
-    position: absolute;
-    top: 58rem;
-    height: 40rem;
-    width: 100vw;
-    overflow: hidden;
-}
-
-.ideals_bg_cont{
-    position: absolute;
-    top: 0rem;
-    height: 30rem;
-    width: 100vw;
-    object-fit: fill;
-    z-index: 0;
-}
-
-.ideals_content_container{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80vw;
-    height: 30rem;
-    margin: auto;
-}
-
-.content_header_ideals{
-    color: whitesmoke;
-    position: absolute;
-    top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2rem 0rem;
-}
-
-.ideals_text{
-    font-family: "Cinzel";
-    font-weight: 300;
-    font-size: 3.5em;
-    width: 80vw;
-    text-align: center;
-}
-
-.context_ideal_cont{
-    position: relative;
-    top: 7rem;
+.intoduction_container_row{
+    height: 25rem;
     display: flex;
     flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
     align-items: center;
-    gap: 4rem;
-    margin-left: 0rem;
 }
 
-.context_img_cont{
-    height: 20rem;
-    width: 20rem;
-    overflow: hidden;
-    border-radius: 15px;
+.get_to_know_image_intro{
+    width: 25vw;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateX(250px); /* Initial off-screen position */
+    transition: all 2s ease-in-out;
 }
 
-.ideals_right_pic{
-    height: 20rem;
-    width: 20rem;
-    object-fit: cover;
-    object-position: center;
+.intoduction_container {
+    width: 70%;
+    margin: 1rem auto;
+    opacity: 1;
+    transition: all 2s ease-in-out; /* Smooth transition for animation */
 }
 
-.ideals_main_cont_context{
-    margin: 0;
-    padding: 1rem;
+.history_container{
+    width: 70%;
+    height: 25rem;
+    margin: 1rem auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     align-items: center;
+    justify-content: space-between;
     gap: 2rem;
+    opacity: 1;
+    transition: all 2s ease-in-out;
 }
 
-.row_ideals{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2rem;
+.get_to_know_history{
+    font-family: "Lato";
+    color: #28282b;
+    text-align: justify;
+    font-size: 1.125em;
+    opacity: 0; /* Initially hidden */
+    transform: translatex(200px); /* Initial off-screen position */
+    transition: all 2s ease-in-out;
 }
 
-.ideals_context{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 20vw;
-    height: 30vh;
-    background: rgba(255, 255, 255, 0.068);
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    padding: 1rem 0rem;
+.get_to_know_image_history{
+    width: 25vw;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateX(-250px); /* Initial off-screen position */
+    transition: all 2s ease-in-out;
 }
+
+
+
+
+
+
+
+
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+  }
+  .fade-in.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Slide left animation */
+  .slide-left {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+  .slide-left.slide-left {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  
+  /* Zoom-in animation */
+  .zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .zoom-in.zoom-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  /* Zoom-in for images */
+  .zoom-in-image {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .zoom-in-image.zoom-in-image {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .fly-in {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .fly-in.fly-in {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+  }
+
+  @keyframes flyIn {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    } to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+
+  @keyframes dropIn {
+    from{
+        transform: translateY(-100px);
+        opacity: 0;
+    } to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+
+  @keyframes floatLeft{
+    from{
+        transform: translateX(-100px);
+        opacity: 0;
+    } to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+  }

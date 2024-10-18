@@ -2,9 +2,11 @@ const ChurchUser = require('../models/ChurchUser');
 const CellGroup = require('../models/CellGroup');
 const ArchieveUserModel = require('../models/ArchieveRecords');
 const AnnouncementModel = require('../models/Announcements'); // Adjust to your model
+const ArchivedAnnouncementModel = require('../models/ArchievedAnnouncements');
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const sharp = require('sharp'); // Import sharp at the top of your file
-
+const moment = require('moment');
+const cron = require('node-cron');
 
 const getMonthName = (monthIndex) => {
     const months = [
@@ -298,6 +300,50 @@ const fetchAnnouncements = async (req, res) =>{
 
 
 
+
+// Function to archive expired announcements
+const archiveExpiredAnnouncements = async () => {
+  try {
+    // Get the current date
+    const currentDate = moment().startOf('day').toDate();
+
+    // Find all announcements that have expired (endDate less than current date)
+    const expiredAnnouncements = await AnnouncementModel.find({
+      endDate: { $lt: currentDate }
+    });
+
+    if (expiredAnnouncements.length > 0) {
+      // Archive the expired announcements by duplicating them into ArchivedAnnouncements
+      const archivedData = expiredAnnouncements.map(announcement => {
+        return {
+          title: announcement.title,
+          content: announcement.content,
+          startDate: announcement.startDate,
+          endDate: announcement.endDate,
+          audience: announcement.audience,
+          createdAt: announcement.createdAt
+        };
+      });
+
+      await ArchivedAnnouncementModel.insertMany(archivedData); // Insert the expired announcements into the ArchivedAnnouncements collection
+
+      // Remove the expired announcements from the original collection
+      await AnnouncementModel.deleteMany({ endDate: { $lt: currentDate } });
+
+      console.log(`${expiredAnnouncements.length} announcements archived.`);
+    } else {
+      console.log('No expired announcements to archive.');
+    }
+  } catch (error) {
+    console.error('Error archiving expired announcements:', error);
+  }
+};
+
+// Schedule the function to run daily at 12 AM
+cron.schedule('30 6 * * *', () => {
+  console.log('Running archiveExpiredAnnouncements job at 12 AM');
+  archiveExpiredAnnouncements();
+});
 
 module.exports = {
   getRecords,

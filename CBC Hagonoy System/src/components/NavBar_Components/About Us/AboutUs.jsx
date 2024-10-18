@@ -1,67 +1,70 @@
-import { intro_bg, ideals_bg } from '../../../assets/Assets'
-import './about_us.css'
+import { intro_bg } from "../../../assets/Assets";
+import {
+  History_Photo,
+  Intro_Photo,
+} from "../../../assets/Church_Images/church_images";
+import { useScrollAnimation } from './useScrollAnimation';
+import "./about_us.css";
 
-function AboutUs() {
+export default function AboutUs() {
+
+  const [isVisiblePassage, passageRef] = useScrollAnimation(0.8); // Apply to passage
+  const [isVisibleHistory, historyRef] = useScrollAnimation(0.8); // Apply to history
+
   return (
-    <div className='main_container_about'>
-        <div className="greeting_container">
-        <img src={intro_bg} alt="Intro Background" className="intro_bg"/>
-          <div className='text_container_about'>
-            <h1 className="header_text">To Love God And To Love People</h1>
-            <h3 className="intro_text">Welcome To Christian Bible Church of Hagonoy</h3>
-          </div>
+    <div className="aboutUs_page_cont">
+      {/**This will be the about us header */}
+      <div className="greeting_container">
+        <img
+          src={intro_bg}
+          alt="Intro Background"
+          className="greating_header_image"
+        />
+        <div className="greeting_text_container">
+          <h1 className="header_text">To Love God And To Love People</h1>
+          <h3 className="intro_text">
+            Welcome To Christian Bible Church of Hagonoy
+          </h3>
         </div>
-        <div className="short_passage_cont">
-          <div className="text_cont_passage">
-            <p className="passage">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio omnis quidem enim illo hic nemo possimus dolorem, porro quibusdam animi delectus officiis repudiandae! Eaque labore illum eos ullam non unde!</p>
-          </div>
-          <div className="image_cont_passage">
-            <img src={intro_bg} alt="Intro Background" className="intro_bg_passage"/>
-          </div>
-        </div> 
-        <div className="ideals_container">
-            <div className="ideals_bg_cont">
-              <img src={ideals_bg} alt="Ideals BG" className="ideals_bg" />
+      </div>
+
+      {/**This will be the start of introduction */}
+        <div 
+          className="intoduction_container"
+          >
+          <div className="intoduction_container_row" ref={passageRef}>
+            <div className="introduction_texts">
+              <h1 className={`get_to_know_header ${isVisiblePassage ? 'slide-left' : ''}`}>Get to Know Us</h1>
+              <p className={`get_to_know_introduction ${isVisiblePassage ? 'slide-left' : ''}`}
+                >
+                Welcome to Christian Bible Church of Hagonoy, where we are dedicated
+                to proclaiming the gospel and nurturing disciples in our community.
+                Established in 1985, our church has been a cornerstone in Hagonoy,
+                Bulacan, Philippines, for over three decades, serving as a beacon of
+                hope and faith.
+              </p>
             </div>
-            <div className="ideals_content_container">
-              <div className="content_header_ideals">
-                <h2 className="ideals_text">Our Ideals</h2>
-              </div>
-              <div className="context_ideal_cont">
-                <div className="context_img_cont">
-                  <img src={intro_bg} alt="additional pic" className='ideals_right_pic'/>
-                </div>
-                <div className="ideals_main_cont_context">
-                  <div className="row_ideals">
-                    <div className="ideals_context">
-                        <img src="" alt="1st ideal" className='icon_holder_ideals'/>
-                        <h3 className="ideals_title"></h3>
-                        <p className="ideals_description"></p>
-                    </div>
-                    <div className="ideals_context">
-                        <img src="" alt="2nd ideal" className='icon_holder_ideals'/>
-                        <h3 className="ideals_title"></h3>
-                        <p className="ideals_description"></p>
-                    </div>
-                  </div>
-                  <div className="row_ideals">
-                    <div className="ideals_context">
-                        <img src="" alt="3rd ideal" className='icon_holder_ideals'/>
-                        <h3 className="ideals_title"></h3>
-                        <p className="ideals_description"></p>
-                    </div>
-                    <div className="ideals_context">
-                        <img src="" alt="4th ideal" className='icon_holder_ideals'/>
-                        <h3 className="ideals_title"></h3>
-                        <p className="ideals_description"></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <img
+              src={Intro_Photo}
+              alt="Introduction Image"
+              className={`get_to_know_image_intro ${isVisiblePassage ? 'fade-in' : ''}`}
+              
+            />
+          </div>        
+        </div>
+        <div className="history_container" ref={historyRef}>
+              <p className={`get_to_know_history ${isVisibleHistory ? 'slide-left':''}`}>
+                Founded in 1985 by a group of passionate believers, Christian Bible
+                Church of Hagonoy has grown from a small fellowship to a thriving
+                congregation. Over the decades, we have celebrated numerous
+                milestones, including expansions in our ministry and outreach efforts.
+              </p>
+              <img
+                src={History_Photo}
+                alt="History Image"
+                className={`get_to_know_image_history ${isVisibleHistory ? 'fade-in' : ''}`}
+              />
         </div>
     </div>
-  )
+  );
 }
-
-export default AboutUs
