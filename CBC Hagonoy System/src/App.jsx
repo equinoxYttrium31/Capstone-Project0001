@@ -13,7 +13,7 @@ import User_Interface from './external_pages/UserInterface/User_Interface';
 import BiblePage from './components/NavBar_Components/Bible/BiblePage';
 import AboutUs from './components/NavBar_Components/About Us/AboutUs';
 import Beliefs from './components/NavBar_Components/Beliefs/Beliefs';
-
+import Ministries from './components/NavBar_Components/Ministries/ministries';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -116,6 +116,7 @@ function App() {
         <Route path="/bible" element={<BiblePage />} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/beliefs' element={<Beliefs />} />
+        <Route path='/ministries' element={<Ministries />} />
         <Route path='/user-interface' element={<User_Interface />} />
 
       </Routes>

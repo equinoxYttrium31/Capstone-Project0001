@@ -10,7 +10,7 @@
   position: absolute;
   margin: 0;
   padding: 0;
-  z-index: 1000;
+  z-index: 99000;
   width: 100vw;
   height: 100vh;
 }
