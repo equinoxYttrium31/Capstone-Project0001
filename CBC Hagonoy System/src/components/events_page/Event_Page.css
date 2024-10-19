@@ -1,0 +1,131 @@
+.event_page_container {
+  width: 100vw;
+  overflow-x: hidden; /* Prevents the parent container from showing unnecessary scroll */
+}
+
+.header_container_event {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #28282b;
+  font-family: "Cinzel";
+}
+
+.header_text_event {
+  margin-top: 1rem;
+  font-size: 3em;
+  font-weight: 400;
+  line-height: 2.5rem;
+  width: 50%;
+  text-align: center;
+}
+
+.header_subtext_event {
+  margin-top: 0.5rem;
+  font-size: 1.2em;
+  font-weight: 400;
+  line-height: 1.5rem;
+  width: 50%;
+  text-align: center;
+}
+
+.current_events_container {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 1rem;
+}
+
+.current_events_list {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Change to columns */
+  gap: 3rem;
+  margin-bottom: 3rem;
+  overflow-x: auto; /* Keep horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling */
+  width: 97%; /* Ensure the container takes full width */
+  box-sizing: border-box; /* Ensure the container can expand to fit all items */
+}
+
+.event_content_admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  width: 21rem;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.event_image_admin {
+  width: 19rem;
+  height: 19rem;
+  object-fit: cover;
+}
+
+.event_title_admin {
+  font-family: "Poppins";
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1a0060;
+  margin-bottom: 5px;
+}
+
+.event_date_admin {
+  height: 0.8rem;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.event_details_admin {
+  text-align: justify;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  height: 15rem;
+  overflow-y: auto;
+}
+
+.event_details_admin ul {
+  padding-left: 20px;
+}
+
+.event_details_admin {
+  width: 100%;
+  margin-top: 5px; /* Space above details */
+  line-height: 1.5; /* Line height for better readability */
+  color: #34495e; /* Darker text for details */
+}
+
+/* Style for ordered and unordered lists */
+.event_details_admin ul,
+.event_details_admin ol {
+  width: 100%;
+  padding-left: 20px; /* Indent lists */
+  margin: 10px 0; /* Space above and below lists */
+}
+
+/* Style list items */
+.event_details_admin li {
+  width: 100%;
+  margin-bottom: 5px; /* Space between list items */
+  color: #34495e; /* Ensure list items have the same color */
+}
+
+/* Optional: Style bullet points */
+.event_details_admin ul {
+  width: 100%;
+  list-style-type: disc; /* Use discs for unordered lists */
+}
+
+.event_details_admin ol {
+  width: 100%;
+  list-style-type: decimal; /* Use numbers for ordered lists */
+}

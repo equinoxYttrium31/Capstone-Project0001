@@ -1,27 +1,27 @@
-.App{
-    background-color: rgb(255, 253, 229);
-    margin: -10px 0px;
-    padding: 0;
-    height: 100%;
-    width: 100vw;
-    scroll-behavior: smooth;
+.App {
+  background-color: rgb(255, 253, 229);
+  margin: -10px 0px;
+  padding: 0;
+  height: 100%;
+  width: 100vw;
+  scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar{
-    display: none;
+::-webkit-scrollbar {
+  display: none;
 }
 
 .highlight {
-    background-color: yellow; 
+  background-color: yellow;
 }
 
 .toaster {
-    position: fixed;
-    /* Fix position to ensure it stays above other elements */
-    bottom: 20px;
-    /* Distance from bottom */
-    right: 20px;
-    /* Distance from right */
-    z-index: 9999;
-    /* Ensures it overlays other content */
+  position: fixed;
+  /* Fix position to ensure it stays above other elements */
+  bottom: 20px;
+  /* Distance from bottom */
+  right: 20px;
+  /* Distance from right */
+  z-index: 9999;
+  /* Ensures it overlays other content */
 }

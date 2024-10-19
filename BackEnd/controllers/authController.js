@@ -680,6 +680,19 @@ const sendPrayerRequest = async (req, res) => {
   }
 };
 
+const fetchCurrentAnnouncement = async (req, res) => {
+  try {
+    const today = new Date();
+    const announcements = await AnnouncementModel.find({
+      publishDate: { $lte: today },
+      endDate: { $gte: today },
+    });
+    res.json(announcements);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Export the functions
 module.exports = {
   registerUser,
@@ -695,6 +708,7 @@ module.exports = {
   submitDefault,
   fetchLatestAnnouncement,
   sendPrayerRequest,
+  fetchCurrentAnnouncement,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

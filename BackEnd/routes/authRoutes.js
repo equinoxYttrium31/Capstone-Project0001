@@ -20,6 +20,7 @@ const {
   submitDefault,
   fetchLatestAnnouncement,
   sendPrayerRequest,
+  fetchCurrentAnnouncement,
 } = require("../controllers/authController");
 
 const {
@@ -82,6 +83,7 @@ router.get(
 );
 
 router.get("/fetch-latestAnnouncement", fetchLatestAnnouncement);
+router.get("/fetch-currentAnnouncement", fetchCurrentAnnouncement);
 router.post("/send-prayer", sendPrayerRequest);
 
 // Attendance fetch function
