@@ -1,187 +1,187 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
 
-.footer_container{
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #EFB934;
+.footer_container {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #efb934;
 }
 
-.header-img{
-    width: 100vw;
-    height: 30vh;
-    background-color: aliceblue;
-    overflow: hidden;
+.header-img {
+  width: 100vw;
+  height: 30vh;
+  background-color: aliceblue;
+  overflow: hidden;
 }
 
-.header-image{
-    width: 100%;
-    opacity: 0.2;
+.header-image {
+  width: 100%;
+  opacity: 0.2;
 }
 
 /*text part of the footer*/
-.footer-contact{
-    display: flex;
-    flex-direction: column;
-    height: 50vh;
-    width: 80vw;
-    margin: 3% auto;
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  width: 80vw;
+  margin: 3% auto;
 }
 
-.contactUs-title{
-    font-family: "Cinzel";
-    font-weight: 400;
-    font-size: 3.5em;
+.contactUs-title {
+  font-family: "Cinzel";
+  font-weight: 400;
+  font-size: 3.5em;
 }
 
-.deets-container{
-    display: flex;
-    flex-direction: row;
-    margin-top: 5%;
-    gap: 20%;
+.deets-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+  gap: 20%;
 }
 
-p{
-    font-family: "Lato";
-    font-size: 16px;
-    line-height: 30px;
+p {
+  font-family: "Lato";
+  font-size: 16px;
+  line-height: 30px;
 }
 
-.address-bar{
-    display: flex;
-    flex-direction: column;
-    width: 20vw;
+.address-bar {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
 }
 
-.address-text{
-    margin-bottom: 15%;
-    padding-right: 4%;
+.address-text {
+  margin-bottom: 15%;
+  padding-right: 4%;
 }
 
-.contact-numbers{
-    margin-right: -5%;
-    margin-bottom: 15%;
+.contact-numbers {
+  margin-right: -5%;
+  margin-bottom: 15%;
 }
 
-.email_address_footer{
-    font-weight: 700;
+.email_address_footer {
+  font-weight: 700;
 }
 
 /*parish hours style*/
 
-.office-hours{
-    width: 30%;
+.office-hours {
+  width: 30%;
 }
 
-.office-hours h3{
-    margin-bottom: 15%;
-    font-size: 20px;
-    font-family: "Cinzel";
+.office-hours h3 {
+  margin-bottom: 15%;
+  font-size: 20px;
+  font-family: "Cinzel";
 }
 
-.office-hours p{
-    line-height: 25px;
+.office-hours p {
+  line-height: 25px;
 }
 
-.social-bar{
-    width: 30%;
-    display: flex;
-    flex-direction: column;
+.social-bar {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
 }
 
-.social-bar h3{
-    margin-top: 70%;
-    margin-bottom: 5%;
-    font-size: 18px;
-    font-family: "Cinzel";
+.social-bar h3 {
+  margin-top: 70%;
+  margin-bottom: 5%;
+  font-size: 18px;
+  font-family: "Cinzel";
 }
 
-.icon-container{
-    display: flex;
-    flex-direction: row;
-    gap: 4%;
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4%;
 }
 
-.facebook{
-    height: 50px;
-    width: 50px;
+.facebook {
+  height: 50px;
+  width: 50px;
 }
 
-.instagram{
-    height: 50px;
-    width: 50px;
+.instagram {
+  height: 50px;
+  width: 50px;
 }
 
-.x{
-    margin-top: 2px;
-    height: 45px;
+.x {
+  margin-top: 2px;
+  height: 45px;
 }
 
 @media (max-width: 425px) {
-    .footer_container{
-        height: 105vh;
-    }
+  .footer_container {
+    height: 105vh;
+  }
 
-    .header-image{
-        height: 25rem;
-        object-fit: cover;
-        object-position: left;
-    }
+  .header-image {
+    height: 25rem;
+    object-fit: cover;
+    object-position: left;
+  }
 
-    .contactUs-title{
-        font-size: 2.5em;
-        font-weight: 400;
-    }
+  .contactUs-title {
+    font-size: 2.5em;
+    font-weight: 400;
+  }
 
-    .deets-container{
-        display: flex;
-        flex-direction: column;
-    }
+  .deets-container {
+    display: flex;
+    flex-direction: column;
+  }
 
-    p{
-        font-size: 0.9em;
-    }
+  p {
+    font-size: 0.9em;
+  }
 
-    .address-bar{
-        display: flex;
-        flex-direction: column;
-        width: 90vw;
-    }
-
-    .address-text {
-        line-height: 1.3rem;
-        margin-bottom: 3%;
-        padding-right: 4%;
-    }
-
-    .contact-numbers{
-        margin-right: -5%;
-        margin-bottom: 3%;
-    }
-
-    .cell-num{
-        margin-top: -.6rem;
-    }
-
-    .email_address_footer{
-        font-weight: 600;
-    }
-
-    .office-hours{
+  .address-bar {
+    display: flex;
+    flex-direction: column;
     width: 90vw;
-    }
+  }
 
-    .office-hours h3{
-        margin-top: 3rem;
-        margin-bottom: 3%;
-        font-size: 1.5em;
-        font-family: "Cinzel";
-    }
+  .address-text {
+    line-height: 1.3rem;
+    margin-bottom: 3%;
+    padding-right: 4%;
+  }
 
-    .office-hours p{
-        line-height: 25px;
-    }
+  .contact-numbers {
+    margin-right: -5%;
+    margin-bottom: 3%;
+    width: 100%;
+  }
 
+  .cell-num {
+    margin-top: -0.6rem;
+  }
+
+  .email_address_footer {
+    font-weight: 600;
+  }
+
+  .office-hours {
+    width: 90vw;
+  }
+
+  .office-hours h3 {
+    margin-top: 3rem;
+    margin-bottom: 3%;
+    font-size: 1.5em;
+    font-family: "Cinzel";
+  }
+
+  .office-hours p {
+    line-height: 25px;
+  }
 }

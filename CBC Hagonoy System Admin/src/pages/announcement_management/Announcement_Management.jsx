@@ -1,32 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./Announcement_Management.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios"; // Import Axios
 import { toast } from "react-hot-toast";
-
-function convertImageToJpeg(file, callback) {
-  if (!file.type.startsWith("image/")) {
-    alert("Please upload a valid image file.");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    const img = new Image();
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const jpegBase64 = canvas.toDataURL("image/jpeg", 1.0); 
-      callback(jpegBase64);
-    };
-    img.src = event.target.result;
-  };
-  reader.readAsDataURL(file);
-}
 
 function Announcement_Management() {
   const [value, setValue] = useState(""); // For ReactQuill content
@@ -35,16 +12,17 @@ function Announcement_Management() {
   const [audience, setAudience] = useState(""); // Audience selection
   const [publishDateFrom, setPublishDateFrom] = useState(""); // Publish start date
   const [publishDateTo, setPublishDateTo] = useState(""); // Publish end date
+  const fileInputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Ensure dates are valid
     if (new Date(publishDateFrom) > new Date(publishDateTo)) {
       toast.error("Publish date range is invalid.");
       return;
     }
-  
+
     const announcementData = {
       title,
       content: value, // Styled content from ReactQuill
@@ -53,14 +31,18 @@ function Announcement_Management() {
       publishDate: publishDateFrom,
       endDate: publishDateTo,
     };
-  
+
     // Log the announcement data being sent to the database
     console.log("Sending Announcement Data to Database:", announcementData);
-  
+
     try {
-      const response = await axios.post("http://localhost:8001/add-announcement", announcementData);
-  
-      if (response.status === 201) { // Check if the response is successful
+      const response = await axios.post(
+        "http://localhost:8001/add-announcement",
+        announcementData
+      );
+
+      if (response.status === 201) {
+        // Check if the response is successful
         toast.success("Announcement posted successfully!"); // Use toast for success notification
         resetForm(); // Reset the form after successful submission
       } else {
@@ -68,10 +50,11 @@ function Announcement_Management() {
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error(error.response?.data?.message || "An error occurred. Please try again.");
+      toast.error(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
-  
 
   const resetForm = () => {
     setTitle("");
@@ -80,15 +63,19 @@ function Announcement_Management() {
     setAudience("");
     setPublishDateFrom("");
     setPublishDateTo("");
+    setImageBase64("");
   };
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      convertImageToJpeg(file, (jpegBase64) => {
-        setImageBase64(jpegBase64);
-        console.log("Converted Image Base64:", jpegBase64);
-      });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(",")[1]; // Convert to base64
+        setImageBase64(base64String); // Set base64 string
+        console.log("Converted Image Base64:", base64String); // Optional: Log to check
+      };
+      reader.readAsDataURL(file); // Read file as Data URL
     }
   };
 
@@ -128,7 +115,6 @@ function Announcement_Management() {
     "direction",
   ];
 
-
   return (
     <div className="announcement_main_container">
       <div className="announcement_header">
@@ -146,11 +132,11 @@ function Announcement_Management() {
         </label>
         <input
           type="text"
-            name="add_title"
-            id="add_title"
-            className="add_title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+          name="add_title"
+          id="add_title"
+          className="add_title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <div className="rich_text_input_container">
@@ -172,74 +158,72 @@ function Announcement_Management() {
         />
       </div>
       <div className="audience_content_container">
-          <label htmlFor="" className="audience_label">
-            Audience:
-          </label>
-          <div className="radio-buttons">
-            <label className="radio-square">
-              <input
-                type="radio"
-                name="audience"
-                value="all_cellgroups"
-                checked={audience === "all_cellgroups"}
-                onChange={(e) => setAudience(e.target.value)}
-                required
-              />
-              <span className="checkmark"></span>
-              All Cellgroups
-            </label>
-            <label className="radio-square">
-              <input
-                type="radio"
-                name="audience"
-                value="network_leaders"
-                checked={audience === "network_leaders"}
-                onChange={(e) => setAudience(e.target.value)}
-                required
-              />
-              <span className="checkmark"></span>
-              Network Leaders
-            </label>
-          </div>
-        </div>
-        <div className="date_publish_container">
-          <label htmlFor="" className="date_publish_label">
-            Date to publish:
-          </label>
-          <div className="input_container_date">
+        <label htmlFor="" className="audience_label">
+          Audience:
+        </label>
+        <div className="radio-buttons">
+          <label className="radio-square">
             <input
-              type="date"
-              name="publish_from"
-              value={publishDateFrom}
-              onChange={(e) => setPublishDateFrom(e.target.value)}
-              className="publishing_date"
+              type="radio"
+              name="audience"
+              value="all_cellgroups"
+              checked={audience === "all_cellgroups"}
+              onChange={(e) => setAudience(e.target.value)}
               required
             />
-            <p className="to_label"> to </p>
+            <span className="checkmark"></span>
+            All Cellgroups
+          </label>
+          <label className="radio-square">
             <input
-              type="date"
-              name="publish_to"
-              value={publishDateTo}
-              onChange={(e) => setPublishDateTo(e.target.value)}
-              className="publishing_date"
+              type="radio"
+              name="audience"
+              value="network_leaders"
+              checked={audience === "network_leaders"}
+              onChange={(e) => setAudience(e.target.value)}
               required
             />
-          </div>
+            <span className="checkmark"></span>
+            Network Leaders
+          </label>
         </div>
-        <div className="imageUploadContainer">
-          <label className="attach_image_label">Attach Image:</label>
+      </div>
+      <div className="date_publish_container">
+        <label htmlFor="" className="date_publish_label">
+          Date to publish:
+        </label>
+        <div className="input_container_date">
           <input
-            type="file"
-            className="Image_Upload_Announcement"
-            accept="image/*"
-            onChange={handleImageUpload}
+            type="date"
+            name="publish_from"
+            value={publishDateFrom}
+            onChange={(e) => setPublishDateFrom(e.target.value)}
+            className="publishing_date"
+            required
+          />
+          <p className="to_label"> to </p>
+          <input
+            type="date"
+            name="publish_to"
+            value={publishDateTo}
+            onChange={(e) => setPublishDateTo(e.target.value)}
+            className="publishing_date"
+            required
           />
         </div>
+      </div>
+      <div className="imageUploadContainer">
+        <label className="attach_image_label">Attach Image:</label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="Image_Upload_Announcement"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
+      </div>
       <div className="button_container_announcement">
-        <button 
-          className="announcement_post"
-          onClick={handleSubmit}
-        >
+        <button className="announcement_post" onClick={handleSubmit}>
           Post
         </button>
       </div>

@@ -1,132 +1,168 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
 
 .activity {
-    height: 105vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
+  height: 105vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
 .header-container {
-    height: 20vh;
-    width: 80vw;
-    margin: auto;
-    padding-top: 4%;
-    align-items: center;
-    text-align: center;
-    color: #28282B;
+  height: 20vh;
+  width: 80vw;
+  margin: auto;
+  padding-top: 4%;
+  align-items: center;
+  text-align: center;
+  color: #28282b;
 }
 
 .page-title {
-    font-family: "Cinzel";
-    font-size: 3em;
-    font-weight: 300;
-    letter-spacing: 2px;
-    line-height: 35px;
+  font-family: "Cinzel";
+  font-size: 3em;
+  font-weight: 300;
+  letter-spacing: 2px;
+  line-height: 35px;
 }
 
 .page-subtitle {
-    font-family: "Lato"; 
-    font-size: 1.125em;
-    font-weight: 300;  
+  font-family: "Lato";
+  font-size: 1.125em;
+  font-weight: 300;
 }
 
 /* Cards Styles */
 
 .cards-container {
-    display: flex;
-    flex-direction: row;
-    height: 50vh;
-    width: 80vw;
-    margin: auto;
-    gap: 5%;
+  display: flex;
+  flex-direction: row;
+  height: 60vh;
+  width: 80vw;
+  margin: auto;
+  overflow-x: scroll;
+  gap: 5%;
 }
 
 .event-card {
-    position: relative;
-    overflow: hidden; /* Ensure the photo stays within the card */
-    height: 130%;
-    width: 100%;
-    background-color: beige;
-    border-radius: 25px;
+  margin: auto;
+  position: relative;
+  overflow: hidden; /* Ensure the photo stays within the card */
+  height: 100%;
+  width: 25rem;
+  object-fit: cover;
+  object-position: center;
+  background-color: beige;
+  border-radius: 25px;
 }
 
 .event-photo {
-    transition: transform 0.4s ease; /* Smoother transition */
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 25px;
+  transition: transform 0.4s ease; /* Smoother transition */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 25px;
 }
 
 .event-card:hover .event-photo {
-    transform: scale(1.1); /* Zoom effect */
+  transform: scale(1.1); /* Zoom effect */
 }
 
 .title {
-    z-index: 1;
-    position: absolute;
-    bottom: 0px; /* Position at the bottom */
-    width: 100%;
-    text-align: center;
-    color: #ffffff;
-    font-family: "Lato";
-    font-size: 1em;
-    font-weight: 400;
-    margin: auto;
-    padding: 20px 0px;
-    opacity: 0;
-    transition: background-color 0.4s ease;
-    transition: opacity 0.4s ease; /* Smoother transition */
+  z-index: 1;
+  position: absolute;
+  bottom: 0px; /* Position at the bottom */
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Lato";
+  font-size: 1em;
+  font-weight: 400;
+  margin: auto;
+  padding: 20px 0px;
+  opacity: 0;
+  transition: background-color 0.4s ease;
+  transition: opacity 0.4s ease; /* Smoother transition */
 }
 
 .event-card:hover .title {
-    animation: slideUp 0.4s ease-out;
-    background-color: rgba(0, 0, 0, 0.792); /* Semi-transparent background on hover */
-    opacity: 1;
+  animation: slideUp 0.4s ease-out;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.792
+  ); /* Semi-transparent background on hover */
+  opacity: 1;
 }
 
-@media (max-width:  425px) {
-    .activity {
-        height: auto;
-        width: 100vw;
-    }
+.button_see_more_container {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .header-container{
-        padding-top: 5rem;
-        margin-bottom: -5rem;
-    }
+.see_more_button {
+  all: unset;
+  color: #28282b;
+  font-family: "Poppins";
+  border: #4c4caf 2px solid;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease-in;
+}
 
-    .page-title {
-        font-size: 1.5em;
-        font-weight: 500;
-        letter-spacing: 0px;
-    }
+.see_more_button:hover {
+  background-color: #4c4caf;
+  color: whitesmoke;
+  cursor: pointer;
+}
 
-    .page-subtitle {
-        font-size: .7em;
-        margin-top: -.5rem;
-        font-weight: 300;  
-    }
+@media (max-width: 425px) {
+  .activity {
+    height: auto;
+    width: 100vw;
+  }
 
-    .cards-container {
-        display: flex;
-        flex-direction: column;
-        height: 70rem;
-        width: 80vw;
-        margin: auto;
-        gap: 1rem;
-    }
+  .header-container {
+    padding-top: 5rem;
+    margin-bottom: -5rem;
+  }
+
+  .page-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    letter-spacing: 0px;
+  }
+
+  .page-subtitle {
+    font-size: 0.7em;
+    margin-top: -0.5rem;
+    font-weight: 300;
+  }
+
+  .event-card {
+    width: 100%;
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    height: 70rem;
+    width: 75vw;
+    margin: auto;
+    gap: 1rem;
+  }
 }
 
 @keyframes slideUp {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
   }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

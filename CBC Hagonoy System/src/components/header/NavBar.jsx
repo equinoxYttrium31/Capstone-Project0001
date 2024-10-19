@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cbc_logo } from "../../assets/Assets";
+import PropTypes from "prop-types";
 import "./NavBar.css";
 
 function NavBar({ onLoginClick }) {
@@ -30,7 +31,10 @@ function NavBar({ onLoginClick }) {
         />
 
         {/* Hamburger Menu Icon */}
-        <div className={`hamburger ${menuOpen ? "open" : ""}`} onClick={toggleMenu}>
+        <div
+          className={`hamburger ${menuOpen ? "open" : ""}`}
+          onClick={toggleMenu}
+        >
           <span></span>
           <span></span>
           <span></span>
@@ -77,5 +81,9 @@ function NavBar({ onLoginClick }) {
     </div>
   );
 }
+
+NavBar.propTypes = {
+  onLoginClick: PropTypes.func.isRequired,
+};
 
 export default NavBar;
