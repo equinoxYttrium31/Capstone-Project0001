@@ -115,7 +115,7 @@ function App() {
               <div className="qoutesection">
                 <Qoutes />
               </div>
-              <div className="schedules">
+              <div className="schedules" id="schedule">
                 <Schedule />
               </div>
               <div className="footer">
@@ -132,7 +132,10 @@ function App() {
         <Route path="/bible" element={<BiblePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/beliefs" element={<Beliefs />} />
-        <Route path="/ministries" element={<Ministries />} />
+        <Route
+          path="/ministries"
+          element={<Ministries onLoginClick={handleLoginClick} />}
+        />
         <Route path="/user-interface" element={<User_Interface />} />
       </Routes>
 

@@ -19,6 +19,7 @@ const {
   getCellgroupByLeader,
   submitDefault,
   fetchLatestAnnouncement,
+  sendPrayerRequest,
 } = require("../controllers/authController");
 
 const {
@@ -78,6 +79,7 @@ router.get(
 );
 
 router.get("/fetch-latestAnnouncement", fetchLatestAnnouncement);
+router.post("/send-prayer", sendPrayerRequest);
 
 // Attendance fetch function
 const getAttendanceByUser = async (req, res) => {

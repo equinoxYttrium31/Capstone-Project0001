@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const sharp = require("sharp");
 const AnnouncementModel = require("../models/Announcements");
+const PrayerRequestModel = require("../models/Prayer_Request");
 
 // Middleware for token verification
 const authenticateToken = (req, res, next) => {
@@ -647,6 +648,30 @@ const fetchLatestAnnouncement = async (req, res) => {
   }
 };
 
+const sendPrayerRequest = async (req, res) => {
+  try {
+    const { name, prayer } = req.body;
+
+    console.log(req.body);
+
+    if (!name || !prayer) {
+      return res.status(400).json({ message: "Please fill in all fields" });
+    }
+
+    const newPrayerRequest = new PrayerRequestModel({
+      name,
+      prayer,
+      dateSubmitted: new Date(),
+    });
+    console.log(newPrayerRequest);
+    await newPrayerRequest.save();
+    return res.status(201).json({ message: "Prayer Sent Successfully!" });
+  } catch (error) {
+    console.error("Error sending prayer:", error);
+    return res.status(500).json({ error: "Failed to send prayer" });
+  }
+};
+
 // Export the functions
 module.exports = {
   registerUser,
@@ -661,6 +686,7 @@ module.exports = {
   logoutUser,
   submitDefault,
   fetchLatestAnnouncement,
+  sendPrayerRequest,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

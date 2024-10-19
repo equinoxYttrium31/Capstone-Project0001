@@ -1,0 +1,360 @@
+.ministries_header_container {
+  width: 100vw;
+}
+
+.ministries_header_image {
+  width: 100%;
+  height: 55vh;
+  object-fit: cover;
+}
+
+.commitment_to_community_container {
+  width: 70vw;
+  margin: 5rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.gallery_on_scatter {
+  display: flex; /* Use flexbox for layout */
+  gap: 10px; /* Space between images */
+  padding: 20px; /* Add padding around the gallery */
+}
+
+.image-container {
+  position: relative; /* Position relative for child elements */
+  flex: 1; /* Allow flex items to grow equally */
+  height: 30rem; /* Set a fixed height */
+  overflow: hidden; /* Hide overflow */
+  transition: flex 0.3s ease; /* Smooth transition for flex property */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #f0f0f0; /* Optional background color */
+}
+
+/* Expand the container on hover */
+.image-container:hover {
+  flex: 2; /* Make hovered container wider */
+}
+
+/* Narrow others */
+.image-container:hover ~ .image-container {
+  flex: 0.5; /* Make other containers narrower */
+}
+
+.image-item {
+  width: 100%; /* Fill the container */
+  height: 100%; /* Fill the height of the container */
+  object-fit: cover; /* Maintain aspect ratio */
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+/* Optional: Slightly scale image on hover */
+.image-container:hover .image-item {
+  transform: scale(1.05); /* Scale up the image slightly */
+}
+
+.commitment_to_community_header {
+  font-size: 2.5rem;
+  font-family: "Cinzel";
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #28282b;
+}
+
+.commitment_to_community_context {
+  font-size: 1.125em;
+  text-align: center;
+  width: 55rem;
+  margin: 2rem auto;
+}
+
+.church_denomination_container {
+  width: 70vw;
+  margin: auto;
+}
+
+.church_denomination_image {
+  width: 100%;
+  height: 15rem;
+}
+
+.church_denomination_header {
+  font-size: 2.5rem;
+  font-family: "Cinzel";
+  font-weight: 400;
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #28282b;
+}
+
+.church_denomination_context {
+  font-size: 1.125em;
+  text-align: center;
+  width: 55rem;
+  margin: 2rem auto;
+}
+
+.call_to_action_container {
+  width: 70vw;
+  margin: 1rem auto;
+}
+
+.call_to_action_container {
+  margin-top: 8rem;
+}
+
+.call_to_action_header {
+  width: 55rem;
+  margin: 1rem auto;
+  text-align: center;
+  color: #28282b;
+  font-family: "Cinzel";
+  font-weight: 400;
+  font-size: 2.5em;
+}
+
+.call_to_action_container {
+  padding: 40px;
+  text-align: center;
+}
+
+.call_to_action_container {
+  padding: 40px;
+  text-align: center;
+}
+
+.call_to_action_header {
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+.cta-card-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin-bottom: 6rem;
+}
+
+.cta-card {
+  position: relative; /* Allows positioning of overlay text */
+  width: 300px;
+  height: 350px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(70%);
+  transition: filter 0.3s ease; /* Animate brightness on hover */
+}
+
+.cta-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 88%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    /* Start of gradient (transparent) */ rgba(0, 0, 0, 0.8)
+      /* End of gradient (darker at the bottom) */
+  );
+  background-blend-mode: overlay;
+  transition: background 0.3s ease; /* Animate gradient on hover */
+}
+
+.cta-title {
+  font-family: "Poppins";
+  font-size: 2.5em; /* Large title */
+  margin-bottom: 20px;
+  line-height: 2.3rem;
+  height: 5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+}
+
+.cta-card p {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.cta-button {
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: "Poppins";
+  color: #28282b;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-card:hover .cta-card-image {
+  filter: brightness(50%); /* Darken image on hover */
+}
+
+.cta-card:hover .cta-card-overlay {
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    /* Slightly darker gradient on hover */ rgba(0, 0, 0, 0.9)
+  );
+}
+
+.cta-card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Add depth effect */
+}
+
+.prayer_request_container {
+  width: 70vw;
+  margin: 1rem auto;
+}
+
+.prayer_request_form_main {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: #28282b 1px 1px 5px;
+  background-color: #f0f0f0;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 6rem;
+}
+
+.prayer_request_form_header {
+  text-align: center;
+  margin: 2rem;
+}
+
+.form_header_mainText {
+  font-size: 2.5em;
+  font-family: "Cinzel";
+  font-weight: 600;
+  line-height: 2.5rem;
+}
+
+.form_header_subText {
+  font-size: 1em;
+  font-family: "Cinzel";
+  font-weight: 500;
+}
+
+.prayer_main_div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prayer_side_image {
+  width: 100%;
+}
+
+.image_holder_prayer {
+  width: 40%;
+}
+
+.main_form_prayer {
+  height: 43vh;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.name_form_prayer,
+.prayer_form_prayer {
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+
+.name_form_prayer {
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.name_form_label,
+.prayer_form_label {
+  font-family: "Poppins";
+  font-weight: 600;
+  color: #28282b;
+}
+
+.prayer_form_label {
+  margin-top: 0.2rem;
+}
+
+.name_form_input {
+  width: 22rem;
+  border: #28282b 2px solid;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2rem;
+  box-shadow: none;
+  font-family: "Poppins";
+}
+
+.name_form_input:focus {
+  outline: none;
+}
+
+textarea {
+  font-family: "Poppins";
+  width: 82%;
+  height: 150px;
+  padding: 0.5rem 2rem;
+  box-sizing: border-box;
+  border: 2px solid #28282b;
+  border-radius: 0.5rem;
+  resize: none;
+}
+
+.button_holder_prayer {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.submit_prayer {
+  background-color: #28282b;
+  color: bisque;
+  padding: 0.7rem 1.4rem;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.footer_form_prayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer_form_text {
+  font-size: 0.9em;
+  width: 32rem;
+  text-align: center;
+  line-height: 1rem;
+}
