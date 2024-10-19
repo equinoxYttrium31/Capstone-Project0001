@@ -1,51 +1,153 @@
-import './Communication_Tools.css'
-import {search_ic, user_placeholder} from '../../assets/Images'
+import "./Communication_Tools.css";
+import { useState, useEffect } from "react";
+import { format, parseISO } from "date-fns";
+import axios from "axios";
+import { placeholdericons, search_ic } from "../../assets/Images";
 
 export default function Communication_Tools() {
-    //Implementations
+  const [groupedPrayerRequests, setGroupedPrayerRequests] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeUserId, setActiveUserId] = useState(null);
 
+  useEffect(() => {
+    const fetchGroupedPrayerRequests = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/prayer-requests/grouped"
+        );
+        if (response.status === 200) {
+          setGroupedPrayerRequests(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching grouped prayer requests:", error);
+      }
+    };
 
-    //Functions
+    fetchGroupedPrayerRequests();
+  }, []);
 
-    return (
-        <div className="communication_tools_container"> {/**This will be the acting global of the communication tools*/}
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-        <div className="communication_main_container"> {/**This will be the main container*/}
-            {/**Header Part */}
-            <div className="communication_header_container">
-                <p className="communication_church_name">CHRISTIAN BIBLE CHURCH OF HAGONOY</p>
-                <h1 className="communication_header_Lbl">Communication Tools</h1>
-            </div>
+  const filteredRequests = groupedPrayerRequests
+    .filter((group) => {
+      const name = group._id.toLowerCase();
+      const term = searchTerm.toLowerCase();
+      return name.startsWith(term); // Match names starting with the search term
+    })
+    .sort((a, b) => {
+      const latestA =
+        a.prayerRequests.length > 0
+          ? Math.max(
+              ...a.prayerRequests.map((req) => new Date(req.dateSubmitted))
+            )
+          : 0;
+      const latestB =
+        b.prayerRequests.length > 0
+          ? Math.max(
+              ...b.prayerRequests.map((req) => new Date(req.dateSubmitted))
+            )
+          : 0;
 
-            {/**Main Communication Progress*/}
-            <div className="communication_main_comms">
-                <div className="list_of_contacts"> {/**This will be where the contacts from user will be shown which is most likely their prayer request */}
-                    <div className="list_of_contacts_header">
-                        <input type="text" className='communication_search_bar'>
-                        </input>
-                        <img src={search_ic} alt="" className="communication_search_ic" />
-                    </div>
+      return latestB - latestA; // Sort in descending order
+    });
 
-                    <div className="list_of_user_container">
-                        <div className="communication_user_container">
-                            <img src={user_placeholder} alt="user_profile" className="communication_user_profile" />
-                            <h3 className="communication_user_name">Username</h3>
-                        </div>
-                    </div>
-                </div>
-                <div className="prayer_request_area">
-                    <div className="header_prayer_request_area">
-                        <img src={user_placeholder} alt="userprofile" className="profile_prayer_request_area" />
-                        <h3 className="username_prayer_request_area">Username</h3>
-                    </div>
-                    <div className="prayer_request_area_cont">
-                        
-                    </div>
-                </div>
-            </div>
+  const handleUserClick = (userId) => {
+    setActiveUserId(userId);
+  };
 
+  const activeUserRequests = activeUserId
+    ? groupedPrayerRequests
+        .find((group) => group._id === activeUserId)
+        ?.prayerRequests.reverse() // Reverse order to show latest at the bottom
+    : [];
+
+  return (
+    <div className="communication_tools_container">
+      <div className="communication_main_container">
+        <div className="communication_header_container">
+          <p className="communication_church_name">
+            CHRISTIAN BIBLE CHURCH OF HAGONOY
+          </p>
+          <h1 className="communication_header_Lbl">Communication Tools</h1>
         </div>
 
+        <div className="communication_main_comms">
+          <div className="list_of_contacts">
+            <div className="list_of_contacts_header">
+              <input
+                type="text"
+                className="communication_search_bar"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+              <img
+                src={search_ic}
+                alt="search_icon"
+                className="communication_search_ic"
+              />
+            </div>
+
+            <div className="list_of_user_container">
+              {filteredRequests.length > 0 ? (
+                filteredRequests.map((group) => (
+                  <div
+                    key={group._id}
+                    className={`communication_user_container ${
+                      activeUserId === group._id ? "active" : ""
+                    }`}
+                    onClick={() => handleUserClick(group._id)}
+                  >
+                    <img
+                      src={placeholdericons}
+                      alt="user_profile"
+                      className="communication_user_profile"
+                    />
+                    <h3 className="communication_user_name">{group._id}</h3>
+                  </div>
+                ))
+              ) : (
+                <p className="error_placeholder">No prayer requests found.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="prayer_request_area">
+            <div className="header_prayer_request_area">
+              <img
+                src={placeholdericons}
+                alt="user_profile"
+                className="profile_prayer_request_area"
+              />
+              <h3 className="username_prayer_request_area">
+                {activeUserId || "Username"}
+              </h3>
+            </div>
+            <div className="prayer_request_area_cont">
+              <div className="messages_container">
+                {activeUserRequests.length > 0 ? (
+                  activeUserRequests.map((request) => (
+                    <div key={request._id} className="prayer_request_message">
+                      <p>{request.prayer}</p>
+                      <span className="message_time">
+                        {request.dateSubmitted
+                          ? format(parseISO(request.dateSubmitted), "Pp")
+                          : "Invalid Date"}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="error_placeholder">
+                    No messages available for this user.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

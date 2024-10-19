@@ -3,6 +3,7 @@ const CellGroup = require("../models/CellGroup");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const AnnouncementModel = require("../models/Announcements"); // Adjust to your model
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
+const PrayerRequestModel = require("../models/Prayer_Request");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
@@ -347,6 +348,85 @@ const archiveExpiredAnnouncements = async () => {
   }
 };
 
+const getGroupedPrayerRequests = async (req, res) => {
+  try {
+    const groupedRequests = await PrayerRequestModel.aggregate([
+      { $unwind: "$prayers" }, // Unwind the prayers array
+      {
+        $group: {
+          _id: "$name", // Group by the user's name
+          prayerRequests: {
+            $push: {
+              prayer: "$prayers.prayer", // Access the prayer field in the unwound object
+              dateSubmitted: "$prayers.dateSubmitted", // Access the dateSubmitted field
+              isRead: "$prayers.isRead", // If you want to keep this for future use
+            },
+          },
+        },
+      },
+    ]);
+
+    console.log(groupedRequests);
+    return res.status(200).json(groupedRequests);
+  } catch (error) {
+    console.error("Error fetching grouped prayer requests:", error);
+    return res.status(500).json({ error: "Failed to fetch prayer requests" });
+  }
+};
+
+const getUserByFullName = async (req, res) => {
+  try {
+    const fullName = req.params.name; // Get the full name from the request parameters
+
+    // Split the full name into an array of words
+    const nameParts = fullName.trim().split(" ");
+
+    // Assume the last part is the last name and the rest are the first name
+    const lastName = nameParts.pop(); // Remove the last element for the last name
+    const firstName = nameParts.join(" "); // Join the remaining parts as the first name
+
+    console.log(`First Name: ${firstName}, Last Name: ${lastName}`); // Log first and last names
+
+    // Find the user in the database
+    const user = await ChurchUser.findOne({
+      firstName: { $regex: new RegExp(`^${firstName}`, "i") }, // Case-insensitive search
+      lastName: { $regex: new RegExp(`^${lastName}`, "i") },
+    });
+
+    console.log(`Profile Picture: ${user.profilePic}`);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return user data (you can customize this as needed)
+    res.json({
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      profilePicture: user.profilePicture,
+    });
+  } catch (error) {
+    console.error("Error fetching user by full name:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getSortedPrayerRequests = async (req, res) => {
+  try {
+    const prayerRequests = await PrayerRequestModel.find().sort({ name: 1 }); // 1 for ascending, -1 for descending
+
+    if (!prayerRequests || prayerRequests.length === 0) {
+      return res.status(404).json({ message: "No prayer requests found" });
+    }
+
+    return res.status(200).json(prayerRequests);
+  } catch (error) {
+    console.error("Error fetching prayer requests:", error);
+    return res.status(500).json({ error: "Failed to fetch prayer requests" });
+  }
+};
+
 // Schedule the function to run daily at 12 AM
 cron.schedule("15 7 * * *", () => {
   console.log("Running archiveExpiredAnnouncements job at 7:15 AM");
@@ -364,4 +444,7 @@ module.exports = {
   fetchCellGroups,
   addAnnouncements,
   fetchAnnouncements,
+  getSortedPrayerRequests,
+  getGroupedPrayerRequests,
+  getUserByFullName,
 };

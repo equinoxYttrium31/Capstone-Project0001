@@ -33,6 +33,9 @@ const {
   fetchCellGroups,
   addAnnouncements,
   fetchAnnouncements,
+  getSortedPrayerRequests,
+  getGroupedPrayerRequests,
+  getUserByFullName,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
@@ -129,6 +132,9 @@ router.post("/create-cellgroup", createNewCellGroup);
 router.get("/fetch-cellgroups", fetchCellGroups);
 router.post("/add-announcement", addAnnouncements);
 router.get("/fetch-announcements", fetchAnnouncements);
+router.get("/prayer-requests/sorted", getSortedPrayerRequests);
+router.get("/prayer-requests/grouped", getGroupedPrayerRequests);
+router.get("/users/profile/:name", getUserByFullName);
 
 // Export the router
 module.exports = router;

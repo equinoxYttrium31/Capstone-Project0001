@@ -1,124 +1,182 @@
-.communication_tools_container{
-    padding: 0;
-    margin: 0;
-    width: 75vw;
-    height: 95vh;
+.communication_tools_container {
+  padding: 0;
+  margin: 0;
+  width: 75vw;
+  height: 95vh;
 }
 
-.communication_main_container{
-    width: 100%;
-    height: 100%;
-    background-color: beige;
+.communication_main_container {
+  width: 100%;
+  height: 100%;
+  background-color: beige;
 }
 
-.communication_header_container{
-    margin-top: 0;
-    height: 10vh;
-    width: 100%;
+.communication_header_container {
+  margin-top: 0;
+  height: 10vh;
+  width: 100%;
 }
 
-.communication_church_name{
-    font-family: "Lato";
-    font-size: .75em;
-    margin-bottom: -1rem;
-    color: #28282b;
+.communication_church_name {
+  font-family: "Lato";
+  font-size: 0.75em;
+  margin-bottom: -1rem;
+  color: #28282b;
 }
 
-.communication_header_Lbl{
-    font-family: "Poppins";
-    margin-top: .8rem;
-    font-size: 1.8em;
-    color: #120652;
+.communication_header_Lbl {
+  font-family: "Poppins";
+  margin-top: 0.8rem;
+  font-size: 1.8em;
+  color: #120652;
 }
 
-.communication_main_comms{
-    width: 100%;
-    height: 79%;
-    border-radius: 1rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    box-shadow: #28282b 2px 2px 5px;
+.communication_main_comms {
+  width: 100%;
+  height: 79%;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
-.list_of_contacts{
-    width: 25%;
-    height: 100%;
-    overflow: hidden;
-    border-right: #120652 2px solid;
+.list_of_contacts {
+  width: 25%;
+  height: 100%;
+  overflow: hidden;
+  border-right: #120652 2px solid;
 }
 
-.list_of_contacts_header{
-    width: 100%;
-    height: 8vh;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 1.3rem;
-    border: 1px solid beige;
+.list_of_contacts_header {
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 1.3rem;
+  border: 1px solid beige;
 }
 
-.communication_search_bar{
-    width: 75%;
-    height: 1.5rem;
-    border-radius: 1rem;
-    border: none;
-    box-shadow: #28282b 1px 1px 3px;
-    padding-left: 1.5rem;
-    font-family: "Lato";
+.communication_search_bar {
+  width: 75%;
+  height: 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  box-shadow: #28282b 1px 1px 3px;
+  padding-left: 1.5rem;
+  font-family: "Lato";
 }
 
-.communication_search_ic{
-    height: 1rem;
-    position: absolute;
-    left: 21.1rem;
+.communication_search_ic {
+  height: 1rem;
+  position: absolute;
+  left: 21.1rem;
 }
 
-.list_of_user_container{
-    padding: 0rem 0rem;
-    background-color: #1106521f;
-    height: 66.8vh;
-    overflow-y: scroll;
+.list_of_user_container {
+  padding: 0rem 0rem;
+  background-color: #1106521f;
+  height: 66.8vh;
+  overflow-y: scroll;
 }
 
-.communication_user_container{
-    height: 5rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0rem 1rem;
+.communication_user_container {
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0rem 1rem;
 }
 
-.communication_user_profile{
-    height: 4rem;
-    border-radius: 50rem;
-    margin-right: .5rem;
+.communication_user_container:hover {
+  cursor: pointer;
+  background-color: #28282b44;
 }
 
-.communication_user_name{
-    font-size: 1.125em;
-    font-family: "Lato";
-    color: #28282b;
+.communication_user_container.active {
+  background-color: #f0f0f0; /* Highlight the active user */
+  border: 1px solid #007bff; /* Add a border for clarity */
 }
 
-.header_prayer_request_area{
-    width: 100%;
-    height: 8vh;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 1.3rem;
-    border: 1px solid beige;
+.communication_user_profile {
+  height: 4rem;
+  border-radius: 50rem;
+  margin-right: 0.5rem;
 }
 
-.profile_prayer_request_area{
-    height: 3rem;
-    margin-right: 1rem;
-    border-radius: 5rem;
+.communication_user_name {
+  font-size: 1.125em;
+  font-family: "Lato";
+  color: #28282b;
 }
 
-.username_prayer_request_area{
-    font-size: 1.125em;
-    font-family: "Lato";
-    color: #28282b;
+.header_prayer_request_area {
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 1.3rem;
+  border: 1px solid beige;
+}
+
+.profile_prayer_request_area {
+  height: 3rem;
+  margin-right: 1rem;
+  border-radius: 5rem;
+}
+
+.username_prayer_request_area {
+  font-size: 1.125em;
+  font-family: "Lato";
+  color: #28282b;
+}
+
+.prayer_request_area {
+  flex-grow: 1; /* Allow prayer request area to grow */
+  display: flex;
+  flex-direction: column;
+}
+
+.header_prayer_request_area {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: #120652 2px solid;
+}
+
+.prayer_request_area_cont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the end (right) */
+  margin: 0rem 2rem;
+  height: 30rem; /* Set a fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  justify-content: flex-end; /* Align children to the bottom */
+}
+
+.prayer_request_message {
+  background: #f8ba33d5; /* Chat bubble color */
+  padding: 10px;
+  margin: 5px 0;
+  text-wrap: pretty;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  max-width: 25rem;
+  border-radius: 10px;
+}
+
+.message_time {
+  text-align: end;
+  font-family: "Lato";
+  display: block;
+  font-size: 0.8em;
+  color: gray;
+}
+
+.error_placeholder {
+  font-family: "Poppins";
+  text-align: center;
 }

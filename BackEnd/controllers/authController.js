@@ -658,13 +658,21 @@ const sendPrayerRequest = async (req, res) => {
       return res.status(400).json({ message: "Please fill in all fields" });
     }
 
-    const newPrayerRequest = new PrayerRequestModel({
-      name,
-      prayer,
-      dateSubmitted: new Date(),
-    });
-    console.log(newPrayerRequest);
-    await newPrayerRequest.save();
+    // Check if a record exists for the name
+    let prayerRequest = await PrayerRequestModel.findOne({ name });
+
+    if (!prayerRequest) {
+      // If no record exists, create a new one
+      prayerRequest = new PrayerRequestModel({
+        name,
+        prayers: [{ prayer, dateSubmitted: new Date(), isRead: false }],
+      });
+    } else {
+      // If a record exists, add the new prayer to the prayers array
+      prayerRequest.prayers.push({ prayer, dateSubmitted: new Date() });
+    }
+
+    await prayerRequest.save();
     return res.status(201).json({ message: "Prayer Sent Successfully!" });
   } catch (error) {
     console.error("Error sending prayer:", error);
