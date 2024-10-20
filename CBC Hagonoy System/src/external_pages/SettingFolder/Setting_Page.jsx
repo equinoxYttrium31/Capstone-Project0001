@@ -18,7 +18,7 @@ const Setting_Page = () => {
     try {
       // Make a request to the backend to log out
       await axios.post(
-        "https://capstone-project0001-2.onrender.com//logout",
+        "https://capstone-project0001-2.onrender.com/logout",
         {},
         { withCredentials: true }
       );
