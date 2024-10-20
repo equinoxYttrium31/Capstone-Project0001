@@ -36,14 +36,20 @@ function Cellgroup_File() {
   const [records, setRecords] = useState([]);
   const [searchedUser, setSearchedUser] = useState("");
   const [cellGroups, setCellGroups] = useState([]);
-  const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
+  const [leaderName, setLeaderName] = useState("");
+  const [selectedRange, setSelectedRange] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
+  const [selectedMemberType, setSelectedMemberType] = useState(""); // Store leaderName in state
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === "age") {
+      setSelectedRange(value);
+    } else if (name === "gender") {
+      setSelectedGender(value);
+    } else if (name === "memberType") {
+      setSelectedMemberType(value);
+    }
   };
 
   const handleClearButton = () => {
@@ -122,27 +128,41 @@ function Cellgroup_File() {
     fetchRecords();
   }, []);
 
-  const applyFilters = (record, query) => {
-    const matchesSearchQuery =
-      record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
-      record.lastName.toLowerCase().startsWith(query.toLowerCase());
+  const filterRecords = (query) => {
+    return records.filter((record) => {
+      const matchesSearchQuery =
+        record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
+        record.lastName.toLowerCase().startsWith(query.toLowerCase());
 
-    const ageFilter = filters.age
-      ? (() => {
-          const [minAge, maxAge] = filters.age.split("-").map(Number);
-          const age = calculateAge(record.birthDate);
-          return age >= minAge && age <= maxAge;
-        })()
-      : true;
+      const matchesAgeFilter = selectedRange
+        ? (() => {
+            const [minAge, maxAge] = selectedRange.split("-").map(Number);
+            const age = calculateAge(record.birthDate);
+            return age >= minAge && age <= maxAge;
+          })()
+        : true;
 
-    const genderFilter = filters.gender
-      ? record.gender === filters.gender
-      : true;
-    const memberTypeFilter = filters.memberType
-      ? record.memberType === filters.memberType
-      : true;
+      const matchesGenderFilter = selectedGender
+        ? record.gender === selectedGender
+        : true;
 
-    return ageFilter && genderFilter && memberTypeFilter && matchesSearchQuery;
+      const matchesTypeFilter = selectedMemberType
+        ? record.memberType === selectedMemberType
+        : true;
+
+      return (
+        matchesSearchQuery &&
+        matchesAgeFilter &&
+        matchesTypeFilter &&
+        matchesGenderFilter
+      );
+    });
+  };
+
+  const applyFilters = () => {
+    const filtered = filterRecords(searchedUser);
+    setFilteredRecords(filtered);
+    filterModal(false);
   };
 
   const handleApplyFilters = () => {
