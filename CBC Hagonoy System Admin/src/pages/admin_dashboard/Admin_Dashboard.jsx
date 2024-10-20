@@ -19,7 +19,7 @@ function Admin_Dashboard() {
     const fetchAnnouncements = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/fetch-announcements"
+          "https://capstone-project0001-2.onrender.com/fetch-announcements"
         );
         setAnnouncements(response.data);
       } catch (error) {
@@ -30,7 +30,9 @@ function Admin_Dashboard() {
     const fetchUsersAndCellGroups = async () => {
       try {
         // Fetch all users
-        const usersResponse = await axios.get("http://localhost:8001/records");
+        const usersResponse = await axios.get(
+          "https://capstone-project0001-2.onrender.com/records"
+        );
 
         // Count total members excluding guests
         const filteredMembers = usersResponse.data.filter(
@@ -58,7 +60,7 @@ function Admin_Dashboard() {
 
         // Fetch all cell groups
         const cellGroupsResponse = await axios.get(
-          "http://localhost:8001/fetch-cellgroups"
+          "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
         );
 
         // Filter out specific cell groups

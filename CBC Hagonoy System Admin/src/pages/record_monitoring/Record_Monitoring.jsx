@@ -44,27 +44,29 @@ function Record_Monitoring() {
   const socket = useRef(null); // Create a ref for the socket
   const [cellGroups, setCellGroups] = useState([]);
   const [expanded, setExpanded] = useState({});
-  
+
   //expandable cellgroups
   useEffect(() => {
-      const fetchCellGroups = async () => {
-          try {
-              const response = await axios.get("http://localhost:8000/fetch-cellgroups"); // Adjust the URL as needed
-              setCellGroups(response.data);
-              console.log(response.data);
-          } catch (error) {
-              console.error('Error fetching cell groups:', error);
-          }
-      };
+    const fetchCellGroups = async () => {
+      try {
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
+        ); // Adjust the URL as needed
+        setCellGroups(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching cell groups:", error);
+      }
+    };
 
-      fetchCellGroups();
+    fetchCellGroups();
   }, []);
 
   const toggleExpand = (id) => {
-      setExpanded((prev) => ({
-          ...prev,
-          [id]: !prev[id], // Toggle the current state
-      }));
+    setExpanded((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the current state
+    }));
   };
 
   //This will be where the Adding Starts
@@ -97,7 +99,7 @@ function Record_Monitoring() {
     if (confirmAction) {
       confirmAction();
     }
-    
+
     setConfirmationModal(false);
   };
 
@@ -126,13 +128,16 @@ function Record_Monitoring() {
     }
 
     try {
-      const { data } = await axios.post("http://localhost:8001/add-record", {
-        firstName,
-        lastName,
-        email,
-        password,
-        birthDate,
-      });
+      const { data } = await axios.post(
+        "https://capstone-project0001-2.onrender.com/add-record",
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+          birthDate,
+        }
+      );
       if (data.error) {
         toast.error(data.error);
       } else {
@@ -145,7 +150,7 @@ function Record_Monitoring() {
           birthDate: "",
         });
         toast.success("Record Added. Thank You!");
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.reload();
         }, 1500);
       }
@@ -159,7 +164,7 @@ function Record_Monitoring() {
   const [hasTyped, setHasTyped] = useState(false);
   const [cellData, setCellData] = useState({
     cellgroupName: "",
-    cellgroupLeader: ""
+    cellgroupLeader: "",
   });
 
   const handleChangeCellGroup = (e) => {
@@ -172,16 +177,16 @@ function Record_Monitoring() {
     }));
 
     // Set hasTyped to true if the user types into cellgroupName
-    if (name === 'cellgroupName') {
+    if (name === "cellgroupName") {
       setHasTyped(value.length > 0);
     }
 
     // If the user clears the cellgroupLeader, clear the cellgroupName too
-    if (name === 'cellgroupLeader') {
-      if (value === '') {
+    if (name === "cellgroupLeader") {
+      if (value === "") {
         setCellData((prevData) => ({
           ...prevData,
-          cellgroupName: '',
+          cellgroupName: "",
         }));
       } else {
         // Automatically update cellgroupName when the cellgroupLeader is set
@@ -190,7 +195,6 @@ function Record_Monitoring() {
           cellgroupName: `${value}'s CellGroup`,
         }));
       }
-
     }
   };
 
@@ -207,7 +211,7 @@ function Record_Monitoring() {
   const handleCloseCellgroup = () => {
     setCellData({
       cellgroupName: "",
-      cellgroupLeader: ""
+      cellgroupLeader: "",
     });
     setHasTyped(false); // Reset hasTyped when closing the modal
     setNewCellGroupModal(false);
@@ -224,11 +228,14 @@ function Record_Monitoring() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8001/create-cellgroup", {
-        cellgroupName,
-        cellgroupLeader
-      });
-      
+      const response = await axios.post(
+        "https://capstone-project0001-2.onrender.com/create-cellgroup",
+        {
+          cellgroupName,
+          cellgroupLeader,
+        }
+      );
+
       if (response.data.error) {
         toast.error(response.data.error);
       } else {
@@ -247,29 +254,29 @@ function Record_Monitoring() {
     }
   };
 
-
   //Archive Modal Configuration Start
   const handleOpenArchived = () => {
     setOpenArchiveModal(true);
   };
 
-  const handleCloseArchieved = () =>{
+  const handleCloseArchieved = () => {
     setOpenArchiveModal(false);
-  }
+  };
 
   useEffect(() => {
     const fetchArchivedUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8001/archivedUsers'); 
-        setArchivedUsers(response.data); 
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/archivedUsers"
+        );
+        setArchivedUsers(response.data);
       } catch (error) {
-        console.error('Error fetching archived users:', error);
+        console.error("Error fetching archived users:", error);
       }
     };
 
     fetchArchivedUsers();
-  }, []); 
-  
+  }, []);
 
   //Modal Filter & Search Function
   const toggleFilter = () => {
@@ -280,8 +287,8 @@ function Record_Monitoring() {
     setSelectedRange("");
     setSelectedGender("");
     setSelectedMemberType("");
-    setSearchedUser(""); 
-    setFilteredRecords(records); 
+    setSearchedUser("");
+    setFilteredRecords(records);
     toggleFilter(false);
   };
 
@@ -296,15 +303,14 @@ function Record_Monitoring() {
     }
   };
 
-  
   useEffect(() => {
-    socket.current = io("http://localhost:8001"); 
+    socket.current = io("https://capstone-project0001-2.onrender.com");
     socket.current.on("updateRecords", (newRecord) => {
       setRecords((prevRecords) => {
-        const updatedRecords = prevRecords.map((record) => 
-          record.id === newRecord.id ? newRecord : record 
+        const updatedRecords = prevRecords.map((record) =>
+          record.id === newRecord.id ? newRecord : record
         );
-        if (!updatedRecords.find(record => record.id === newRecord.id)) {
+        if (!updatedRecords.find((record) => record.id === newRecord.id)) {
           updatedRecords.push(newRecord);
         }
 
@@ -314,23 +320,24 @@ function Record_Monitoring() {
 
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/records"); 
-        console.log(response.data); 
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/records"
+        );
+        console.log(response.data);
         setRecords(response.data);
-        setFilteredRecords(response.data); 
+        setFilteredRecords(response.data);
       } catch (error) {
         console.error("Error fetching records:", error);
       }
     };
 
-    fetchRecords(); 
+    fetchRecords();
 
     return () => {
       socket.current.disconnect();
     };
   }, []);
 
-  
   const filterRecords = (query) => {
     return records.filter((record) => {
       const matchesSearchQuery =
@@ -349,28 +356,32 @@ function Record_Monitoring() {
         ? record.gender === selectedGender
         : true;
 
-        const matchesTypeFilter = selectedMemberType
+      const matchesTypeFilter = selectedMemberType
         ? record.memberType === selectedMemberType
         : true;
 
-      return matchesSearchQuery && matchesAgeFilter && matchesTypeFilter && matchesGenderFilter;
+      return (
+        matchesSearchQuery &&
+        matchesAgeFilter &&
+        matchesTypeFilter &&
+        matchesGenderFilter
+      );
     });
   };
 
   const handleApplyFilters = () => {
-    const filtered = filterRecords(searchedUser); 
-    setFilteredRecords(filtered); 
-    toggleFilter(false); 
+    const filtered = filterRecords(searchedUser);
+    setFilteredRecords(filtered);
+    toggleFilter(false);
   };
 
-  
   const handleSearchChange = (e) => {
-    const query = e.target.value.trim(); 
-    setSearchedUser(query); 
+    const query = e.target.value.trim();
+    setSearchedUser(query);
 
     if (query === "") {
       const filtered = filterRecords(query);
-      setFilteredRecords(filtered); 
+      setFilteredRecords(filtered);
     } else {
       const filtered = filterRecords(query); // Filter records based on the current query
       setFilteredRecords(filtered); // Update the displayed records
@@ -421,15 +432,20 @@ function Record_Monitoring() {
       </div>
       <div className="record_lower_part">
         <div className="record_lower_part_left">
-        <div className="expandable-container">
+          <div className="expandable-container">
             {groupedRecords.map(({ cellGroup, records }) => (
               <div className="category" key={cellGroup._id}>
-                <h3 className="category-header" onClick={() => toggleExpand(cellGroup._id)}>
+                <h3
+                  className="category-header"
+                  onClick={() => toggleExpand(cellGroup._id)}
+                >
                   {cellGroup.cellgroupName}
                 </h3>
                 {expanded[cellGroup._id] && (
                   <div className="category-contentLeader">
-                    <p className="LeaderName">Leader: {cellGroup.cellgroupLeader}</p>
+                    <p className="LeaderName">
+                      Leader: {cellGroup.cellgroupLeader}
+                    </p>
                     <div className="category-content">
                       {records.map((record) => {
                         // Determine the appropriate avatar based on gender
@@ -450,12 +466,17 @@ function Record_Monitoring() {
                               className="record_container_profile"
                             />
                             <div className="record_content_card_deets">
-                              <h2 className="record_person_name">{record.firstName}</h2>
+                              <h2 className="record_person_name">
+                                {record.firstName}
+                              </h2>
                               <p className="record_person_age_and_gender">
-                                {calculateAge(record.birthDate)}, {record.gender}
+                                {calculateAge(record.birthDate)},{" "}
+                                {record.gender}
                               </p>
                               <div className="record_person_type">
-                                <h2 className="record_type_text">{record.memberType}</h2>
+                                <h2 className="record_type_text">
+                                  {record.memberType}
+                                </h2>
                               </div>
                             </div>
                           </div>
@@ -743,34 +764,35 @@ function Record_Monitoring() {
               <div className="cellgroup_form_cont">
                 <div className="cellgroup_inputs_cont">
                   <h3 className="cellgroup_name_label">Cellgroup Name:</h3>
-                  <input 
+                  <input
                     name="cellgroupName"
                     placeholder=""
                     value={displayValue}
                     onChange={handleChangeCellGroup}
-                    type="text" 
-                    className="cellgroup_name_input" 
+                    type="text"
+                    className="cellgroup_name_input"
                   />
                 </div>
                 <div className="cellgroup_inputs_cont">
                   <h3 className="cellgroup_name_label">Cellgroup Leader:</h3>
-                  <input 
+                  <input
                     name="cellgroupLeader"
                     placeholder=""
                     value={cellData.cellgroupLeader}
                     onChange={handleChangeCellGroup}
-                    type="text" 
-                    className="cellgroup_name_input" 
+                    type="text"
+                    className="cellgroup_name_input"
                   />
                 </div>
               </div>
               <div className="cellgroup_create_btn">
-                  <button 
-                    className="create_cellgroup_btn"
-                    onClick={handleAddCellgroup}>
-                      Create Cellgroup
-                  </button>
-                </div>
+                <button
+                  className="create_cellgroup_btn"
+                  onClick={handleAddCellgroup}
+                >
+                  Create Cellgroup
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -803,20 +825,32 @@ function Record_Monitoring() {
                       <th className="archived-accounts-header-number"> No.</th>
                       <th className="archived-accounts-header-name">Name</th>
                       <th className="archived-accounts-header-age">Age</th>
-                      <th className="archived-accounts-header-gender">Gender</th>
-                      <th className="archived-accounts-header-date">Date Archived</th>
+                      <th className="archived-accounts-header-gender">
+                        Gender
+                      </th>
+                      <th className="archived-accounts-header-date">
+                        Date Archived
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="archieve-accounts-body-main">
                     {archivedUsers.map((user, index) => (
-                        <tr key={user._id} className="archived-accounts-row">
-                          <td className="archived-accounts-number">{index + 1}</td>
-                          <td className="archived-accounts-name">{`${user.firstName} ${user.lastName}`}</td>
-                          <td className="archived-accounts-age">{calculateAge(user.birthDate)}</td>
-                          <td className="archived-accounts-gender">{user.gender}</td>
-                          <td className="archived-accounts-date">{user.dateArchieved}</td>
-                        </tr>
-                      ))}
+                      <tr key={user._id} className="archived-accounts-row">
+                        <td className="archived-accounts-number">
+                          {index + 1}
+                        </td>
+                        <td className="archived-accounts-name">{`${user.firstName} ${user.lastName}`}</td>
+                        <td className="archived-accounts-age">
+                          {calculateAge(user.birthDate)}
+                        </td>
+                        <td className="archived-accounts-gender">
+                          {user.gender}
+                        </td>
+                        <td className="archived-accounts-date">
+                          {user.dateArchieved}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

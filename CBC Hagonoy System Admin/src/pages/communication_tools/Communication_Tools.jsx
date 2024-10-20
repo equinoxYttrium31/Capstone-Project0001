@@ -13,7 +13,7 @@ export default function Communication_Tools() {
     const fetchGroupedPrayerRequests = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/prayer-requests/grouped"
+          "https://capstone-project0001-2.onrender.com/prayer-requests/grouped"
         );
         if (response.status === 200) {
           setGroupedPrayerRequests(response.data);

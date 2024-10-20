@@ -37,7 +37,7 @@ function Announcement_Management() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8001/add-announcement",
+        "https://capstone-project0001-2.onrender.com/add-announcement",
         announcementData
       );
 

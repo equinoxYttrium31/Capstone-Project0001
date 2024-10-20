@@ -3,7 +3,7 @@ import { search_ic, close_ic } from "../../assets/Images";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
-import {toast} from 'react-hot-toast'// Import toast for notifications
+import { toast } from "react-hot-toast"; // Import toast for notifications
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -29,7 +29,10 @@ function ConfirmationModal({ record, onClose, onConfirm }) {
         <h2 className="confirm_modal_header">Archive User</h2>
         <p className="confirm_modal_context">
           Are you sure you want to archive{" "}
-          <strong>{record.firstName} {record.lastName}</strong>?
+          <strong>
+            {record.firstName} {record.lastName}
+          </strong>
+          ?
         </p>
         <div className="confirmation_modal_actions">
           <button className="edit_Modal_button" onClick={onConfirm}>
@@ -52,8 +55,7 @@ ConfirmationModal.propTypes = {
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-}
-
+};
 
 //end of confirmation
 
@@ -87,7 +89,7 @@ function EditUserModal({ record, onClose, onSave }) {
       memberType,
       isBaptized,
     });
-    setTimeout(function() {
+    setTimeout(function () {
       window.location.reload();
     }, 1000);
     onClose();
@@ -213,24 +215,23 @@ function EditUserModal({ record, onClose, onSave }) {
               <label className="editLabel_cellLeader">Cellgroup Leader:</label>
             </div>
             <div className="form_edit_cont_rows">
-                <select
-                    className="editInp_isBaptized"
-                    value={isBaptized}
-                    onChange={(e) => setIsBaptized(e.target.value)}
-                  >
-                    <option disabled value="">
-                      Baptism Status
-                    </option>
-                    <option value="Scheduled">Scheduled</option>
-                    <option value="Not Baptize">Not Baptize</option>
-                    <option value="Baptized">Baptized</option>
-                    <option value="Guest">Guest</option>
-                  </select>
+              <select
+                className="editInp_isBaptized"
+                value={isBaptized}
+                onChange={(e) => setIsBaptized(e.target.value)}
+              >
+                <option disabled value="">
+                  Baptism Status
+                </option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Not Baptize">Not Baptize</option>
+                <option value="Baptized">Baptized</option>
+                <option value="Guest">Guest</option>
+              </select>
               <label className="editLabel_cellLeader">Baptism Status:</label>
             </div>
           </div>
         </div>
-
 
         <div className="form_edit_cont_lower">
           <h3 className="address_header_edit">Address</h3>
@@ -282,12 +283,13 @@ function EditUserModal({ record, onClose, onSave }) {
               <label className="editLbl_province">Province:</label>
             </div>
           </div>
-          
         </div>
-        
-                <div className="edit_button_container_modal">
-                    <button className="edit_Modal_button" onClick={handleSave}>Save Changes</button>
-                </div>
+
+        <div className="edit_button_container_modal">
+          <button className="edit_Modal_button" onClick={handleSave}>
+            Save Changes
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -331,7 +333,9 @@ export default function User_Management() {
 
   const fetchRecords = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/records");
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/records"
+      );
       console.log(response.data);
       setRecords(response.data);
       setFilteredRecords(response.data);
@@ -346,9 +350,12 @@ export default function User_Management() {
 
   const handleConfirmArchive = async () => {
     try {
-      await axios.delete(`http://localhost:8001/archive/${userId}`, {
-        withCredentials: true, // If authentication is required
-      });
+      await axios.delete(
+        `https://capstone-project0001-2.onrender.com/archive/${userId}`,
+        {
+          withCredentials: true, // If authentication is required
+        }
+      );
       toast.success("User archived successfully");
       setConfirmationModal(false);
       fetchRecords(); // Refresh the list after archiving
@@ -357,9 +364,8 @@ export default function User_Management() {
       toast.error("Failed to archive user. Please try again.");
     }
   };
-  
 
-  const handleOpenConfirmation = (record) =>{
+  const handleOpenConfirmation = (record) => {
     if (record && record._id) {
       setUserId(record._id);
       setCurrentRecord(record);
@@ -392,7 +398,7 @@ export default function User_Management() {
 
   const handleEditModal = (record) => {
     if (record && record._id) {
-      setUserId(record._id); 
+      setUserId(record._id);
       setCurrentRecord(record);
       setModalEdit(true);
     } else {
@@ -408,12 +414,12 @@ export default function User_Management() {
   const handleSaveChanges = async (updatedRecord) => {
     if (!userId) {
       console.error("User ID is not defined.");
-      return; 
+      return;
     }
 
     try {
       await axios.put(
-        `http://localhost:8001/update-record/${userId}`,
+        `https://capstone-project0001-2.onrender.com/update-record/${userId}`,
         updatedRecord,
         {
           withCredentials: true,
@@ -482,10 +488,12 @@ export default function User_Management() {
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
                         className="archive_user_btn"
                         onClick={() => handleOpenConfirmation(record)}
-                        >Archive</button>
+                      >
+                        Archive
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -516,7 +524,6 @@ export default function User_Management() {
           onConfirm={handleConfirmArchive}
         />
       )}
-
     </div>
   );
 }
