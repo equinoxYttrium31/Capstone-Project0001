@@ -72,10 +72,13 @@ export default function Ministries({ onLoginClick, isModal }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/send-prayer", {
-        name: valueName,
-        prayer: valuePrayer,
-      });
+      const response = await axios.post(
+        "https://capstone-project0001-2.onrender.com/send-prayer",
+        {
+          name: valueName,
+          prayer: valuePrayer,
+        }
+      );
 
       if (response.status === 201) {
         toast.success("Prayer Request Sent Successfully");

@@ -136,10 +136,10 @@ const loginUser = async (req, res) => {
 
     // Set the cookie with the token
     res.cookie("token", token, {
-      httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
-      secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "Strict", // Adjust based on your app needs
-      path: "/", // Path for the cookie
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Ensure this is set correctly
+      sameSite: "None",
+      path: "/",
     });
 
     // Return user data without password
@@ -365,7 +365,7 @@ const logoutUser = async (req, res) => {
   try {
     // Clear the JWT token from the cookie
     res.clearCookie("token", {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "Strict",
     });

@@ -15,7 +15,7 @@ function Activities() {
     const fetchLatestAnnouncements = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/fetch-announcements"
+          "https://capstone-project0001-2.onrender.com/fetch-announcements"
         );
 
         const today = new Date();

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { 
-  filter_ic, 
-  search_ic, 
+import { useEffect, useState } from "react";
+import {
+  filter_ic,
+  search_ic,
   user_placeholder,
   avatar_female,
   avatar_male,
-    } from '../../assets/Assets';
-import './Cellgroup_File.css';
+} from "../../assets/Assets";
+import "./Cellgroup_File.css";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -16,7 +16,10 @@ const calculateAge = (birthDate) => {
   let age = today.getFullYear() - birthDateObj.getFullYear();
   const monthDifference = today.getMonth() - birthDateObj.getMonth();
 
-  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDateObj.getDate())
+  ) {
     age--;
   }
   return age;
@@ -34,7 +37,6 @@ function Cellgroup_File() {
   const [searchedUser, setSearchedUser] = useState("");
   const [cellGroups, setCellGroups] = useState([]);
   const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
-
 
   const handleSearchChange = (e) => {
     const query = e.target.value.trim();
@@ -62,25 +64,30 @@ function Cellgroup_File() {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:8001/profile', { withCredentials: true });
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/profile",
+        { withCredentials: true }
+      );
       const { firstName, lastName } = response.data;
       const name = `${firstName} ${lastName}`;
       setLeaderName(name); // Set leaderName in state
-      return name; 
+      return name;
     } catch (error) {
-      toast.error('Error fetching user profile:', error.message);
+      toast.error("Error fetching user profile:", error.message);
       throw error;
     }
   };
 
   const fetchCellGroupByLeader = async (leaderName) => {
     try {
-      const response = await axios.get(`http://localhost:8000/leader/${leaderName}`);
-      console.log('Searching for cell group with leader:', leaderName);
+      const response = await axios.get(
+        `https://capstone-project0001-2.onrender.com/leader/${leaderName}`
+      );
+      console.log("Searching for cell group with leader:", leaderName);
       console.log(response.data);
       setCellGroups(response.data);
     } catch (error) {
-      console.error('Error fetching cell group by leader:', error);
+      console.error("Error fetching cell group by leader:", error);
     }
   };
 
@@ -91,12 +98,12 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchProfileAndCellGroup = async () => {
       try {
-        const name = await fetchUserProfile(); 
+        const name = await fetchUserProfile();
         if (name) {
           await fetchCellGroupByLeader(name);
         }
       } catch (error) {
-        console.error('Error during profile and cell group fetch:', error);
+        console.error("Error during profile and cell group fetch:", error);
       }
     };
 
@@ -106,12 +113,14 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8001/records");
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/records"
+        );
         console.log(response.data);
         setRecords(response.data);
         setFilteredRecords(response.data);
       } catch (error) {
-        console.error('Error fetching records:', error);
+        console.error("Error fetching records:", error);
       }
     };
 
@@ -119,49 +128,53 @@ function Cellgroup_File() {
   }, []);
 
   const applyFilters = (record) => {
-    const ageFilter = (filters.age) ? (() => {
-      const [minAge, maxAge] = filters.age.split("-").map(Number);
-      const age = calculateAge(record.birthDate);
-      return age >= minAge && age <= maxAge;
-    })() : true;
+    const ageFilter = filters.age
+      ? (() => {
+          const [minAge, maxAge] = filters.age.split("-").map(Number);
+          const age = calculateAge(record.birthDate);
+          return age >= minAge && age <= maxAge;
+        })()
+      : true;
 
-    const genderFilter = filters.gender ? record.gender === filters.gender : true;
-    const memberTypeFilter = filters.memberType ? record.memberType === filters.memberType : true;
+    const genderFilter = filters.gender
+      ? record.gender === filters.gender
+      : true;
+    const memberTypeFilter = filters.memberType
+      ? record.memberType === filters.memberType
+      : true;
 
     return ageFilter && genderFilter && memberTypeFilter;
   };
 
   const handleApplyFilters = () => {
     const filtered = records.filter(applyFilters); // Filter the records based on selected filters
-    setFilteredRecords(filtered); 
+    setFilteredRecords(filtered);
     setFilterModal(false);
   };
 
   return (
-    <div className='cellgroup_main_cont'>
+    <div className="cellgroup_main_cont">
       <div className="cellgroup_toplayer_cont">
         <div className="cellgroup_title_cont">
-          <p className="cellgroup_church_name">CHRISTIAN BIBLE CHURCH OF HAGONOY</p>
+          <p className="cellgroup_church_name">
+            CHRISTIAN BIBLE CHURCH OF HAGONOY
+          </p>
           <h3 className="cellgroup_title">Cellgroup Records</h3>
         </div>
         <div className="search_and_menu_cont">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={searchedUser}
             name="search"
-            className="search_cellgroup" 
-            placeholder='Search record...' 
+            className="search_cellgroup"
+            placeholder="Search record..."
             onChange={handleSearchChange}
           />
-          <img 
-            src={search_ic} 
-            alt="search_ic" 
-            className="search_ic" 
-          />
-          <img 
-            src={filter_ic} 
-            alt="filter_ic" 
-            className="filter_ic" 
+          <img src={search_ic} alt="search_ic" className="search_ic" />
+          <img
+            src={filter_ic}
+            alt="filter_ic"
+            className="filter_ic"
             onClick={() => setFilterModal(true)} // Make sure to set the filter modal
           />
         </div>
@@ -183,10 +196,10 @@ function Cellgroup_File() {
 
               return (
                 <div className="record_content_card" key={record._id}>
-                  <img 
+                  <img
                     src={record.profilePic || avatar} // Use profilePic or gender-based avatar
-                    alt="profile_picture" 
-                    className="record_container_profile" 
+                    alt="profile_picture"
+                    className="record_container_profile"
                   />
                   <div className="record_content_card_deets">
                     <h2 className="record_person_name">{record.firstName}</h2>
@@ -207,7 +220,7 @@ function Cellgroup_File() {
         <div />
       </div>
 
-           {/* Filter modal and other UI elements */}
+      {/* Filter modal and other UI elements */}
       {filterModal && (
         <div className="filter_modal">
           <div className="filter_Modal_Container">

@@ -48,9 +48,12 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/check-auth", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/check-auth",
+          {
+            withCredentials: true,
+          }
+        );
         setIsLoggedIn(response.data.isLoggedIn);
       } catch (error) {
         console.error(
@@ -83,7 +86,7 @@ function App() {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:8000/logout",
+        "https://capstone-project0001-2.onrender.com//logout",
         {},
         { withCredentials: true }
       );

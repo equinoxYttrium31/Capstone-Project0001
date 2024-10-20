@@ -10,7 +10,7 @@ export default function Event_Page() {
     const fetchAnnouncements = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/fetch-announcements"
+          "https://capstone-project0001-2.onrender.com/fetch-announcements"
         );
         const today = new Date();
         // Set today's time to 00:00:00 to compare only the date

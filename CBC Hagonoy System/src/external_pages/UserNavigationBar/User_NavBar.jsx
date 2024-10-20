@@ -35,9 +35,12 @@ function User_NavBar() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/profile", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/profile",
+          {
+            withCredentials: true,
+          }
+        );
         setUser(response.data); // Store the fetched user data
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
