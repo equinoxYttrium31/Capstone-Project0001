@@ -174,6 +174,14 @@ function Cellgroup_File() {
   const handleSearchChange = (e) => {
     const query = e.target.value.trim();
     setSearchedUser(query);
+
+    if (query === "") {
+      const filtered = filterRecords(query);
+      setFilteredRecords(filtered);
+    } else {
+      const filtered = filterRecords(query); // Filter records based on the current query
+      setFilteredRecords(filtered); // Update the displayed records
+    }
   };
 
   return (
