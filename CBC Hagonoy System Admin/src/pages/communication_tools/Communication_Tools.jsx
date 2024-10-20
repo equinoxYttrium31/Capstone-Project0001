@@ -71,9 +71,10 @@ export default function Communication_Tools() {
   };
 
   const activeUserRequests = activeUserId
-    ? groupedPrayerRequests
-        .find((group) => group._id === activeUserId)
-        ?.prayerRequests.reverse() // Reverse order to show latest at the bottom
+    ? [
+        ...(groupedPrayerRequests.find((group) => group._id === activeUserId)
+          ?.prayerRequests || []),
+      ].reverse()
     : [];
 
   return (
