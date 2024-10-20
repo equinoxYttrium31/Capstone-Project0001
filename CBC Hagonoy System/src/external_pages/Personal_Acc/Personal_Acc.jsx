@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
-import './Personal_Acc.css';
-import { 
+import { useState, useEffect } from "react";
+import "./Personal_Acc.css";
+import {
   user_placeholder,
   avatar_female,
   avatar_male,
- } from '../../assets/Assets';
-import { getCurrentMonth, getCurrentYear } from '../../Utility Functions/utility_setmonth';
-import { getCurrentWeekNumber } from '../../Utility Functions/utility_date';
-import axios from 'axios'; 
-import { toast } from 'react-hot-toast';
-import PropTypes from 'prop-types'
+} from "../../assets/Assets";
+import {
+  getCurrentMonth,
+  getCurrentYear,
+} from "../../Utility Functions/utility_setmonth";
+import { getCurrentWeekNumber } from "../../Utility Functions/utility_date";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import PropTypes from "prop-types";
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -17,23 +20,25 @@ const calculateAge = (birthDate) => {
   let age = today.getFullYear() - birthDateObj.getFullYear();
   const monthDifference = today.getMonth() - birthDateObj.getMonth();
 
-  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDateObj.getDate())
+  ) {
     age--;
   }
   return age;
 };
 
-const Personal_Acc = ({onSubmit}) => {
+const Personal_Acc = ({ onSubmit }) => {
   //PropTypes Validation
   Personal_Acc.propTypes = {
-    onSubmit: PropTypes.func.isRequired
-  }
-
+    onSubmit: PropTypes.func.isRequired,
+  };
 
   const [user, setUser] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState('');
-  const [currentYear, setCurrentYear] = useState('');
-  const [currentWeek, setCurrentWeek] = useState('');
+  const [currentMonth, setCurrentMonth] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
+  const [currentWeek, setCurrentWeek] = useState("");
   const [error, setError] = useState(null);
   const [hasProfilePicture, setHasProfilePicture] = useState(false);
   const [profilePicture, setProfilePicture] = useState();
@@ -43,7 +48,7 @@ const Personal_Acc = ({onSubmit}) => {
     familyDevotion: false,
     prayerMeeting: false,
     worshipService: false,
-});
+  });
 
   // Function to submit attendance data to the backend
   const submitAttendanceData = async (event) => {
@@ -71,26 +76,33 @@ const Personal_Acc = ({onSubmit}) => {
     };
 
     try {
-      await axios.post('http://localhost:8000/attendance', attendancePayload, {
-        withCredentials: true,
-      });
-      toast.success('Attendance recorded successfully!');
+      await axios.post(
+        "https://capstone-project0001-2.onrender.com/attendance",
+        attendancePayload,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Attendance recorded successfully!");
       onSubmit(true);
     } catch (error) {
-      console.error('Error submitting attendance data:', error);
-      toast.error('Failed to submit attendance data.');
+      console.error("Error submitting attendance data:", error);
+      toast.error("Failed to submit attendance data.");
     }
   };
 
   // Function to fetch user profile
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/profile', {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/profile",
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
-      toast.error('Error fetching user profile:', error);
+      toast.error("Error fetching user profile:", error);
       throw error;
     }
   };
@@ -103,25 +115,30 @@ const Personal_Acc = ({onSubmit}) => {
     const weekNumber = currentWeek;
 
     try {
-        const response = await axios.get(`http://localhost:8000/attendance-weekly/get/${userId}/${month}/${year}/${weekNumber}`, {
-            withCredentials: true,
-        });
-        return response.data; // Assuming the response contains the weekly attendance data
+      const response = await axios.get(
+        `https://capstone-project0001-2.onrender.com/attendance-weekly/get/${userId}/${month}/${year}/${weekNumber}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data; // Assuming the response contains the weekly attendance data
     } catch (error) {
-        console.error('Error fetching attendance data:', error.response ? error.response.data : error.message);
-        throw error;
+      console.error(
+        "Error fetching attendance data:",
+        error.response ? error.response.data : error.message
+      );
+      throw error;
     }
-};
+  };
 
-
- useEffect(() => {
+  useEffect(() => {
     const getUserProfile = async () => {
       try {
         const userProfile = await fetchUserProfile();
         setUser(userProfile);
       } catch (error) {
-        console.error('Failed to fetch user profile:', error);
-        setError('Failed to fetch user profile');
+        console.error("Failed to fetch user profile:", error);
+        setError("Failed to fetch user profile");
       }
     };
 
@@ -135,18 +152,25 @@ const Personal_Acc = ({onSubmit}) => {
     // Fetch user data to check if they have a profile picture
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/profile/picture', { withCredentials: true });
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/profile/picture",
+          { withCredentials: true }
+        );
         const { profilePic } = response.data; // Assuming the API returns a field 'profilePic'
 
         if (profilePic) {
           setHasProfilePicture(true);
           // Check if the profile picture string starts with the correct prefix
-          const formattedProfilePic = profilePic.startsWith('data:image/jpeg;base64,') ? profilePic : `data:image/jpeg;base64,${profilePic}`;
+          const formattedProfilePic = profilePic.startsWith(
+            "data:image/jpeg;base64,"
+          )
+            ? profilePic
+            : `data:image/jpeg;base64,${profilePic}`;
           setProfilePicture(formattedProfilePic); // Set the profile picture
         }
       } catch (error) {
         toast.error("Failed to fetch user profile.");
-        console.error('Error fetching user profile:', error);
+        console.error("Error fetching user profile:", error);
       }
     };
 
@@ -161,7 +185,7 @@ const Personal_Acc = ({onSubmit}) => {
           // Set tempAttendanceData based on the fetched data
           setAttendanceData(attendanceData);
         } catch (error) {
-          console.error('Failed to fetch attendance data:', error);
+          console.error("Failed to fetch attendance data:", error);
         }
       };
 
@@ -174,9 +198,9 @@ const Personal_Acc = ({onSubmit}) => {
     avatar = profilePicture; // Use the profile picture if available
   } else if (user) {
     if (user.gender === "Male") {
-      avatar = avatar_male; 
+      avatar = avatar_male;
     } else if (user.gender === "Female") {
-      avatar = avatar_female; 
+      avatar = avatar_female;
     } else {
       avatar = user_placeholder; // Default for unspecified gender
     }
@@ -184,22 +208,29 @@ const Personal_Acc = ({onSubmit}) => {
     avatar = user_placeholder; // Default avatar if user is not defined
   } // Variable to store the avatar element
 
-
   return (
-    <div className='personal_user_acc_main_cont'>
+    <div className="personal_user_acc_main_cont">
       <div className="personal_title_cont">
-        <h2 className='personal_title'>My Personal Record</h2>
+        <h2 className="personal_title">My Personal Record</h2>
       </div>
       {error && <p className="error-message">{error}</p>}
       <div className="personal_user_info">
         <div className="personal_img_holder">
-          <img src={profilePicture || avatar} alt="user_profile" className="personal_profile_pic" />
+          <img
+            src={profilePicture || avatar}
+            alt="user_profile"
+            className="personal_profile_pic"
+          />
         </div>
         <div className="personal_user_info_text">
           {!!user && (
             <>
-              <h2 className="personal_user_name">{user.firstName} {user.lastName}</h2>
-              <p className="personal_age_gender">{calculateAge(user.birthDate)}, {user.gender}</p>
+              <h2 className="personal_user_name">
+                {user.firstName} {user.lastName}
+              </h2>
+              <p className="personal_age_gender">
+                {calculateAge(user.birthDate)}, {user.gender}
+              </p>
               <div className="member_type_profile">
                 <h3 className="member_type_label">{user.memberType}</h3>
               </div>
@@ -221,30 +252,60 @@ const Personal_Acc = ({onSubmit}) => {
                     type="checkbox"
                     id="cellGroup"
                     className="personal_checkboxes"
-                    checked={attendanceData.cellGroup} 
-                    onChange={(e) => setAttendanceData(prev => ({ ...prev, cellGroup: e.target.checked }))}
+                    checked={attendanceData.cellGroup}
+                    onChange={(e) =>
+                      setAttendanceData((prev) => ({
+                        ...prev,
+                        cellGroup: e.target.checked,
+                      }))
+                    }
                   />
-                  <label htmlFor="cellGroup" className="personal_checkboxes_label">Cell Group</label>
+                  <label
+                    htmlFor="cellGroup"
+                    className="personal_checkboxes_label"
+                  >
+                    Cell Group
+                  </label>
                 </div>
                 <div className="personal_checkboxes_cont">
                   <input
                     type="checkbox"
                     id="personalDevotion"
                     className="personal_checkboxes"
-                    checked={attendanceData.personalDevotion} 
-                    onChange={(e) => setAttendanceData(prev => ({ ...prev, personalDevotion: e.target.checked }))}// Use defaultChecked for initial state
+                    checked={attendanceData.personalDevotion}
+                    onChange={(e) =>
+                      setAttendanceData((prev) => ({
+                        ...prev,
+                        personalDevotion: e.target.checked,
+                      }))
+                    } // Use defaultChecked for initial state
                   />
-                  <label htmlFor="personalDevotion" className="personal_checkboxes_label">Personal Devotion</label>
+                  <label
+                    htmlFor="personalDevotion"
+                    className="personal_checkboxes_label"
+                  >
+                    Personal Devotion
+                  </label>
                 </div>
                 <div className="personal_checkboxes_cont">
                   <input
                     type="checkbox"
                     id="familyDevotion"
                     className="personal_checkboxes"
-                    checked={attendanceData.familyDevotion} 
-                    onChange={(e) => setAttendanceData(prev => ({ ...prev, familyDevotion: e.target.checked }))} // Use defaultChecked for initial state
+                    checked={attendanceData.familyDevotion}
+                    onChange={(e) =>
+                      setAttendanceData((prev) => ({
+                        ...prev,
+                        familyDevotion: e.target.checked,
+                      }))
+                    } // Use defaultChecked for initial state
                   />
-                  <label htmlFor="familyDevotion" className="personal_checkboxes_label">Family Devotion</label>
+                  <label
+                    htmlFor="familyDevotion"
+                    className="personal_checkboxes_label"
+                  >
+                    Family Devotion
+                  </label>
                 </div>
               </div>
               <div className="checkbox_column">
@@ -253,22 +314,44 @@ const Personal_Acc = ({onSubmit}) => {
                     type="checkbox"
                     id="prayerMeeting"
                     className="personal_checkboxes"
-                    checked={attendanceData.prayerMeeting} 
-                    onChange={(e) => setAttendanceData(prev => ({ ...prev, prayerMeeting: e.target.checked }))} // Use defaultChecked for initial state
+                    checked={attendanceData.prayerMeeting}
+                    onChange={(e) =>
+                      setAttendanceData((prev) => ({
+                        ...prev,
+                        prayerMeeting: e.target.checked,
+                      }))
+                    } // Use defaultChecked for initial state
                   />
-                  <label htmlFor="prayerMeeting" className="personal_checkboxes_label">Prayer Meeting</label>
+                  <label
+                    htmlFor="prayerMeeting"
+                    className="personal_checkboxes_label"
+                  >
+                    Prayer Meeting
+                  </label>
                 </div>
                 <div className="personal_checkboxes_cont">
                   <input
                     type="checkbox"
                     id="worshipService"
                     className="personal_checkboxes"
-                    checked={attendanceData.worshipService} 
-                    onChange={(e) => setAttendanceData(prev => ({ ...prev, worshipService: e.target.checked }))} // Use defaultChecked for initial state
+                    checked={attendanceData.worshipService}
+                    onChange={(e) =>
+                      setAttendanceData((prev) => ({
+                        ...prev,
+                        worshipService: e.target.checked,
+                      }))
+                    } // Use defaultChecked for initial state
                   />
-                  <label htmlFor="worshipService" className="personal_checkboxes_label">Worship Service</label>
+                  <label
+                    htmlFor="worshipService"
+                    className="personal_checkboxes_label"
+                  >
+                    Worship Service
+                  </label>
                 </div>
-                <button type="submit" className="submit_attendance_button">Submit Attendance</button>
+                <button type="submit" className="submit_attendance_button">
+                  Submit Attendance
+                </button>
               </div>
             </div>
           </div>
