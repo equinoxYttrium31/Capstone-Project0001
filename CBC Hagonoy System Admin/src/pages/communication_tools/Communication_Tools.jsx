@@ -70,10 +70,10 @@ export default function Communication_Tools() {
     setActiveUserId(userId);
   };
 
-  // Get the active user's prayer requests
   const activeUserRequests = activeUserId
-    ? groupedPrayerRequests.find((group) => group._id === activeUserId)
-        ?.prayerRequests
+    ? groupedPrayerRequests
+        .find((group) => group._id === activeUserId)
+        ?.prayerRequests.reverse() // Reverse order to show latest at the bottom
     : [];
 
   return (
@@ -146,26 +146,16 @@ export default function Communication_Tools() {
                 className="messages_container"
               >
                 {activeUserRequests.length > 0 ? (
-                  activeUserRequests
-                    .slice()
-                    .reverse()
-                    .map(
-                      (
-                        request // Reverse the rendering order here
-                      ) => (
-                        <div
-                          key={request._id}
-                          className="prayer_request_message"
-                        >
-                          <p>{request.prayer}</p>
-                          <span className="message_time">
-                            {request.dateSubmitted
-                              ? format(parseISO(request.dateSubmitted), "Pp")
-                              : "Invalid Date"}
-                          </span>
-                        </div>
-                      )
-                    )
+                  activeUserRequests.map((request) => (
+                    <div key={request._id} className="prayer_request_message">
+                      <p>{request.prayer}</p>
+                      <span className="message_time">
+                        {request.dateSubmitted
+                          ? format(parseISO(request.dateSubmitted), "Pp")
+                          : "Invalid Date"}
+                      </span>
+                    </div>
+                  ))
                 ) : (
                   <p className="error_placeholder">
                     No messages available for this user.
