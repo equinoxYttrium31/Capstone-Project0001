@@ -63,7 +63,7 @@ export default function Communication_Tools() {
             )
           : 0;
 
-      return latestA - latestB; // Sort in descending order
+      return latestB - latestA; // Sort in descending order
     });
 
   const handleUserClick = (userId) => {
