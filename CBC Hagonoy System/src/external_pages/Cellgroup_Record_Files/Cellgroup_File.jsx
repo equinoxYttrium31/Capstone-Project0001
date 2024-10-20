@@ -38,11 +38,6 @@ function Cellgroup_File() {
   const [cellGroups, setCellGroups] = useState([]);
   const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value.trim();
-    setSearchedUser(query);
-  };
-
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -150,6 +145,11 @@ function Cellgroup_File() {
     const filtered = records.filter(applyFilters); // Filter the records based on selected filters
     setFilteredRecords(filtered);
     setFilterModal(false);
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value.trim();
+    setSearchedUser(query);
   };
 
   return (
