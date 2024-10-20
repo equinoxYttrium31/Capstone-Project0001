@@ -1,5 +1,5 @@
 import "./Communication_Tools.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format, parseISO } from "date-fns";
 import axios from "axios";
 import { placeholdericons, search_ic } from "../../assets/Images";
@@ -8,6 +8,7 @@ export default function Communication_Tools() {
   const [groupedPrayerRequests, setGroupedPrayerRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeUserId, setActiveUserId] = useState();
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const fetchGroupedPrayerRequests = async () => {
@@ -25,6 +26,18 @@ export default function Communication_Tools() {
 
     fetchGroupedPrayerRequests();
   }, []);
+
+  const handleScrollToDiv = () => {
+    window.scrollTo({ bottom: 0, behavior: "smooth" }); // Scroll to the top smoothly
+  };
+
+  useEffect(() => {
+    handleScrollToDiv();
+  }, []);
+
+  const handleFocus = () => {
+    handleScrollToDiv();
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -126,7 +139,12 @@ export default function Communication_Tools() {
               </h3>
             </div>
             <div className="prayer_request_area_cont">
-              <div className="messages_container">
+              <div
+                ref={scrollRef}
+                onFocus={handleFocus}
+                tabIndex={0}
+                className="messages_container"
+              >
                 {activeUserRequests.length > 0 ? (
                   activeUserRequests.map((request) => (
                     <div key={request._id} className="prayer_request_message">
