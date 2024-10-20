@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 // CORS configuration
 app.use(
   cors({
-    origin: ["https://client-2oru.onrender.com", "http://localhost:5174"],
+    origin: "https://client-2oru.onrender.com",
     credentials: true, // Allow cookies to be sent and received
   })
 );
