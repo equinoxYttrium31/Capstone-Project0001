@@ -7,7 +7,7 @@ import { placeholdericons, search_ic } from "../../assets/Images";
 export default function Communication_Tools() {
   const [groupedPrayerRequests, setGroupedPrayerRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeUserId, setActiveUserId] = useState(null);
+  const [activeUserId, setActiveUserId] = useState();
 
   useEffect(() => {
     const fetchGroupedPrayerRequests = async () => {

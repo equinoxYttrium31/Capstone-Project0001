@@ -1,5 +1,5 @@
 import "./ministries.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -18,7 +18,7 @@ import {
 } from "../../../assets/Church_Images/church_images";
 import Contact_Us from "../../footer/Contact_Us";
 
-export default function Ministries({ onLoginClick }) {
+export default function Ministries({ onLoginClick, isModal }) {
   const navigate = useNavigate();
   const targetRef = useRef(null); // Create a reference for the target div
 
@@ -142,59 +142,60 @@ export default function Ministries({ onLoginClick }) {
         </p>
       </div>
 
-      {/** Call to Action */}
-      <div className="call_to_action_container">
-        <h1 className="call_to_action_header">
-          Join us for worship, fellowship, and growth
-        </h1>
-        <div className="cta-card-container">
-          <div className="cta-card card-one">
-            <img
-              src={service_image_call}
-              alt="Attend a Service"
-              className="cta-card-image"
-            />
-            <div className="cta-card-overlay">
-              <h3 className="cta-title">Attend a Service</h3>
-              <p>Experience our vibrant worship and community.</p>
-              <button className="cta-button" onClick={handleScheduleScroll}>
-                Learn More
-              </button>
+      {!isModal && (
+        <div className="call_to_action_container">
+          <h1 className="call_to_action_header">
+            Join us for worship, fellowship, and growth
+          </h1>
+          <div className="cta-card-container">
+            <div className="cta-card card-one">
+              <img
+                src={service_image_call}
+                alt="Attend a Service"
+                className="cta-card-image"
+              />
+              <div className="cta-card-overlay">
+                <h3 className="cta-title">Attend a Service</h3>
+                <p>Experience our vibrant worship and community.</p>
+                <button className="cta-button" onClick={handleScheduleScroll}>
+                  Learn More
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="cta-card card-two">
-            <img
-              src={joinUs_image_call}
-              alt="Join Us"
-              className="cta-card-image"
-            />
-            <div className="cta-card-overlay">
-              <h3 className="cta-title">Join Us!</h3>
-              <p>Deepen your faith and relationships.</p>
-              <button
-                onClick={handleGetInvolvedClick} // Update to call the new handler
-                className="cta-button"
-              >
-                Get Involved
-              </button>
+            <div className="cta-card card-two">
+              <img
+                src={joinUs_image_call}
+                alt="Join Us"
+                className="cta-card-image"
+              />
+              <div className="cta-card-overlay">
+                <h3 className="cta-title">Join Us!</h3>
+                <p>Deepen your faith and relationships.</p>
+                <button
+                  onClick={handleGetInvolvedClick} // Update to call the new handler
+                  className="cta-button"
+                >
+                  Get Involved
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="cta-card card-three">
-            <img
-              src={contactUs_image_call}
-              alt="Contact Us"
-              className="cta-card-image"
-            />
-            <div className="cta-card-overlay">
-              <h3 className="cta-title">Contact Us</h3>
-              <p>Learn more about our ministries.</p>
-              <button className="cta-button" onClick={handleScrollToFooter}>
-                Reach Out
-              </button>
+            <div className="cta-card card-three">
+              <img
+                src={contactUs_image_call}
+                alt="Contact Us"
+                className="cta-card-image"
+              />
+              <div className="cta-card-overlay">
+                <h3 className="cta-title">Contact Us</h3>
+                <p>Learn more about our ministries.</p>
+                <button className="cta-button" onClick={handleScrollToFooter}>
+                  Reach Out
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/** Prayer Requests */}
       <div className="prayer_request_container">
@@ -263,4 +264,5 @@ export default function Ministries({ onLoginClick }) {
 
 Ministries.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
+  isModal: PropTypes.bool.isRequired,
 };

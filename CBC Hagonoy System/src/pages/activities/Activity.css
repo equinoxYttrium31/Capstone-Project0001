@@ -119,6 +119,13 @@
   cursor: pointer;
 }
 
+.loading_text {
+  font-size: 1.5rem;
+  font-family: "Poppins";
+  width: 100%;
+  text-align: center;
+}
+
 @media (max-width: 425px) {
   .activity {
     height: auto;

@@ -4,15 +4,36 @@ import axios from "axios";
 
 export default function Event_Page() {
   const [currentEvents, setCurrentEvents] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   useEffect(() => {
-    //Fetching of Announcements
     const fetchAnnouncements = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8000/fetch-announcements"
         );
-        setCurrentEvents(response.data);
+        const today = new Date();
+        // Set today's time to 00:00:00 to compare only the date
+        today.setHours(0, 0, 0, 0);
+
+        // Filter events where endDate is today or in the future
+        const filteredEvents = response.data.filter((announcement) => {
+          const publishDate = new Date(announcement.endDate);
+          const endDate = new Date(announcement.endDate);
+          endDate.setHours(0, 0, 0, 0);
+          publishDate.setHours(0, 0, 0, 0); // Set endDate's time to 00:00:00
+          return endDate >= today && publishDate <= today; // Compare only dates
+        });
+
+        // Filter events where endDate is today or in the future
+        const filteredUpcomingEvents = response.data.filter((announcement) => {
+          const publishDate = new Date(announcement.publishDate);
+          publishDate.setHours(0, 0, 0, 0); // Set endDate's time to 00:00:00
+          return publishDate >= today; // Compare only dates
+        });
+
+        setUpcomingEvents(filteredUpcomingEvents);
+        setCurrentEvents(filteredEvents); // Set the filtered events to state
       } catch (error) {
         console.error("Error Fetching Announcements", error);
       }
@@ -57,9 +78,36 @@ export default function Event_Page() {
 
       {/**Current Events */}
       <div className="current_events_container">
-        <h2 className="current_events_header">Current Events</h2>
+        <h2 className="current_events_header">Current Events:</h2>
         <div className="current_events_list">
-          {currentEvents.map((announcement, index) => (
+          {currentEvents.length > 0 ? (
+            currentEvents.map((announcement, index) => (
+              <div className="event_content_admin" key={index}>
+                <h4 className="event_title_admin">{announcement.title}</h4>
+                <p className="event_date_admin">
+                  {formatDate(announcement.publishDate)} -{" "}
+                  {formatDate(announcement.endDate)}
+                </p>
+                <div
+                  className="event_details_admin"
+                  dangerouslySetInnerHTML={{ __html: announcement.content }}
+                />
+                <img
+                  src={`data:image/jpeg;base64,${announcement.announcementPic}`} // Base64 image
+                  alt={announcement.title}
+                  className="event_image_admin"
+                />
+              </div>
+            ))
+          ) : (
+            <p>No current events available.</p>
+          )}
+        </div>
+      </div>
+      <div className="upcoming_event_container">
+        <h2 className="header_upcoming_events">Upcoming Events:</h2>
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map((announcement, index) => (
             <div className="event_content_admin" key={index}>
               <h4 className="event_title_admin">{announcement.title}</h4>
               <p className="event_date_admin">
@@ -76,8 +124,10 @@ export default function Event_Page() {
                 className="event_image_admin"
               />
             </div>
-          ))}
-        </div>
+          ))
+        ) : (
+          <p>No upcoming events available.</p>
+        )}
       </div>
     </div>
   );

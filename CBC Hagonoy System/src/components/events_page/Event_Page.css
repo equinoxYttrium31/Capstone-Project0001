@@ -21,6 +21,13 @@
   text-align: center;
 }
 
+.current_events_header {
+  font-size: 1.5em;
+  font-family: "Poppins";
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
 .header_subtext_event {
   margin-top: 0.5rem;
   font-size: 1.2em;
@@ -34,6 +41,7 @@
   width: 100%;
   overflow-x: auto; /* Enable horizontal scrolling */
   padding: 1rem;
+  border-bottom: #28282b 3px solid;
 }
 
 .current_events_list {
@@ -67,6 +75,7 @@
   width: 19rem;
   height: 19rem;
   object-fit: cover;
+  border-radius: 1rem;
 }
 
 .event_title_admin {
@@ -128,4 +137,18 @@
 .event_details_admin ol {
   width: 100%;
   list-style-type: decimal; /* Use numbers for ordered lists */
+}
+
+.upcoming_event_container {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 1rem;
+  border-bottom: #28282b 3px solid;
+}
+
+.header_upcoming_events {
+  font-size: 1.5em;
+  font-family: "Poppins";
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
