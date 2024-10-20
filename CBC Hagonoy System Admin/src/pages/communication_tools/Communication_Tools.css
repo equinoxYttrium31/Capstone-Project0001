@@ -153,7 +153,8 @@
   align-items: flex-end; /* Align items to the end (right) */
   margin: 0rem 2rem;
   height: 30rem; /* Set a fixed height */
-  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-y: scroll;
+  /* Enable vertical scrolling */
   justify-content: flex-end; /* Align children to the bottom */
 }
 
