@@ -154,7 +154,7 @@
   margin: 0rem 2rem;
   height: 30rem; /* Set a fixed height */
   overflow-y: scroll;
-  justify-content: flex-end;
+  justify-content: end;
 }
 
 .prayer_request_message {
