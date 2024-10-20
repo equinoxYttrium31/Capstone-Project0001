@@ -122,7 +122,11 @@ function Cellgroup_File() {
     fetchRecords();
   }, []);
 
-  const applyFilters = (record) => {
+  const applyFilters = (record, query) => {
+    const matchesSearchQuery =
+      record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
+      record.lastName.toLowerCase().startsWith(query.toLowerCase());
+
     const ageFilter = filters.age
       ? (() => {
           const [minAge, maxAge] = filters.age.split("-").map(Number);
@@ -138,7 +142,7 @@ function Cellgroup_File() {
       ? record.memberType === filters.memberType
       : true;
 
-    return ageFilter && genderFilter && memberTypeFilter;
+    return ageFilter && genderFilter && memberTypeFilter && matchesSearchQuery;
   };
 
   const handleApplyFilters = () => {
