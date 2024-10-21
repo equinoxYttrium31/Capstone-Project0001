@@ -121,11 +121,13 @@
 }
 
 .record_container_profile {
-  height: 13vh;
+  height: 13vw;
+  width: 13vw;
   overflow: hidden;
   object-position: center;
   object-fit: cover;
   border-radius: 50%;
+  display: block;
 }
 
 .record_content_card_deets {
