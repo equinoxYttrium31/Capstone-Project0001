@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "echo 'No build steps required for server code'",
-    "start": "node index.js && node index_Admin.js"
+    "start": "node index.js & node index_Admin.js"
   },
   "author": "",
   "license": "ISC",

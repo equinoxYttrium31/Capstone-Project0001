@@ -588,8 +588,10 @@ const checkAuth = async (req, res) => {
     return res.status(200).json({ isLoggedIn: false }); // No token, user is not authenticated
   }
 
+  console.log("Token:", token); // Log the token for debugging
+
   try {
-    const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use environment variable for the secret
     const userId = decoded.userId; // Adjust based on your token structure
 
     const user = await UserModel.findById(userId);
@@ -608,7 +610,7 @@ const checkAuth = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error checking authentication:", error);
+    console.error("Error checking authentication:", error.message); // More detailed error logging
     return res.status(200).json({ isLoggedIn: false }); // On error, assume user is not authenticated
   }
 };
