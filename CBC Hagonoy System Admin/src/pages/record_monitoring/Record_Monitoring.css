@@ -122,7 +122,7 @@
 
 .record_container_profile {
   height: 13vh;
-  width: 13vw;
+  overflow: hidden;
   object-position: center;
   object-fit: cover;
   border-radius: 50%;
