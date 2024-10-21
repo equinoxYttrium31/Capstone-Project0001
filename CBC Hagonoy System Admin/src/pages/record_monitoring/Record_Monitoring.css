@@ -121,8 +121,8 @@
 }
 
 .record_container_profile {
-  height: 13vw;
-  width: 13vw;
+  height: 7vw;
+  width: 7vw;
   overflow: hidden;
   object-position: center;
   object-fit: cover;
