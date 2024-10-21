@@ -106,28 +106,30 @@ export default function Event_Page() {
       </div>
       <div className="upcoming_event_container">
         <h2 className="header_upcoming_events">Upcoming Events:</h2>
-        {upcomingEvents.length > 0 ? (
-          upcomingEvents.map((announcement, index) => (
-            <div className="event_content_admin" key={index}>
-              <h4 className="event_title_admin">{announcement.title}</h4>
-              <p className="event_date_admin">
-                {formatDate(announcement.publishDate)} -{" "}
-                {formatDate(announcement.endDate)}
-              </p>
-              <div
-                className="event_details_admin"
-                dangerouslySetInnerHTML={{ __html: announcement.content }}
-              />
-              <img
-                src={`data:image/jpeg;base64,${announcement.announcementPic}`} // Base64 image
-                alt={announcement.title}
-                className="event_image_admin"
-              />
-            </div>
-          ))
-        ) : (
-          <p>No upcoming events available.</p>
-        )}
+        <div className="upcoming_events_list">
+          {upcomingEvents.length > 0 ? (
+            upcomingEvents.map((announcement, index) => (
+              <div className="event_content_admin" key={index}>
+                <h4 className="event_title_admin">{announcement.title}</h4>
+                <p className="event_date_admin">
+                  {formatDate(announcement.publishDate)} -{" "}
+                  {formatDate(announcement.endDate)}
+                </p>
+                <div
+                  className="event_details_admin"
+                  dangerouslySetInnerHTML={{ __html: announcement.content }}
+                />
+                <img
+                  src={`data:image/jpeg;base64,${announcement.announcementPic}`} // Base64 image
+                  alt={announcement.title}
+                  className="event_image_admin"
+                />
+              </div>
+            ))
+          ) : (
+            <p>No upcoming events available.</p>
+          )}
+        </div>
       </div>
     </div>
   );

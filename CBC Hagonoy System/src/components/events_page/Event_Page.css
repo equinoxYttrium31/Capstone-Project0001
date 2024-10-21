@@ -146,6 +146,21 @@
   border-bottom: #28282b 3px solid;
 }
 
+.upcoming_events_list {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Change to columns */
+  gap: 3rem;
+  margin-bottom: 3rem;
+  overflow-x: auto; /* Keep horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling */
+  width: 97%; /* Ensure the container takes full width */
+  box-sizing: border-box; /* Ensure the container can expand to fit all items */
+}
+
 .header_upcoming_events {
   font-size: 1.5em;
   font-family: "Poppins";
