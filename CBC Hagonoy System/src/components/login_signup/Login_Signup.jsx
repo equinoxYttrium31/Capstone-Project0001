@@ -89,6 +89,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     <div className="main_container">
       {type === "login" && (
         <div className="login_container">
+          <div className="background-overlay"></div>
           <div className="img_holder">
             <img
               src={bck_btn}
@@ -176,6 +177,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
 
       {type === "signup" && (
         <div className="signup_container">
+          <div className="background-overlay"></div>
           <div className="registration_field">
             <div className="reg_back_btn_cont">
               <img

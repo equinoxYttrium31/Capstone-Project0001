@@ -125,9 +125,10 @@
   top: -0px;
   left: 20px;
   font-size: 0.75em;
-  background: whitesmoke;
+  background: rgb(245, 245, 245);
   padding: 0 5px;
   color: #28282b;
+  border-radius: 0.15rem;
 }
 
 .password {
@@ -170,6 +171,7 @@
   left: 20px;
   font-size: 0.75em;
   background: whitesmoke;
+  border-radius: 0.15rem;
   padding: 0 5px;
   color: #28282b;
 }
@@ -420,6 +422,7 @@
   top: 130px;
   left: 0px;
   font-size: 0.75em;
+  border-radius: 0.15rem;
   background: whitesmoke;
   padding: 0 5px;
   color: #28282b;
@@ -465,6 +468,7 @@
   top: 130px;
   left: 227px;
   font-size: 0.75em;
+  border-radius: 0.15rem;
   background: whitesmoke;
   padding: 0 5px;
   color: #28282b;
@@ -509,6 +513,7 @@
   top: 183px;
   left: 0px;
   font-size: 0.75em;
+  border-radius: 0.15rem;
   background: whitesmoke;
   padding: 0 5px;
   color: #28282b;
@@ -644,7 +649,7 @@
 .conf_pass_text {
   position: absolute;
   top: 250px; /* Space from the top of the container */
-  left: 227px;/* Space from the left of the container */
+  left: 227px; /* Space from the left of the container */
   font-size: 1em;
   font-family: "Lato", sans-serif;
   transition: 0.3s ease;
@@ -664,6 +669,7 @@
   top: 235px;
   left: 227px;
   font-size: 0.75em;
+  border-radius: 0.15rem;
   background: whitesmoke;
   color: #28282b;
   padding: 0 5px;
@@ -777,158 +783,179 @@
 }
 
 @media (max-width: 425px) {
-    
-    .main_container{
-      position: absolute;
-      top: 0rem;
-      left: -1.5rem;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      height: 120vh;
-      width: 106vw;
-    }
+  .main_container {
+    position: absolute;
+    top: 0rem;
+    left: -1.5rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 120vh;
+    width: 106vw;
+  }
 
-    /*Sign Up Part*/
-    .signup_container{
-      width: 100%;
-      margin-top: 0;
-      margin-left: -4rem;
-      height: 120vh;
-      overflow-y: hidden;
-      overflow-x: hidden;
-      box-shadow: none;
-    }
+  /*Sign Up Part*/
+  .signup_container {
+    width: 100%;
+    margin-top: 0;
+    margin-left: -4rem;
+    height: 120vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: none;
+  }
 
-    .img_holder_signup{
-      visibility: hidden;
-    }
+  /* Background overlay */
+  .background-overlay {
+    position: absolute; /* Cover the entire container */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("../../assets/Login_Signup_bg.png") no-repeat center center; /* Set the background image */
+    background-size: cover; /* Cover the entire area */
+    opacity: 0.1; /* Set the desired opacity */
+    z-index: 0; /* Behind the content */
+  }
 
-    .signup_img{
-      visibility: hidden;
-    }
+  .img_holder_signup {
+    visibility: hidden;
+  }
 
-    .registration_field{
-      position: absolute;
-      width: 90%;
-      margin-top: 1rem;
-    }
+  .signup_img {
+    visibility: hidden;
+  }
 
-    .row_cont{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  .registration_field {
+    position: absolute;
+    width: 90%;
+    margin-top: 1rem;
+  }
 
-    .F_name, .L_name, .B_Date,
-    .reg_pass, .conf_pass, .Email_Add{
-      width: 80vw;
-      margin: 1rem 0;
-    }
+  .row_cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .F_name_text{
-      top: 9.7rem;
-      left: 1.5rem;
-    }
+  .F_name,
+  .L_name,
+  .B_Date,
+  .reg_pass,
+  .conf_pass,
+  .Email_Add {
+    width: 80vw;
+    background-color: whitesmoke;
+    margin: 1rem 0;
+  }
 
-    .F_name:focus ~ .F_name_text,
-    .F_name:not(:placeholder-shown) ~ .F_name_text {
-      top: 9rem;
-      left: 1rem;
-    }
+  .F_name_text {
+    top: 9.7rem;
+    left: 1.5rem;
+  }
 
-    .L_name_text{
-      top: 13.7rem;
-      left: 1.5rem;
-    }
+  .F_name:focus ~ .F_name_text,
+  .F_name:not(:placeholder-shown) ~ .F_name_text {
+    top: 9rem;
+    border-radius: 0.15rem;
+    left: 1rem;
+  }
 
-    .L_name:focus ~ .L_name_text,
-    .L_name:not(:placeholder-shown) ~ .L_name_text {
-      top: 12.8rem;
-      left: 1rem;
-    }
-    
-    .B_date_text{
-      top: 21.7rem;
-      left: 1.5rem;
-    }
+  .L_name_text {
+    top: 13.7rem;
+    left: 1.5rem;
+  }
 
-    .B_Date:focus ~ .B_date_text,
-    .B_Date:valid ~ .B_date_text {
-      top: 20.7rem; /* Adjust as necessary */
-      left: 1rem; /* Adjust as necessary */
-    }
-    
-    .Email_Add_text{
-      top: 17.7rem;
-      left: 1.5rem;
-    }
+  .L_name:focus ~ .L_name_text,
+  .L_name:not(:placeholder-shown) ~ .L_name_text {
+    top: 12.8rem;
+    border-radius: 0.15rem;
+    left: 1rem;
+  }
 
-    .Email_Add:focus ~ .Email_Add_text,
-    .Email_Add:not(:placeholder-shown) ~ .Email_Add_text {
-      top: 16.8rem;
-      left: 1rem;
-    }
+  .B_date_text {
+    top: 21.7rem;
+    left: 1.5rem;
+  }
 
-    .reg_pass_text{
-      top: 25.7rem;
-      left: 1.5rem;
-    }
+  .B_Date:focus ~ .B_date_text,
+  .B_Date:valid ~ .B_date_text {
+    top: 20.7rem; /* Adjust as necessary */
+    left: 1rem; /* Adjust as necessary */
+  }
 
-    .reg_pass:focus ~ .reg_pass_text,
-    .reg_pass:not(:placeholder-shown) ~ .reg_pass_text {
-      top: 24.8rem;
-      left: 1rem;
-    }
+  .Email_Add_text {
+    top: 17.7rem;
+    left: 1.5rem;
+  }
 
-    .conf_pass_text{
-      top: 29.7rem;
-      left: 1.5rem;
-    }
+  .Email_Add:focus ~ .Email_Add_text,
+  .Email_Add:not(:placeholder-shown) ~ .Email_Add_text {
+    top: 16.8rem;
+    border-radius: 0.15rem;
+    left: 1rem;
+  }
 
-    .conf_pass:focus ~ .conf_pass_text,
-    .conf_pass:not(:placeholder-shown) ~ .conf_pass_text {
-      top: 28.8rem;
-      left: 1rem;
-    }
+  .reg_pass_text {
+    top: 25.7rem;
+    left: 1.5rem;
+  }
 
+  .reg_pass:focus ~ .reg_pass_text,
+  .reg_pass:not(:placeholder-shown) ~ .reg_pass_text {
+    top: 24.8rem;
+    left: 1rem;
+    border-radius: 0.15rem;
+  }
 
-    .reg_back_btn_cont{
-      margin-left: 1rem;
-      margin-top: -1rem;
-    }
+  .conf_pass_text {
+    top: 29.7rem;
+    left: 1.5rem;
+  }
 
-    .checkbox_holder{
-      margin-top: 1rem;
-    }
-    
-    .signup_btn{
-      margin-top: 2rem;
-      width: 80vw;
-    }
+  .conf_pass:focus ~ .conf_pass_text,
+  .conf_pass:not(:placeholder-shown) ~ .conf_pass_text {
+    top: 28.8rem;
+    left: 1rem;
+    border-radius: 0.15rem;
+  }
 
-    /*Login Part*/
+  .reg_back_btn_cont {
+    margin-left: 1rem;
+    margin-top: -1rem;
+  }
 
-    .login_container{
-      position: absolute;
-      top: 0rem;
-      left: 0rem;
-      margin-top: -1rem;
-      margin-left: 1.5rem;
-      width: 100vw;
-      height: 110vh;
-    }
+  .checkbox_holder {
+    margin-top: 1rem;
+  }
 
-    .login_img{
-      visibility: hidden;
-    }
+  .signup_btn {
+    margin-top: 2rem;
+    width: 80vw;
+  }
 
-    .backbutton{
-      position: absolute;
-      margin-left: .5rem;
-      margin-top: -.6rem;
-    }
+  /*Login Part*/
 
-    .logo_holder{
-      margin-top: 10rem;
-    }
+  .login_container {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    margin-top: -1rem;
+    margin-left: 1.5rem;
+    width: 100vw;
+    height: 110vh;
+  }
+
+  .login_img {
+    visibility: hidden;
+  }
+
+  .backbutton {
+    position: absolute;
+    margin-left: 0.5rem;
+    margin-top: -0.6rem;
+  }
+
+  .logo_holder {
+    margin-top: 10rem;
+  }
 }
