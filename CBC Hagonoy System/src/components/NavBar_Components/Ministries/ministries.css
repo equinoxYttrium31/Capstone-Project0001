@@ -358,3 +358,84 @@ textarea {
   text-align: center;
   line-height: 1rem;
 }
+
+@media (max-width: 425px) {
+  .ministries_main_container {
+    overflow: hidden;
+  }
+
+  .ministries_header_container {
+    height: 15rem;
+  }
+
+  .ministries_header_image {
+    height: 15rem;
+  }
+
+  .gallery_on_scatter {
+    flex-direction: column;
+  }
+
+  .commitment_to_community_container {
+    margin-bottom: 1rem;
+  }
+
+  .image-container {
+    margin-left: -3.8rem;
+    width: 150%;
+    height: 10rem;
+    border-radius: 1rem;
+  }
+
+  .image-item {
+    width: 100%;
+    height: 10rem;
+  }
+
+  .commitment_to_community_context {
+    width: 100%;
+  }
+
+  .church_denomination_image {
+    height: 9rem;
+    width: 130%;
+    margin-left: -2.7rem;
+  }
+
+  .church_denomination_context {
+    width: 100%;
+  }
+
+  .call_to_action_container {
+    margin-top: 1rem;
+  }
+
+  .call_to_action_header {
+    width: 120%;
+    margin-left: -1.7rem;
+  }
+
+  .cta-card-container {
+    flex-direction: column;
+  }
+
+  .prayer_request_container {
+    width: 100%;
+  }
+
+  .prayer_main_div {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .main_form_prayer {
+    width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .footer_form_text {
+    margin-top: -3rem;
+    width: 100%;
+  }
+}

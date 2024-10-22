@@ -390,6 +390,10 @@ details[open] .title_summary {
 }
 
 @media (max-width: 425px) {
+  .beliefs_page_container {
+    overflow: hidden;
+  }
+
   .beliefs_header_image {
     height: 15rem;
   }
