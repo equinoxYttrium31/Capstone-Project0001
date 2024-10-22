@@ -193,7 +193,6 @@ li.active {
   .buttons-container-navbar {
     display: none; /* Hide by default */
     width: 100%;
-    padding: 3% 0;
     justify-content: center;
     background-color: #fff; /* Background color for buttons */
   }
@@ -201,6 +200,7 @@ li.active {
   .buttons-container-navbar.active {
     display: flex; /* Show buttons when menu is open */
     flex-direction: column; /* Stack buttons vertically */
+    padding: 3% 0;
   }
 
   .nav-links.active {
