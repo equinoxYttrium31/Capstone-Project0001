@@ -22,12 +22,18 @@ function App() {
       </div>
       {/* Toast notifications */}
       <Toaster
-        position="center"
+        position="top-center" // Use top-center for centering horizontally and adjusting vertically
         reverseOrder={false}
         gutter={3}
         toastOptions={{
           duration: 2000,
-          style: { zIndex: 9999, top: "50%", width: 150, height: 100 },
+          style: {
+            zIndex: 9999,
+            width: 550,
+            height: 300,
+            top: "50%", // Vertically centering
+            transform: "translateY(-50%)", // Adjust the position to be fully centered
+          },
         }}
       />
     </div>
