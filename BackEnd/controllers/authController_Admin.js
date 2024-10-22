@@ -428,8 +428,8 @@ const getSortedPrayerRequests = async (req, res) => {
 };
 
 // Schedule the function to run daily at 12 AM
-cron.schedule("15 7 * * *", () => {
-  console.log("Running archiveExpiredAnnouncements job at 7:15 AM");
+cron.schedule("15 12 * * *", () => {
+  console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
   archiveExpiredAnnouncements();
 });
 
