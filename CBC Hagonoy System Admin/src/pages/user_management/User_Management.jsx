@@ -91,7 +91,7 @@ function EditUserModal({ record, onClose, onSave }) {
     });
     setTimeout(function () {
       window.location.reload();
-    }, 1000);
+    }, 3000);
     onClose();
   };
 

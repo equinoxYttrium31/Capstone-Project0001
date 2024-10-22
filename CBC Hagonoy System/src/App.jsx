@@ -156,12 +156,12 @@ function App() {
 
       {/* Toast notifications */}
       <Toaster
-        position="bottom-right"
+        position="center"
         reverseOrder={false}
         gutter={3}
         toastOptions={{
           duration: 2000,
-          style: { zIndex: 9999 },
+          style: { zIndex: 9999, width: 15, height: 10 },
         }}
       />
     </div>

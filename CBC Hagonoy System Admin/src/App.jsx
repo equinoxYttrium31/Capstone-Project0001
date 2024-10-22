@@ -1,36 +1,37 @@
-import './App.css'
-import Header from './components/header/Header'
-import Main_Dashboard from './pages/main_dashboard/Main_Dashboard'
-import { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
+import "./App.css";
+import Header from "./components/header/Header";
+import Main_Dashboard from "./pages/main_dashboard/Main_Dashboard";
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 function App() {
-
   useEffect(() => {
-    document.body.style.overflow = 'hidden'; // Always hide overflow
+    document.body.style.overflow = "hidden"; // Always hide overflow
     return () => {
-      document.body.style.overflow = 'auto'; // Cleanup to reset overflow when the component unmounts
+      document.body.style.overflow = "auto"; // Cleanup to reset overflow when the component unmounts
     };
-}, []);
+  }, []);
 
   return (
-    <div className='main_cont'>
+    <div className="main_cont">
       <div className="header">
-          <Header></Header>
+        <Header></Header>
       </div>
       <div className="dashboard">
-          <Main_Dashboard></Main_Dashboard>
+        <Main_Dashboard></Main_Dashboard>
       </div>
       {/* Toast notifications */}
-      <Toaster position='bottom-right'
+      <Toaster
+        position="center"
         reverseOrder={false}
         gutter={3}
         toastOptions={{
           duration: 2000,
-          style: { zIndex: 9999 }
-        }} />
+          style: { zIndex: 9999, width: 15, height: 10 },
+        }}
+      />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
