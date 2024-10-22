@@ -388,3 +388,106 @@ details[open] .title_summary {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 425px) {
+  .beliefs_header_image {
+    height: 15rem;
+  }
+
+  .header_image_container {
+    height: 15rem;
+  }
+
+  .main_beliefs_container {
+    align-items: center;
+    width: 100%;
+  }
+
+  .beliefs_container_each,
+  .beliefs_container_each:nth-child(even) {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .beliefs_illustrations {
+    width: 100%;
+  }
+
+  .beliefs_texts_container {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .beliefs_container_each:nth-child(even) .beliefs_title {
+    text-align: center;
+  }
+
+  .beliefs_details {
+    width: 100%;
+  }
+
+  .title_summary::before {
+    right: 0rem;
+    top: 3.5rem;
+  }
+
+  .title_summary {
+    padding-left: 0;
+    padding-right: 2rem;
+    text-align: justify;
+  }
+
+  .summary_list {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    text-align: justify;
+  }
+
+  .salvation_header_image {
+    height: 7rem;
+  }
+
+  .baptism_page_container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .baptism_header_container {
+    margin-bottom: 1rem;
+  }
+
+  .glass-card {
+    width: 100%;
+    height: 25rem;
+  }
+
+  .main_questions_container {
+    width: 100%;
+    margin-left: -1.5rem;
+  }
+
+  .questions_text::before {
+    right: 0rem;
+    top: 2rem;
+  }
+
+  .answer_text {
+    width: 100%;
+    padding-left: 0;
+    text-align: justify;
+  }
+
+  .questions_text {
+    width: 100%;
+    padding-right: 2rem;
+    padding-left: 0;
+  }
+
+  .FAQs_header_text {
+    padding: 1rem 3rem;
+  }
+}
