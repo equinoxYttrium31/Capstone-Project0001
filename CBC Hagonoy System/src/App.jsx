@@ -156,15 +156,15 @@ function App() {
 
       {/* Toast notifications */}
       <Toaster
-        position="top-left" // Use this and custom CSS to manage the vertical position
+        position="top-right" // Use this and custom CSS to manage the vertical position
         reverseOrder={false}
         gutter={3}
         toastOptions={{
-          duration: 2000,
+          duration: 3000,
           style: {
             zIndex: 9999,
             width: 300,
-            height: 150,
+            height: 70,
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
