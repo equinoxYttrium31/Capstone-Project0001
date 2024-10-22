@@ -10,19 +10,19 @@
   overflow: hidden; /* Restricts scrolling */
 }
 
-.icon_personal_user{
+.icon_personal_user {
   position: absolute;
   width: 35px;
   height: 35px;
   top: 12.5rem;
   opacity: 0;
-  transition: all .1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .icon_personal_user {
   left: 1.7rem;
   opacity: 1;
-  filter: drop-shadow(2px 2px 1px #28282B);
+  filter: drop-shadow(2px 2px 1px #28282b);
 }
 
 .icon_cellgroup_user {
@@ -31,13 +31,13 @@
   height: 35px;
   top: 18.15rem;
   opacity: 0;
-  transition: all .1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .icon_cellgroup_user {
   left: 1.7rem;
   opacity: 1;
-  filter: drop-shadow(2px 2px 1px #28282B);
+  filter: drop-shadow(2px 2px 1px #28282b);
 }
 
 .icon_network_user {
@@ -46,13 +46,13 @@
   height: 35px;
   top: 23.45rem;
   opacity: 0;
-  transition: all .1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .icon_network_user {
   left: 1.7rem;
   opacity: 1;
-  filter: drop-shadow(2px 2px 1px #28282B);
+  filter: drop-shadow(2px 2px 1px #28282b);
 }
 
 /* Main container styling */
@@ -72,25 +72,25 @@
   width: 16rem; /* Fixed width */
   height: 80vh; /* Adjusted height to fill more space */
   border-radius: 15px;
-  background-color: #F8BB33;
+  background-color: #f8bb33;
   transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
 }
 
-.content_list_dashboard .active{
-  transition: all .2s ease-in-out;
+.content_list_dashboard .active {
+  transition: all 0.2s ease-in-out;
   border: 5px solid #2d2f65;
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   border-radius: 2rem;
   font-size: 1em;
   text-wrap: nowrap;
   background-color: #2d2f65;
   color: whitesmoke;
-  transition: opacity .1s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
 }
 
-.content_list_dashboard.minimized .active{
+.content_list_dashboard.minimized .active {
   opacity: 0;
 }
 
@@ -111,13 +111,13 @@
 .dashboard_main_text {
   margin-top: 0.2em;
   color: whitesmoke;
-  text-shadow: #28282B 2px 1px 3px;
+  text-shadow: #28282b 2px 1px 3px;
   font-family: "Poppins";
   font-weight: 400;
   font-size: 1.125em;
   letter-spacing: 0.1em;
   opacity: 1;
-  transition: opacity .1s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
 }
 
 .user_dashboard_cont.minimized .dashboard_main_text {
@@ -128,7 +128,7 @@
 .hamburger_menu {
   margin-top: 0.3rem;
   z-index: 10; /* Ensures the icon is clickable */
-  filter: drop-shadow(2px 1px 3px #28282B);
+  filter: drop-shadow(2px 1px 3px #28282b);
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -138,7 +138,7 @@
 }
 
 .user_dashboard_cont.minimized .hamburger_menu {
-   /* Centers the icon when minimized */
+  /* Centers the icon when minimized */
   transform: translateX(-450%);
 }
 
@@ -157,12 +157,33 @@
   pointer-events: none; /* Ensure items are not clickable when minimized */
 }
 
+.content_display_area {
+  position: relative; /* Ensures the content can overlap the background */
+  z-index: 1; /* Makes sure the content is above the background */
+  padding: 20px;
+}
+
+.content_display_area::before {
+  content: "";
+  background-image: url(../../assets/cbc_logo.png); /* Replace with the path to your church icon */
+  background-repeat: no-repeat;
+  background-size: contain; /* or 'cover' depending on your design */
+  background-position: center;
+  opacity: 0.05; /* Low opacity for watermark effect */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Makes the background stay behind the content */
+}
+
 /* Content list items styling */
 .content_list_dashboard p {
   font-size: 1.1em;
   font-family: "Poppins";
   letter-spacing: 0.1em;
-  color: #28282B;
+  color: #28282b;
   cursor: pointer;
   transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
@@ -216,7 +237,7 @@
 .dynamic_container_personal.active {
   display: flex;
   visibility: visible;
-  animation: slowLoad .5s ease-in-out;
+  animation: slowLoad 0.5s ease-in-out;
 }
 
 /* Prevent scrolling */
@@ -224,57 +245,57 @@ body {
   overflow: hidden;
 }
 
-.credits_group{
+.credits_group {
   position: absolute;
-  bottom: .5rem;
+  bottom: 0.5rem;
   width: 15rem;
   text-align: center;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   z-index: 0;
 }
 
-.credits_text{
+.credits_text {
   font-size: 12px;
-  color: #28282B;
-  opacity: .5;
+  color: #28282b;
+  opacity: 0.5;
 }
 
-.user_dashboard_cont.minimized .credits_group{
+.user_dashboard_cont.minimized .credits_group {
   opacity: 0;
 }
 
-.icon_label{
+.icon_label {
   position: absolute;
   opacity: 0;
 }
 
-.user_dashboard_cont.minimized .icon_label{
+.user_dashboard_cont.minimized .icon_label {
   font-size: 10px;
   color: whitesmoke;
   width: 60px;
   line-height: 15px;
   text-align: center;
   font-family: "Poppins";
-  text-shadow: #28282B 1.5px 1.5px 2px;
+  text-shadow: #28282b 1.5px 1.5px 2px;
   opacity: 1;
 }
 
-.personal{
+.personal {
   position: absolute;
   top: 15rem;
 }
 
-.cellgroup{
+.cellgroup {
   position: absolute;
   top: 20.2rem;
 }
 
-.network{
+.network {
   position: absolute;
   top: 26rem;
 }
 
-.icon_container .active{
+.icon_container .active {
   background-color: #2d2f65;
 }
 
