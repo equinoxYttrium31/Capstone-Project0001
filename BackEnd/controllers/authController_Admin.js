@@ -348,6 +348,8 @@ const archiveExpiredAnnouncements = async () => {
   }
 };
 
+setInterval(archiveExpiredAnnouncements, 24 * 60 * 60 * 1000);
+
 const getGroupedPrayerRequests = async (req, res) => {
   try {
     const groupedRequests = await PrayerRequestModel.aggregate([

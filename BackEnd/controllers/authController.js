@@ -547,6 +547,8 @@ const getAttendanceByMonthYear = async (req, res) => {
   }
 };
 
+setInterval(archiveExpiredAnnouncements, 24 * 60 * 60 * 1000);
+
 // Get User Progress by Month and Year
 const getProgressByMonthYear = async (req, res) => {
   const { userId, month, year } = req.body; // Changed from req.params to req.body
