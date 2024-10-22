@@ -156,7 +156,7 @@ function App() {
 
       {/* Toast notifications */}
       <Toaster
-        position="top-center" // Use top-center for centering horizontally and adjusting vertically
+        position="top-center" // Use this and custom CSS to manage the vertical position
         reverseOrder={false}
         gutter={3}
         toastOptions={{
@@ -165,8 +165,10 @@ function App() {
             zIndex: 9999,
             width: 550,
             height: 300,
-            top: "50%", // Vertically centering
-            transform: "translateY(-50%)", // Adjust the position to be fully centered
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)", // Center horizontally and vertically
           },
         }}
       />
