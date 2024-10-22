@@ -449,4 +449,5 @@ module.exports = {
   getSortedPrayerRequests,
   getGroupedPrayerRequests,
   getUserByFullName,
+  archiveExpiredAnnouncements,
 };

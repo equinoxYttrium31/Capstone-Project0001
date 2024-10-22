@@ -37,6 +37,7 @@ const {
   getSortedPrayerRequests,
   getGroupedPrayerRequests,
   getUserByFullName,
+  archiveExpiredAnnouncements,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
@@ -140,6 +141,7 @@ router.get("/fetch-announcements", fetchAnnouncements);
 router.get("/prayer-requests/sorted", getSortedPrayerRequests);
 router.get("/prayer-requests/grouped", getGroupedPrayerRequests);
 router.get("/users/profile/:name", getUserByFullName);
+router.post("/archive-announcement", archiveExpiredAnnouncements);
 
 // Export the router
 module.exports = router;
