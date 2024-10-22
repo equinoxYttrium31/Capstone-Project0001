@@ -4,7 +4,9 @@ const UserAttendanceModel = require("../models/UserAttendance");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const sharp = require("sharp");
+const sharp = require("sharp"); // Import sharp at the top of your file
+const moment = require("moment");
+const cron = require("node-cron");
 const AnnouncementModel = require("../models/Announcements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 
