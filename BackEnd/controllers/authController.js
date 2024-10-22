@@ -475,6 +475,50 @@ const createOrUpdateAttendance = async (req, res) => {
   }
 };
 
+// Function to archive expired announcements
+const archiveExpiredAnnouncements = async () => {
+  try {
+    // Get the current date
+    const currentDate = moment().startOf("day").toDate();
+
+    // Find all announcements that have expired (endDate less than current date)
+    const expiredAnnouncements = await AnnouncementModel.find({
+      endDate: { $lt: currentDate },
+    });
+
+    if (expiredAnnouncements.length > 0) {
+      // Archive the expired announcements by duplicating them into ArchivedAnnouncements
+      const archivedData = expiredAnnouncements.map((announcement) => {
+        return {
+          title: announcement.title,
+          content: announcement.content,
+          publishDate: announcement.publishDate,
+          endDate: announcement.endDate,
+          audience: announcement.audience,
+          announcementPic: announcement.announcementPic,
+        };
+      });
+
+      await ArchivedAnnouncementModel.insertMany(archivedData); // Insert the expired announcements into the ArchivedAnnouncements collection
+
+      // Remove the expired announcements from the original collection
+      await AnnouncementModel.deleteMany({ endDate: { $lt: currentDate } });
+
+      console.log(`${expiredAnnouncements.length} announcements archived.`);
+    } else {
+      console.log("No expired announcements to archive.");
+    }
+  } catch (error) {
+    console.error("Error archiving expired announcements:", error);
+  }
+};
+
+// Schedule the function to run daily at 12 AM
+cron.schedule("30 12 * * *", () => {
+  console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
+  archiveExpiredAnnouncements();
+});
+
 // Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
   const { userId, month, year } = req.params;
