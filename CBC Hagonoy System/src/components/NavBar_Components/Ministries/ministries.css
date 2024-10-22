@@ -438,4 +438,12 @@ textarea {
     margin-top: -3rem;
     width: 100%;
   }
+
+  .name_form_prayer {
+    width: 100%;
+  }
+
+  .name_form_input {
+    width: 100%;
+  }
 }

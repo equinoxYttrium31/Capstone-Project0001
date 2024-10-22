@@ -1,204 +1,205 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: "Poppins";
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Poppins";
 }
 
 .navbar-contents {
-    display: flex;
-    flex-direction: row;
-    margin: auto;
-    align-items: center;
-    gap: 10%;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  align-items: center;
+  gap: 10%;
 }
 
 .navbar_logo {
-    position: relative;
-    margin-top: -.5rem;
-    margin-bottom: -1rem;
-    margin-left: 0rem;
-    width: 5.5rem;
-    height: 5.5rem;
-    cursor: pointer;
+  position: relative;
+  margin-top: -0.5rem;
+  margin-bottom: -1rem;
+  margin-left: 0rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  cursor: pointer;
 }
 
 .nav-links {
-    margin-left: 70px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 30px;
-    list-style-type: none;
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    letter-spacing: 1px;
-    position: absolute;
-    left: 25%;
-    color: #28282B;
+  margin-left: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  list-style-type: none;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  position: absolute;
+  left: 25%;
+  color: #28282b;
 }
 
 .nav-links li {
-    text-decoration: none;
-    cursor: pointer;
-    padding: 5px 10px; /* Add some padding for better click area */
-    border-radius: 4px; /* Optional: rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+  text-decoration: none;
+  cursor: pointer;
+  padding: 5px 10px; /* Add some padding for better click area */
+  border-radius: 4px; /* Optional: rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
 li:hover {
-    color: #007bff; /* Change text color on hover */
+  color: #007bff; /* Change text color on hover */
 }
 
 li.active {
-    font-weight: bold; /* Bold text for active state */
-    color: #007bff; /* Active text color */
+  font-weight: bold; /* Bold text for active state */
+  color: #007bff; /* Active text color */
 }
 
 .buttons-container-navbar {
-    display: flex;
-    gap: 30px;
-    position: absolute;
-    right: 100px;
+  display: flex;
+  gap: 30px;
+  position: absolute;
+  right: 100px;
 }
 
 .sign-up {
-    border: none;
-    background-color: transparent;
-    font-size: 14px;
-    font-family: "Lato", sans-serif;
-    color: #2424f1;
-    margin-top: 0px;
-    transition: border-bottom 0.3s ease, color 0.3s ease;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+  color: #2424f1;
+  margin-top: 0px;
+  transition: border-bottom 0.3s ease, color 0.3s ease;
 }
 
 .sign-up:hover {
-    border-bottom: 1px solid lightblue;
-    color: lightblue;
-    cursor: pointer;
+  border-bottom: 1px solid lightblue;
+  color: lightblue;
+  cursor: pointer;
 }
 
 .login {
-    font-family: "Lato", sans-serif;
-    font-size: 14px;
-    color: beige;
-    background-color: #F8BB33;
-    border: none;
-    height: 40px;
-    width: 120px;
-    border-radius: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: "Lato", sans-serif;
+  font-size: 14px;
+  color: beige;
+  background-color: #f8bb33;
+  border: none;
+  height: 40px;
+  width: 120px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .login:hover {
-    background-color: rgba(201, 133, 45, 0.93);
-    cursor: pointer;
+  background-color: rgba(201, 133, 45, 0.93);
+  cursor: pointer;
 }
 /* Hamburger Menu */
 .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 21px;
-    cursor: pointer;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
 }
 
 .hamburger span {
-    background-color: #333;
-    height: 3px;
-    width: 100%;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+  background-color: #333;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
 
 .hamburger.open span:nth-child(1) {
-    transform: translateY(5px) rotate(45deg);
+  transform: translateY(5px) rotate(45deg);
 }
 
 .hamburger.open span:nth-child(2) {
-    opacity: 0;
+  opacity: 0;
 }
 
 .hamburger.open span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+  transform: translateY(-9px) rotate(-45deg);
 }
 @media (max-width: 425px) {
-        .container{
-            padding-right: 0rem;
-        }
+  .container {
+    padding-right: 0rem;
+  }
 
-        .navbar_logo{
-            position: static;
-            margin-left: -1.5rem;
-            height: 4.5rem;
-            width: 4.5rem;
-        }
+  .navbar_logo {
+    position: static;
+    margin-left: -1.5rem;
+    height: 4.5rem;
+    width: 4.5rem;
+  }
 
-        .navbar-contents {
-            position: static;
-            flex-direction: row;
-            align-items: center;
-        }
-    
-        /* Hide nav-links and buttons by default on smaller screens */
-        .nav-links,
-        .buttons-container-navbar {
-            display: none;
-            flex-direction: column;
-            width: 40%;
-            position: absolute;
-            background-color: #fff;
-            z-index: 1;
-            animation: fadeInOut .3s ease-in-out;
-        }
+  .navbar-contents {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+  }
 
-        .buttons-container-navbar{
-            border-radius: 15px 15px 0px 0px;
-            top: 5rem;
-            right: 1rem;
-            padding: 1rem;
-            box-shadow: 4px 4px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+  /* Hide nav-links and buttons by default on smaller screens */
+  .nav-links,
+  .buttons-container-navbar {
+    display: none;
+    flex-direction: column;
+    width: 40%;
+    position: absolute;
+    background-color: #fff;
+    z-index: 1;
+    animation: fadeInOut 0.3s ease-in-out;
+  }
 
-        .nav-links{
-            top: 12.4rem;
-            left: 8.05rem;
-            padding: 1rem;
-            border-radius: 0px 0px 15px 15px;
-            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    
-        /* Show nav-links and buttons when hamburger menu is active */
-        .nav-links.active,
-        .buttons-container-navbar.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    
-        .nav-links li {
-            padding: 10px 20px;
-            width: 100%;
-            text-align: center;
-        }
-    
-        .hamburger {
-            display: flex;
-            margin-left: 14rem;
-            margin-top: .5rem;
-        }
+  .buttons-container-navbar {
+    border-radius: 15px 15px 0px 0px;
+    top: 5rem;
+    right: 1rem;
+    padding: 1rem;
+    box-shadow: 4px 4px 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-        @keyframes fadeInOut {
-                0% {
-                    opacity: 0;
-                }
-            
-                100% {
-                    opacity: 1;
-                }
-        }
+  .nav-links {
+    top: 12.4rem;
+    left: 8.05rem;
+    padding: 1rem;
+    border-radius: 0px 0px 15px 15px;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Show nav-links and buttons when hamburger menu is active */
+  .nav-links.active,
+  .buttons-container-navbar.active {
+    display: flex;
+    margin-left: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links li {
+    padding: 10px 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: 14rem;
+    margin-top: 0.5rem;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 }
