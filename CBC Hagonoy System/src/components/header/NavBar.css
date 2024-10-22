@@ -194,13 +194,13 @@ li.active {
     display: none; /* Hide by default */
     width: 100%;
     justify-content: center;
-    background-color: #fff; /* Background color for buttons */
+    background-color: #fff;
+    padding: 15% 0; /* Background color for buttons */
   }
 
   .buttons-container-navbar.active {
     display: flex; /* Show buttons when menu is open */
     flex-direction: column; /* Stack buttons vertically */
-    padding: 3% 0;
   }
 
   .nav-links.active {
