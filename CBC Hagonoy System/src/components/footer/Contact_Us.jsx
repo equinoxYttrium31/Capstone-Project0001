@@ -63,7 +63,8 @@ function Contact_Us() {
                 src={facebook_icon_dark}
                 alt="facebook-icon"
                 onClick={() => {
-                  "https://www.facebook.com/@cbchofficial";
+                  window.location.href =
+                    "https://www.facebook.com/@cbchofficial";
                 }}
                 className="facebook"
               />
