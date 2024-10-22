@@ -30,52 +30,66 @@ function NavBar({ onLoginClick }) {
           onClick={() => handleNavigation("/")}
         />
 
-        {/* Hamburger Menu Icon */}
-        <div
-          className={`hamburger ${menuOpen ? "open" : ""}`}
-          onClick={toggleMenu}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        {/* Combined Container for Buttons and Nav Links */}
+        <div className={`combined-container ${menuOpen ? "active" : ""}`}>
+          {/* Hamburger Menu Icon */}
+          <div
+            className={`hamburger ${menuOpen ? "open" : ""}`}
+            onClick={toggleMenu}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
 
-        {/* Nav Links */}
-        <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
-          <li
-            className={isActive("/about")}
-            onClick={() => handleNavigation("/about")}
+          <div
+            className={`maincontainer_navbar_navigations ${
+              menuOpen ? "active" : ""
+            }`}
           >
-            About Us
-          </li>
-          <li
-            className={isActive("/beliefs")}
-            onClick={() => handleNavigation("/beliefs")}
-          >
-            Beliefs
-          </li>
-          <li
-            className={isActive("/ministries")}
-            onClick={() => handleNavigation("/ministries")}
-          >
-            Ministries
-          </li>
-          <li
-            className={isActive("/bible")}
-            onClick={() => handleNavigation("/bible")}
-          >
-            Bible
-          </li>
-        </ul>
+            {/* Nav Links */}
+            <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+              <li
+                className={isActive("/about")}
+                onClick={() => handleNavigation("/about")}
+              >
+                About Us
+              </li>
+              <li
+                className={isActive("/beliefs")}
+                onClick={() => handleNavigation("/beliefs")}
+              >
+                Beliefs
+              </li>
+              <li
+                className={isActive("/ministries")}
+                onClick={() => handleNavigation("/ministries")}
+              >
+                Ministries
+              </li>
+              <li
+                className={isActive("/bible")}
+                onClick={() => handleNavigation("/bible")}
+              >
+                Bible
+              </li>
+            </ul>
 
-        {/* Sign Up and Login Buttons */}
-        <div className={`buttons-container-navbar ${menuOpen ? "active" : ""}`}>
-          <button className="sign-up" onClick={() => onLoginClick("signup")}>
-            SIGN UP
-          </button>
-          <button className="login" onClick={() => onLoginClick("login")}>
-            LOGIN
-          </button>
+            {/* Sign Up and Login Buttons */}
+            <div
+              className={`buttons-container-navbar ${menuOpen ? "active" : ""}`}
+            >
+              <button
+                className="sign-up"
+                onClick={() => onLoginClick("signup")}
+              >
+                SIGN UP
+              </button>
+              <button className="login" onClick={() => onLoginClick("login")}>
+                LOGIN
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
