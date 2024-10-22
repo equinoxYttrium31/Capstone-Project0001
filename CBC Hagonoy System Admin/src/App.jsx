@@ -27,7 +27,7 @@ function App() {
         gutter={3}
         toastOptions={{
           duration: 2000,
-          style: { zIndex: 9999, width: 15, height: 10 },
+          style: { zIndex: 9999, top: "50%", width: 150, height: 100 },
         }}
       />
     </div>
