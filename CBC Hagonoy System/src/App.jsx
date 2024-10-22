@@ -165,7 +165,7 @@ function App() {
             zIndex: 9999,
             width: 550,
             height: 300,
-            position: "fixed",
+            position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)", // Center horizontally and vertically
