@@ -126,7 +126,7 @@ li.active {
 .hamburger.open span:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
 }
-@media (max-width: 425px) {
+@media (max-width: 480px) {
   .container {
     padding-right: 0rem;
   }
@@ -152,7 +152,7 @@ li.active {
     width: 40%;
     position: absolute;
     background-color: #fff;
-    z-index: 1;
+    z-index: 999999;
     animation: fadeInOut 0.3s ease-in-out;
   }
 
@@ -201,5 +201,24 @@ li.active {
     100% {
       opacity: 1;
     }
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding-right: 0rem;
+    width: 100%;
+  }
+
+  .hamburger {
+    margin-left: 0;
+  }
+
+  .nav-links.active,
+  .buttons-container-navbar.active {
+    display: flex;
+    margin-right: 0.5rem;
+    flex-direction: column;
+    align-items: center;
   }
 }
