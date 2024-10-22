@@ -193,6 +193,7 @@ li.active {
   .buttons-container-navbar {
     display: none; /* Hide by default */
     width: 100%;
+    padding: 1% 0;
     justify-content: center;
     background-color: #fff; /* Background color for buttons */
   }
