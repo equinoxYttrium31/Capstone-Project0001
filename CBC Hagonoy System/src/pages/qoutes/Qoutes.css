@@ -69,6 +69,19 @@
   transform: scale(1.1);
 }
 
+@media (max-width: 1220px) {
+  .img-holder {
+    top: 265%;
+    left: 55%;
+    height: 350px;
+    width: 400px;
+  }
+
+  .qoutes-container {
+    height: fit-content;
+  }
+}
+
 @media (max-width: 1130px) {
   .img-holder {
     top: 267%;
@@ -107,7 +120,7 @@
 
 @media (max-width: 760px) {
   .img-holder {
-    top: 300%;
+    top: 320%;
     left: 40%;
   }
 
@@ -119,7 +132,7 @@
 @media (max-width: 680px) {
   .img-holder {
     top: 320%;
-    left: 20%;
+    left: 25%;
     height: 80.44vw;
     width: 80.83vw;
   }
@@ -135,7 +148,7 @@
 
 @media (max-width: 521px) {
   .img-holder {
-    top: 340%;
+    top: 345%;
     left: 7%;
   }
 
