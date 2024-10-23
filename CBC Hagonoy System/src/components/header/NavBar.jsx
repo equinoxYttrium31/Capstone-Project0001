@@ -4,21 +4,16 @@ import { cbc_logo } from "../../assets/Assets";
 import PropTypes from "prop-types";
 import "./NavBar.css";
 
-function NavBar({ onLoginClick }) {
+function NavBar({ onLoginClick, menuOpen, toggleMenu }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavigation = (path) => {
     navigate(path);
-    setMenuOpen(false); // Close the menu after navigation
+    toggleMenu(); // Close the menu after navigation
   };
 
   const isActive = (path) => (location.pathname === path ? "active" : "");
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div className="container">
@@ -98,6 +93,8 @@ function NavBar({ onLoginClick }) {
 
 NavBar.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
+  menuOpen: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
 };
 
 export default NavBar;

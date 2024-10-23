@@ -29,9 +29,16 @@ function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate(); // Use navigate for redirecting
 
+  // Function to toggle the menu
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
   const handleLoginClick = (type) => {
+    setMenuOpen(false);
     setOverlayType(type);
     setShowOverlay(true);
   };
@@ -102,7 +109,11 @@ function App() {
   return (
     <div className="App">
       {/* Conditionally render either the NavBar or User_NavBar */}
-      <NavBar onLoginClick={handleLoginClick} />
+      <NavBar
+        onLoginClick={handleLoginClick}
+        menuOpen={menuOpen}
+        toggleMenu={toggleMenu}
+      />
 
       <Routes>
         <Route
@@ -156,19 +167,12 @@ function App() {
 
       {/* Toast notifications */}
       <Toaster
-        position="top-right" // Use this and custom CSS to manage the vertical position
+        position="top-right"
         reverseOrder={false}
         gutter={3}
         toastOptions={{
-          duration: 3000,
-          style: {
-            zIndex: 9999,
-            width: 300,
-            height: 70,
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          },
+          duration: 2000,
+          style: { zIndex: 9999 },
         }}
       />
     </div>
