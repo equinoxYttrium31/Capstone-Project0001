@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  header_footer,
-  facebook_icon_dark,
-  twitter_icon_dark,
-  instagram_icon_dark,
-} from "../../assets/Assets";
+import { header_footer, facebook_icon_dark } from "../../assets/Assets";
 import "./Contact_Us.css";
 
 function Contact_Us() {
@@ -62,17 +56,11 @@ function Contact_Us() {
               <img
                 src={facebook_icon_dark}
                 alt="facebook-icon"
+                className="facebook"
                 onClick={() => {
                   window.location.href =
                     "https://www.facebook.com/@cbchofficial";
                 }}
-                className="facebook"
-              />
-              <img src={twitter_icon_dark} alt="x-icon" className="x" />
-              <img
-                src={instagram_icon_dark}
-                alt="instagram-icon"
-                className="instagram"
               />
             </div>
           </div>
