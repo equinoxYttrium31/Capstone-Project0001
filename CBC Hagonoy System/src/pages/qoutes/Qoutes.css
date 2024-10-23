@@ -69,19 +69,6 @@
   transform: scale(1.1);
 }
 
-@media (max-width: 1220px) {
-  .img-holder {
-    top: 265%;
-    left: 55%;
-    height: 350px;
-    width: 400px;
-  }
-
-  .qoutes-container {
-    height: fit-content;
-  }
-}
-
 @media (max-width: 1130px) {
   .img-holder {
     top: 267%;
