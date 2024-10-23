@@ -118,14 +118,14 @@
 
 @media (max-width: 680px) {
   .img-holder {
-    top: 310%;
+    top: 320%;
     left: 20%;
     height: 80.44vw;
     width: 80.83vw;
   }
 
   .qoutes-container {
-    height: 150vh;
+    height: 155vh;
   }
 
   .verse {
@@ -135,7 +135,7 @@
 
 @media (max-width: 521px) {
   .img-holder {
-    top: 325%;
+    top: 340%;
     left: 7%;
   }
 
@@ -144,7 +144,7 @@
   }
 
   .qoutes-container {
-    height: 145vh;
+    height: 155vh;
   }
 
   .verse {
@@ -154,8 +154,8 @@
 
 @media (max-width: 480px) {
   .img-holder {
-    top: 315%;
-    left: 1%;
+    top: 330%;
+    left: 8%;
   }
 
   .main-text {
