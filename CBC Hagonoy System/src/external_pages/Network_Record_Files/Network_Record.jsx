@@ -3,13 +3,33 @@ import axios from "axios";
 import "./Network_Record.css";
 
 function Network_Record() {
-  const [maleprogress, setMaleProgress] = useState(0);
-  const [femaleprogress, setFemaleProgress] = useState(0);
   const [totalMembers, setTotalMembers] = useState(0);
   const [cellGroups, setCellGroups] = useState([]);
   const [totalCellGroups, setTotalCellGroups] = useState(0);
   const [totalGuests, setTotalGuests] = useState(0);
   const [totalBaptized, setTotalBaptized] = useState(0);
+  const [networkAnnouncements, setNetworkAnnouncements] = useState([]);
+
+  useEffect(() => {
+    const fetchNetworkAnnouncements = async () => {
+      try {
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/fetch-announcements"
+        );
+
+        const networkAnn = response.data.filter((announcement) => {
+          const audience = announcement.audience;
+          return audience === "network_leaders"; // Return the entire announcement object
+        });
+
+        setNetworkAnnouncements(networkAnn);
+      } catch (error) {
+        console.log("Error fetching network announcements");
+      }
+    };
+
+    fetchNetworkAnnouncements();
+  }, []);
 
   //Fetching of Announcements, Users, and Cell Groups
   useEffect(() => {
@@ -44,27 +64,6 @@ function Network_Record() {
         );
         setTotalBaptized(filterBaptized.length);
 
-        // Count genders
-        const maleCount = filteredMembers.filter(
-          (user) => user.gender === "Male"
-        ).length;
-        const femaleCount = filteredMembers.filter(
-          (user) => user.gender === "Female"
-        ).length;
-
-        // Calculate percentage of male users
-        const malePercentage = (
-          (maleCount / filteredMembers.length) *
-          100
-        ).toFixed(2); // Rounded to 2 decimal places
-        setMaleProgress(malePercentage); // Set male percentage in progress
-
-        const femalePercentage = (
-          (femaleCount / filteredMembers.length) *
-          100
-        ).toFixed(2); // Rounded to 2 decimal places
-        setFemaleProgress(femalePercentage);
-
         // Fetch all cell groups
         const cellGroupsResponse = await axios.get(
           "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
@@ -86,8 +85,27 @@ function Network_Record() {
     fetchUsersAndCellGroups();
   }, []);
 
-  const maleColor = "#36a2eb";
-  const femaleColor = "#ffce56";
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const month = monthNames[date.getMonth()]; // Get month name
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`; // Format: Month Day, Year
+  };
 
   return (
     <div className="network_container">
@@ -120,33 +138,39 @@ function Network_Record() {
               </div>
             </div>
           </div>
-          <div className="container_leftside_bottom"></div>
         </div>
         <div className="network_bottomlayer_rightside">
-          <div className="network_chart_cont">
-            <div
-              className="net_chart"
-              style={{
-                background: `conic-gradient(
-                      ${maleColor} ${maleprogress * 3.6}deg, 
-                      ${femaleColor} ${femaleprogress * 3.6}deg 360deg)`,
-              }}
-            ></div>
-          </div>
-          <div className="network_chart_labels">
-            <div className="net_chart_label">
-              <div
-                className="color_box"
-                style={{ backgroundColor: maleColor }}
-              ></div>
-              Male: {maleprogress}%
+          <div className="network_announcement_container">
+            <div className="header_announcement_network_cont">
+              <h2 className="header_text_announcement">Announcements</h2>
             </div>
-            <div className="net_chart_label">
-              <div
-                className="color_box"
-                style={{ backgroundColor: femaleColor }}
-              ></div>
-              Female: {femaleprogress}%
+            <div className="main_announcements_container">
+              {networkAnnouncements.length > 0 ? (
+                networkAnnouncements.map((announcement) => (
+                  <div
+                    className="announcement_container_network"
+                    key={announcement._id}
+                  >
+                    <div className="announcement_header_container_network">
+                      <h3 className="network_announcement_header">
+                        {announcement.title}
+                      </h3>
+                      <p className="dates_container_network">
+                        {formatDate(announcement.publishDate)} -{" "}
+                        {formatDate(announcement.endDate)}
+                      </p>
+                    </div>
+                    <div
+                      className="content_container_network"
+                      dangerouslySetInnerHTML={{ __html: announcement.content }}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="no_announcement_text">
+                  Currently No Announcement
+                </p>
+              )}
             </div>
           </div>
         </div>

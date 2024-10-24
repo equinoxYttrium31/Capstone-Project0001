@@ -141,3 +141,45 @@
   margin-right: 10px;
   border-radius: 5px;
 }
+
+.header_announcement_network_cont {
+  margin-top: 13%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header_text_announcement {
+  font-size: 1.125em;
+  font-family: "Poppins";
+  color: #28282b;
+}
+
+.main_announcements_container {
+  width: 100%;
+  padding: 5%;
+  overflow-y: scroll;
+  height: 57vh;
+}
+
+.announcement_container_network {
+  padding: 2%;
+  background-color: aliceblue;
+  border-radius: 1rem;
+  color: #28282b;
+}
+
+.network_announcement_header {
+  font-family: "Poppins";
+  font-size: 0.9em;
+}
+
+.dates_container_network {
+  font-size: 0.8em;
+  margin-bottom: 5%;
+}
+
+.content_container_network {
+  font-family: "Poppins";
+  font-size: 0.8em;
+}

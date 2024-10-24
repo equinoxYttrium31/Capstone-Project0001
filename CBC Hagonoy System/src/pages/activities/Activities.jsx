@@ -22,12 +22,17 @@ function Activities() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
+        // Filter events where endDate is today or in the future
         const filteredEvents = response.data.filter((announcement) => {
+          const audience = announcement.audience;
           const publishDate = new Date(announcement.endDate);
           const endDate = new Date(announcement.endDate);
           endDate.setHours(0, 0, 0, 0);
           publishDate.setHours(0, 0, 0, 0);
-          return endDate >= today && publishDate <= today;
+
+          if (audience === "all_cellgroups") {
+            return endDate <= today && publishDate >= today;
+          }
         });
 
         setAnnouncements(filteredEvents);

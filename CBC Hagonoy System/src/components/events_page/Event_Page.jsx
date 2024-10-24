@@ -18,18 +18,28 @@ export default function Event_Page() {
 
         // Filter events where endDate is today or in the future
         const filteredEvents = response.data.filter((announcement) => {
+          const audience = announcement.audience;
           const publishDate = new Date(announcement.endDate);
           const endDate = new Date(announcement.endDate);
           endDate.setHours(0, 0, 0, 0);
-          publishDate.setHours(0, 0, 0, 0); // Set endDate's time to 00:00:00
-          return endDate >= today && publishDate <= today; // Compare only dates
+          publishDate.setHours(0, 0, 0, 0);
+
+          if (audience === "all_cellgroups") {
+            return endDate <= today && publishDate >= today;
+          }
         });
 
         // Filter events where endDate is today or in the future
         const filteredUpcomingEvents = response.data.filter((announcement) => {
           const publishDate = new Date(announcement.publishDate);
+          const endDate = new Date(announcement.endDate);
+          const audience = announcement.audience;
+          endDate.setHours(0, 0, 0, 0);
           publishDate.setHours(0, 0, 0, 0); // Set endDate's time to 00:00:00
-          return publishDate >= today; // Compare only dates
+
+          if (audience === "all_cellgroups") {
+            return endDate <= today && publishDate >= today;
+          } // Compare only dates
         });
 
         setUpcomingEvents(filteredUpcomingEvents);
