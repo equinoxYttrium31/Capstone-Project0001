@@ -21,6 +21,7 @@ const {
   fetchLatestAnnouncement,
   sendPrayerRequest,
   fetchCurrentAnnouncement,
+  getRecordsByNetworkLead,
 } = require("../controllers/authController");
 
 const {
@@ -37,17 +38,13 @@ const {
   getSortedPrayerRequests,
   getGroupedPrayerRequests,
   getUserByFullName,
-  archiveExpiredAnnouncements,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
 // Middleware for CORS
 router.use(
   cors({
-    origin: [
-      "https://client-2oru.onrender.com",
-      "https://cbc-hagonoy-admin.onrender.com",
-    ],
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -141,7 +138,8 @@ router.get("/fetch-announcements", fetchAnnouncements);
 router.get("/prayer-requests/sorted", getSortedPrayerRequests);
 router.get("/prayer-requests/grouped", getGroupedPrayerRequests);
 router.get("/users/profile/:name", getUserByFullName);
-router.post("/archive-announcement", archiveExpiredAnnouncements);
+
+router.get("/records/networkLead/:networkLead", getRecordsByNetworkLead);
 
 // Export the router
 module.exports = router;

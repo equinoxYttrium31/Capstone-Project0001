@@ -4,15 +4,13 @@ const UserAttendanceModel = require("../models/UserAttendance");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const sharp = require("sharp"); // Import sharp at the top of your file
-const moment = require("moment");
-const cron = require("node-cron");
+const sharp = require("sharp");
 const AnnouncementModel = require("../models/Announcements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 
 // Middleware for token verification
 const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies.token; // Access the token from cookies
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
@@ -138,10 +136,10 @@ const loginUser = async (req, res) => {
 
     // Set the cookie with the token
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Ensure this is set correctly
-      sameSite: "None",
-      path: "/",
+      httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
+      secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
+      sameSite: "Strict", // Adjust based on your app needs
+      path: "/", // Path for the cookie
     });
 
     // Return user data without password
@@ -367,7 +365,7 @@ const logoutUser = async (req, res) => {
   try {
     // Clear the JWT token from the cookie
     res.clearCookie("token", {
-      httpOnly: false,
+      httpOnly: true,
       secure: true,
       sameSite: "Strict",
     });
@@ -477,50 +475,6 @@ const createOrUpdateAttendance = async (req, res) => {
   }
 };
 
-// Function to archive expired announcements
-const archiveExpiredAnnouncements = async () => {
-  try {
-    // Get the current date
-    const currentDate = moment().startOf("day").toDate();
-
-    // Find all announcements that have expired (endDate less than current date)
-    const expiredAnnouncements = await AnnouncementModel.find({
-      endDate: { $lt: currentDate },
-    });
-
-    if (expiredAnnouncements.length > 0) {
-      // Archive the expired announcements by duplicating them into ArchivedAnnouncements
-      const archivedData = expiredAnnouncements.map((announcement) => {
-        return {
-          title: announcement.title,
-          content: announcement.content,
-          publishDate: announcement.publishDate,
-          endDate: announcement.endDate,
-          audience: announcement.audience,
-          announcementPic: announcement.announcementPic,
-        };
-      });
-
-      await ArchivedAnnouncementModel.insertMany(archivedData); // Insert the expired announcements into the ArchivedAnnouncements collection
-
-      // Remove the expired announcements from the original collection
-      await AnnouncementModel.deleteMany({ endDate: { $lt: currentDate } });
-
-      console.log(`${expiredAnnouncements.length} announcements archived.`);
-    } else {
-      console.log("No expired announcements to archive.");
-    }
-  } catch (error) {
-    console.error("Error archiving expired announcements:", error);
-  }
-};
-
-// Schedule the function to run daily at 12 AM
-cron.schedule("30 12 * * *", () => {
-  console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
-  archiveExpiredAnnouncements();
-});
-
 // Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
   const { userId, month, year } = req.params;
@@ -546,8 +500,6 @@ const getAttendanceByMonthYear = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-setInterval(archiveExpiredAnnouncements, 24 * 60 * 60 * 1000);
 
 // Get User Progress by Month and Year
 const getProgressByMonthYear = async (req, res) => {
@@ -636,13 +588,11 @@ const checkAuth = async (req, res) => {
     return res.status(200).json({ isLoggedIn: false }); // No token, user is not authenticated
   }
 
-  console.log("Token:", token); // Log the token for debugging
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use environment variable for the secret
+    const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
     const userId = decoded.userId; // Adjust based on your token structure
 
-    const user = await ChurchUser.findById(userId);
+    const user = await UserModel.findById(userId);
 
     if (!user) {
       return res.status(200).json({ isLoggedIn: false }); // User not found, not authenticated
@@ -658,7 +608,7 @@ const checkAuth = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error checking authentication:", error.message); // More detailed error logging
+    console.error("Error checking authentication:", error);
     return res.status(200).json({ isLoggedIn: false }); // On error, assume user is not authenticated
   }
 };
@@ -730,6 +680,28 @@ const sendPrayerRequest = async (req, res) => {
   }
 };
 
+const getRecordsByNetworkLead = async (req, res) => {
+  try {
+    const NetLead = req.params.networkLead.trim(); // Trim whitespace
+
+    // Fetch records from your database
+    const networkRecords = await ChurchUser.find({ NetLead: NetLead });
+
+    console.log(NetLead);
+
+    if (!networkRecords.length) {
+      return res
+        .status(404)
+        .json({ message: "No records found for this network lead." });
+    }
+
+    res.status(200).json(networkRecords);
+  } catch (error) {
+    console.error("Error fetching records by network lead:", error);
+    res.status(500).json({ message: "Server error while fetching records." });
+  }
+};
+
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
@@ -759,6 +731,7 @@ module.exports = {
   fetchLatestAnnouncement,
   sendPrayerRequest,
   fetchCurrentAnnouncement,
+  getRecordsByNetworkLead,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

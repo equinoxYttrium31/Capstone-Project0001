@@ -1,271 +1,269 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-.cellgroup_main_cont{
-    width: 73vw;
-    height: 83vh;
-    margin: 1rem;
+.cellgroup_main_cont {
+  width: 73vw;
+  height: 83vh;
+  margin: 1rem;
 }
 
-.cellgroup_toplayer_cont{
-    width: 100%;
-    height: 10vh;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.cellgroup_toplayer_cont {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.cellgroup_title_cont{
-    width: 40vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-top: .5rem;
-    padding-left: 1.25rem;
+.cellgroup_title_cont {
+  width: 40vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
 }
 
-.cellgroup_church_name{
-    font-family: "Lato";
-    font-size: .7em;
-    margin-bottom: -1.125rem;
-    color: #28282B;
+.cellgroup_church_name {
+  font-family: "Lato";
+  font-size: 0.7em;
+  margin-bottom: -1.125rem;
+  color: #28282b;
 }
 
-.cellgroup_title{
-    font-family: "Poppins";
-    font-size: 2.125em;
-    color: #2d2f65;
+.cellgroup_title {
+  font-family: "Poppins";
+  font-size: 2.125em;
+  color: #2d2f65;
 }
 
-.search_and_menu_cont{
-    margin-left: 4rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.search_and_menu_cont {
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.search_cellgroup{
-    padding: 0.5rem 1rem;
-    font-size: 16px;
-    width: 20vw;
-    background-color: rgb(225, 224, 224);
-    color: #28282B;
-    border: #2d2f6524 solid 1px;
-    border-radius: 20px;
-    outline: none;
-    transition: all .4s ease-in-out;
+.search_cellgroup {
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  width: 20vw;
+  background-color: rgb(225, 224, 224);
+  color: #28282b;
+  border: #2d2f6524 solid 1px;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.4s ease-in-out;
 }
 
 .search_cellgroup:focus,
-.search_cellgroup:not(:placeholder-shown){
-    background-color: rgba(225, 224, 224, 0.349);
-    box-shadow: #28282B 2px 2px 5px;
-    border: transparent solid 1px;
+.search_cellgroup:not(:placeholder-shown) {
+  background-color: rgba(225, 224, 224, 0.349);
+  box-shadow: #28282b 2px 2px 5px;
+  border: transparent solid 1px;
 }
 
-.search_ic{
-    position: relative;
-    right: 2.3rem;
-    top: 0rem;
-    width: 20px;
+.search_ic {
+  position: relative;
+  right: 2.3rem;
+  top: 0rem;
+  width: 20px;
 }
 
-.filter_ic:hover{
-    cursor: pointer;
+.filter_ic:hover {
+  cursor: pointer;
 }
 
-.filter_ic{
-    width: 24px;
-    margin-left: -.5rem;
+.filter_ic {
+  width: 24px;
+  margin-left: -0.5rem;
 }
 
 .record_lower_part {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .record_lower_part_left {
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 0.5rem;
-    overflow-y: scroll;
-    margin-top: 1rem;
-    margin-block-end: 16rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 0.5rem;
+  overflow-y: scroll;
+  margin-top: 1rem;
+  margin-block-end: 16rem;
 }
 
 .record_row {
-    display: contents;
+  display: contents;
 }
 
 .record_content_card {
-    background-color: whitesmoke;
-    display: flex;
-    flex-direction: row;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 13vh;
-    align-items: center;
-    gap: 1em;
-    transition: all ease-out .3s;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 13vh;
+  align-items: center;
+  gap: 1em;
+  transition: all ease-out 0.3s;
 }
 
 .record_content_card:hover {
-    background-color: rgba(128, 128, 128, 0.658);
+  background-color: rgba(128, 128, 128, 0.658);
 }
 
 .record_container_profile {
-    height: 15vh;
-    object-fit: cover;
-    border-radius: 50%;
+  height: 15vh;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .record_content_card_deets {
-    margin-top: .5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .record_person_name {
-    font-size: 1.125em;
-    text-wrap: nowrap;
-    font-family: "Poppins";
-    color: #120652;
-    margin: 0;
+  font-size: 1.125em;
+  text-wrap: nowrap;
+  font-family: "Poppins";
+  color: #120652;
+  margin: 0;
 }
 
 .record_person_age_and_gender {
-    font-size: 1em;
-    color: #28282b;
-    font-family: "Lato";
-    margin-top: -5px;
-    margin-bottom: 10px;
+  font-size: 1em;
+  color: #28282b;
+  font-family: "Lato";
+  margin-top: -5px;
+  margin-bottom: 10px;
 }
 
 .record_person_type {
-    margin-top: 0rem;
-    padding: 5px 20px;
-    border-radius: 15px;
-    background-color: #28282b;
+  margin-top: 0rem;
+  padding: 5px 20px;
+  border-radius: 15px;
+  background-color: #28282b;
 }
 
 .record_type_text {
-    font-size: 1em;
-    font-family: "Lato";
-    color: whitesmoke;
-    margin: 0;
+  font-size: 1em;
+  font-family: "Lato";
+  color: whitesmoke;
+  margin: 0;
 }
 
-
-.filter_Modal_Container{
-    position: absolute;
-    top: 11.5rem;
-    left: 59rem;
-    width: 30rem;
-    height: 25rem;
-    border-radius: .5rem;
-    background-color: rgb(245, 245, 245);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    box-shadow: #28282b 2px 2px 5px;
+.filter_Modal_Container {
+  position: absolute;
+  top: 6.5rem;
+  left: 41rem;
+  width: 30rem;
+  height: 25rem;
+  border-radius: 0.5rem;
+  background-color: rgb(245, 245, 245);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: #28282b 2px 2px 5px;
 }
 
 /*Upper Part Modal*/
-.top_container{
-    padding-top: 1rem;
-    width: 93.5%;
-    height: 3rem;
-    padding-left: 2rem;
-    border-bottom: #2d2f659c 2px solid;
+.top_container {
+  padding-top: 1rem;
+  width: 93.5%;
+  height: 3rem;
+  padding-left: 2rem;
+  border-bottom: #2d2f659c 2px solid;
 }
 
-.filter_header{
-    font-family: "Poppins";
-    letter-spacing: .1rem;
-    color: #28282b;
+.filter_header {
+  font-family: "Poppins";
+  letter-spacing: 0.1rem;
+  color: #28282b;
 }
 
 /*Middle Part Modal*/
-.middle_container{
-    padding-left: 2rem;
-    margin-top: 0rem;
+.middle_container {
+  padding-left: 2rem;
+  margin-top: 0rem;
 }
 
-.filter_text{
-    font-family: "Lato";
-    font-size: .85em;
-    color: #28282b;
+.filter_text {
+  font-family: "Lato";
+  font-size: 0.85em;
+  color: #28282b;
 }
 
-.filter_selections{
-    margin-top: 2rem;
+.filter_selections {
+  margin-top: 2rem;
 }
 
-.row_filter_selection{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.row_filter_selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.filter_selection_label{
-    font-family: "Poppins";
-    font-size: 1em;
-    width: 9rem;
+.filter_selection_label {
+  font-family: "Poppins";
+  font-size: 1em;
+  width: 9rem;
 }
 
-.filter_select_input{
-    appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-color: whitesmoke;
-        background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
-        background-repeat: no-repeat;
-        background-position: right 0rem center;
-        padding-right: 1rem;
-        border: 1px solid #ccc;
-        border-radius: .3rem;
-        font-family: "Poppins";
-        width: 10rem;
-        padding: .5rem 1rem;
+.filter_select_input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: whitesmoke;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0rem center;
+  padding-right: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-family: "Poppins";
+  width: 10rem;
+  padding: 0.5rem 1rem;
 }
 
 .filter_select_input:focus {
-    border-color: #7b9acc;
-    outline: none;
+  border-color: #7b9acc;
+  outline: none;
 }
 
 /*Lower Part Modal*/
 
-.lower_container{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    padding: 2.5rem 2rem;
+.lower_container {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 2.5rem 2rem;
 }
 
-.buttons_cont_filter{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
+.buttons_cont_filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
 }
 
-.buttons_cont_filter button{
-    width: 7rem;
-    height: 2rem;
-    border-radius: .5rem;
-    font-family: "Poppins";
-    font-size: .9em;
-    border: #28282b 2px solid;
+.buttons_cont_filter button {
+  width: 7rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  border: #28282b 2px solid;
 }
 
-.apply_filter_button{
-    background-color: #2d2f65;
-    color: whitesmoke;
+.apply_filter_button {
+  background-color: #2d2f65;
+  color: whitesmoke;
 }
-

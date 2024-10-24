@@ -36,20 +36,21 @@ function Cellgroup_File() {
   const [records, setRecords] = useState([]);
   const [searchedUser, setSearchedUser] = useState("");
   const [cellGroups, setCellGroups] = useState([]);
-  const [leaderName, setLeaderName] = useState("");
-  const [selectedRange, setSelectedRange] = useState("");
-  const [selectedGender, setSelectedGender] = useState("");
-  const [selectedMemberType, setSelectedMemberType] = useState(""); // Store leaderName in state
+  const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
+  const [userType, setUserType] = useState("");
+  const [usersUnderNetworkLead, setUsersUnderNetworkLead] = useState([]); // State for users under network lead
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value.trim();
+    setSearchedUser(query);
+  };
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    if (name === "age") {
-      setSelectedRange(value);
-    } else if (name === "gender") {
-      setSelectedGender(value);
-    } else if (name === "memberType") {
-      setSelectedMemberType(value);
-    }
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleClearButton = () => {
@@ -65,12 +66,13 @@ function Cellgroup_File() {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(
-        "https://capstone-project0001-2.onrender.com/profile",
-        { withCredentials: true }
-      );
-      const { firstName, lastName } = response.data;
+      const response = await axios.get("http://localhost:8001/profile", {
+        withCredentials: true,
+      });
+      const { firstName, lastName, memberType } = response.data;
       const name = `${firstName} ${lastName}`;
+
+      setUserType(memberType);
       setLeaderName(name); // Set leaderName in state
       return name;
     } catch (error) {
@@ -82,13 +84,28 @@ function Cellgroup_File() {
   const fetchCellGroupByLeader = async (leaderName) => {
     try {
       const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/leader/${leaderName}`
+        `http://localhost:8000/leader/${leaderName}`
       );
       console.log("Searching for cell group with leader:", leaderName);
       console.log(response.data);
       setCellGroups(response.data);
     } catch (error) {
       console.error("Error fetching cell group by leader:", error);
+    }
+  };
+
+  const fetchUsersUnderNetworkLead = async (networkLead) => {
+    try {
+      const trimmedLead = networkLead.trim();
+      const response = await axios.get(
+        `http://localhost:8000/records/networkLead/${trimmedLead}`
+      );
+      console.log("Fetching users under network lead:", networkLead);
+      console.log(response.data);
+      setUsersUnderNetworkLead(response.data); // Set users under network lead
+    } catch (error) {
+      console.error("Error fetching users under network lead:", error);
+      toast.error("Error fetching users: " + error.message);
     }
   };
 
@@ -102,6 +119,9 @@ function Cellgroup_File() {
         const name = await fetchUserProfile();
         if (name) {
           await fetchCellGroupByLeader(name);
+          if (userType === "Network Leader") {
+            await fetchUsersUnderNetworkLead(name); // Fetch users if the current user is a Network Leader
+          }
         }
       } catch (error) {
         console.error("Error during profile and cell group fetch:", error);
@@ -114,9 +134,7 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/records"
-        );
+        const response = await axios.get("http://localhost:8001/records");
         console.log(response.data);
         setRecords(response.data);
         setFilteredRecords(response.data);
@@ -128,60 +146,29 @@ function Cellgroup_File() {
     fetchRecords();
   }, []);
 
-  const filterRecords = (query) => {
-    return records.filter((record) => {
-      const matchesSearchQuery =
-        record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
-        record.lastName.toLowerCase().startsWith(query.toLowerCase());
+  const applyFilters = (record) => {
+    const ageFilter = filters.age
+      ? (() => {
+          const [minAge, maxAge] = filters.age.split("-").map(Number);
+          const age = calculateAge(record.birthDate);
+          return age >= minAge && age <= maxAge;
+        })()
+      : true;
 
-      const matchesAgeFilter = selectedRange
-        ? (() => {
-            const [minAge, maxAge] = selectedRange.split("-").map(Number);
-            const age = calculateAge(record.birthDate);
-            return age >= minAge && age <= maxAge;
-          })()
-        : true;
+    const genderFilter = filters.gender
+      ? record.gender === filters.gender
+      : true;
+    const memberTypeFilter = filters.memberType
+      ? record.memberType === filters.memberType
+      : true;
 
-      const matchesGenderFilter = selectedGender
-        ? record.gender === selectedGender
-        : true;
-
-      const matchesTypeFilter = selectedMemberType
-        ? record.memberType === selectedMemberType
-        : true;
-
-      return (
-        matchesSearchQuery &&
-        matchesAgeFilter &&
-        matchesTypeFilter &&
-        matchesGenderFilter
-      );
-    });
-  };
-
-  const applyFilters = () => {
-    const filtered = filterRecords(searchedUser);
-    setFilteredRecords(filtered);
-    filterModal(false);
+    return ageFilter && genderFilter && memberTypeFilter;
   };
 
   const handleApplyFilters = () => {
     const filtered = records.filter(applyFilters); // Filter the records based on selected filters
     setFilteredRecords(filtered);
     setFilterModal(false);
-  };
-
-  const handleSearchChange = (e) => {
-    const query = e.target.value.trim();
-    setSearchedUser(query);
-
-    if (query === "") {
-      const filtered = filterRecords(query);
-      setFilteredRecords(filtered);
-    } else {
-      const filtered = filterRecords(query); // Filter records based on the current query
-      setFilteredRecords(filtered); // Update the displayed records
-    }
   };
 
   return (
@@ -213,43 +200,83 @@ function Cellgroup_File() {
       </div>
 
       <div className="record_lower_part">
-        <div className="record_lower_part_left">
-          {groupedRecords.length > 0 ? (
-            groupedRecords.map((record) => {
-              // Determine the appropriate avatar based on gender
-              let avatar;
-              if (record.gender === "Male") {
-                avatar = avatar_male; // Ensure Avatar_Male is imported
-              } else if (record.gender === "Female") {
-                avatar = avatar_female; // Ensure Avatar_Female is imported
-              } else {
-                avatar = user_placeholder; // Default avatar for other cases
-              }
+        {userType === "Cellgroup Leader" ? (
+          <div className="record_lower_part_left">
+            {groupedRecords.length > 0 ? (
+              groupedRecords.map((record) => {
+                let avatar;
+                if (record.gender === "Male") {
+                  avatar = avatar_male;
+                } else if (record.gender === "Female") {
+                  avatar = avatar_female;
+                } else {
+                  avatar = user_placeholder;
+                }
 
-              return (
-                <div className="record_content_card" key={record._id}>
-                  <img
-                    src={record.profilePic || avatar} // Use profilePic or gender-based avatar
-                    alt="profile_picture"
-                    className="record_container_profile"
-                  />
-                  <div className="record_content_card_deets">
-                    <h2 className="record_person_name">{record.firstName}</h2>
-                    <p className="record_person_age_and_gender">
-                      {calculateAge(record.birthDate)}, {record.gender}
-                    </p>
-                    <div className="record_person_type">
-                      <h2 className="record_type_text">{record.memberType}</h2>
+                return (
+                  <div className="record_content_card" key={record._id}>
+                    <img
+                      src={record.profilePic || avatar}
+                      alt="profile_picture"
+                      className="record_container_profile"
+                    />
+                    <div className="record_content_card_deets">
+                      <h2 className="record_person_name">{record.firstName}</h2>
+                      <p className="record_person_age_and_gender">
+                        {calculateAge(record.birthDate)}, {record.gender}
+                      </p>
+                      <div className="record_person_type">
+                        <h2 className="record_type_text">
+                          {record.memberType}
+                        </h2>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })
-          ) : (
-            <p>No records found.</p>
-          )}
-        </div>
-        <div />
+                );
+              })
+            ) : (
+              <p>No records found.</p>
+            )}
+          </div>
+        ) : userType === "Network Leader" ? (
+          <div className="record_lower_part_left">
+            {usersUnderNetworkLead.length > 0 ? (
+              usersUnderNetworkLead.map((record) => {
+                let avatar;
+                if (record.gender === "Male") {
+                  avatar = avatar_male;
+                } else if (record.gender === "Female") {
+                  avatar = avatar_female;
+                } else {
+                  avatar = user_placeholder;
+                }
+
+                return (
+                  <div className="record_content_card" key={record._id}>
+                    <img
+                      src={record.profilePic || avatar}
+                      alt="profile_picture"
+                      className="record_container_profile"
+                    />
+                    <div className="record_content_card_deets">
+                      <h2 className="record_person_name">{record.firstName}</h2>
+                      <p className="record_person_age_and_gender">
+                        {calculateAge(record.birthDate)}, {record.gender}
+                      </p>
+                      <div className="record_person_type">
+                        <h2 className="record_type_text">
+                          {record.memberType}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No records found under this network lead.</p>
+            )}
+          </div>
+        ) : null}
       </div>
 
       {/* Filter modal and other UI elements */}
