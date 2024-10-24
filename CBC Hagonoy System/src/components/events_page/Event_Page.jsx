@@ -38,7 +38,7 @@ export default function Event_Page() {
           publishDate.setHours(0, 0, 0, 0); // Set endDate's time to 00:00:00
 
           if (audience === "all_cellgroups") {
-            return endDate <= today && publishDate >= today;
+            return publishDate < today && endDate > today;
           } // Compare only dates
         });
 
