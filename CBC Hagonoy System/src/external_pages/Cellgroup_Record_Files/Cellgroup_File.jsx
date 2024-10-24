@@ -119,11 +119,12 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchProfileAndCellGroup = async () => {
       try {
-        const name = await fetchUserProfile();
+        const name = await fetchUserProfile(); // Fetch the user profile first
         if (name) {
           await fetchCellGroupByLeader(name);
+          // Fetch users under network lead only if the user is a Network Leader
           if (userType === "Network Leader") {
-            await fetchUsersUnderNetworkLead(name); // Fetch users if the current user is a Network Leader
+            await fetchUsersUnderNetworkLead(name);
           }
         }
       } catch (error) {
@@ -132,7 +133,7 @@ function Cellgroup_File() {
     };
 
     fetchProfileAndCellGroup();
-  }, []);
+  }, [userType]);
 
   useEffect(() => {
     const fetchRecords = async () => {
