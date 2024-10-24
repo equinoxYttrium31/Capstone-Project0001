@@ -138,7 +138,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "Strict", // Adjust based on your app needs
+      sameSite: "None", // Adjust based on your app needs
       path: "/", // Path for the cookie
     });
 
@@ -367,7 +367,7 @@ const logoutUser = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
     });
 
     // Optionally, you can send a success message or status
