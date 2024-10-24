@@ -66,9 +66,12 @@ function Cellgroup_File() {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:8001/profile", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/profile",
+        {
+          withCredentials: true,
+        }
+      );
       const { firstName, lastName, memberType } = response.data;
       const name = `${firstName} ${lastName}`;
 
@@ -84,7 +87,7 @@ function Cellgroup_File() {
   const fetchCellGroupByLeader = async (leaderName) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/leader/${leaderName}`
+        `https://capstone-project0001-2.onrender.com/leader/${leaderName}`
       );
       console.log("Searching for cell group with leader:", leaderName);
       console.log(response.data);
@@ -98,7 +101,7 @@ function Cellgroup_File() {
     try {
       const trimmedLead = networkLead.trim();
       const response = await axios.get(
-        `http://localhost:8000/records/networkLead/${trimmedLead}`
+        `https://capstone-project0001-2.onrender.com/records/networkLead/${trimmedLead}`
       );
       console.log("Fetching users under network lead:", networkLead);
       console.log(response.data);
@@ -134,7 +137,9 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8001/records");
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/records"
+        );
         console.log(response.data);
         setRecords(response.data);
         setFilteredRecords(response.data);
