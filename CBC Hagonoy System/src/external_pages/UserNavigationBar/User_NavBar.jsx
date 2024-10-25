@@ -3,11 +3,13 @@ import { useLocation } from "react-router-dom";
 import "./User_NavBar.css";
 import Users_Profile from "../User_Profile/Users_Profiles";
 import Setting_Page from "../SettingFolder/Setting_Page";
+import Notifications from "../Notifications/notifications";
 import {
   cbc_logo,
   account_icon_light,
   setting_ic_light,
   notif_ic_light,
+  notif_ic_selected,
   acc_ic_selected,
   setting_ic_selected,
 } from "../../assets/Assets";
@@ -24,6 +26,7 @@ function User_NavBar() {
   // State to control whether the user profile is visible
   const [showProfile, setShowProfile] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   // State to control which modal content is visible
   const [modalContent, setModalContent] = useState(null);
@@ -70,6 +73,10 @@ function User_NavBar() {
 
   const toggleSetting = () => {
     setShowSettings(!showSettings);
+  };
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
   };
 
   // Only render the navbar if the user is logged in (i.e., user data exists)
@@ -120,9 +127,10 @@ function User_NavBar() {
           </div>
           <div className="user_nav_icons">
             <img
-              src={notif_ic_light}
+              src={showNotifications ? notif_ic_selected : notif_ic_light}
               alt="notification_bell"
               className="user_nav_notification_bell"
+              onClick={toggleNotifications}
             />
             <img
               src={showProfile ? acc_ic_selected : account_icon_light}
@@ -144,6 +152,8 @@ function User_NavBar() {
       {showProfile && <Users_Profile />}
 
       {showSettings && <Setting_Page />}
+
+      {showNotifications && <Notifications />}
 
       {/* Conditionally render the modal */}
       {modalContent && (

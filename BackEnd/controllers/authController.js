@@ -6,7 +6,9 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const sharp = require("sharp");
 const AnnouncementModel = require("../models/Announcements");
+const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
+const ArchieveUserModel = require("../models/ArchieveRecords");
 
 // Middleware for token verification
 const authenticateToken = (req, res, next) => {
@@ -138,7 +140,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "None", // Adjust based on your app needs
+      sameSite: "Strict", // Adjust based on your app needs
       path: "/", // Path for the cookie
     });
 
@@ -367,7 +369,7 @@ const logoutUser = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+      sameSite: "Strict",
     });
 
     // Optionally, you can send a success message or status
@@ -702,6 +704,19 @@ const getRecordsByNetworkLead = async (req, res) => {
   }
 };
 
+const fetchArchivedAnnouncement = async (req, res) => {
+  try {
+    const archivedAnnouncements = await ArchivedAnnouncementModel.find().sort({
+      date: -1,
+    }); // Sort by latest
+    res.json(archivedAnnouncements);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching announcements", error: err });
+  }
+};
+
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
@@ -732,6 +747,7 @@ module.exports = {
   sendPrayerRequest,
   fetchCurrentAnnouncement,
   getRecordsByNetworkLead,
+  fetchArchivedAnnouncement,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

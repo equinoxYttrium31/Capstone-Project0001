@@ -22,6 +22,7 @@ const {
   sendPrayerRequest,
   fetchCurrentAnnouncement,
   getRecordsByNetworkLead,
+  fetchArchivedAnnouncement,
 } = require("../controllers/authController");
 
 const {
@@ -140,6 +141,7 @@ router.get("/prayer-requests/grouped", getGroupedPrayerRequests);
 router.get("/users/profile/:name", getUserByFullName);
 
 router.get("/records/networkLead/:networkLead", getRecordsByNetworkLead);
+router.get("/fetch-archived-announcements", fetchArchivedAnnouncement);
 
 // Export the router
 module.exports = router;

@@ -1,0 +1,73 @@
+.main_container_notifications {
+  position: absolute;
+  z-index: 35;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  background-color: rgba(255, 255, 255, 0.253);
+  backdrop-filter: blur(15px);
+}
+
+.notification_list_container {
+  margin-right: 17%;
+  position: relative;
+  width: 60vw;
+  height: 35vw;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: rgb(252, 249, 167);
+}
+
+.notifications_header_container {
+  margin-right: 17%;
+  position: relative;
+  width: 60vw;
+  background-color: rgb(252, 249, 167);
+}
+
+.notification_header_text {
+  font-size: 1.5em;
+  font-family: "Poppins";
+  padding: 2rem;
+  color: #28282b;
+}
+
+.section_label {
+  font-size: 1em;
+  font-family: "Poppins";
+  padding: 0.5rem 2rem;
+  color: #2d2f65;
+}
+
+.notification_container {
+  border-radius: 1rem;
+  margin: 0.5rem 2rem;
+  padding: 0.5rem 2rem;
+}
+
+.notification_container:hover {
+  background-color: whitesmoke;
+}
+
+.notification_title {
+  font-size: 1em;
+  font-family: "Poppins";
+  font-weight: 600;
+  color: #28282b;
+}
+
+.notification_date {
+  font-size: 0.85em;
+}
+
+.notification_time {
+  width: 100%;
+  text-align: end;
+  font-size: 0.8em;
+}
+
+.no_announcement_text {
+  padding: 1rem 2rem;
+}
