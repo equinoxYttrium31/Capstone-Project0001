@@ -29,7 +29,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     const { email, password } = data;
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/login",
+        "https://capstone-project0001-2.onrender.com/login",
         {
           email,
           password,
@@ -60,13 +60,16 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
 
     setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:8000/register", {
-        firstName,
-        lastName,
-        email,
-        password,
-        birthDate,
-      });
+      const { data } = await axios.post(
+        "https://capstone-project0001-2.onrender.com/register",
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+          birthDate,
+        }
+      );
       if (data.error) {
         toast.error(data.error);
       } else {
