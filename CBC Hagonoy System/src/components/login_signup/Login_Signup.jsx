@@ -29,7 +29,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     const { email, password } = data;
     try {
       const { data } = await axios.post(
-        "https://capstone-project0001-2.onrender.com/login",
+        "http://localhost:8000/login",
         {
           email,
           password,
@@ -60,16 +60,13 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
 
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        "https://capstone-project0001-2.onrender.com/register",
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-          birthDate,
-        }
-      );
+      const { data } = await axios.post("http://localhost:8000/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        birthDate,
+      });
       if (data.error) {
         toast.error(data.error);
       } else {
@@ -105,7 +102,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
           </div>
           <div className="input_holder">
             <div className="logo_holder">
-              <img src={cbc_logo} alt="CBC Logo" className="reg_logo" />
+              <img src={cbc_logo} alt="CBC Logo" className="login_logo" />
             </div>
             <div className="text_holder">
               <h3 className="greetings">Welcome Back!</h3>

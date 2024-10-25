@@ -752,6 +752,10 @@
   cursor: pointer;
 }
 
+.backbutton:hover {
+  cursor: pointer;
+}
+
 .has_acc_container {
   margin-top: 10%;
   margin-left: 23%;
@@ -782,6 +786,227 @@
   color: #00002c;
 }
 
+.login_logo {
+  width: 70px;
+}
+
+.reg_backbutton:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 1270px) {
+  .main_container {
+    position: absolute;
+    top: 0rem;
+    left: -1.5rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 120vh;
+    width: 106vw;
+  }
+
+  /*Sign Up Part*/
+  .signup_container {
+    width: 100%;
+    margin-top: 0;
+    margin-left: -15rem;
+    height: 120vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: none;
+    z-index: 1;
+  }
+
+  /* Background overlay */
+  .background-overlay {
+    position: absolute; /* Cover the entire container */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("../../assets/Login_Signup_bg.png") no-repeat center center; /* Set the background image */
+    background-size: cover; /* Cover the entire area */
+    opacity: 0.1; /* Set the desired opacity */
+    z-index: 0; /* Behind the content */
+  }
+
+  .img_holder_signup {
+    visibility: hidden;
+  }
+
+  .signup_img {
+    visibility: hidden;
+  }
+
+  .registration_field {
+    position: absolute;
+    width: 90%;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .registration_field .input_fields {
+    margin-top: 10rem;
+  }
+
+  .reg_backbutton {
+    position: sticky;
+    left: 2rem;
+    margin-left: 1rem;
+  }
+
+  .reg_back_btn_cont {
+    position: fixed;
+    left: 1rem;
+    margin-left: 1rem;
+  }
+
+  .has_acc_link {
+    background-color: transparent;
+  }
+
+  .login_container {
+    width: 100%;
+    margin-top: 0;
+    margin-left: 1rem;
+    height: 120vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .login_img {
+    visibility: hidden;
+  }
+
+  .input_holder {
+    position: absolute;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3rem auto;
+  }
+
+  .logo_holder {
+    width: fit-content;
+  }
+
+  . .text_holder {
+    width: 100%;
+  }
+
+  .input_fields form {
+    width: 100%;
+  }
+
+  .input_holder .input_fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .backbutton {
+    position: fixed;
+    left: 2.5rem;
+    top: 2rem;
+    margin-left: 1rem;
+  }
+
+  .no_acc_container {
+    width: 65%;
+    margin: 0;
+  }
+
+  .no_acc_link {
+    background-color: transparent;
+  }
+}
+
+@media (max-width: 1000px) {
+  .registration_field {
+    margin-left: 1rem;
+  }
+
+  .main_container {
+    width: 125vw;
+  }
+
+  .login_container {
+    width: 110%;
+    margin-top: 0;
+    margin-left: -9rem;
+    height: 120vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .input_holder {
+    margin-left: 10rem;
+    width: 50%;
+  }
+
+  .checkboxes-container {
+    margin-left: 0;
+    width: fit-content;
+  }
+
+  .no_acc_container {
+    margin-left: -2rem;
+    width: 50%;
+    gap: 10%;
+    text-wrap: nowrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .registration_field {
+    margin-left: -1rem;
+  }
+
+  .main_container {
+    width: 150vw;
+  }
+
+  .login_container {
+    width: 100%;
+    margin-top: 0;
+    margin-left: -7rem;
+    height: 120vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .input_holder {
+    margin-left: 0rem;
+    width: 50%;
+  }
+
+  .checkboxes-container {
+    margin-left: 0;
+    width: fit-content;
+  }
+
+  .no_acc_container {
+    margin-left: -2rem;
+    width: 50%;
+    gap: 10%;
+    text-wrap: nowrap;
+  }
+}
+
 @media (max-width: 425px) {
   .main_container {
     position: absolute;
@@ -802,6 +1027,7 @@
     overflow-y: hidden;
     overflow-x: hidden;
     box-shadow: none;
+    z-index: 1;
   }
 
   /* Background overlay */
@@ -943,16 +1169,21 @@
     margin-left: 1.5rem;
     width: 100vw;
     height: 110vh;
+    z-index: 5;
   }
 
   .login_img {
     visibility: hidden;
   }
 
+  .no_acc_link {
+    z-index: 10; /* or a higher value as needed */
+  }
+
   .backbutton {
     position: absolute;
-    margin-left: 0.5rem;
-    margin-top: -0.6rem;
+    top: 3.5%;
+    left: 5%;
   }
 
   .logo_holder {
