@@ -5,12 +5,16 @@
   height: 100vh;
   width: 100vw;
   display: flex;
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
   flex-direction: row;
   z-index: 9999999;
 }
 
 .User_Profile_mainCont::before {
   content: "";
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
   background-image: url(../../assets/cbc_logo.png); /* Replace with the path to your church icon */
   background-repeat: no-repeat;
   background-size: contain; /* or 'cover' depending on your design */
@@ -109,15 +113,16 @@
 }
 
 .additional_info_cont {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
-  padding-left: 5rem;
+  margin: 1rem auto;
 }
 
 .row_user_info {
+  width: 29vw;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
 }
@@ -190,7 +195,7 @@
 
 .right_side_detail {
   width: 100%;
-  background-color: rgb(255, 253, 229);
+  background-color: rgba(255, 253, 229, 0.466);
   border-radius: 25px;
   padding: 25px;
   margin: auto;
@@ -243,6 +248,7 @@
 .address_bar_container {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
 }
 
@@ -285,6 +291,7 @@
 .contact_deets_row {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
 }
 
@@ -321,6 +328,7 @@
 }
 
 .leader_user_container {
+  flex-wrap: wrap;
   display: flex;
   flex-direction: column;
 }
@@ -338,6 +346,7 @@
 .leader_user_row {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
 }
 
@@ -555,4 +564,79 @@
   background: transparent;
   width: 15rem;
   height: 1.3rem;
+}
+
+@media (max-width: 1091px) {
+  .User_Profile_mainCont {
+    flex-direction: column;
+    overflow-y: scroll;
+    align-items: center;
+  }
+
+  .User_Profile_mainCont::before {
+    height: 120vw;
+    flex-direction: column;
+    overflow-y: scroll;
+    align-items: center;
+  }
+
+  .right_side_detail {
+    height: fit-content;
+  }
+
+  .profile_tab {
+    width: 100%;
+  }
+
+  .row_user_info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .User_Profile_mainCont::before {
+    height: 130vw;
+  }
+}
+
+@media (max-width: 920px) {
+  .User_Profile_mainCont::before {
+    height: 140vw;
+  }
+}
+
+@media (max-width: 850px) {
+  .User_Profile_mainCont::before {
+    height: 150vw;
+  }
+}
+
+@media (max-width: 791px) {
+  .User_Profile_mainCont::before {
+    height: 165vw;
+  }
+}
+
+@media (max-width: 766px) {
+  .User_Profile_mainCont::before {
+    height: 175vw;
+  }
+}
+
+@media (max-width: 689px) {
+  .User_Profile_mainCont::before {
+    height: 185vw;
+  }
+}
+
+@media (max-width: 684px) {
+  .User_Profile_mainCont::before {
+    height: 280vw;
+  }
+}
+
+@media (max-width: 525px) {
+  .User_Profile_mainCont::before {
+    height: 330vw;
+  }
 }
