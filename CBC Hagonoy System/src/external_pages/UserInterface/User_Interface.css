@@ -7,11 +7,11 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Restricts scrolling */
+  overflow: hidden;
 }
 
 .icon_personal_user {
-  position: absolute;
+  position: fixed;
   width: 35px;
   height: 35px;
   top: 12.5rem;
@@ -26,7 +26,7 @@
 }
 
 .icon_cellgroup_user {
-  position: absolute;
+  position: fixed;
   width: 35px;
   height: 35px;
   top: 18.15rem;
@@ -41,7 +41,7 @@
 }
 
 .icon_network_user {
-  position: absolute;
+  position: fixed;
   width: 35px;
   height: 35px;
   top: 23.45rem;
@@ -67,6 +67,8 @@
 
 /* Sidebar/dashboard styling */
 .user_dashboard_cont {
+  position: absolute;
+  z-index: 15;
   margin: 0.5rem;
   padding: 1rem 1.5rem;
   width: 16rem; /* Fixed width */
@@ -142,21 +144,6 @@
   transform: translateX(-450%);
 }
 
-/* Content list dashboard styling */
-.content_list_dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  opacity: 1;
-  transition: opacity 0.3s ease-in-out;
-  text-wrap: nowrap;
-}
-
-.user_dashboard_cont.minimized .content_list_dashboard {
-  opacity: 0;
-  pointer-events: none; /* Ensure items are not clickable when minimized */
-}
-
 .content_display_area {
   position: relative; /* Ensures the content can overlap the background */
   z-index: 1; /* Makes sure the content is above the background */
@@ -176,6 +163,21 @@
   width: 100%;
   height: 100%;
   z-index: -1; /* Makes the background stay behind the content */
+}
+
+/* Content list dashboard styling */
+.content_list_dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  text-wrap: nowrap;
+}
+
+.user_dashboard_cont.minimized .content_list_dashboard {
+  opacity: 0;
+  pointer-events: none; /* Ensure items are not clickable when minimized */
 }
 
 /* Content list items styling */
@@ -209,6 +211,8 @@
 }
 
 .dynamic_container_personal {
+  justify-content: space-around;
+  width: clamp(50vw, 90vw, 100vw);
   display: flex;
   flex-direction: row;
 }
@@ -265,12 +269,13 @@ body {
 }
 
 .icon_label {
-  position: absolute;
+  position: fixed;
   opacity: 0;
 }
 
 .user_dashboard_cont.minimized .icon_label {
   font-size: 10px;
+  position: fixed;
   color: whitesmoke;
   width: 60px;
   line-height: 15px;

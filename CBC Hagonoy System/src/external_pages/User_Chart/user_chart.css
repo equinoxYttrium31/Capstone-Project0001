@@ -1,6 +1,6 @@
 .user_chart_main_cont {
   margin-top: 5rem;
-  margin-left: 15%;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,51 +65,51 @@
   font-family: "Poppins";
 }
 
-.legends_container{
+.legends_container {
   width: 100%;
   margin-top: 1rem;
 }
 
-.legends_title{
+.legends_title {
   color: #2d2f65;
   font-family: "Poppins";
   font-size: 18px;
 }
 
-.individual_legend_cont{
+.individual_legend_cont {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.legend_color_label{
+.legend_color_label {
   font-family: "Poppins";
   font-size: 13px;
 }
 
-.legend_color_div{
+.legend_color_div {
   width: 13px;
   height: 13px;
   margin-right: 1rem;
   border-radius: 10px;
 }
 
-.CG{
+.CG {
   background-color: #36a2eb;
 }
 
-.PD{
+.PD {
   background-color: #ff6384;
 }
 
-.FD{
- background-color: #ffce56; 
+.FD {
+  background-color: #ffce56;
 }
 
-.PM{
+.PM {
   background-color: #4bc0c0;
 }
 
-.WS{
+.WS {
   background-color: #9966ff;
 }

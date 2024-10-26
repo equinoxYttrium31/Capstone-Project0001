@@ -5,6 +5,7 @@ import Personal_Acc from "../Personal_Acc/Personal_Acc";
 import User_NavBar from "../UserNavigationBar/User_NavBar";
 import Cellgroup_File from "../Cellgroup_Record_Files/Cellgroup_File";
 import Network_Record from "../Network_Record_Files/Network_Record";
+import { cbc_logo } from "../../assets/Assets";
 
 import "./User_Interface.css";
 import {
@@ -18,7 +19,7 @@ function User_Interface() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [activeContent, setActiveContent] = useState("Personal");
 
   useEffect(() => {
