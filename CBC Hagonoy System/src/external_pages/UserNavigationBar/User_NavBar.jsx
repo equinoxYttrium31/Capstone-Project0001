@@ -13,7 +13,7 @@ import {
   acc_ic_selected,
   setting_ic_selected,
 } from "../../assets/Assets";
-import axios from "axios"; // Assuming Axios is used for fetching user data
+import axios from "axios";
 
 import BiblePage from "../../components/NavBar_Components/Bible/BiblePage";
 import AboutUs from "../../components/NavBar_Components/About Us/AboutUs";
@@ -23,28 +23,21 @@ import Ministries from "../../components/NavBar_Components/Ministries/ministries
 function User_NavBar() {
   const location = useLocation();
 
-  // State to control whether the user profile is visible
+  // State variables
   const [showProfile, setShowProfile] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
-  // State to control which modal content is visible
   const [modalContent, setModalContent] = useState(null);
-
-  // State to store user data
   const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // New state for hamburger menu
 
-  // Fetch user data (similar to what you're doing in Personal_Acc)
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/profile",
-          {
-            withCredentials: true,
-          }
-        );
-        setUser(response.data); // Store the fetched user data
+        const response = await axios.get("http://localhost:8000/profile", {
+          withCredentials: true,
+        });
+        setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
@@ -53,35 +46,16 @@ function User_NavBar() {
     fetchUserProfile();
   }, []);
 
-  // Helper function to check if the current path is active
   const isActive = (path) => (location.pathname === path ? "active" : "");
+  const handleModalOpen = (content) => setModalContent(content);
+  const handleModalClose = () => setModalContent(null);
+  const toggleProfile = () => setShowProfile(!showProfile);
+  const toggleSetting = () => setShowSettings(!showSettings);
+  const toggleNotifications = () => setShowNotifications(!showNotifications);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle the hamburger menu
 
-  // Function to handle opening modal with specific content
-  const handleModalOpen = (content) => {
-    setModalContent(content);
-  };
-
-  // Function to close the modal
-  const handleModalClose = () => {
-    setModalContent(null);
-  };
-
-  // Function to toggle the user profile
-  const toggleProfile = () => {
-    setShowProfile(!showProfile); // Toggle the profile visibility
-  };
-
-  const toggleSetting = () => {
-    setShowSettings(!showSettings);
-  };
-
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-  };
-
-  // Only render the navbar if the user is logged in (i.e., user data exists)
   if (!user) {
-    return null; // Return nothing if the user is not logged in
+    return null;
   }
 
   return (
@@ -96,30 +70,50 @@ function User_NavBar() {
           />
         </div>
         <div className="right_side_nav">
-          <div className="user_nav_links">
+          <div
+            className={`hamburger_icon ${isMenuOpen ? "open" : ""}`}
+            onClick={toggleMenu}
+          >
+            {/* Hamburger icon */}
+            <span className="bar"></span>
+            <span className="bar"></span>
+            <span className="bar"></span>
+          </div>
+          <div className={`user_nav_links ${isMenuOpen ? "open" : ""}`}>
             <ul className="user_nav_links_contents">
-              {/* OnClick opens the respective component in the modal */}
               <li
                 className={isActive("/about")}
-                onClick={() => handleModalOpen(<AboutUs />)}
+                onClick={() => {
+                  handleModalOpen(<AboutUs />);
+                  setIsMenuOpen(false);
+                }}
               >
                 About Us
               </li>
               <li
                 className={isActive("/beliefs")}
-                onClick={() => handleModalOpen(<Beliefs />)}
+                onClick={() => {
+                  handleModalOpen(<Beliefs />);
+                  setIsMenuOpen(false);
+                }}
               >
                 Beliefs
               </li>
               <li
                 className={isActive("/ministries")}
-                onClick={() => handleModalOpen(<Ministries isModal={true} />)}
+                onClick={() => {
+                  handleModalOpen(<Ministries isModal={true} />);
+                  setIsMenuOpen(false);
+                }}
               >
-                Ministerial
+                Ministries
               </li>
               <li
                 className={isActive("/bible")}
-                onClick={() => handleModalOpen(<BiblePage />)}
+                onClick={() => {
+                  handleModalOpen(<BiblePage />);
+                  setIsMenuOpen(false);
+                }}
               >
                 Bible
               </li>
@@ -148,19 +142,12 @@ function User_NavBar() {
         </div>
       </div>
 
-      {/* Conditionally render the user profile */}
       {showProfile && <Users_Profile />}
-
       {showSettings && <Setting_Page />}
-
       {showNotifications && <Notifications />}
-
-      {/* Conditionally render the modal */}
       {modalContent && (
         <div className="modal">
-          <div className="modal-content">
-            {modalContent} {/* Render the modal content here */}
-          </div>
+          <div className="modal-content">{modalContent}</div>
         </div>
       )}
     </div>
