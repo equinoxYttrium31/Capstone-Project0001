@@ -58,6 +58,8 @@
 
 .login_logo_holder {
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
 }
@@ -65,7 +67,6 @@
 .login_logo {
   position: relative;
   top: 0rem;
-  left: 9.5rem;
 }
 
 .greetings {
