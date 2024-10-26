@@ -71,6 +71,7 @@ export default function Event_Page() {
           return false;
         });
 
+        setCurrentEvents(currentWeekEvents);
         setUpcomingEvents(filteredUpcomingEvents);
       } catch (error) {
         console.error("Error Fetching Announcements", error);
