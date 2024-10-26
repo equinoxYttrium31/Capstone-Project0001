@@ -104,7 +104,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
             />
           </div>
           <div className="input_holder">
-            <div className="logo_holder">
+            <div className="login_logo_holder">
               <img src={cbc_logo} alt="CBC Logo" className="login_logo" />
             </div>
             <div className="text_holder">

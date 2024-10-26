@@ -56,13 +56,13 @@
   align-items: center;
 }
 
-.logo_holder {
+.login_logo_holder {
   margin-bottom: 15px;
   align-items: center;
   width: 100%;
 }
 
-.logo {
+.login_logo {
   position: relative;
   top: 0rem;
   left: 10.5rem;
