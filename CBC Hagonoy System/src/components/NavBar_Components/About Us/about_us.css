@@ -15,7 +15,7 @@
 }
 
 .greeting_text_container {
-  width: 70%;
+  width: clamp(50vw, 70%, 80vw);
   text-align: center;
   margin: 6.5rem auto;
 }
@@ -24,7 +24,7 @@
   font-family: "Cinzel";
   color: #28282b;
   font-weight: 400;
-  font-size: 3.5em;
+  font-size: clamp(2.5em, 3.5em, 4em);
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
@@ -80,14 +80,14 @@
 }
 
 .intoduction_container {
-  width: 70%;
+  width: clamp(60vw, 70%, 80vw);
   margin: 1rem auto;
   opacity: 1;
   transition: all 2s ease-in-out; /* Smooth transition for animation */
 }
 
 .history_container {
-  width: 70%;
+  width: clamp(60vw, 70%, 80vw);
   height: 25rem;
   margin: 1rem auto;
   display: flex;
@@ -119,7 +119,7 @@
 
 /*Styling of Values and Mission*/
 .values_and_mission_container {
-  width: 70%;
+  width: clamp(60vw, 70%, 80vw);
   margin: 6rem auto;
 }
 
@@ -233,7 +233,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70%;
+  width: clamp(60vw, 70%, 80vw);
   margin: auto;
 }
 
@@ -394,7 +394,50 @@
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 1287px) {
+  .header_text {
+    font-size: 3.5rem;
+    overflow: auto;
+    text-wrap: wrap;
+  }
+
+  .values_container {
+    width: 8rem;
+    height: 18.5rem;
+  }
+
+  .values_icon {
+    width: 7.5rem;
+  }
+
+  .values_title {
+    font-size: 1.2rem;
+    text-wrap: pretty;
+  }
+
+  .values_details {
+    font-size: 0.9rem;
+    line-height: 1rem;
+  }
+
+  .leader_descrption {
+    text-align: center;
+    line-height: 1.3rem;
+  }
+}
+
+@media (max-width: 985px) {
+  .aboutUs_page_cont {
+    width: 100vw;
+  }
+
+  .get_to_know_header {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 860px) {
   .greating_header_image {
     width: 100%;
     height: 15rem;
@@ -446,7 +489,6 @@
 
   .values_rows {
     width: 100%;
-    margin-left: -6rem;
     display: flex;
     flex-direction: row;
     gap: 1rem;
