@@ -19,23 +19,50 @@ function Activities() {
           "https://capstone-project0001-2.onrender.com//archive-announcement"
         );
 
+        // Define today once and set it to the start of the day
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Filter events where endDate is today or in the future
-        const filteredEvents = response.data.filter((announcement) => {
-          const audience = announcement.audience;
-          const publishDate = new Date(announcement.endDate);
-          const endDate = new Date(announcement.endDate);
-          endDate.setHours(0, 0, 0, 0);
-          publishDate.setHours(0, 0, 0, 0);
+        // Utility function to set date to start of the day
+        const setToStartOfDay = (date) => {
+          const d = new Date(date);
+          d.setHours(0, 0, 0, 0);
+          return d;
+        };
 
-          if (audience === "all_cellgroups") {
-            return endDate <= today && publishDate >= today;
+        // Calculate start (Monday) and end (Sunday) of the current week based on today
+        const startOfWeek = new Date(today);
+        const dayOfWeek = today.getDay();
+        const daysUntilMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Adjust if today is Sunday
+        startOfWeek.setDate(today.getDate() + daysUntilMonday); // Monday
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
+
+        console.log("Start of week:", startOfWeek); // Debugging: Check start of the week
+        console.log("End of week:", endOfWeek); // Debugging: Check end of the week
+
+        // Current events: Ending within the current week and published today or earlier
+        const currentWeekEvents = response.data.filter((announcement) => {
+          if (announcement.audience === "all_cellgroups") {
+            const publishDate = setToStartOfDay(announcement.publishDate);
+            const endDate = setToStartOfDay(announcement.endDate);
+
+            // Debugging: Log announcement dates
+            console.log(
+              `Checking event: PublishDate=${publishDate}, EndDate=${endDate}`
+            );
+
+            return (
+              publishDate >= startOfWeek &&
+              endDate >= startOfWeek &&
+              endDate <= endOfWeek
+            );
           }
+          return false;
         });
 
-        setAnnouncements(filteredEvents);
+        setAnnouncements(currentWeekEvents);
       } catch (error) {
         console.error("Error fetching announcements:", error);
       }
