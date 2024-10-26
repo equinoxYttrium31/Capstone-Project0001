@@ -3,7 +3,7 @@
   margin: -10px 0px;
   padding: 0;
   height: 100%;
-  width: 100vw;
+  width: fit-content;
   overflow: hidden;
   scroll-behavior: smooth;
 }
