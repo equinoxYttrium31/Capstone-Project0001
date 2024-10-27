@@ -1,312 +1,761 @@
-.settings_container{
-    position: absolute;
-    background-color: beige;
-    height: 100vh;
-    width: 100vw;
-    overflow: scroll;
-    z-index: 999999;
+.settings_container {
+  position: absolute;
+  background-color: beige;
+  height: 100vh;
+  width: 100vw;
+  overflow: scroll;
+  z-index: 999999;
 }
 
-.setting_content_container{
-    width: 26vw;
-    height: 90vh;
-    padding: 1.5rem 1rem;
-    box-shadow: 2px 3px 5px #282828;
+.setting_content_container {
+  width: 26vw;
+  height: 90vh;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 3px 5px #282828;
 }
 
-.header_container_settings{
-    margin: 1rem 1rem;
+.header_container_settings {
+  margin: 1rem 1rem;
 }
 
-.setting_header{
-    font-family: "Poppins";
-    font-size: 2.5em;
-    color: #2d2f65;
+.setting_header {
+  font-family: "Poppins";
+  font-size: 2.5em;
+  color: #2d2f65;
 }
 
-.settings_selection_container{
-    margin: 0rem 1rem;
+.settings_selection_container {
+  margin: 0rem 1rem;
 }
 
-.setting_Selection{
-    display: flex;
-    flex-direction: column;
-    list-style: none;
+.setting_Selection {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
 }
 
-.setting_Selection_list{
-    font-family: "Lato";
-    font-size: 1.1em;
-    text-decoration: none;
-    font-weight: 600;
-    color: #28282B;
-    border-radius: 15px;
-    width: 90%;
-    margin: .5rem 0rem;
-    padding: 1rem 1rem;
-    transition: all .2s ease-in-out;
+.setting_Selection_list {
+  font-family: "Lato";
+  font-size: 1.1em;
+  text-decoration: none;
+  font-weight: 600;
+  color: #28282b;
+  border-radius: 15px;
+  width: 90%;
+  margin: 0.5rem 0rem;
+  padding: 1rem 1rem;
+  transition: all 0.2s ease-in-out;
 }
 
-.setting_Selection_list:hover{
-    background-color: #2d2f657e;
-    color: whitesmoke;
-    transform: translateX(1rem);
+.setting_Selection_list:hover {
+  background-color: #2d2f657e;
+  color: whitesmoke;
+  transform: translateX(1rem);
 }
 
-.isActive{
-    background-color: #2d2f65;
-    color: whitesmoke;
-    transform: translateX(.5rem) translateY(-.5rem);
+.isActive {
+  background-color: #2d2f65;
+  color: whitesmoke;
+  transform: translateX(0.5rem) translateY(-0.5rem);
 }
 
-.isActive:hover{
-    background-color: #2d2f65;
-    color: whitesmoke;
-    transform: translateX(.5rem) translateY(-.5rem);
+.isActive:hover {
+  background-color: #2d2f65;
+  color: whitesmoke;
+  transform: translateX(0.5rem) translateY(-0.5rem);
 }
 
-.account_setting_modal{
-    position: absolute;
-    width: 71vw;
-    height: 90vh;
-    left: 27rem;
-    top: 0rem;
-    overflow: scroll;
-    animation: slowLoad .5s ease-in-out;
+.account_setting_modal {
+  position: absolute;
+  width: 70vw;
+  height: 90vh;
+  left: 27rem;
+  top: 0rem;
+  overflow: scroll;
+  animation: slowLoad 0.5s ease-in-out;
 }
 
-.PaS_Setting_cont{
-    margin: 3.5rem 2rem;
+.PaS_Setting_cont {
+  margin: 3.5rem 2rem;
 }
 
-.AccountSettings{
-    font-family: "Poppins";
-    font-size: 2.125em;
-    color: #2d2f65;
+.AccountSettings {
+  font-family: "Poppins";
+  font-size: 2.125em;
+  color: #2d2f65;
 }
 
-.PaS_Context{
-    font-size: 1em;
-    line-height: 1rem;
-    font-family: "Lato";
-    color: #28282B;
+.PaS_Context {
+  font-size: 1em;
+  line-height: 1rem;
+  font-family: "Lato";
+  color: #28282b;
 }
 
-.change_passwordContainer{
-    margin: 3.5rem 2rem;
-    padding: 1rem 2.5rem;
-    border-radius: 15px;
-    box-shadow: #282828 1px 1px 5px;
-    background-color: #FFFFF0;
+.change_passwordContainer {
+  width: 55vw;
+  margin: 3.5rem 2rem;
+  padding: 1rem 2.5rem;
+  border-radius: 15px;
+  box-shadow: #282828 1px 1px 5px;
+  background-color: #fffff0;
 }
 
-.ChangePassword_Header{
-    font-size: 1.5em;
-    font-family: "Poppins";
-    color: #28282B;
+.ChangePassword_Header {
+  font-size: 1.5em;
+  font-family: "Poppins";
+  color: #28282b;
 }
 
-.big-container-Password{
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
+.big-container-Password {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
 }
 
 .OldPass_Label {
-    position: absolute;
-    left: 19rem;
-    top: 30.3rem;
-    margin-right: 1rem;
-    font-family: "Lato";
-    z-index: 0;
-    text-align: start;
-    color: #28282b59;
-    transition: top 0.2s, font-size 0.2s;
+  position: absolute;
+  left: 19rem;
+  width: 100%;
+  top: 30.3rem;
+  margin-right: 1rem;
+  font-family: "Lato";
+  z-index: 0;
+  text-align: start;
+  color: #28282b59;
+  transition: top 0.2s, font-size 0.2s;
 }
 
 .OldPass {
-    width: 30rem;
-    height: 2rem;
-    padding: 1rem 1rem 0rem 1rem;
-    border-radius: 15px;
-    border: #28282859 2px solid;
-    outline: none;
-    z-index: 55;
-    background-color: transparent;
-    transition: border 0.2s;
-    box-shadow: none;
-    font-size: 1.125em;
+  width: 30rem;
+  height: 2rem;
+  padding: 1rem 1rem 0rem 1rem;
+  border-radius: 15px;
+  border: #28282859 2px solid;
+  outline: none;
+  z-index: 55;
+  background-color: transparent;
+  transition: border 0.2s;
+  box-shadow: none;
+  font-size: 1.125em;
 }
 
 .OldPass:focus {
-    border: #282828 2px solid;
-    outline: none;
+  border: #282828 2px solid;
+  outline: none;
 }
 
-.OldPass:focus~.OldPass_Label,
-.OldPass:not(:placeholder-shown)~.OldPass_Label {
-    top: 29.5rem;
-    font-size: 0.8rem;
-    color: #282828;
+.OldPass:focus ~ .OldPass_Label,
+.OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+  top: 29.5rem;
+  font-size: 0.8rem;
+  color: #282828;
 }
 
 .ConfPass_Label {
-    position: absolute;
-    left: 19rem;
-    top: 38rem;
-    margin-right: 1rem;
-    font-family: "Lato";
-    z-index: 0;
-    text-align: start;
-    color: #28282b59;
-    transition: top 0.2s, font-size 0.2s;
+  position: absolute;
+  left: 19rem;
+  top: 38rem;
+  margin-right: 1rem;
+  font-family: "Lato";
+  z-index: 0;
+  text-align: start;
+  color: #28282b59;
+  transition: top 0.2s, font-size 0.2s;
 }
 
 .ConfPass {
-    width: 30rem;
-    height: 2rem;
-    padding: 1rem 1rem 0rem 1rem;
-    border-radius: 15px;
-    border: #28282859 2px solid;
-    outline: none;
-    z-index: 1;
-    background-color: transparent;
-    transition: border 0.2s;
-    box-shadow: none;
-    font-size: 1.125em;
+  width: 30rem;
+  height: 2rem;
+  padding: 1rem 1rem 0rem 1rem;
+  border-radius: 15px;
+  border: #28282859 2px solid;
+  outline: none;
+  z-index: 1;
+  background-color: transparent;
+  transition: border 0.2s;
+  box-shadow: none;
+  font-size: 1.125em;
 }
 
 .ConfPass:focus {
-    border: #282828 2px solid;
-    outline: none;
+  border: #282828 2px solid;
+  outline: none;
 }
 
-.ConfPass:focus~.ConfPass_Label,
-.ConfPass:not(:placeholder-shown)~.ConfPass_Label {
-    top: 37.3rem;
-    font-size: 0.8rem;
-    color: #282828;
+.ConfPass:focus ~ .ConfPass_Label,
+.ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+  top: 37.3rem;
+  font-size: 0.8rem;
+  color: #282828;
 }
 
 .NewPass_Label {
-    position: absolute;
-    left: 19rem;
-    top: 34.1rem;
-    margin-right: 1rem;
-    font-family: "Lato";
-    z-index: 0;
-    text-align: start;
-    color: #28282b59;
-    transition: top 0.2s, font-size 0.2s;
+  position: absolute;
+  left: 19rem;
+  top: 34.1rem;
+  margin-right: 1rem;
+  font-family: "Lato";
+  z-index: 0;
+  text-align: start;
+  color: #28282b59;
+  transition: top 0.2s, font-size 0.2s;
 }
 
 .NewPass {
-    width: 30rem;
-    height: 2rem;
-    padding: 1rem 1rem 0rem 1rem;
-    border-radius: 15px;
-    border: #28282859 2px solid;
-    outline: none;
-    z-index: 1;
-    background-color: transparent;
-    transition: border 0.2s;
-    box-shadow: none;
-    font-size: 1.125em;
+  width: 30rem;
+  height: 2rem;
+  padding: 1rem 1rem 0rem 1rem;
+  border-radius: 15px;
+  border: #28282859 2px solid;
+  outline: none;
+  z-index: 150;
+  background-color: transparent;
+  transition: border 0.2s;
+  box-shadow: none;
+  font-size: 1.125em;
 }
 
 .NewPass:focus {
-    border: #282828 2px solid;
-    outline: none;
+  border: #282828 2px solid;
+  outline: none;
 }
 
-.NewPass:focus~.NewPass_Label,
-.NewPass:not(:placeholder-shown)~.NewPass_Label {
-    top: 33.4rem;
-    font-size: 0.8rem;
-    color: #282828;
+.NewPass:focus ~ .NewPass_Label,
+.NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+  top: 33.4rem;
+  font-size: 0.8rem;
+  color: #282828;
 }
 
-.NewPass:hover, .OldPass:hover , .ConfPass:hover{
-    border: 2px solid #282828;
+.NewPass:hover,
+.OldPass:hover,
+.ConfPass:hover {
+  border: 2px solid #282828;
 }
 
-.button_change_cont{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
+.button_change_cont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
-.btn_change_Pass{
-    background-color: #efb934;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-size: 1.1em;
-    font-family: "Lato";
-    color: whitesmoke;
-    border: #efb934 2px solid;
-    transition: all .3s ease-in-out;
+.btn_change_Pass {
+  background-color: #efb934;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-family: "Lato";
+  color: whitesmoke;
+  border: #efb934 2px solid;
+  transition: all 0.3s ease-in-out;
 }
 
-.btn_change_Pass:hover{
-    cursor: pointer;
-    border: #efb934 2px solid;
-    background-color: transparent;
-    color: #28282B;
+.btn_change_Pass:hover {
+  cursor: pointer;
+  border: #efb934 2px solid;
+  background-color: transparent;
+  color: #28282b;
 }
 
-.logout_button_container{
-    margin: 3.5rem 2rem;
-    padding: 1rem 2.5rem;
-    border-radius: 15px;
-    box-shadow: #282828 1px 1px 5px;
-    background-color: #FFFFF0;
+.logout_button_container {
+  margin: 3.5rem 2rem;
+  padding: 1rem 2.5rem;
+  width: 55vw;
+  border-radius: 15px;
+  box-shadow: #282828 1px 1px 5px;
+  background-color: #fffff0;
 }
 
-.Logout_Header{
-    font-size: 1.5em;
-    font-family: "Poppins";
-    color: #28282B;
+.Logout_Header {
+  font-size: 1.5em;
+  font-family: "Poppins";
+  color: #28282b;
 }
 
-.button_container_settings{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    margin: 1rem 1rem;
-    padding: 0rem 2rem;
+.button_container_settings {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin: 1rem 1rem;
+  padding: 0rem 2rem;
 }
 
-.btn-logout_settings{
-    width: 10rem;
-    text-align: end;
-    padding: 1rem 2rem;
-    border-radius: 50rem;
-    border: 1px solid red;
-    background-color: red;
-    color: whitesmoke;
-    font-family: "Poppins";
-    font-size: 1.1em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: .7rem;
+.btn-logout_settings {
+  width: 10rem;
+  text-align: end;
+  padding: 1rem 2rem;
+  border-radius: 50rem;
+  border: 1px solid red;
+  background-color: red;
+  color: whitesmoke;
+  font-family: "Poppins";
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7rem;
 }
 
+.btn-logout_settings:hover {
+  cursor: pointer;
+}
 
 /*animations*/
 @keyframes slowLoad {
-    from{
-        opacity: 0;
-    }
-    to{
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1286px) {
+  .NewPass_Label {
+    left: 23%;
+  }
+
+  .OldPass_Label {
+    left: 23%;
+  }
+
+  .ConfPass_Label {
+    left: 23%;
+  }
+
+  .PaS_Setting_cont {
+    margin: 3.5rem 0rem;
+  }
+}
+
+@media (max-width: 1231px) {
+  .account_setting_modal {
+    margin-left: -5%;
+  }
+
+  .change_passwordContainer {
+    width: 50vw;
+  }
+
+  .logout_button_container {
+    width: 50vw;
+  }
+
+  .NewPass_Label {
+    left: 16%;
+  }
+
+  .OldPass_Label {
+    left: 16%;
+  }
+
+  .ConfPass_Label {
+    left: 16%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .change_passwordContainer {
+    width: 45vw;
+  }
+
+  .logout_button_container {
+    width: 45vw;
+  }
+
+  .NewPass_Label {
+    left: 10%;
+  }
+
+  .OldPass_Label {
+    left: 10%;
+  }
+
+  .ConfPass_Label {
+    left: 10%;
+  }
+}
+
+@media (max-width: 1040px) {
+  .NewPass {
+    width: 25rem;
+  }
+
+  .OldPass {
+    width: 25rem;
+  }
+
+  .ConfPass {
+    width: 25rem;
+  }
+
+  .NewPass_Label {
+    left: 15%;
+  }
+
+  .OldPass_Label {
+    left: 15%;
+  }
+
+  .ConfPass_Label {
+    left: 15%;
+  }
+}
+
+@media (max-width: 990px) {
+  .setting_content_container {
+    width: 100vw;
+    height: 20vh;
+  }
+
+  .settings_selection_container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10%;
+  }
+
+  .isActive {
+    transform: translateX(0.5rem) translateY(0rem);
+  }
+
+  .isActive:hover {
+    transform: translateX(0.5rem) translateY(0rem);
+  }
+
+  .account_setting_modal {
+    left: 15%;
+    top: 30%;
+    margin: auto;
+    width: 100vw;
+    height: 60vh;
+  }
+
+  .settings_container {
+    overflow: hidden;
+  }
+
+  .NewPass_Label {
+    left: 10%;
+  }
+
+  .OldPass_Label {
+    left: 10%;
+  }
+
+  .ConfPass_Label {
+    left: 10%;
+  }
+}
+
+@media (max-width: 815px) {
+  .NewPass {
+    width: 20rem;
+  }
+
+  .OldPass {
+    width: 20rem;
+  }
+
+  .ConfPass {
+    width: 20rem;
+  }
+
+  .NewPass:focus ~ .NewPass_Label,
+  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+    top: 123%;
+  }
+
+  .NewPass_Label {
+    top: 126%;
+    left: 12%;
+  }
+
+  .OldPass:focus ~ .OldPass_Label,
+  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+    top: 110%;
+  }
+
+  .OldPass_Label {
+    top: 112.5%;
+    left: 12%;
+  }
+
+  .ConfPass:focus ~ .ConfPass_Label,
+  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+    top: 138.5%;
+  }
+
+  .ConfPass_Label {
+    left: 12%;
+    top: 140%;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
+}
+
+@media (max-width: 630px) {
+  .NewPass {
+    width: 15rem;
+  }
+
+  .OldPass {
+    width: 15rem;
+  }
+
+  .ConfPass {
+    width: 15rem;
+  }
+
+  .NewPass_Label {
+    top: 126%;
+    left: 15%;
+  }
+
+  .OldPass_Label {
+    top: 112.5%;
+    left: 15%;
+  }
+
+  .ConfPass_Label {
+    left: 15%;
+    top: 140%;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
+}
+
+@media (max-width: 574px) {
+  .NewPass {
+    width: 15rem;
+  }
+
+  .OldPass {
+    width: 15rem;
+  }
+
+  .ConfPass {
+    width: 15rem;
+  }
+
+  .NewPass_Label {
+    top: 138%;
+    left: 15%;
+  }
+
+  .OldPass_Label {
+    top: 124%;
+    left: 15%;
+  }
+
+  .ConfPass_Label {
+    left: 15%;
+    top: 151.5%;
+  }
+
+  .NewPass:focus ~ .NewPass_Label,
+  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+    top: 135%;
+  }
+
+  .OldPass:focus ~ .OldPass_Label,
+  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+    top: 121%;
+  }
+
+  .ConfPass:focus ~ .ConfPass_Label,
+  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+    top: 148.5%;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
+}
+
+@media (max-width: 495px) {
+  .NewPass {
+    width: 12rem;
+  }
+
+  .OldPass {
+    width: 12rem;
+  }
+
+  .ConfPass {
+    width: 12rem;
+  }
+
+  .NewPass_Label {
+    top: 146%;
+    left: 18%;
+  }
+
+  .OldPass_Label {
+    top: 132%;
+    left: 18%;
+  }
+
+  .ConfPass_Label {
+    left: 18%;
+    top: 159.5%;
+  }
+
+  .NewPass:focus ~ .NewPass_Label,
+  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+    top: 143%;
+  }
+
+  .OldPass:focus ~ .OldPass_Label,
+  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+    top: 129%;
+  }
+
+  .ConfPass:focus ~ .ConfPass_Label,
+  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+    top: 156.5%;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
+}
+
+@media (max-width: 462px) {
+  .NewPass {
+    width: 12rem;
+  }
+
+  .OldPass {
+    width: 12rem;
+  }
+
+  .ConfPass {
+    width: 12rem;
+  }
+
+  .NewPass_Label {
+    top: 154%;
+    left: 18%;
+  }
+
+  .OldPass_Label {
+    top: 140.5%;
+    left: 18%;
+  }
+
+  .ConfPass_Label {
+    left: 18%;
+    top: 168%;
+  }
+
+  .NewPass:focus ~ .NewPass_Label,
+  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+    top: 151%;
+  }
+
+  .OldPass:focus ~ .OldPass_Label,
+  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+    top: 137.5%;
+  }
+
+  .ConfPass:focus ~ .ConfPass_Label,
+  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+    top: 165%;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
+}
+
+@media (max-width: 432px) {
+  .NewPass {
+    width: 12rem;
+  }
+
+  .OldPass {
+    width: 12rem;
+  }
+
+  .ConfPass {
+    width: 12rem;
+  }
+
+  .NewPass_Label {
+    top: 178.5vw;
+    left: 18%;
+  }
+
+  .OldPass_Label {
+    top: 163vw;
+    left: 18%;
+  }
+
+  .ConfPass_Label {
+    left: 18%;
+    top: 194vw;
+  }
+
+  .NewPass:focus ~ .NewPass_Label,
+  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
+    top: 175.5vw;
+  }
+
+  .OldPass:focus ~ .OldPass_Label,
+  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
+    top: 160vw;
+  }
+
+  .ConfPass:focus ~ .ConfPass_Label,
+  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
+    top: 191vw;
+  }
+
+  .PaS_Context {
+    text-wrap: wrap;
+    width: 100%;
+  }
+
+  .PaS_Setting_cont {
+    width: 70%;
+  }
 }
