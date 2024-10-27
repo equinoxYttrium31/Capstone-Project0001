@@ -71,3 +71,72 @@
 .no_announcement_text {
   padding: 1rem 2rem;
 }
+
+@media (max-width: 1290px) {
+  .main_container_notifications {
+    height: 100vw;
+  }
+
+  .notification_list_container {
+    height: 100vw;
+  }
+}
+
+@media (max-width: 641px) {
+  .main_container_notifications {
+    height: 120vw;
+  }
+
+  .notification_list_container {
+    height: 120vw;
+  }
+}
+
+@media (max-width: 531px) {
+  .main_container_notifications {
+    margin: 0;
+    width: 100vw;
+    height: 140vw;
+  }
+
+  .notifications_header_container {
+    margin: 0;
+    width: 100vw;
+  }
+
+  .notification_list_container {
+    margin: 0;
+    width: 100vw;
+    height: 140vw;
+  }
+}
+
+@media (max-width: 460px) {
+  .main_container_notifications {
+    height: 150vw;
+  }
+
+  .notification_list_container {
+    height: 150vw;
+  }
+}
+
+@media (max-width: 425px) {
+  .main_container_notifications {
+    height: 160vw;
+  }
+
+  .notification_list_container {
+    height: 160vw;
+  }
+}
+
+@media (max-width: 425px) {
+  .main_container_notifications {
+    height: 170vw;
+  }
+
+  .notification_list_container {
+    height: 170vw;
+  }
+}
