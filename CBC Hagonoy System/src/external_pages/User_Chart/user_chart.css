@@ -12,7 +12,7 @@
 
 .months_selector {
   padding: 5px;
-  width: 20vw;
+  width: 30vw;
   font-family: "Poppins";
   border: 2px solid #2d2f65;
   border-radius: 5px;
@@ -112,4 +112,23 @@
 
 .WS {
   background-color: #9966ff;
+}
+
+@media (max-width: 1247px) {
+  .user_chart_main_cont {
+    width: 100vw;
+    padding: 5% 5%;
+  }
+
+  .legends_container {
+    text-align: center;
+  }
+
+  .individual_legend_cont {
+    margin: 1% 25%;
+  }
+
+  .legend_color_label {
+    text-wrap: nowrap;
+  }
 }

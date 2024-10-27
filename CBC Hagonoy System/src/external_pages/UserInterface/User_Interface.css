@@ -160,7 +160,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 110vw;
   height: 100%;
   z-index: -1; /* Makes the background stay behind the content */
 }
@@ -311,5 +311,17 @@ body {
 
   to {
     opacity: 1;
+  }
+}
+
+@media (max-width: 1287px) {
+  .dynamic_container_personal {
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 1247px) {
+  .dynamic_container_personal {
+    flex-direction: column;
   }
 }
