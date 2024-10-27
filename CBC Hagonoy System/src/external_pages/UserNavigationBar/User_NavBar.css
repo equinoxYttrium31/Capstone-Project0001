@@ -90,6 +90,10 @@ li {
   margin-top: -1rem;
 }
 
+.hamburger_icon.open .bar {
+  background-color: #efb934;
+}
+
 .hamburger_icon .bar {
   width: 25px;
   height: 3px;
