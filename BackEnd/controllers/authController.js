@@ -4,6 +4,7 @@ const UserAttendanceModel = require("../models/UserAttendance");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const sharp = require("sharp");
 const AnnouncementModel = require("../models/Announcements");
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
@@ -11,18 +12,21 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 
 // Middleware for token verification
+
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.token; // Access the token from cookies
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Invalid token" });
     }
-    req.user = user; // Store user info in request object
-    console.log("Decoded Token:", user); // Log the decoded token
+    req.user = decoded;
+    req.id = decoded.id;
+    console.log(decoded.id); // Store user ID in request object
+    console.log("Decoded Token:", decoded); // Log the decoded token
     next(); // Proceed to the next middleware or route handler
   });
 };
@@ -140,7 +144,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "None", // Adjust based on your app needs
+      sameSite: "Strict", // Adjust based on your app needs
       path: "/", // Path for the cookie
     });
 
@@ -369,7 +373,7 @@ const logoutUser = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+      sameSite: "Strict",
     });
 
     // Optionally, you can send a success message or status
@@ -717,6 +721,40 @@ const fetchArchivedAnnouncement = async (req, res) => {
   }
 };
 
+const changeUserPassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const id = req.id;
+
+  console.log(id);
+
+  try {
+    // Find user by ID
+    const user = await ChurchUser.findById(id);
+    console.log("Fetched User:", user);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Check if current password is correct
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Incorrect current password" });
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    console.log(hashedPassword);
+
+    user.password = hashedPassword;
+
+    // Save the updated user data
+    await user.save();
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error in changeUserPassword:", error); // Log the error
+    res
+      .status(500)
+      .json({ message: "Error updating password", error: error.message });
+  }
+};
+
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
@@ -748,6 +786,7 @@ module.exports = {
   fetchCurrentAnnouncement,
   getRecordsByNetworkLead,
   fetchArchivedAnnouncement,
+  changeUserPassword,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

@@ -45,29 +45,37 @@ const Setting_Page = () => {
     setIsActive(content);
   };
 
-  // Handle password change
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
-    // Basic password validation
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
     try {
-      const response = await axios.post("/api/change-password", {
-        oldPassword,
-        newPassword,
-      });
+      const response = await axios.post(
+        "https://capstone-project0001-2.onrender.com/change-password",
+        { currentPassword: oldPassword, newPassword },
+        { withCredentials: true }
+      );
+
+      console.log("Response from server:", response);
 
       if (response.data.success) {
-        alert("Password changed successfully!");
+        toast.success("Password changed successfully!");
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setError("");
       } else {
-        setError(response.data.message);
+        setError(response.data.message || "Failed to change password.");
       }
     } catch (error) {
-      setError("An error occurred while changing the password.");
+      setError(
+        error.response?.data?.message ||
+          "An error occurred while changing the password."
+      );
     }
   };
 

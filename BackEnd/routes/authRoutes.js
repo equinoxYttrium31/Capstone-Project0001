@@ -23,6 +23,7 @@ const {
   fetchCurrentAnnouncement,
   getRecordsByNetworkLead,
   fetchArchivedAnnouncement,
+  changeUserPassword,
 } = require("../controllers/authController");
 
 const {
@@ -87,6 +88,7 @@ router.get(
 router.get("/fetch-latestAnnouncement", fetchLatestAnnouncement);
 router.get("/fetch-currentAnnouncement", fetchCurrentAnnouncement);
 router.post("/send-prayer", sendPrayerRequest);
+router.post("/change-password", authenticateToken, changeUserPassword);
 
 // Attendance fetch function
 const getAttendanceByUser = async (req, res) => {
