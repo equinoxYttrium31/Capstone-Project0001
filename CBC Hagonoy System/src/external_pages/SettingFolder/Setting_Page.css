@@ -134,13 +134,13 @@ form {
 }
 
 .OldPass {
-  width: 30rem;
-  height: 2rem;
-  padding: 1rem 1rem 0rem 1rem;
+  width: 25rem;
+  height: 1rem;
+  padding: 1rem 2rem;
   border-radius: 15px;
   border: #28282859 2px solid;
   outline: none;
-  z-index: 55;
+  z-index: 150;
   background-color: transparent;
   transition: border 0.2s;
   box-shadow: none;
@@ -152,33 +152,14 @@ form {
   outline: none;
 }
 
-.OldPass:focus ~ .OldPass_Label,
-.OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-  top: 29.5rem;
-  font-size: 0.8rem;
-  color: #282828;
-}
-
-.ConfPass_Label {
-  position: absolute;
-  left: 19rem;
-  top: 38rem;
-  margin-right: 1rem;
-  font-family: "Lato";
-  z-index: 0;
-  text-align: start;
-  color: #28282b59;
-  transition: top 0.2s, font-size 0.2s;
-}
-
 .ConfPass {
-  width: 30rem;
-  height: 2rem;
-  padding: 1rem 1rem 0rem 1rem;
+  width: 25rem;
+  height: 1rem;
+  padding: 1rem 2rem;
   border-radius: 15px;
   border: #28282859 2px solid;
   outline: none;
-  z-index: 1;
+  z-index: 150;
   background-color: transparent;
   transition: border 0.2s;
   box-shadow: none;
@@ -190,29 +171,10 @@ form {
   outline: none;
 }
 
-.ConfPass:focus ~ .ConfPass_Label,
-.ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-  top: 37.3rem;
-  font-size: 0.8rem;
-  color: #282828;
-}
-
-.NewPass_Label {
-  position: absolute;
-  left: 19rem;
-  top: 34.1rem;
-  margin-right: 1rem;
-  font-family: "Lato";
-  z-index: 0;
-  text-align: start;
-  color: #28282b59;
-  transition: top 0.2s, font-size 0.2s;
-}
-
 .NewPass {
-  width: 30rem;
-  height: 2rem;
-  padding: 1rem 1rem 0rem 1rem;
+  width: 25rem;
+  height: 1rem;
+  padding: 1rem 2rem;
   border-radius: 15px;
   border: #28282859 2px solid;
   outline: none;
@@ -226,13 +188,6 @@ form {
 .NewPass:focus {
   border: #282828 2px solid;
   outline: none;
-}
-
-.NewPass:focus ~ .NewPass_Label,
-.NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-  top: 33.4rem;
-  font-size: 0.8rem;
-  color: #282828;
 }
 
 .NewPass:hover,
@@ -320,18 +275,6 @@ form {
 }
 
 @media (max-width: 1286px) {
-  .NewPass_Label {
-    left: 23%;
-  }
-
-  .OldPass_Label {
-    left: 23%;
-  }
-
-  .ConfPass_Label {
-    left: 23%;
-  }
-
   .PaS_Setting_cont {
     margin: 3.5rem 0rem;
   }
@@ -349,18 +292,6 @@ form {
   .logout_button_container {
     width: 50vw;
   }
-
-  .NewPass_Label {
-    left: 16%;
-  }
-
-  .OldPass_Label {
-    left: 16%;
-  }
-
-  .ConfPass_Label {
-    left: 16%;
-  }
 }
 
 @media (max-width: 1100px) {
@@ -370,18 +301,6 @@ form {
 
   .logout_button_container {
     width: 45vw;
-  }
-
-  .NewPass_Label {
-    left: 10%;
-  }
-
-  .OldPass_Label {
-    left: 10%;
-  }
-
-  .ConfPass_Label {
-    left: 10%;
   }
 }
 
@@ -396,18 +315,6 @@ form {
 
   .ConfPass {
     width: 25rem;
-  }
-
-  .NewPass_Label {
-    left: 15%;
-  }
-
-  .OldPass_Label {
-    left: 15%;
-  }
-
-  .ConfPass_Label {
-    left: 15%;
   }
 }
 
@@ -443,18 +350,6 @@ form {
   .settings_container {
     overflow: hidden;
   }
-
-  .NewPass_Label {
-    left: 10%;
-  }
-
-  .OldPass_Label {
-    left: 10%;
-  }
-
-  .ConfPass_Label {
-    left: 10%;
-  }
 }
 
 @media (max-width: 815px) {
@@ -468,36 +363,6 @@ form {
 
   .ConfPass {
     width: 20rem;
-  }
-
-  .NewPass:focus ~ .NewPass_Label,
-  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-    top: 123%;
-  }
-
-  .NewPass_Label {
-    top: 126%;
-    left: 12%;
-  }
-
-  .OldPass:focus ~ .OldPass_Label,
-  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-    top: 110%;
-  }
-
-  .OldPass_Label {
-    top: 112.5%;
-    left: 12%;
-  }
-
-  .ConfPass:focus ~ .ConfPass_Label,
-  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-    top: 138.5%;
-  }
-
-  .ConfPass_Label {
-    left: 12%;
-    top: 140%;
   }
 
   .PaS_Context {
@@ -523,21 +388,6 @@ form {
     width: 15rem;
   }
 
-  .NewPass_Label {
-    top: 126%;
-    left: 15%;
-  }
-
-  .OldPass_Label {
-    top: 112.5%;
-    left: 15%;
-  }
-
-  .ConfPass_Label {
-    left: 15%;
-    top: 140%;
-  }
-
   .PaS_Context {
     text-wrap: wrap;
     width: 100%;
@@ -559,36 +409,6 @@ form {
 
   .ConfPass {
     width: 15rem;
-  }
-
-  .NewPass_Label {
-    top: 138%;
-    left: 15%;
-  }
-
-  .OldPass_Label {
-    top: 124%;
-    left: 15%;
-  }
-
-  .ConfPass_Label {
-    left: 15%;
-    top: 151.5%;
-  }
-
-  .NewPass:focus ~ .NewPass_Label,
-  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-    top: 135%;
-  }
-
-  .OldPass:focus ~ .OldPass_Label,
-  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-    top: 121%;
-  }
-
-  .ConfPass:focus ~ .ConfPass_Label,
-  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-    top: 148.5%;
   }
 
   .PaS_Context {
@@ -614,36 +434,6 @@ form {
     width: 12rem;
   }
 
-  .NewPass_Label {
-    top: 146%;
-    left: 18%;
-  }
-
-  .OldPass_Label {
-    top: 132%;
-    left: 18%;
-  }
-
-  .ConfPass_Label {
-    left: 18%;
-    top: 159.5%;
-  }
-
-  .NewPass:focus ~ .NewPass_Label,
-  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-    top: 143%;
-  }
-
-  .OldPass:focus ~ .OldPass_Label,
-  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-    top: 129%;
-  }
-
-  .ConfPass:focus ~ .ConfPass_Label,
-  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-    top: 156.5%;
-  }
-
   .PaS_Context {
     text-wrap: wrap;
     width: 100%;
@@ -667,36 +457,6 @@ form {
     width: 12rem;
   }
 
-  .NewPass_Label {
-    top: 154%;
-    left: 18%;
-  }
-
-  .OldPass_Label {
-    top: 140.5%;
-    left: 18%;
-  }
-
-  .ConfPass_Label {
-    left: 18%;
-    top: 168%;
-  }
-
-  .NewPass:focus ~ .NewPass_Label,
-  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-    top: 151%;
-  }
-
-  .OldPass:focus ~ .OldPass_Label,
-  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-    top: 137.5%;
-  }
-
-  .ConfPass:focus ~ .ConfPass_Label,
-  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-    top: 165%;
-  }
-
   .PaS_Context {
     text-wrap: wrap;
     width: 100%;
@@ -718,36 +478,6 @@ form {
 
   .ConfPass {
     width: 12rem;
-  }
-
-  .NewPass_Label {
-    top: 178.5vw;
-    left: 18%;
-  }
-
-  .OldPass_Label {
-    top: 163vw;
-    left: 18%;
-  }
-
-  .ConfPass_Label {
-    left: 18%;
-    top: 194vw;
-  }
-
-  .NewPass:focus ~ .NewPass_Label,
-  .NewPass:not(:placeholder-shown) ~ .NewPass_Label {
-    top: 175.5vw;
-  }
-
-  .OldPass:focus ~ .OldPass_Label,
-  .OldPass:not(:placeholder-shown) ~ .OldPass_Label {
-    top: 160vw;
-  }
-
-  .ConfPass:focus ~ .ConfPass_Label,
-  .ConfPass:not(:placeholder-shown) ~ .ConfPass_Label {
-    top: 191vw;
   }
 
   .PaS_Context {

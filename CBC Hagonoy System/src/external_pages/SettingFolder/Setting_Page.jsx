@@ -133,37 +133,32 @@ const Setting_Page = () => {
                   <input
                     name="OldPass"
                     className="OldPass"
-                    placeholder=" "
+                    placeholder="Old Password"
                     type="password"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     required
                   />
-                  <label className="OldPass_Label">Old Password</label>
                 </div>
                 <div>
                   <input
                     className="NewPass"
-                    placeholder=" "
+                    placeholder="New Password"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     required
                   />
-                  <label className="NewPass_Label">New Password</label>
                 </div>
                 <div>
                   <input
                     className="ConfPass"
-                    placeholder=""
+                    placeholder="Confirm New Password"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
-                  <label className="Label_Form_Settings ConfPass_Label">
-                    Confirm New Password
-                  </label>
                 </div>
               </div>
               {error && <p className="error-message">{error}</p>}
