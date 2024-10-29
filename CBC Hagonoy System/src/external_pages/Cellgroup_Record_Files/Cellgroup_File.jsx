@@ -38,7 +38,7 @@ function Cellgroup_File() {
   const [cellGroups, setCellGroups] = useState([]);
   const [leaderName, setLeaderName] = useState(""); // Store leaderName in state
   const [userType, setUserType] = useState("");
-  const [usersUnderNetworkLead, setUsersUnderNetworkLead] = useState([]); // State for users under network lead
+  const [usersUnderNetworkLead, setUsersUnderNetworkLead] = useState([]);
 
   const handleSearchChange = (e) => {
     const query = e.target.value.trim();
@@ -60,18 +60,14 @@ function Cellgroup_File() {
       memberType: "",
     });
     setSearchedUser("");
-    setFilteredRecords(records);
     setFilterModal(false);
   };
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(
-        "https://capstone-project0001-2.onrender.com/profile",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get("http://localhost:8000/profile", {
+        withCredentials: true,
+      });
       const { firstName, lastName, memberType } = response.data;
       const name = `${firstName} ${lastName}`;
 
@@ -79,7 +75,7 @@ function Cellgroup_File() {
       setLeaderName(name); // Set leaderName in state
       return name;
     } catch (error) {
-      toast.error("Error fetching user profile:", error.message);
+      toast.error("Error fetching user profile: " + error.message);
       throw error;
     }
   };
@@ -87,7 +83,7 @@ function Cellgroup_File() {
   const fetchCellGroupByLeader = async (leaderName) => {
     try {
       const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/leader/${leaderName}`
+        `http://localhost:8000/leader/${leaderName}`
       );
       console.log("Searching for cell group with leader:", leaderName);
       console.log(response.data);
@@ -101,7 +97,7 @@ function Cellgroup_File() {
     try {
       const trimmedLead = networkLead.trim();
       const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/records/networkLead/${trimmedLead}`
+        `http://localhost:8000/records/networkLead/${trimmedLead}`
       );
       console.log("Fetching users under network lead:", networkLead);
       console.log(response.data);
@@ -133,14 +129,12 @@ function Cellgroup_File() {
     };
 
     fetchProfileAndCellGroup();
-  }, [userType]);
+  }, []); // Remove userType dependency to avoid unnecessary fetches
 
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/records"
-        );
+        const response = await axios.get("http://localhost:8000/records");
         console.log(response.data);
         setRecords(response.data);
         setFilteredRecords(response.data);
@@ -164,18 +158,34 @@ function Cellgroup_File() {
     const genderFilter = filters.gender
       ? record.gender === filters.gender
       : true;
+
     const memberTypeFilter = filters.memberType
       ? record.memberType === filters.memberType
       : true;
 
-    return ageFilter && genderFilter && memberTypeFilter;
+    // Apply search filter to first and last names
+    const searchFilter = searchedUser
+      ? record.firstName.toLowerCase().startsWith(searchedUser.toLowerCase()) ||
+        record.lastName.toLowerCase().startsWith(searchedUser.toLowerCase())
+      : true;
+
+    return ageFilter && genderFilter && memberTypeFilter && searchFilter;
   };
 
   const handleApplyFilters = () => {
-    const filtered = records.filter(applyFilters); // Filter the records based on selected filters
+    const allRecords =
+      userType === "Network Leader" ? usersUnderNetworkLead : records;
+    const filtered = allRecords.filter(applyFilters);
     setFilteredRecords(filtered);
-    setFilterModal(false);
+    setFilterModal(false); // Close modal after applying filters
   };
+
+  useEffect(() => {
+    const allRecords =
+      userType === "Network Leader" ? usersUnderNetworkLead : records;
+    const filtered = allRecords.filter(applyFilters);
+    setFilteredRecords(filtered);
+  }, [searchedUser, filters, records, usersUnderNetworkLead, userType]);
 
   return (
     <div className="cellgroup_main_cont">
@@ -246,8 +256,8 @@ function Cellgroup_File() {
           </div>
         ) : userType === "Network Leader" ? (
           <div className="record_lower_part_left">
-            {usersUnderNetworkLead.length > 0 ? (
-              usersUnderNetworkLead.map((record) => {
+            {filteredRecords.length > 0 ? (
+              filteredRecords.map((record) => {
                 let avatar;
                 if (record.gender === "Male") {
                   avatar = avatar_male;
