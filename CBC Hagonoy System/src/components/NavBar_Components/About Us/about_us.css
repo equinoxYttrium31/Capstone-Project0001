@@ -459,6 +459,7 @@
 
   .history_container {
     margin-top: 15rem;
+    height: fit-content;
   }
 
   .get_to_know_image_intro,
