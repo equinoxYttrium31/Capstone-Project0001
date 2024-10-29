@@ -64,10 +64,10 @@ const Setting_Page = () => {
 
       if (response.data.success) {
         toast.success("Password changed successfully!");
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-        setError("");
+        setOldPassword(" ");
+        setNewPassword(" ");
+        setConfirmPassword(" ");
+        setError(" ");
       } else {
         setError(response.data.message || "Failed to change password.");
       }
