@@ -459,7 +459,6 @@
 
   .history_container {
     margin-top: 15rem;
-    height: fit-content;
   }
 
   .get_to_know_image_intro,
@@ -517,5 +516,18 @@
   .leader_descrption {
     text-align: center;
     line-height: 1.3rem;
+  }
+}
+
+@media (max-width: 466px) {
+  .values_rows_container {
+    margin-left: -2rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .values_container {
+    width: 6rem;
+    height: 22rem;
   }
 }
