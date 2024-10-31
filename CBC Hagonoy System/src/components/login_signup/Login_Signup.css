@@ -1164,6 +1164,10 @@
     margin-top: 1rem;
   }
 
+  .input_holder {
+    width: 90%;
+  }
+
   .signup_btn {
     margin-top: 2rem;
     width: 80vw;
