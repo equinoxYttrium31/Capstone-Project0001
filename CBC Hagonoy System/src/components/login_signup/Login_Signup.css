@@ -1156,6 +1156,11 @@
   }
 
   .checkbox_holder {
+    margin-top: 0rem;
+    margin-left: 1.5rem;
+  }
+
+  .has_acc_container {
     margin-top: 1rem;
   }
 
