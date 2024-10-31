@@ -132,7 +132,7 @@ function Cellgroup_File() {
     };
 
     fetchProfileAndCellGroup();
-  }, []); // Remove userType dependency to avoid unnecessary fetches
+  }, [userType, leaderName]); // Remove userType dependency to avoid unnecessary fetches
 
   useEffect(() => {
     const fetchRecords = async () => {
