@@ -939,7 +939,7 @@
 
   .login_container {
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 3rem;
     margin-left: -9rem;
     height: 120vh;
     overflow-y: hidden;
@@ -980,6 +980,7 @@
   .login_container {
     width: 100%;
     margin-left: -7rem;
+    margin-top: 3rem;
     height: 120vh;
     overflow-y: hidden;
     overflow-x: hidden;

@@ -65,9 +65,12 @@ function Cellgroup_File() {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/profile", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/profile",
+        {
+          withCredentials: true,
+        }
+      );
       const { firstName, lastName, memberType } = response.data;
       const name = `${firstName} ${lastName}`;
 
@@ -83,7 +86,7 @@ function Cellgroup_File() {
   const fetchCellGroupByLeader = async (leaderName) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/leader/${leaderName}`
+        `https://capstone-project0001-2.onrender.com/leader/${leaderName}`
       );
       console.log("Searching for cell group with leader:", leaderName);
       console.log(response.data);
