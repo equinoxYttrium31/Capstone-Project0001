@@ -995,6 +995,10 @@
     width: 50%;
   }
 
+  .signup_container {
+    height: 120vh;
+  }
+
   .checkboxes-container {
     margin-left: 0;
     width: fit-content;
