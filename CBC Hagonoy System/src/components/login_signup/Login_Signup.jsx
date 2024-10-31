@@ -116,23 +116,20 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
                   name="email"
                   className="email"
                   type="text"
-                  placeholder=" "
+                  placeholder="Email"
                   required
                   value={data.email}
                   onChange={handleChange}
                 />
-                <label className="email_text">Email</label>
                 <input
                   name="password"
                   className="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder=" "
+                  placeholder="Password"
                   required
                   value={data.password}
                   onChange={handleChange}
                 />
-                <label className="password_text">Password</label>
-
                 {error && <p className="error_message">{error}</p>}
 
                 <div className="checkboxes-container">
@@ -201,69 +198,67 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
                       name="firstName"
                       type="text"
                       className="F_name"
-                      placeholder=" "
+                      placeholder="First Name"
                       required
                       value={data.firstName}
                       onChange={handleChange}
                     />
-                    <label className="F_name_text">First Name</label>
 
                     <input
                       name="lastName"
                       type="text"
                       className="L_name"
-                      placeholder=" "
+                      placeholder="Last Name"
                       required
                       value={data.lastName}
                       onChange={handleChange}
                     />
-                    <label className="L_name_text">Last Name</label>
                   </div>
                   <div className="row_cont">
                     <input
                       name="email"
                       type="email"
                       className="Email_Add"
-                      placeholder=" "
+                      placeholder="Email Address"
                       required
                       value={data.email}
                       onChange={handleChange}
                     />
-                    <label className="Email_Add_text">Email Address</label>
 
                     <input
                       name="birthDate"
-                      type="date"
+                      type={data.birthDate ? "date" : "text"} // Conditionally set type
                       className="B_Date"
-                      placeholder=" "
+                      placeholder="Birthdate"
                       required
                       value={data.birthDate}
                       onChange={handleChange}
+                      onFocus={(e) => (e.target.type = "date")} // Show date picker on focus
+                      onBlur={(e) =>
+                        !e.target.value && (e.target.type = "text")
+                      } // Revert to text if empty
                     />
-                    <label className="B_date_text">Birthdate</label>
                   </div>
                   <div className="row_cont">
                     <input
                       name="password"
                       type="password"
                       className="reg_pass"
-                      placeholder=" "
+                      placeholder="Password"
                       required
                       value={data.password}
                       onChange={handleChange}
                     />
-                    <label className="reg_pass_text">Password</label>
 
                     <input
                       name="confirmPassword"
                       type="password"
                       className="conf_pass"
-                      placeholder=" "
+                      placeholder="Confirm Password"
                       required
                       value={data.confirmPassword}
                       onChange={handleChange}
                     />
-                    <label className="conf_pass_text">Confirm Password</label>
                   </div>
                 </div>
                 <div className="checkbox_holder">
