@@ -970,11 +970,11 @@
 
 @media (max-width: 560px) {
   .registration_field {
-    margin-left: -1rem;
+    margin-left: 1rem;
   }
 
   .main_container {
-    width: 150vw;
+    width: 120vw;
   }
 
   .login_container {
