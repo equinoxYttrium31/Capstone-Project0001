@@ -934,7 +934,8 @@
   }
 
   .main_container {
-    width: 120vw;
+    margin-top: 3rem;
+    width: 125vw;
   }
 
   .login_container {
