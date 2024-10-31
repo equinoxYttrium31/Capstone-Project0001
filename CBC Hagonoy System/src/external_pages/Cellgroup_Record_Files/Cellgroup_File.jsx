@@ -100,7 +100,7 @@ function Cellgroup_File() {
     try {
       const trimmedLead = networkLead.trim();
       const response = await axios.get(
-        `http://localhost:8000/records/networkLead/${trimmedLead}`
+        `https://capstone-project0001-2.onrender.com/records/networkLead/${trimmedLead}`
       );
       console.log("Fetching users under network lead:", networkLead);
       console.log(response.data);
@@ -137,7 +137,9 @@ function Cellgroup_File() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/records");
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/records"
+        );
         console.log(response.data);
         setRecords(response.data);
         setFilteredRecords(response.data);
