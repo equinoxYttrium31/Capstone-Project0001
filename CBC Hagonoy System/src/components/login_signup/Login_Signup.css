@@ -979,7 +979,6 @@
 
   .login_container {
     width: 100%;
-    margin-top: 0;
     margin-left: -7rem;
     height: 120vh;
     overflow-y: hidden;
@@ -1026,7 +1025,7 @@
   /*Sign Up Part*/
   .signup_container {
     width: 100%;
-    margin-top: 0;
+    margin-top: -2rem;
     margin-left: -4rem;
     height: 120vh;
     overflow-y: hidden;
