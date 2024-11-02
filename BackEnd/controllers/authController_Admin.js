@@ -171,6 +171,7 @@ const top5UsersByAttendance = async (req, res) => {
     ]);
 
     res.json(attendanceData);
+    console.log(attendanceData);
   } catch (error) {
     console.error("Error fetching top 5 users by attendance", error);
     res.status(500).json({ error: "Error fetching top 5 users by attendance" });
