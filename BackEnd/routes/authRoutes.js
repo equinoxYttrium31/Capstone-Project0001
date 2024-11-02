@@ -145,5 +145,10 @@ router.get("/users/profile/:name", getUserByFullName);
 router.get("/records/networkLead/:networkLead", getRecordsByNetworkLead);
 router.get("/fetch-archived-announcements", fetchArchivedAnnouncement);
 
+router.get("/new-members-per-month", newMembers);
+router.get("/total-members-per-month", totalMembersPerMonth);
+router.get("/attendance-category-percentage", totalAttendancePercentage);
+router.get("/top-users-attendance", top5UsersByAttendance);
+
 // Export the router
 module.exports = router;

@@ -1,4 +1,5 @@
 const ChurchUser = require("../models/ChurchUser");
+const UserAttendance = require("../models/UserAttendance");
 const CellGroup = require("../models/CellGroup");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const AnnouncementModel = require("../models/Announcements"); // Adjust to your model
@@ -51,6 +52,188 @@ const getRecords = async (req, res) => {
     res.json(records);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const totalAttendancePercentage = async (req, res) => {
+  try {
+    const totalWeeksInYear = 52; // assuming 52 weeks in a year
+
+    const attendanceData = await UserAttendance.aggregate([
+      { $unwind: "$weeklyAttendance" },
+      {
+        $group: {
+          _id: null,
+          totalCellGroup: {
+            $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
+          },
+          totalPersonalDevotion: {
+            $sum: { $cond: ["$weeklyAttendance.personalDevotion", 1, 0] },
+          },
+          totalFamilyDevotion: {
+            $sum: { $cond: ["$weeklyAttendance.familyDevotion", 1, 0] },
+          },
+          totalPrayerMeeting: {
+            $sum: { $cond: ["$weeklyAttendance.prayerMeeting", 1, 0] },
+          },
+          totalWorshipService: {
+            $sum: { $cond: ["$weeklyAttendance.worshipService", 1, 0] },
+          },
+          totalPossibleAttendance: { $sum: totalWeeksInYear },
+        },
+      },
+      {
+        $project: {
+          cellGroup: {
+            $multiply: [
+              { $divide: ["$totalCellGroup", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          personalDevotion: {
+            $multiply: [
+              {
+                $divide: ["$totalPersonalDevotion", "$totalPossibleAttendance"],
+              },
+              100,
+            ],
+          },
+          familyDevotion: {
+            $multiply: [
+              { $divide: ["$totalFamilyDevotion", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          prayerMeeting: {
+            $multiply: [
+              { $divide: ["$totalPrayerMeeting", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          worshipService: {
+            $multiply: [
+              { $divide: ["$totalWorshipService", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+        },
+      },
+    ]);
+
+    res.json(attendanceData[0]);
+  } catch (error) {
+    console.error("Error calculating total attendance percentage", error);
+    res
+      .status(500)
+      .json({ error: "Error calculating total attendance percentage" });
+  }
+};
+
+const top5UsersByAttendance = async (req, res) => {
+  try {
+    const attendanceData = await UserAttendance.aggregate([
+      { $unwind: "$weeklyAttendance" },
+      {
+        $group: {
+          _id: "$userId",
+          totalAttendance: {
+            $sum: {
+              $add: [
+                { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
+                { $cond: ["$weeklyAttendance.personalDevotion", 1, 0] },
+                { $cond: ["$weeklyAttendance.familyDevotion", 1, 0] },
+                { $cond: ["$weeklyAttendance.prayerMeeting", 1, 0] },
+                { $cond: ["$weeklyAttendance.worshipService", 1, 0] },
+              ],
+            },
+          },
+        },
+      },
+      { $sort: { totalAttendance: -1 } },
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: "ChurchUser",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $project: {
+          userId: "$_id",
+          totalAttendance: 1,
+          "userDetails.firstName": 1,
+          "userDetails.lastName": 1,
+        },
+      },
+    ]);
+
+    res.json(attendanceData);
+  } catch (error) {
+    console.error("Error fetching top 5 users by attendance", error);
+    res.status(500).json({ error: "Error fetching top 5 users by attendance" });
+  }
+};
+
+const totalMembersPerMonth = async (req, res) => {
+  try {
+    const monthlyTotal = await ChurchUser.aggregate([
+      {
+        $match: {
+          memberType: { $in: ["Member", "Cellgroup Leader", "Network Leader"] },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          monthlyCount: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } }, // Sort by year and month
+    ]);
+
+    // Calculate cumulative totals
+    let cumulativeTotal = 0;
+    const result = monthlyTotal.map((item) => {
+      cumulativeTotal += item.monthlyCount;
+      return {
+        _id: item._id,
+        totalMembers: cumulativeTotal,
+      };
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching total members per month", error);
+    res.status(500).json({ error: "Error fetching data" });
+  }
+};
+
+const newMembers = async (req, res) => {
+  try {
+    const newMembers = await ChurchUser.aggregate([
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+            year: { $year: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 },
+      },
+    ]);
+
+    res.json(newMembers);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching new members data", error });
   }
 };
 
@@ -450,4 +633,8 @@ module.exports = {
   getGroupedPrayerRequests,
   getUserByFullName,
   archiveExpiredAnnouncements,
+  newMembers,
+  totalMembersPerMonth,
+  top5UsersByAttendance,
+  totalAttendancePercentage,
 };

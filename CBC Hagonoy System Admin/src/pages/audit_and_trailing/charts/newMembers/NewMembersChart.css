@@ -1,0 +1,11 @@
+.chart-container {
+  width: 80%; /* Adjusts the overall width of the chart */
+  max-width: 500px; /* Maximum width for smaller screens */
+  height: 300px; /* Height of the chart */
+  margin: 0 auto; /* Centers the chart */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
