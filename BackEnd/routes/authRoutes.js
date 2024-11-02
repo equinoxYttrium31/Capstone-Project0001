@@ -44,6 +44,7 @@ const {
   totalMembersPerMonth,
   top5UsersByAttendance,
   totalAttendancePercentage,
+  fetchTotalPrayerRequestWeekly,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
@@ -153,6 +154,7 @@ router.get("/new-members-per-month", newMembers);
 router.get("/total-members-per-month", totalMembersPerMonth);
 router.get("/attendance-category-percentage", totalAttendancePercentage);
 router.get("/top-users-attendance", top5UsersByAttendance);
+router.get("/weekly-prayer-requests", fetchTotalPrayerRequestWeekly);
 
 // Export the router
 module.exports = router;

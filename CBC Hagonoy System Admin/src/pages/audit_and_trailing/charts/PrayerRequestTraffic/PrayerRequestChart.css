@@ -1,0 +1,23 @@
+/* styles.css */
+
+/* Chart container styles */
+.chart-container {
+  background-color: white; /* White background for the chart area */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding around the chart */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 20px 0; /* Margin for spacing */
+}
+
+.header_prayerRequest {
+  font-size: 1.5em;
+  text-align: center;
+  font-family: "Poppins";
+}
+
+/* Loading/Error messages */
+.chart-container div {
+  text-align: center; /* Center align loading/error messages */
+  color: #666; /* Lighter color for text */
+  font-size: 1.2rem; /* Font size for messages */
+}

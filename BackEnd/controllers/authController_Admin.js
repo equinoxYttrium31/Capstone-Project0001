@@ -55,6 +55,39 @@ const getRecords = async (req, res) => {
   }
 };
 
+const fetchTotalPrayerRequestWeekly = async (req, res) => {
+  try {
+    const weeklyData = await PrayerRequestModel.aggregate([
+      {
+        $unwind: "$prayers", // Flatten the prayers array
+      },
+      {
+        $group: {
+          _id: {
+            month: { $month: "$prayers.dateSubmitted" },
+            year: { $year: "$prayers.dateSubmitted" }, // Group by year
+          },
+          totalRequests: { $sum: 1 }, // Count total requests
+        },
+      },
+      {
+        $project: {
+          month: "$_id.month",
+          year: "$_id.year", // Extract year
+          totalRequests: 1,
+        },
+      },
+      { $sort: { year: 1, month: 1 } }, // Sort by year and week
+    ]);
+
+    res.json(weeklyData);
+    console.log(weeklyData);
+  } catch (error) {
+    console.error("Error fetching weekly prayer requests", error);
+    res.status(500).json({ error: "Error fetching weekly prayer requests" });
+  }
+};
+
 const totalAttendancePercentage = async (req, res) => {
   try {
     const totalWeeksInYear = 52; // assuming 52 weeks in a year
@@ -638,4 +671,5 @@ module.exports = {
   totalMembersPerMonth,
   top5UsersByAttendance,
   totalAttendancePercentage,
+  fetchTotalPrayerRequestWeekly,
 };
