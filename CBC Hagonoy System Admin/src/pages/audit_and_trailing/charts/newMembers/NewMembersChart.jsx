@@ -55,7 +55,7 @@ const NewMembersChart = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/new-members-per-month`
+          `https://capstone-project0001-2.onrender.com/new-members-per-month`
         );
 
         const labels = response.data.map(

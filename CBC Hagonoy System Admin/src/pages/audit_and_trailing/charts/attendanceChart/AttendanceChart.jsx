@@ -28,7 +28,7 @@ const AttendanceOverview = () => {
     const fetchCategoryPercentage = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/attendance-category-percentage"
+          "https://capstone-project0001-2.onrender.com/attendance-category-percentage"
         );
         setCategoryPercentage(response.data);
       } catch (error) {
@@ -39,7 +39,7 @@ const AttendanceOverview = () => {
     const fetchTopUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/top-users-attendance"
+          "https://capstone-project0001-2.onrender.com/top-users-attendance"
         );
         setTopUsers(response.data);
       } catch (error) {

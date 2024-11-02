@@ -61,7 +61,7 @@ const TotalMembersChart = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/total-members-per-month`
+          `https://capstone-project0001-2.onrender.com/total-members-per-month`
         );
 
         // Process response to extract labels and data
