@@ -128,11 +128,10 @@ const AttendanceOverview = () => {
       <div>
         <h3>Top 5 Users by Total Attendance</h3>
         <ul>
-          {topUsers.map((user, index) => (
+          {topUsers.map((user) => (
             <li key={user.userId}>
-              {index + 1}. {user.userDetails.firstName}{" "}
-              {user.userDetails.lastName} - Total Attendance:{" "}
-              {user.totalAttendance}
+              {user.userDetails.firstName} {user.userDetails.lastName} - Total
+              Attendance: {user.totalAttendance}
             </li>
           ))}
         </ul>
