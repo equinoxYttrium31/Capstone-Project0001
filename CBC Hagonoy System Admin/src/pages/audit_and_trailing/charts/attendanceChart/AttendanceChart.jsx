@@ -130,7 +130,7 @@ const AttendanceOverview = () => {
         <ul>
           {topUsers.map((user) => (
             <li key={user.userId}>
-              {user.userDetails.firstName} {user.userDetails.lastName} - Total
+              {user.userDetails?.firstName} {user.userDetails?.lastName} - Total
               Attendance: {user.totalAttendance}
             </li>
           ))}
