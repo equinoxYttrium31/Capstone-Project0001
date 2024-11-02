@@ -41,7 +41,6 @@ const {
   getGroupedPrayerRequests,
   getUserByFullName,
   newMembers,
-  getUserByFullName,
   totalMembersPerMonth,
   top5UsersByAttendance,
   totalAttendancePercentage,
