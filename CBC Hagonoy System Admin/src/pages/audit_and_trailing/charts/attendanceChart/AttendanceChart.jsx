@@ -105,23 +105,6 @@ const AttendanceOverview = () => {
   return (
     <div>
       <div>
-        <h3>Attendance Percentage by Category</h3>
-        <ul>
-          <li>Cell Group: {categoryPercentage.cellGroup?.toFixed(2)}%</li>
-          <li>
-            Personal Devotion: {categoryPercentage.personalDevotion?.toFixed(2)}
-            %
-          </li>
-          <li>
-            Family Devotion: {categoryPercentage.familyDevotion?.toFixed(2)}%
-          </li>
-          <li>
-            Prayer Meeting: {categoryPercentage.prayerMeeting?.toFixed(2)}%
-          </li>
-          <li>
-            Worship Service: {categoryPercentage.worshipService?.toFixed(2)}%
-          </li>
-        </ul>
         <Bar data={chartData} options={options} /> {/* Render the chart */}
       </div>
 
