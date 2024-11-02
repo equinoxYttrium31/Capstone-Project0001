@@ -159,7 +159,7 @@ const top5UsersByAttendance = async (req, res) => {
           as: "userDetails",
         },
       },
-      { $unwind: "$userDetails" },
+      { $unwind: { path: "$userDetails", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           userId: "$_id",
@@ -170,8 +170,8 @@ const top5UsersByAttendance = async (req, res) => {
       },
     ]);
 
+    console.log(attendanceData); // Log attendance data
     res.json(attendanceData);
-    console.log(attendanceData);
   } catch (error) {
     console.error("Error fetching top 5 users by attendance", error);
     res.status(500).json({ error: "Error fetching top 5 users by attendance" });
