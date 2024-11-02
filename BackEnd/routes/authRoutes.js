@@ -40,6 +40,11 @@ const {
   getSortedPrayerRequests,
   getGroupedPrayerRequests,
   getUserByFullName,
+  newMembers,
+  getUserByFullName,
+  totalMembersPerMonth,
+  top5UsersByAttendance,
+  totalAttendancePercentage,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
