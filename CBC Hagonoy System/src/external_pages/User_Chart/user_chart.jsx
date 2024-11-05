@@ -8,13 +8,12 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 function UserChart({ userId, refresh }) {
-  //PropType Validation
+  // PropType Validation
   UserChart.propTypes = {
-    userId: PropTypes.string.isRequired, // Assuming userId is a string and is required
-    refresh: PropTypes.bool.isRequired, // Assuming refresh is a boolean and is required
+    userId: PropTypes.string.isRequired,
+    refresh: PropTypes.bool.isRequired,
   };
 
-  console.log("Received userId:", userId);
   const [attendanceProgress, setAttendanceProgress] = useState({
     cellGroup: 0,
     personalDevotion: 0,
@@ -22,7 +21,7 @@ function UserChart({ userId, refresh }) {
     prayerMeeting: 0,
     worshipService: 0,
   });
-  const [totalWeeks, setTotalWeeks] = useState(4); // Assuming 4 weeks for the month
+  const [totalWeeks, setTotalWeeks] = useState(4);
   const [currentMonth, setCurrentMonth] = useState("");
   const [currentYear, setCurrentYear] = useState("");
 
@@ -34,6 +33,16 @@ function UserChart({ userId, refresh }) {
     fetchAttendanceData(userId, month, year);
   }, [userId]);
 
+  // Helper function to check the number of weeks in the month
+  const getWeeksInMonth = (month, year) => {
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month + 1, 0); // Last day of the month
+    const totalDays = endDate.getDate();
+
+    // Check if the month has more than 28 days and includes a fifth Sunday or other weekday.
+    return totalDays > 28 ? 5 : 4;
+  };
+
   const fetchAttendanceData = async (userId, month, year) => {
     try {
       if (!userId) {
@@ -41,6 +50,12 @@ function UserChart({ userId, refresh }) {
       }
 
       const yearInt = parseInt(year, 10);
+      const monthInt = new Date(
+        Date.parse(month + " 1, " + yearInt)
+      ).getMonth();
+      const weeksInMonth = getWeeksInMonth(monthInt, yearInt);
+      setTotalWeeks(weeksInMonth);
+
       const response = await axios.get(
         `https://capstone-project0001-2.onrender.com/attendance-month/${userId}/${month}/${yearInt}`,
         {
@@ -50,14 +65,12 @@ function UserChart({ userId, refresh }) {
 
       const attendance = response.data;
 
-      // Initialize totals
       let totalCellGroup = 0;
       let totalPersonalDevotion = 0;
       let totalFamilyDevotion = 0;
       let totalPrayerMeeting = 0;
       let totalWorshipService = 0;
 
-      // Calculate totals
       attendance.weeklyAttendance.forEach((week) => {
         totalCellGroup += week.cellGroup ? 1 : 0;
         totalPersonalDevotion += week.personalDevotion ? 1 : 0;
@@ -66,7 +79,6 @@ function UserChart({ userId, refresh }) {
         totalWorshipService += week.worshipService ? 1 : 0;
       });
 
-      // Set attendance progress state
       setAttendanceProgress({
         cellGroup: totalCellGroup,
         personalDevotion: totalPersonalDevotion,
@@ -74,12 +86,8 @@ function UserChart({ userId, refresh }) {
         prayerMeeting: totalPrayerMeeting,
         worshipService: totalWorshipService,
       });
-
-      setTotalWeeks(4); // Set total weeks for the month
     } catch (error) {
       console.error("Error fetching attendance data:", error);
-
-      // Reset attendance progress if there's an error
       setAttendanceProgress({
         cellGroup: 0,
         personalDevotion: 0,
@@ -91,7 +99,7 @@ function UserChart({ userId, refresh }) {
   };
 
   const handleRefresh = () => {
-    fetchAttendanceData(userId, currentMonth, currentYear); // Fetch current data again
+    fetchAttendanceData(userId, currentMonth, currentYear);
   };
 
   useEffect(() => {
@@ -103,7 +111,7 @@ function UserChart({ userId, refresh }) {
   const handleMonthChange = (event) => {
     const month = event.target.value;
     setCurrentMonth(month);
-    fetchAttendanceData(userId, month, currentYear); // Fetch progress data for the selected month
+    fetchAttendanceData(userId, month, currentYear);
   };
 
   const isFutureMonth = (month) => {
@@ -125,7 +133,6 @@ function UserChart({ userId, refresh }) {
     return monthIndex > currentMonthIndex;
   };
 
-  // Calculate total attendance
   const totalAttendance =
     attendanceProgress.cellGroup +
     attendanceProgress.personalDevotion +
@@ -133,24 +140,21 @@ function UserChart({ userId, refresh }) {
     attendanceProgress.prayerMeeting +
     attendanceProgress.worshipService;
 
-  // Calculate the number of weeks (total attendances)
   const totalAttendancesExpected = totalWeeks * 5;
 
-  // Calculate percentage for each category
   const calculatePercentage = (attendedWeeks) => {
     return attendedWeeks > 0
       ? ((attendedWeeks / totalAttendancesExpected) * 100).toFixed(2)
       : 0;
   };
 
-  // Colors for the donut chart
   const colors = {
-    cellGroup: "#36a2eb", // Blue
-    personalDevotion: "#ff6384", // Red
-    familyDevotion: "#ffce56", // Yellow
-    prayerMeeting: "#4bc0c0", // Teal
-    worshipService: "#9966ff", // Purple
-    missing: "#d3d3d3", // Light Gray for missing attendance
+    cellGroup: "#36a2eb",
+    personalDevotion: "#ff6384",
+    familyDevotion: "#ffce56",
+    prayerMeeting: "#4bc0c0",
+    worshipService: "#9966ff",
+    missing: "#d3d3d3",
   };
 
   return (
