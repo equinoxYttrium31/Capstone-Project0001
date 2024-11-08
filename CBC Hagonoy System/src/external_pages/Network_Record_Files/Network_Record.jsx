@@ -72,7 +72,7 @@ function Network_Record() {
         // Filter out specific cell groups
         const filteredCellGroups = cellGroupsResponse.data.filter(
           (group) =>
-            group.cellgroupName !== "Marc Dexter Raymundo's CellGroup" &&
+            group.cellgroupName !== "Marc Dexter Raymundo's Team" &&
             group.cellgroupName !== "Guest Lists"
         );
         setCellGroups(filteredCellGroups);

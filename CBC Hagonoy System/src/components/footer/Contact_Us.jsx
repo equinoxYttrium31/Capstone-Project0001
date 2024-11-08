@@ -18,6 +18,8 @@ function Contact_Us() {
                 Molave Street, MQH, San Sebastian, Hagonoy, Philippines, 3002
               </p>
             </div>
+          </div>
+          <div className="contact_details_cont">
             <div className="contact-numbers">
               <p className="tel-num">Telephone: (123) 456-7890</p>
               <p className="cell-num">Mobile: (123) 456-7890</p>
@@ -57,10 +59,6 @@ function Contact_Us() {
                 src={facebook_icon_dark}
                 alt="facebook-icon"
                 className="facebook"
-                onClick={() => {
-                  window.location.href =
-                    "https://www.facebook.com/@cbchofficial";
-                }}
               />
             </div>
           </div>

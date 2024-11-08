@@ -40,8 +40,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 5%;
-  gap: 5%;
+  justify-content: space-between;
 }
 
 p {
@@ -54,6 +53,7 @@ p {
   display: flex;
   flex-direction: column;
   width: 15vw;
+  height: fit-content;
 }
 
 .address-text {
@@ -73,7 +73,7 @@ p {
 /*parish hours style*/
 
 .office-hours {
-  width: 30vw;
+  width: fit-content;
 }
 
 .office-hours h3 {
@@ -87,13 +87,12 @@ p {
 }
 
 .social-bar {
-  width: 20vw;
+  width: fit-content;
   display: flex;
   flex-direction: column;
 }
 
 .social-bar h3 {
-  margin-top: 60%;
   margin-bottom: 5%;
   font-size: 18px;
   font-family: "Cinzel";
@@ -136,12 +135,20 @@ p {
 
   .address-bar {
     width: 100%;
-    margin-bottom: 15%;
+    margin-bottom: 5%;
     gap: 10%;
+  }
+
+  .contact_details_cont {
+    margin-bottom: 15%;
   }
 
   .address-text {
     margin-bottom: 5%;
+  }
+
+  .office-hours {
+    margin-bottom: 15%;
   }
 
   .contact-numbers {
