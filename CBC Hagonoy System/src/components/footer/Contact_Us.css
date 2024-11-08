@@ -39,6 +39,7 @@
 .deets-container {
   display: flex;
   flex-direction: row;
+  margin-top: 15%;
   flex-wrap: wrap;
   justify-content: space-between;
 }
