@@ -33,31 +33,14 @@ function UserChart({ userId, refresh }) {
     fetchAttendanceData(userId, month, year);
   }, [userId]);
 
-  // Helper function to check the number of weeks in the month
-  const getWeeksInMonth = (month, year) => {
-    const startDate = new Date(year, month, 1);
-    const endDate = new Date(year, month + 1, 0); // Last day of the month
-    const totalDays = endDate.getDate();
-
-    // Check if the month has more than 28 days and includes a fifth Sunday or other weekday.
-    return totalDays > 28 ? 5 : 4;
-  };
-
   const fetchAttendanceData = async (userId, month, year) => {
     try {
       if (!userId) {
         throw new Error("User ID is not available.");
       }
 
-      const yearInt = parseInt(year, 10);
-      const monthInt = new Date(
-        Date.parse(month + " 1, " + yearInt)
-      ).getMonth();
-      const weeksInMonth = getWeeksInMonth(monthInt, yearInt);
-      setTotalWeeks(weeksInMonth);
-
       const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/attendance-month/${userId}/${month}/${yearInt}`,
+        `https://capstone-project0001-2.onrender.com/attendance-month/${userId}/${month}/${year}`,
         {
           withCredentials: true,
         }
@@ -65,6 +48,11 @@ function UserChart({ userId, refresh }) {
 
       const attendance = response.data;
 
+      // Set totalWeeks based on weeklyAttendance array length
+      const weeksInAttendance = attendance.weeklyAttendance.length;
+      setTotalWeeks(weeksInAttendance);
+
+      // Accumulate total attendance for each activity
       let totalCellGroup = 0;
       let totalPersonalDevotion = 0;
       let totalFamilyDevotion = 0;
