@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Network_Record.css";
+import { toast } from "react-hot-toast";
 
 function Network_Record() {
   const [totalMembers, setTotalMembers] = useState(0);
@@ -8,7 +9,31 @@ function Network_Record() {
   const [totalCellGroups, setTotalCellGroups] = useState(0);
   const [totalGuests, setTotalGuests] = useState(0);
   const [totalBaptized, setTotalBaptized] = useState(0);
+  const [networkLeader, setNetworkLeader] = useState();
   const [networkAnnouncements, setNetworkAnnouncements] = useState([]);
+
+  useEffect(() => {
+    const fetchNetworkLeader = async () => {
+      try {
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/profile",
+          {
+            withCredentials: true,
+          }
+        );
+        const { firstName, lastName } = response.data;
+        const name = `${firstName} ${lastName}`;
+
+        setNetworkLeader(name); // Set leaderName in state
+        return name;
+      } catch (error) {
+        toast.error("Error fetching user profile: " + error.message);
+        throw error;
+      }
+    };
+
+    fetchNetworkLeader();
+  }, []);
 
   useEffect(() => {
     const fetchNetworkAnnouncements = async () => {
@@ -51,7 +76,8 @@ function Network_Record() {
           (guest) =>
             guest.memberType !== "Member" &&
             guest.memberType !== "Cellgroup Leader" &&
-            guest.memberType !== "Network Leader"
+            guest.memberType !== "Network Leader" &&
+            guest.NetLead == networkLeader
         );
         setTotalGuests(filterGuests.length);
 
@@ -60,7 +86,8 @@ function Network_Record() {
           (baptized) =>
             baptized.isBaptized !== "Scheduled" &&
             baptized.isBaptized !== "Not Baptize" &&
-            baptized.isBaptized !== "Guest"
+            baptized.isBaptized !== "Guest" &&
+            baptized.NetLead == networkLeader
         );
         setTotalBaptized(filterBaptized.length);
 
