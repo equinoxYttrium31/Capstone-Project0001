@@ -111,7 +111,7 @@ function Network_Record() {
     };
 
     fetchUsersAndCellGroups();
-  }, []);
+  }, [networkLeader]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
