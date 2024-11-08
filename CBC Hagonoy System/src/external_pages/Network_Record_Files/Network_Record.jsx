@@ -67,7 +67,8 @@ function Network_Record() {
 
         // Count total members excluding guests
         const filteredMembers = usersResponse.data.filter(
-          (user) => user.memberType !== "Guest"
+          (user) =>
+            user.memberType !== "Guest" && user.NetLead === networkLeader
         );
         setTotalMembers(filteredMembers.length); // Count of total members
 
@@ -77,7 +78,7 @@ function Network_Record() {
             guest.memberType !== "Member" &&
             guest.memberType !== "Cellgroup Leader" &&
             guest.memberType !== "Network Leader" &&
-            guest.NetLead == networkLeader
+            guest.NetLead === networkLeader
         );
         setTotalGuests(filterGuests.length);
 
@@ -87,7 +88,7 @@ function Network_Record() {
             baptized.isBaptized !== "Scheduled" &&
             baptized.isBaptized !== "Not Baptize" &&
             baptized.isBaptized !== "Guest" &&
-            baptized.NetLead == networkLeader
+            baptized.NetLead === networkLeader
         );
         setTotalBaptized(filterBaptized.length);
 
