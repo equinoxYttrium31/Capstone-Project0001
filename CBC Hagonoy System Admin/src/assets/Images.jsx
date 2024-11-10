@@ -14,9 +14,13 @@ import user_placeholder from "./user_placeholder.jpg";
 import placeholdericons from "./icons/placeholdericons.png";
 import cbc_loading_gif from "./cbc_loading.gif";
 import updates_placeholder from "./updates_placeholder.png";
+import new_user_icon from "./icons/new_user_icon.png";
+import prayer_request_icon from "./icons/prayer_request_icon.png";
 
 export {
   cbc_logo,
+  new_user_icon,
+  prayer_request_icon,
   notif_ic_dark,
   setting_ic_dark,
   updates_placeholder,

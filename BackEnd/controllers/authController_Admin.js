@@ -646,6 +646,48 @@ const getSortedPrayerRequests = async (req, res) => {
   }
 };
 
+const fetchAllPrayer = async (req, res) => {
+  try {
+    // Use aggregation pipeline to unwind the prayers array
+    const prayerRequests = await PrayerRequestModel.aggregate([
+      { $unwind: "$prayers" }, // Unwind the prayers array
+      {
+        $project: {
+          // Optional projection to return the fields you need
+          name: 1, // Include the name field
+          prayer: "$prayers.prayer", // Include prayer field from the prayers array
+          dateSubmitted: "$prayers.dateSubmitted", // Include dateSubmitted from the prayers array
+          isRead: "$prayers.isRead", // Include isRead from the prayers array
+        },
+      },
+    ]);
+
+    console.log(prayerRequests); // Log the result to the console
+    res.status(200).json(prayerRequests); // Respond with the unwound data
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ message: "Server error", error: error.message }); // Return error response
+  }
+};
+
+const fetchNewMembers = async (req, res) => {
+  try {
+    // Get the start of November 2024
+    const startOfNovember = new Date("2024-11-01T00:00:00Z");
+
+    // Retrieve members created after November 1, 2024, with no limit
+    const newMembers = await ChurchUser.find({
+      createdAt: { $gte: startOfNovember }, // Filter by createdAt >= November 1, 2024
+    }).sort({ createdAt: -1 }); // Sort by createdAt in descending order (newest first)
+
+    // Return the fetched members as a JSON response
+    res.status(200).json(newMembers);
+  } catch (error) {
+    console.error("Error fetching new members:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // Schedule the function to run daily at 12 AM
 cron.schedule("15 12 * * *", () => {
   console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
@@ -672,4 +714,6 @@ module.exports = {
   top5UsersByAttendance,
   totalAttendancePercentage,
   fetchTotalPrayerRequestWeekly,
+  fetchNewMembers,
+  fetchAllPrayer,
 };
