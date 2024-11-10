@@ -2,21 +2,28 @@ import "./App.css";
 import Header from "./components/header/Header";
 import Main_Dashboard from "./pages/main_dashboard/Main_Dashboard";
 import Loading from "./components/loadingScreen/Loading";
+import AdminNotif from "./components/AdminNotification/AdminNotif";
 import { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const [toggleNotif, setToggleNotif] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setFadeOut(true); // Trigger fade-out effect
+      setFadeOut(true);
       setTimeout(() => {
-        setIsLoading(false); // Hide loading screen after fade-out
-      }, 600); // Match the duration of the fadeOut animation (0.5s)
-    }, 4000); // Initial loading time before fade-out begins
+        setIsLoading(false);
+      }, 600);
+    }, 4000);
   }, []);
+
+  // Toggle the notification modal visibility
+  const toggleNotification = () => {
+    setToggleNotif((prev) => !prev);
+  };
 
   return (
     <div className="main_cont">
@@ -24,12 +31,13 @@ function App() {
       {!isLoading && (
         <>
           <div className="header">
-            <Header />
+            <Header toggleNotification={toggleNotification} />{" "}
+            {/* Corrected prop name */}
           </div>
+          <div className="notif_container">{toggleNotif && <AdminNotif />}</div>
           <div className="dashboard">
             <Main_Dashboard />
           </div>
-          {/* Toast notifications */}
           <Toaster
             position="top-right"
             reverseOrder={false}

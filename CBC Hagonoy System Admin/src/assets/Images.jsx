@@ -13,11 +13,13 @@ import avatar_female from "./avatar_female.png";
 import user_placeholder from "./user_placeholder.jpg";
 import placeholdericons from "./icons/placeholdericons.png";
 import cbc_loading_gif from "./cbc_loading.gif";
+import updates_placeholder from "./updates_placeholder.png";
 
 export {
   cbc_logo,
   notif_ic_dark,
   setting_ic_dark,
+  updates_placeholder,
   menu,
   search_ic,
   filter_ic,

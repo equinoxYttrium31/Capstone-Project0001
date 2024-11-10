@@ -1,7 +1,17 @@
 import { cbc_logo, setting_ic_dark, notif_ic_dark } from "../../assets/Images";
+import { notif_ic_selected } from "../../../../CBC Hagonoy System/src/assets/Assets";
 import "./header.css";
+import { useState } from "react";
 
-function header() {
+function Header({ toggleNotification }) {
+  // Corrected prop name
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const handleNotificationClick = () => {
+    setShowNotifications((prev) => !prev);
+    toggleNotification(); // Call the toggle function from App
+  };
+
   return (
     <div className="header_main_container">
       <div className="leftside_cont">
@@ -11,9 +21,10 @@ function header() {
       <div className="rightside_cont">
         <div className="icon_container">
           <img
-            src={notif_ic_dark}
+            src={showNotifications ? notif_ic_selected : notif_ic_dark}
             alt="notifications"
             className="header_icon"
+            onClick={handleNotificationClick}
           />
           <img src={setting_ic_dark} alt="settings" className="header_icon" />
         </div>
@@ -22,4 +33,4 @@ function header() {
   );
 }
 
-export default header;
+export default Header;
