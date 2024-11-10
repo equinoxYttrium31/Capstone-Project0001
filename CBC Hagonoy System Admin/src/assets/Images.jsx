@@ -12,6 +12,7 @@ import avatar_male from "./avatar_male.png";
 import avatar_female from "./avatar_female.png";
 import user_placeholder from "./user_placeholder.jpg";
 import placeholdericons from "./icons/placeholdericons.png";
+import cbc_loading_gif from "./cbc_loading.gif";
 
 export {
   cbc_logo,
@@ -28,4 +29,5 @@ export {
   avatar_female,
   user_placeholder,
   placeholdericons,
+  cbc_loading_gif,
 };
