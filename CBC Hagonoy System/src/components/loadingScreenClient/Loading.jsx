@@ -1,4 +1,4 @@
-import { cbc_loading_gif } from "../../assets/Images";
+import { cbc_loading_gif } from "../../assets/Assets";
 import PropTypes from "prop-types";
 import "./Loading.css";
 
