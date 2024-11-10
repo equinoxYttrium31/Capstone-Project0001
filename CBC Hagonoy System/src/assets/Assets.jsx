@@ -36,6 +36,7 @@ import logout_ic from "./logout_ic.png";
 import avatar_female from "./avatar_female.png";
 import avatar_male from "./avatar_male.png";
 import notif_ic_selected from "./notif_ic_selected.png";
+import cbc_loading_gif from "./cbc_loading.gif";
 
 export {
   facebook_icon_dark,
@@ -76,4 +77,5 @@ export {
   avatar_male,
   avatar_female,
   notif_ic_selected,
+  cbc_loading_gif,
 };
