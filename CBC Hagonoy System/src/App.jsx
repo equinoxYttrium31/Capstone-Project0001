@@ -28,9 +28,9 @@ import "./App.css";
 function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate(); // Use navigate for redirecting
+  const navigate = useNavigate();
 
   // Function to toggle the menu
   const toggleMenu = () => {
