@@ -10,6 +10,7 @@ import NavBar from "./components/header/NavBar";
 import Hero_Section from "./pages/hero/Hero_Section";
 import Activities from "./pages/activities/Activities";
 import Qoutes from "./pages/qoutes/Qoutes";
+import Loading from "./components/loadingScreenClient/Loading";
 import Schedule from "./pages/schedule/Schedule";
 import Contact_Us from "./components/footer/Contact_Us";
 import Setting_Page from "./external_pages/SettingFolder/Setting_Page";
@@ -28,9 +29,20 @@ import "./App.css";
 function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayType, setOverlayType] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFadeOut(true); // Trigger fade-out effect
+      setTimeout(() => {
+        setIsLoading(false); // Hide loading screen after fade-out
+      }, 600); // Match the duration of the fadeOut animation (0.5s)
+    }, 4000); // Initial loading time before fade-out begins
+  }, []);
 
   // Function to toggle the menu
   const toggleMenu = () => {
@@ -108,73 +120,78 @@ function App() {
 
   return (
     <div className="App">
-      {/* Conditionally render either the NavBar or User_NavBar */}
-      <NavBar
-        onLoginClick={handleLoginClick}
-        menuOpen={menuOpen}
-        toggleMenu={toggleMenu}
-      />
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="herosection">
-                <Hero_Section />
-              </div>
-              <div className="activity">
-                <Activities />
-              </div>
-              <div className="qoutesection">
-                <Qoutes />
-              </div>
-              <div className="schedules" id="schedule">
-                <Schedule />
-              </div>
-              <div className="footer">
-                <Contact_Us />
-              </div>
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={<Setting_Page onLogout={handleLogout} />}
-        />
-        <Route path="/event-page" element={<Events_Page />} />
-        <Route path="/bible" element={<BiblePage />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/beliefs" element={<Beliefs />} />
-        <Route
-          path="/ministries"
-          element={<Ministries onLoginClick={handleLoginClick} />}
-        />
-        <Route path="/user-interface" element={<User_Interface />} />
-      </Routes>
-
-      {/* Login/signup overlay */}
-      {showOverlay && (
-        <div className="overlay">
-          <Login_Signup
-            type={overlayType}
-            onClose={handleClose}
-            toggleOverlayType={toggleOverlayType}
-            onLoginSuccess={handleLoginSuccess}
+      {isLoading && <Loading fadeOut={fadeOut} />}
+      {!isLoading && (
+        <>
+          {/* Conditionally render either the NavBar or User_NavBar */}
+          <NavBar
+            onLoginClick={handleLoginClick}
+            menuOpen={menuOpen}
+            toggleMenu={toggleMenu}
           />
-        </div>
-      )}
 
-      {/* Toast notifications */}
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        gutter={3}
-        toastOptions={{
-          duration: 2000,
-          style: { zIndex: 9999 },
-        }}
-      />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="herosection">
+                    <Hero_Section />
+                  </div>
+                  <div className="activity">
+                    <Activities />
+                  </div>
+                  <div className="qoutesection">
+                    <Qoutes />
+                  </div>
+                  <div className="schedules" id="schedule">
+                    <Schedule />
+                  </div>
+                  <div className="footer">
+                    <Contact_Us />
+                  </div>
+                </>
+              }
+            />
+            <Route
+              path="/settings"
+              element={<Setting_Page onLogout={handleLogout} />}
+            />
+            <Route path="/event-page" element={<Events_Page />} />
+            <Route path="/bible" element={<BiblePage />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/beliefs" element={<Beliefs />} />
+            <Route
+              path="/ministries"
+              element={<Ministries onLoginClick={handleLoginClick} />}
+            />
+            <Route path="/user-interface" element={<User_Interface />} />
+          </Routes>
+
+          {/* Login/signup overlay */}
+          {showOverlay && (
+            <div className="overlay">
+              <Login_Signup
+                type={overlayType}
+                onClose={handleClose}
+                toggleOverlayType={toggleOverlayType}
+                onLoginSuccess={handleLoginSuccess}
+              />
+            </div>
+          )}
+
+          {/* Toast notifications */}
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            gutter={3}
+            toastOptions={{
+              duration: 2000,
+              style: { zIndex: 9999 },
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
