@@ -7,7 +7,21 @@ import {
   useLocation,
 } from "react-router-dom";
 import "./Main_Dashboard.css";
-import { menu } from "../../assets/Images";
+import {
+  menu,
+  CT_notSelected,
+  CT_selected,
+  AM_notSelected,
+  AM_selected,
+  ATL_notSelected,
+  ATL_selected,
+  UM_notSelected,
+  UM_selected,
+  MA_notSelected,
+  MA_selected,
+  RM_notSelected,
+  RM_selected,
+} from "../../assets/Images";
 
 // Lazy-loaded components
 const Admin_Dashboard = React.lazy(() =>
@@ -123,6 +137,8 @@ function Main_Dashboard() {
             </Link>
           </div>
         </div>
+
+        {/* Right side content */}
         <div className="right_dashboard_cont">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
@@ -150,7 +166,118 @@ function Main_Dashboard() {
           </Suspense>
         </div>
 
-        <div className="icons_container_admin"></div>
+        {/* Conditionally render icon container when sidebar is minimized */}
+        {!isSidebarVisible && (
+          <div className="icons_container_admin">
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/announcement-management" ? "active" : ""
+              }`}
+              to="/announcement-management"
+              onClick={() => setIsActive("/announcement-management")}
+            >
+              <img
+                src={
+                  isActive === "/announcement-management"
+                    ? AM_selected
+                    : AM_notSelected
+                }
+                alt="Announcement Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Announcement Management</p>
+            </Link>
+
+            <Link
+              to="/record-monitoring"
+              className={`dashboard_icon ${
+                isActive === "/record-monitoring" ? "active" : ""
+              }`}
+              onClick={() => setIsActive("/record-monitoring")}
+            >
+              <img
+                src={
+                  isActive === "/record-monitoring"
+                    ? RM_selected
+                    : RM_notSelected
+                }
+                alt="Record Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Recording Management</p>
+            </Link>
+
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/admin-dashboard" ? "active" : ""
+              }`}
+              to="/admin-dashboard"
+              onClick={() => setIsActive("/admin-dashboard")}
+            >
+              <img
+                src={
+                  isActive === "/admin-dashboard" ? MA_selected : MA_notSelected
+                }
+                alt="Admin Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Monitoring and Analytics</p>
+            </Link>
+
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/user-management" ? "active" : ""
+              }`}
+              to="/user-management"
+              onClick={() => setIsActive("/user-management")}
+            >
+              <img
+                src={
+                  isActive === "/user-management" ? UM_selected : UM_notSelected
+                }
+                alt="User Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">User Management</p>
+            </Link>
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/communication-tools" ? "active" : ""
+              }`}
+              to="/communication-tools"
+              onClick={() => setIsActive("/communication-tools")}
+            >
+              <img
+                src={
+                  isActive === "/communication-tools"
+                    ? CT_selected
+                    : CT_notSelected
+                }
+                alt="Communication Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Communication Tools</p>
+            </Link>
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/audit-trail-logging" ? "active" : ""
+              }`}
+              to="/audit-trail-logging"
+              onClick={() => setIsActive("/audit-trail-logging")}
+            >
+              <img
+                src={
+                  isActive === "/audit-trail-logging"
+                    ? ATL_selected
+                    : ATL_notSelected
+                }
+                alt="Audit Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Audit Trail and Logging</p>
+            </Link>
+          </div>
+        )}
       </div>
     </Router>
   );
