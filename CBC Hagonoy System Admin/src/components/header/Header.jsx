@@ -26,7 +26,6 @@ function Header({ toggleNotification }) {
             className="header_icon"
             onClick={handleNotificationClick}
           />
-          <img src={setting_ic_dark} alt="settings" className="header_icon" />
         </div>
       </div>
     </div>
