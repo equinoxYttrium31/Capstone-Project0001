@@ -1,0 +1,52 @@
+.edit_announcement_modal {
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 240, 0.253);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal_content_edit {
+  width: 60%;
+  height: fit-content;
+  background-color: ivory;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.edit_modal_header {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.close_btn {
+  aspect-ratio: 1;
+  width: 2rem;
+}
+
+.edit_modal_title {
+  font-family: "Poppins";
+  color: #28282b;
+}
+
+.edit_mainbody_cont {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit_input_row {
+  justify-content: start;
+  gap: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

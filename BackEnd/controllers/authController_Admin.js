@@ -55,6 +55,48 @@ const getRecords = async (req, res) => {
   }
 };
 
+const fetchAllPrayer = async (req, res) => {
+  try {
+    // Use aggregation pipeline to unwind the prayers array
+    const prayerRequests = await PrayerRequestModel.aggregate([
+      { $unwind: "$prayers" }, // Unwind the prayers array
+      {
+        $project: {
+          // Optional projection to return the fields you need
+          name: 1, // Include the name field
+          prayer: "$prayers.prayer", // Include prayer field from the prayers array
+          dateSubmitted: "$prayers.dateSubmitted", // Include dateSubmitted from the prayers array
+          isRead: "$prayers.isRead", // Include isRead from the prayers array
+        },
+      },
+    ]);
+
+    console.log(prayerRequests); // Log the result to the console
+    res.status(200).json(prayerRequests); // Respond with the unwound data
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ message: "Server error", error: error.message }); // Return error response
+  }
+};
+
+const fetchNewMembers = async (req, res) => {
+  try {
+    // Get the start of November 2024
+    const startOfNovember = new Date("2024-11-01T00:00:00Z");
+
+    // Retrieve members created after November 1, 2024, with no limit
+    const newMembers = await ChurchUser.find({
+      createdAt: { $gte: startOfNovember }, // Filter by createdAt >= November 1, 2024
+    }).sort({ createdAt: -1 }); // Sort by createdAt in descending order (newest first)
+
+    // Return the fetched members as a JSON response
+    res.status(200).json(newMembers);
+  } catch (error) {
+    console.error("Error fetching new members:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 const fetchTotalPrayerRequestWeekly = async (req, res) => {
   try {
     const weeklyData = await PrayerRequestModel.aggregate([
@@ -527,6 +569,60 @@ const fetchAnnouncements = async (req, res) => {
   }
 };
 
+// Fetch a single announcement by ID
+const fetchAnnouncementById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const announcement = await AnnouncementModel.findById(id);
+
+    if (!announcement) {
+      return res.status(404).json({ error: "Announcement not found" });
+    }
+
+    res.json(announcement);
+  } catch (error) {
+    console.error("Error fetching announcement:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the announcement" });
+  }
+};
+
+const archiveAnnouncementById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch the announcement by ID
+    const announcement = await AnnouncementModel.findById(id);
+    if (!announcement) {
+      return res.status(404).send({ message: "Announcement not found" });
+    }
+
+    // Archive the announcement
+    const archivedData = {
+      title: announcement.title,
+      content: announcement.content,
+      publishDate: announcement.publishDate,
+      endDate: announcement.endDate,
+      audience: announcement.audience,
+      announcementPic: announcement.announcementPic,
+    };
+
+    // Create a new archived announcement
+    await ArchivedAnnouncementModel.create(archivedData);
+
+    // Delete the original announcement
+    await AnnouncementModel.findByIdAndDelete(id);
+
+    res
+      .status(200)
+      .send({ message: `Announcement with ID ${id} archived successfully` });
+  } catch (error) {
+    console.error("Error archiving announcement:", error);
+    res.status(500).send({ message: "Error archiving announcement" });
+  }
+};
+
 // Function to archive expired announcements
 const archiveExpiredAnnouncements = async () => {
   try {
@@ -646,48 +742,6 @@ const getSortedPrayerRequests = async (req, res) => {
   }
 };
 
-const fetchAllPrayer = async (req, res) => {
-  try {
-    // Use aggregation pipeline to unwind the prayers array
-    const prayerRequests = await PrayerRequestModel.aggregate([
-      { $unwind: "$prayers" }, // Unwind the prayers array
-      {
-        $project: {
-          // Optional projection to return the fields you need
-          name: 1, // Include the name field
-          prayer: "$prayers.prayer", // Include prayer field from the prayers array
-          dateSubmitted: "$prayers.dateSubmitted", // Include dateSubmitted from the prayers array
-          isRead: "$prayers.isRead", // Include isRead from the prayers array
-        },
-      },
-    ]);
-
-    console.log(prayerRequests); // Log the result to the console
-    res.status(200).json(prayerRequests); // Respond with the unwound data
-  } catch (error) {
-    console.error(error); // Log the error for debugging purposes
-    res.status(500).json({ message: "Server error", error: error.message }); // Return error response
-  }
-};
-
-const fetchNewMembers = async (req, res) => {
-  try {
-    // Get the start of November 2024
-    const startOfNovember = new Date("2024-11-01T00:00:00Z");
-
-    // Retrieve members created after November 1, 2024, with no limit
-    const newMembers = await ChurchUser.find({
-      createdAt: { $gte: startOfNovember }, // Filter by createdAt >= November 1, 2024
-    }).sort({ createdAt: -1 }); // Sort by createdAt in descending order (newest first)
-
-    // Return the fetched members as a JSON response
-    res.status(200).json(newMembers);
-  } catch (error) {
-    console.error("Error fetching new members:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
-
 // Schedule the function to run daily at 12 AM
 cron.schedule("15 12 * * *", () => {
   console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
@@ -714,6 +768,8 @@ module.exports = {
   top5UsersByAttendance,
   totalAttendancePercentage,
   fetchTotalPrayerRequestWeekly,
-  fetchNewMembers,
   fetchAllPrayer,
+  fetchNewMembers,
+  fetchAnnouncementById,
+  archiveAnnouncementById,
 };

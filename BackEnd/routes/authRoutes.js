@@ -45,8 +45,10 @@ const {
   top5UsersByAttendance,
   totalAttendancePercentage,
   fetchTotalPrayerRequestWeekly,
-  fetchNewMembers,
   fetchAllPrayer,
+  fetchNewMembers,
+  fetchAnnouncementById,
+  archiveAnnouncementById,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
@@ -151,6 +153,7 @@ router.get("/users/profile/:name", getUserByFullName);
 
 router.get("/records/networkLead/:networkLead", getRecordsByNetworkLead);
 router.get("/fetch-archived-announcements", fetchArchivedAnnouncement);
+router.get("/fetch-announcement-byID/:id", fetchAnnouncementById);
 
 router.get("/new-members-per-month", newMembers);
 router.get("/total-members-per-month", totalMembersPerMonth);
@@ -162,5 +165,6 @@ router.get("/weekly-prayer-requests", fetchTotalPrayerRequestWeekly);
 router.get("/fetch-prayers", fetchAllPrayer);
 router.get("/fetch-newusers", fetchNewMembers);
 
+router.delete("/archive-announcement/:id", archiveAnnouncementById);
 // Export the router
 module.exports = router;
