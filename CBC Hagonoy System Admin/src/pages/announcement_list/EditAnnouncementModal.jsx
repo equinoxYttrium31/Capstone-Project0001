@@ -1,12 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import "./Edit_Announcement.css";
-import { updates_placeholder } from "../../assets/Images";
 import { close_ic } from "../../assets/Images";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+
+const formatDate = (date) => {
+  if (!date) return "";
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 function EditAnnouncementModal({ announcement, onClose, onSave }) {
   const [value, setValue] = useState(announcement.content || "");
@@ -16,11 +24,12 @@ function EditAnnouncementModal({ announcement, onClose, onSave }) {
   const [title, setTitle] = useState(announcement.title || "");
   const [audience, setAudience] = useState(announcement.audience || "");
   const [publishDateFrom, setPublishDateFrom] = useState(
-    announcement.publishDate || ""
+    formatDate(announcement.publishDate) || ""
   );
   const [publishDateTo, setPublishDateTo] = useState(
-    announcement.endDate || ""
+    formatDate(announcement.endDate) || ""
   );
+  const [fileName, setFileName] = useState("No file chosen");
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -28,8 +37,8 @@ function EditAnnouncementModal({ announcement, onClose, onSave }) {
     setImageBase64(announcement.announcementPic);
     setTitle(announcement.title);
     setAudience(announcement.audience);
-    setPublishDateFrom(announcement.publishDate);
-    setPublishDateTo(announcement.endDate);
+    setPublishDateFrom(formatDate(announcement.publishDate));
+    setPublishDateTo(formatDate(announcement.endDate));
   }, [announcement]);
 
   const handleSave = async () => {
@@ -75,6 +84,7 @@ function EditAnnouncementModal({ announcement, onClose, onSave }) {
       reader.onloadend = () => {
         const base64String = reader.result.split(",")[1];
         setImageBase64(base64String);
+        setFileName(file.name);
       };
       reader.readAsDataURL(file);
     }
@@ -125,22 +135,98 @@ function EditAnnouncementModal({ announcement, onClose, onSave }) {
           />
         </div>
 
-        <div className="placeholder_container">
-          <img
-            src={updates_placeholder}
-            alt="Update Underway"
-            className="placeholder"
-          />
-          <h1 className="update_header">
-            This part is still under development.
-          </h1>
-          <p className="update_subtext">
-            This may take a while comeback later.
-          </p>
+        <div className="edit_mainbody_cont">
+          <div className="edit_input_row">
+            <label htmlFor="title">Title:</label>
+            <input
+              className="title_input"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="edit_input_row">
+            <label htmlFor="message_input">Message:</label>
+            <ReactQuill
+              className="message_input"
+              value={value}
+              onChange={setValue}
+              modules={modules}
+              formats={formats}
+              theme="snow"
+            />
+          </div>
+
+          <div className="edit_input_row">
+            <label>Audience:</label>
+            <div className="radio-buttons">
+              <label>
+                <input
+                  type="radio"
+                  name="audience"
+                  value="all_cellgroups"
+                  checked={audience === "all_cellgroups"}
+                  onChange={(e) => setAudience(e.target.value)}
+                />
+                All Cellgroups
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="audience"
+                  value="network_leaders"
+                  checked={audience === "network_leaders"}
+                  onChange={(e) => setAudience(e.target.value)}
+                />
+                Network Leaders
+              </label>
+            </div>
+          </div>
+
+          <div className="edit_input_row">
+            <label>Date to Publish:</label>
+            <input
+              type="date"
+              value={publishDateFrom || ""}
+              onChange={(e) => setPublishDateFrom(e.target.value)}
+            />{" "}
+            to{" "}
+            <input
+              type="date"
+              value={publishDateTo || ""}
+              onChange={(e) => setPublishDateTo(e.target.value)}
+            />
+          </div>
+
+          <div className="edit_input_row">
+            <label
+              className="file-upload-button"
+              onClick={() => fileInputRef.current.click()}
+            >
+              Choose File
+            </label>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+            />
+            <span className="file-upload-filename">{fileName}</span>
+          </div>
+        </div>
+        <div className="button_container_dave">
+          <button onClick={handleSave}>Save</button>
         </div>
       </div>
     </div>
   );
 }
+
+EditAnnouncementModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  announcement: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+};
 
 export default EditAnnouncementModal;

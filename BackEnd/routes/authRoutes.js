@@ -49,6 +49,7 @@ const {
   fetchNewMembers,
   fetchAnnouncementById,
   archiveAnnouncementById,
+  updateAnnouncementbyID,
 } = require("../controllers/authController_Admin");
 const cors = require("cors");
 
@@ -166,5 +167,6 @@ router.get("/fetch-prayers", fetchAllPrayer);
 router.get("/fetch-newusers", fetchNewMembers);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
+router.put("/update-announcement/:id", updateAnnouncementbyID);
 // Export the router
 module.exports = router;

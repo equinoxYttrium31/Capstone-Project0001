@@ -661,6 +661,39 @@ const archiveExpiredAnnouncements = async () => {
   }
 };
 
+const updateAnnouncementbyID = async (req, res) => {
+  const { id } = req.params;
+  const { title, content, announcementPic, audience, publishDate, endDate } =
+    req.body;
+
+  try {
+    const updatedAnnouncement = await AnnouncementModel.findByIdAndUpdate(
+      id,
+      {
+        title,
+        content,
+        announcementPic,
+        audience,
+        publishDate,
+        endDate,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedAnnouncement) {
+      return res.status(404).json({ message: "Announcement not found" });
+    }
+
+    res.json({
+      message: "Announcement updated successfully",
+      announcement: updatedAnnouncement,
+    });
+  } catch (error) {
+    console.error("Error updating announcement:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 setInterval(archiveExpiredAnnouncements, 24 * 60 * 60 * 1000);
 
 const getGroupedPrayerRequests = async (req, res) => {
@@ -772,4 +805,5 @@ module.exports = {
   fetchNewMembers,
   fetchAnnouncementById,
   archiveAnnouncementById,
+  updateAnnouncementbyID,
 };
