@@ -45,6 +45,9 @@ const User_Management = React.lazy(() =>
 const Communication_Tools = React.lazy(() =>
   import("../communication_tools/Communication_Tools")
 );
+const Announcement_List = React.lazy(() =>
+  import("../announcement_list/Announcement_List")
+);
 
 function Main_Dashboard() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -174,6 +177,10 @@ function Main_Dashboard() {
               <Route
                 path="/audit-trail-logging"
                 element={<AuditAndTrailing />}
+              />
+              <Route
+                path="/announcement-records"
+                element={<Announcement_List />}
               />
             </Routes>
           </Suspense>
