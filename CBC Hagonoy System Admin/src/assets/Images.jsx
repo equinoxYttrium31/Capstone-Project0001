@@ -22,12 +22,14 @@ import MA_notSelected from "./Dashboard_Icons/MA_notSelected.png";
 import UM_notSelected from "./Dashboard_Icons/UM_notSelected.png";
 import CT_notSelected from "./Dashboard_Icons/CT_notSelected.png";
 import ATL_notSelected from "./Dashboard_Icons/ATL_notSelected.png";
+import AL_notSelected from "./Dashboard_Icons/AL_notSelected.png";
 import AM_selected from "./Dashboard_Icons/AM_selected.png";
 import RM_selected from "./Dashboard_Icons/RM_selected.png";
 import MA_selected from "./Dashboard_Icons/MA_selected.png";
 import UM_selected from "./Dashboard_Icons/UM_selected.png";
 import CT_selected from "./Dashboard_Icons/CT_selected.png";
 import ATL_selected from "./Dashboard_Icons/ATL_selected.png";
+import AL_selected from "./Dashboard_Icons/AL_selected.png";
 
 export {
   cbc_logo,
@@ -54,10 +56,12 @@ export {
   UM_notSelected,
   CT_notSelected,
   ATL_notSelected,
+  AL_notSelected,
   AM_selected,
   RM_selected,
   MA_selected,
   UM_selected,
   CT_selected,
   ATL_selected,
+  AL_selected,
 };

@@ -5,6 +5,7 @@ import {
   Routes,
   Link,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import "./Main_Dashboard.css";
 import {
@@ -21,6 +22,8 @@ import {
   MA_selected,
   RM_notSelected,
   RM_selected,
+  AL_notSelected,
+  AL_selected,
 } from "../../assets/Images";
 
 // Lazy-loaded components
@@ -45,7 +48,7 @@ const Communication_Tools = React.lazy(() =>
 
 function Main_Dashboard() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const [isActive, setIsActive] = useState("/admin-dashboard");
+  const [isActive, setIsActive] = useState("/");
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -135,6 +138,16 @@ function Main_Dashboard() {
             >
               Audit Trail and Logging
             </Link>
+
+            <Link
+              to="/announcement-records"
+              className={`contents_dashboard ${
+                isActive === "/announcement-records" ? "active" : ""
+              }`}
+              onClick={() => setIsActive("/announcement-records")}
+            >
+              Announcement Lists
+            </Link>
           </div>
         </div>
 
@@ -142,7 +155,7 @@ function Main_Dashboard() {
         <div className="right_dashboard_cont">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
-              <Route path="/" element={<Announcement_Management />} />{" "}
+              <Route path="/" element={<Navigate to="/admin-dashboard" />} />{" "}
               {/* Default route */}
               <Route
                 path="/announcement-management"
@@ -258,6 +271,7 @@ function Main_Dashboard() {
               />
               <p className="dashboard_label">Communication Tools</p>
             </Link>
+
             <Link
               className={`dashboard_icon ${
                 isActive === "/audit-trail-logging" ? "active" : ""
@@ -275,6 +289,25 @@ function Main_Dashboard() {
                 className="icon"
               />
               <p className="dashboard_label">Audit Trail and Logging</p>
+            </Link>
+
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/announcement-records" ? "active" : ""
+              }`}
+              to="/announcement-records"
+              onClick={() => setIsActive("/announcement-records")}
+            >
+              <img
+                src={
+                  isActive === "/announcement-records"
+                    ? AL_selected
+                    : AL_notSelected
+                }
+                alt="Audit Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Announcement Lists</p>
             </Link>
           </div>
         )}
