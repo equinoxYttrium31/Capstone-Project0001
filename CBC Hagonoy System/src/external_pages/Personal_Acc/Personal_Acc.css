@@ -131,6 +131,10 @@
   width: 24px;
 }
 
+.edit_icon:hover {
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+}
+
 /*trial of check boxes*/
 
 .record_info_checker {
@@ -218,6 +222,12 @@
   border-radius: 50px;
   color: #2d2f65;
   font-family: "Poppins";
+}
+
+.submit_attendance_button {
+  background-color: #f8ba33b1;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
 }
 
 @media (max-width: 1287px) {

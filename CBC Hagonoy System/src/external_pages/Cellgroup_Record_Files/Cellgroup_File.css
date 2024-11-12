@@ -72,6 +72,7 @@
 }
 
 .filter_ic:hover {
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
   cursor: pointer;
 }
 
@@ -115,10 +116,6 @@
   align-items: center;
   gap: 1em;
   transition: all ease-out 0.3s;
-}
-
-.record_content_card:hover {
-  background-color: rgba(128, 128, 128, 0.658);
 }
 
 .record_container_profile {

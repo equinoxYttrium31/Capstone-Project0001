@@ -88,7 +88,7 @@ input {
 .buttons_book button:hover,
 .buttons_chapter button:hover,
 .buttons_verse button:hover {
-  background-color: #4c4caf;
+  background-color: #4c4cafb5;
   cursor: pointer;
 }
 

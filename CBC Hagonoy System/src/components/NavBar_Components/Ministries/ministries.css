@@ -354,7 +354,7 @@ textarea {
   border-radius: 0.5rem;
 }
 
-.submit_prayer {
+.submit_prayer:hover {
   cursor: pointer;
   color: rgb(179, 160, 137);
   background-color: #28282b99;
