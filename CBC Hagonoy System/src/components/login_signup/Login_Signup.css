@@ -755,6 +755,7 @@
 
 .backbutton:hover {
   cursor: pointer;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
 }
 
 .has_acc_container {
@@ -793,6 +794,7 @@
 
 .reg_backbutton:hover {
   cursor: pointer;
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
 }
 
 @media (max-width: 1270px) {

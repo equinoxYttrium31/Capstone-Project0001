@@ -110,14 +110,9 @@ p {
   width: 50px;
 }
 
-.instagram {
-  height: 50px;
-  width: 50px;
-}
-
-.x {
-  margin-top: 2px;
-  height: 45px;
+.facebook:hover {
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
 }
 
 @media (max-width: 1000px) {

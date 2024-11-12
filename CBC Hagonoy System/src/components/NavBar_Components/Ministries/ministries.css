@@ -354,6 +354,12 @@ textarea {
   border-radius: 0.5rem;
 }
 
+.submit_prayer {
+  cursor: pointer;
+  color: rgb(179, 160, 137);
+  background-color: #28282b99;
+}
+
 .footer_form_prayer {
   display: flex;
   flex-direction: column;

@@ -89,6 +89,7 @@ input {
 .buttons_chapter button:hover,
 .buttons_verse button:hover {
   background-color: #4c4caf;
+  cursor: pointer;
 }
 
 button:disabled {
