@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { cbc_logo } from "../../assets/Images";
+import { toast } from "react-hot-toast";
 import "./adminLogin.css";
 
 function AdminLogin({ onLogin }) {
@@ -11,8 +12,9 @@ function AdminLogin({ onLogin }) {
     e.preventDefault();
     if (username === "administrator" && password === "CBCH123!") {
       onLogin();
+      toast.success("Login Successful");
     } else {
-      alert("Invalid credentials"); // Replace with a better error message or toast
+      toast.error("Invalid credentials");
     }
   };
 

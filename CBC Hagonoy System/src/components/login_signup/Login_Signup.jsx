@@ -39,7 +39,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
       if (data.error) {
         toast.error(data.error);
       } else {
-        toast.success("Login Successfuly!");
+        toast.success("Login Successful!");
         setData({});
         onLoginSuccess();
       }
