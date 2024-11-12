@@ -50,7 +50,7 @@ function AdminLogin({ onLogin }) {
           </form>
         </div>
         <p className="label_below">
-          Please log in below to access the administrator dashboard.
+          Please log in to access the administrator dashboard.
         </p>
       </div>
     </div>
