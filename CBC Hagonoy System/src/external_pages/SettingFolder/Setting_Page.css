@@ -261,6 +261,7 @@ form {
 }
 
 .btn-logout_settings:hover {
+  background-color: rgba(255, 0, 0, 0.505);
   cursor: pointer;
 }
 

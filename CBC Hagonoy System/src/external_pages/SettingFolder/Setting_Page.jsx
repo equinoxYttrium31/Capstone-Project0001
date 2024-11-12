@@ -32,6 +32,7 @@ const Setting_Page = () => {
 
       // Navigate to the login page
       navigate("/");
+      toast.success("User Logged Out Successful!");
     } catch (error) {
       console.error("Error during logout:", error);
       toast.error(
@@ -49,7 +50,7 @@ const Setting_Page = () => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 

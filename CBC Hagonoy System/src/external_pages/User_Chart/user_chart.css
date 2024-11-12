@@ -21,6 +21,10 @@
   outline: none;
 }
 
+.months_selector:hover {
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+}
+
 .chart_container {
   position: relative;
   width: 200px;
