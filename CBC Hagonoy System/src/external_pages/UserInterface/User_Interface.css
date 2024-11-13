@@ -232,7 +232,7 @@
 .container_network_record,
 .dynamic_container_personal {
   display: none;
-  visibility: hidden;
+  visibility: none;
 }
 
 /* Active state for containers */
@@ -270,7 +270,7 @@ body {
 
 .icon_label {
   position: fixed;
-  opacity: 0;
+  visibility: hidden;
 }
 
 .user_dashboard_cont.minimized .icon_label {
