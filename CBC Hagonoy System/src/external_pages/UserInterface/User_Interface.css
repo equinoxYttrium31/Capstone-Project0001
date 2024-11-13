@@ -309,6 +309,12 @@ body {
   top: 26rem;
 }
 
+.user_dashboard_cont.minimized .icon_container:hover {
+  background-color: #2d2f657a;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 .user_dashboard_cont.minimized .icon_container.active {
   background-color: #2d2f65;
   border-radius: 1rem;
