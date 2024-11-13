@@ -306,7 +306,7 @@ body {
   top: 26rem;
 }
 
-.icon_container .active {
+.icon_container.active {
   background-color: #2d2f65;
 }
 
