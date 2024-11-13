@@ -65,10 +65,6 @@
   border-radius: 30px;
 }
 
-.img-holder img:hover {
-  transform: scale(1.1);
-}
-
 @media (max-width: 1130px) {
   .img-holder {
     top: 267%;
