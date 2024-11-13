@@ -228,7 +228,7 @@
 .submit_attendance_button:hover {
   background-color: #f8ba33b1;
   color: whitesmoke;
-  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
   cursor: pointer;
 }
 
