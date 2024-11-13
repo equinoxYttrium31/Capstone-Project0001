@@ -273,6 +273,8 @@ body {
 }
 
 .user_dashboard_cont.minimized .icon_container {
+  width: fit-content;
+  height: fit-content;
   visibility: visible;
 }
 
