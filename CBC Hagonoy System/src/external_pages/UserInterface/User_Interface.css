@@ -274,7 +274,7 @@ body {
 
 .user_dashboard_cont.minimized .icon_container {
   width: 100%;
-  height: fit-content;
+  height: 5rem;
   visibility: visible;
 }
 
