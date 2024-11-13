@@ -405,6 +405,7 @@
 .save_changes_button:hover {
   background-color: #252754ac;
   cursor: pointer;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
 }
 
 .Cancel_changes_button {
@@ -421,6 +422,7 @@
 
 .Cancel_changes_button:hover {
   background-color: #a10202af;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
   cursor: pointer;
 }
 
@@ -558,6 +560,7 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
 }
 
 #user_name_prof_inp {
