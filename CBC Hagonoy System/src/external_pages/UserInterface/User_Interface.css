@@ -311,7 +311,7 @@ body {
 
 .user_dashboard_cont.minimized .icon_container.active {
   background-color: #2d2f65;
-  border-radius: 5rem;
+  border-radius: 1rem;
 }
 
 @keyframes slowLoad {
