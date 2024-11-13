@@ -35,7 +35,11 @@
 
 .edit_icon_prof {
   margin-top: -0.2rem;
+}
+
+.edit_icon_prof:hover {
   cursor: pointer;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
 }
 
 .personal_info_user {
@@ -464,8 +468,8 @@
 
 .modal_change_pic {
   display: flex;
-  position: fixed;
-  z-index: 1;
+  position: absolute;
+  z-index: 99999;
   left: 0;
   top: 0;
   width: 100%;
