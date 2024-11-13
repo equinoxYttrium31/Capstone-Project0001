@@ -130,48 +130,48 @@ function User_Interface() {
             />
           </div>
 
-          <div className="icon_container">
+          <div
+            className={`icon_container ${
+              activeContent === "Personal" ? "active" : ""
+            }`}
+            onClick={() => handleContentClick("Personal")}
+          >
             <img
               src={personal_ic}
               alt="Personal Icon"
               className="icon_personal_user"
             />
-            <p
-              className="icon_label personal"
-              onClick={() => handleContentClick("Personal")}
-            >
-              Personal Account
-            </p>
+            <p className="icon_label personal">Personal Account</p>
           </div>
           {(memberType === "Cellgroup Leader" ||
             memberType === "Network Leader") && (
-            <div className="icon_container">
+            <div
+              className={`icon_container ${
+                activeContent === "Cellgroup" ? "active" : ""
+              }`}
+              onClick={() => handleContentClick("Cellgroup")}
+            >
               <img
                 src={cellgroup_ic}
                 alt="Cellgroup Icon"
                 className="icon_cellgroup_user"
               />
-              <p
-                className="icon_label cellgroup"
-                onClick={() => handleContentClick("Cellgroup")}
-              >
-                Cellgroup Record
-              </p>
+              <p className="icon_label cellgroup">Cellgroup Record</p>
             </div>
           )}
           {memberType === "Network Leader" && (
-            <div className="icon_container">
+            <div
+              className={`icon_container ${
+                activeContent === "Network" ? "active" : ""
+              }`}
+              onClick={() => handleContentClick("Network")}
+            >
               <img
                 src={network_ic}
                 alt="Network Icon"
                 className="icon_network_user"
               />
-              <p
-                className="icon_label network"
-                onClick={() => handleContentClick("Network")}
-              >
-                Network Monitoring
-              </p>
+              <p className="icon_label network">Network Monitoring</p>
             </div>
           )}
 
