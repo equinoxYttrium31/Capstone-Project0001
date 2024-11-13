@@ -268,9 +268,16 @@ body {
   opacity: 0;
 }
 
+.icon_container {
+  visibility: hidden;
+}
+
+.user_dashboard_cont.minimized .icon_container {
+  visibility: visible;
+}
+
 .icon_label {
   position: fixed;
-  visibility: hidden;
 }
 
 .user_dashboard_cont.minimized .icon_label {
@@ -282,7 +289,6 @@ body {
   text-align: center;
   font-family: "Poppins";
   text-shadow: #28282b 1.5px 1.5px 2px;
-  opacity: 1;
 }
 
 .personal {

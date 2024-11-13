@@ -131,7 +131,7 @@ function User_Interface() {
           </div>
 
           <div
-            className={`content_item ${
+            className={`icon_container ${
               activeContent === "Personal" ? "active" : ""
             }`}
             onClick={() => handleContentClick("Personal")}
@@ -146,7 +146,7 @@ function User_Interface() {
           {(memberType === "Cellgroup Leader" ||
             memberType === "Network Leader") && (
             <div
-              className={`content_item ${
+              className={`icon_container ${
                 activeContent === "Cellgroup" ? "active" : ""
               }`}
               onClick={() => handleContentClick("Cellgroup")}
@@ -161,7 +161,7 @@ function User_Interface() {
           )}
           {memberType === "Network Leader" && (
             <div
-              className={`content_item ${
+              className={`icon_container ${
                 activeContent === "Network" ? "active" : ""
               }`}
               onClick={() => handleContentClick("Network")}
