@@ -222,10 +222,12 @@
   border-radius: 50px;
   color: #2d2f65;
   font-family: "Poppins";
+  transition: all 0.3s ease-in-out;
 }
 
 .submit_attendance_button:hover {
   background-color: #f8ba33b1;
+  color: whitesmoke;
   filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
   cursor: pointer;
 }

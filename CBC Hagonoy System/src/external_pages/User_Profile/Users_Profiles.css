@@ -74,12 +74,12 @@
 .change-pic-button {
   position: absolute;
   width: 100%;
-  height: 20%;
+  height: 100%;
   bottom: 0%;
   left: 0%;
-  background-color: #efb934;
+  background-color: #efba344f;
   border: none;
-  color: white;
+  color: whitesmoke;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -403,7 +403,8 @@
 }
 
 .save_changes_button:hover {
-  background-color: #252754fe;
+  background-color: #252754ac;
+  cursor: pointer;
 }
 
 .Cancel_changes_button {
@@ -419,7 +420,8 @@
 }
 
 .Cancel_changes_button:hover {
-  background-color: #a10202;
+  background-color: #a10202af;
+  cursor: pointer;
 }
 
 .user_gender_label {
@@ -510,6 +512,7 @@
   background-color: transparent;
   border: 2px solid #2d2f65;
   color: #28282b;
+  cursor: pointer;
 }
 
 .upload_container input {
@@ -539,6 +542,7 @@
   border: 2px solid #efb934;
   background-color: transparent;
   color: #28282b;
+  cursor: pointer;
 }
 
 .close {
