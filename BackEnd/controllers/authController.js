@@ -10,45 +10,38 @@ const AnnouncementModel = require("../models/Announcements");
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
-const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
-  auth: { user: "cbch.websystem@gmail.com", pass: "5000 591 224" },
+  auth: { user: "cbch.websystem@gmail.com", pass: "5599 587 637" },
 });
 
 const generateOtp = () => crypto.randomBytes(4).toString("hex");
 
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
-    from: "cbch.websystem@gmail.com",
+    from: "no-reply@ycbchwebsystem.com",
     to: email,
     subject: "Your OTP for Password Reset",
-    html: `
-    <p>Hello,</p>
-    <p>Your OTP for password reset is: <b>${otp}</b></p>
-    <p>This OTP is valid for 10 minutes.</p>
-    <img src="cid:otpImage" alt="OTP Image" />
-  `,
-    attachments: [
-      {
-        filename: "otp-image.png",
-        path: "../../CBC Hagonoy System/src/assets/Church_Images/salvation_header.png", // Local path to the image
-        cid: "otpImage", // Same CID as in the `src` attribute
-      },
-    ],
+    html: `<p>Hello,</p><p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
   return transporter.sendMail(mailOptions);
 };
 
-const requestOtp = async (req, res) => {
+exports.requestOtp = async (req, res) => {
   const { email } = req.body;
   const otp = generateOtp();
-  const otpExpiry = 600; // 10 minutes in seconds
+  const otpExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
 
-  // Store OTP in Redis with expiry
-  await redisClient.set(email, otp, { EX: otpExpiry });
+  const user = await ChurchUser.findOne({ email });
+  if (!user)
+    return res.status(404).json({ success: false, message: "User not found." });
+
+  user.otp = otp;
+  user.otpExpiry = otpExpiry;
+  await user.save();
 
   try {
     await sendOtpEmail(email, otp);
@@ -60,27 +53,23 @@ const requestOtp = async (req, res) => {
   }
 };
 
-const changePassword = async (req, res) => {
+exports.changePassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
+  const user = await ChurchUser.findOne({ email, otp });
 
-  redisClient.get(email, async (err, storedOtp) => {
-    if (err || storedOtp !== otp) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid or expired OTP." });
-    }
+  if (!user || user.otpExpiry < Date.now()) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid or expired OTP." });
+  }
 
-    // Clear OTP from Redis after successful verification
-    redisClient.del(email);
+  user.password = await bcrypt.hash(newPassword, 10);
+  user.otp = undefined; // Clear OTP after successful password reset
+  user.otpExpiry = undefined;
+  await user.save();
 
-    // Update password in the database
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await ChurchUser.updateOne({ email }, { password: hashedPassword });
-
-    res.json({ success: true, message: "Password changed successfully." });
-  });
+  res.json({ success: true, message: "Password changed successfully." });
 };
-
 // Middleware for token verification
 
 const authenticateToken = (req, res, next) => {
@@ -866,6 +855,4 @@ module.exports = {
   getProgressByMonthYear,
   checkAuth,
   getCellgroupByLeader,
-  requestOtp,
-  changePassword,
 };
