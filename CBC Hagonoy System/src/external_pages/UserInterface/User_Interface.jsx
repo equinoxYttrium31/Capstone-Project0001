@@ -44,7 +44,7 @@ function User_Interface() {
         setUserData(response.data);
         setTimeout(() => {
           setLoading(false);
-        }, 2500);
+        }, 2000);
       } catch (err) {
         setError(err);
         setLoading(false);
