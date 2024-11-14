@@ -67,7 +67,7 @@ function User_Interface() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loader"></div>;
   if (error) return <div>Error loading user data: {error.message}</div>;
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
