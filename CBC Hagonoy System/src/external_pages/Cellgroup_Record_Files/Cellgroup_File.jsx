@@ -192,6 +192,10 @@ function Cellgroup_File() {
     const allRecords =
       userType === "Network Leader" ? usersUnderNetworkLead : records;
     const filtered = allRecords.filter(applyFilters);
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+    setLoading(true);
     setFilteredRecords(filtered);
     setFilterModal(false);
   };
