@@ -161,7 +161,7 @@ router.get("/fetch-newusers", fetchNewMembers);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
-router.post("/request-otp", requestOtp);
+router.post("/request-otp", authenticateToken, requestOtp);
 router.post("/change-password", changePassword);
 // Export the router
 module.exports = router;
