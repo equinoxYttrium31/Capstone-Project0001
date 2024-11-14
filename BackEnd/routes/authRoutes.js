@@ -25,6 +25,8 @@ const {
   getRecordsByNetworkLead,
   fetchArchivedAnnouncement,
   changeUserPassword,
+  requestOtp,
+  changePassword,
 } = require("../controllers/authController");
 
 const {
@@ -52,16 +54,6 @@ const {
   archiveAnnouncementById,
   updateAnnouncementbyID,
 } = require("../controllers/authController_Admin");
-const cors = require("cors");
-
-// Middleware for CORS
-router.use(
-  cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
 
 // Define a test route
 router.get("/", (req, res) => res.send("Test Route"));
@@ -169,5 +161,7 @@ router.get("/fetch-newusers", fetchNewMembers);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
+router.post("/request-otp", requestOtp);
+router.post("/change-password", changePassword);
 // Export the router
 module.exports = router;
