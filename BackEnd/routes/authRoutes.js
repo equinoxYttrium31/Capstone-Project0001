@@ -69,10 +69,7 @@ const {
 // CORS Middleware
 router.use(
   cors({
-    origin: [
-      "https://client-2oru.onrender.com",
-      "https://cbc-hagonoy-admin.onrender.com",
-    ],
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
