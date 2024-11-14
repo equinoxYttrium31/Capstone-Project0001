@@ -19,8 +19,10 @@ function ForgotPasswordModal({ isOpen, onClose }) {
         "https://capstone-project0001-2.onrender.com/request-otp",
         {
           method: "POST",
-
-          body: JSON.stringify({ email }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }), // Pass only the email data
         },
         { withCredentials: true }
       );
@@ -31,8 +33,10 @@ function ForgotPasswordModal({ isOpen, onClose }) {
 
       const data = await response.json();
       console.log("OTP sent:", data);
+      setOtpSent(true); // OTP has been sent, now show OTP fields
     } catch (error) {
       console.error("Error requesting OTP:", error);
+      toast.error("Error requesting OTP");
     }
   };
 
@@ -53,7 +57,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
       );
       if (response.data.success) {
         toast.success("Password changed successfully!");
-        onClose();
+        onClose(); // Close the modal on success
       } else {
         toast.error("Invalid OTP or error updating password.");
       }
@@ -73,7 +77,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
           onChange={(e) => setEmail(e.target.value)}
         />
         {!otpSent ? (
-          <button onClick={handleRequestOtp}>Request OTP</button>
+          <button onClick={() => handleRequestOtp(email)}>Request OTP</button> // Pass email directly
         ) : (
           <>
             <input
@@ -105,7 +109,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
 
 ForgotPasswordModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default ForgotPasswordModal;
