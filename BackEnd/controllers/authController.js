@@ -10,6 +10,68 @@ const AnnouncementModel = require("../models/Announcements");
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const redis = require("redis");
+
+//Forgot Password
+const redisClient = redis.createClient();
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: { user: "your-email@gmail.com", pass: "your-email-password" },
+});
+
+const generateOtp = () => crypto.randomBytes(4).toString("hex");
+
+const sendOtpEmail = (email, otp) => {
+  const mailOptions = {
+    from: "no-reply@yourapp.com",
+    to: email,
+    subject: "Your OTP for Password Reset",
+    html: `<p>Hello,</p><p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
+  };
+  return transporter.sendMail(mailOptions);
+};
+
+const requestOtp = async (req, res) => {
+  const { email } = req.body;
+  const otp = generateOtp();
+  const otpExpiry = 600; // 10 minutes in seconds
+
+  // Store OTP in Redis with expiry
+  redisClient.setex(email, otpExpiry, otp);
+
+  try {
+    await sendOtpEmail(email, otp);
+    res.json({ success: true, message: "OTP sent to your email." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error sending OTP email." });
+  }
+};
+
+const changePassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  redisClient.get(email, async (err, storedOtp) => {
+    if (err || storedOtp !== otp) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid or expired OTP." });
+    }
+
+    // Clear OTP from Redis after successful verification
+    redisClient.del(email);
+
+    // Update password in the database
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.updateOne({ email }, { password: hashedPassword });
+
+    res.json({ success: true, message: "Password changed successfully." });
+  });
+};
 
 // Middleware for token verification
 
@@ -796,4 +858,6 @@ module.exports = {
   getProgressByMonthYear,
   checkAuth,
   getCellgroupByLeader,
+  requestOtp,
+  changePassword,
 };

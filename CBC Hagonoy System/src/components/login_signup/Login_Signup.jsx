@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Login_Signup_bg, cbc_logo, bck_btn } from "../../assets/Assets";
 import "./Login_Signup.css";
+import ForgotPasswordModal from "../forgotPasswordModal/ForgotPasswordModal";
 
 function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [data, setData] = useState({
@@ -16,6 +17,14 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (e) => {
+    e.preventDefault(); // Prevent default link behavior
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => setIsModalOpen(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -160,7 +169,11 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
                   {loading ? "Logging in..." : "Login"}
                 </button>
               </form>
-              <a href="">Forgot Password?</a>
+              <a href="#" onClick={openModal}>
+                Forgot Password?
+              </a>
+
+              <ForgotPasswordModal isOpen={isModalOpen} onClose={closeModal} />
             </div>
             <div className="no_acc_container">
               <p className="no_acc_text">Don't have an account yet?</p>
