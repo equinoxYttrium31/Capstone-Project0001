@@ -41,20 +41,20 @@ const generateOtp = () => {
 // Function to send OTP email
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
-    from: "cbch.websystem@gmail.com",
+    from: "no-reply@CBCH.com",
     to: email,
     subject: "Your OTP for Password Reset",
     html: `
       <p>Hello,</p>
       <p>Your OTP for password reset is: <b>${otp}</b></p>
       <p>This OTP is valid for 10 minutes.</p>
-      <img src="cid:salvation_header" alt="OTP Image" />
+      <img src="cid:otpImage" alt="OTP Image" />
     `,
     attachments: [
       {
         filename: "salvation_header.png",
         path: "../../CBC Hagonoy System/src/assets/Church_Images",
-        cid: "salvation_header",
+        cid: "otpImage",
       },
     ],
   };
