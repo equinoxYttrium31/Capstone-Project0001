@@ -48,7 +48,8 @@ function Users_Profiles({ refresh, setRefresh }) {
   const [showModal, setShowModal] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // New state for editing
-  const [isFirstEdit, setIsFirstEdit] = useState(false); // New state to track first edit
+  const [isFirstEdit, setIsFirstEdit] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -205,7 +206,7 @@ function Users_Profiles({ refresh, setRefresh }) {
       }
 
       setOriginalUser(updatedUser);
-      setRefresh(true); // Sync originalUser with saved data
+      setRefresh(true);
       setIsEditing(false);
       setIsFirstEdit(false);
 
