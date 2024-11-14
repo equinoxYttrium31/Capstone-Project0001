@@ -49,7 +49,7 @@ const generateOtp = () => {
 
 const sendOtpEmail = (email, otp) => {
   const data = {
-    from: "your-email@your-domain.com", // The "From" email, this must be verified in Mailgun
+    from: "no-reply@client-2oru.onrender.com/", // The "From" email, this must be verified in Mailgun
     to: email,
     subject: "Your OTP for Password Reset",
     text: `Your OTP for password reset is: ${otp}. This OTP is valid for 10 minutes.`,
