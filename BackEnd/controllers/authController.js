@@ -12,7 +12,23 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const redis = require("redis");
+
+const { createClient } = require("@redis/client");
+
+const client = createClient();
+
+// Ensure the client is connected before performing any operations
+client.on("connect", () => {
+  console.log("Redis client connected");
+});
+
+client.on("error", (err) => {
+  console.error("Redis client error: ", err);
+});
+
+client
+  .connect()
+  .catch((err) => console.error("Error connecting to Redis:", err));
 
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.token; // Access the token from cookies
@@ -31,9 +47,6 @@ const authenticateToken = (req, res, next) => {
     next(); // Proceed to the next middleware or route handler
   });
 };
-
-// Create a global Redis client instance (initialized once at the beginning)
-const redisClient = redis.createClient();
 
 // Ensure the client is connected
 redisClient.on("connect", function () {
