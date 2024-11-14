@@ -33,6 +33,35 @@ const authenticateToken = (req, res, next) => {
 
 let otpStore = {}; // In-memory OTP store
 
+// Function to generate a 6-digit OTP
+const generateOtp = () => {
+  return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
+};
+
+// Function to send OTP email
+const sendOtpEmail = (email, otp) => {
+  const mailOptions = {
+    from: "cbch.websystem@gmail.com",
+    to: email,
+    subject: "Your OTP for Password Reset",
+    html: `
+      <p>Hello,</p>
+      <p>Your OTP for password reset is: <b>${otp}</b></p>
+      <p>This OTP is valid for 10 minutes.</p>
+      <img src="cid:otpImage" alt="OTP Image" />
+    `,
+    attachments: [
+      {
+        filename: "otp-image.png",
+        path: "../../CBC Hagonoy System/src/assets/Church_Images/salvation_header.png", // Local path to the image
+        cid: "otpImage", // Same CID as in the src attribute
+      },
+    ],
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
 // Function to request OTP
 const requestOtp = async (req, res) => {
   const { email } = req.body;
