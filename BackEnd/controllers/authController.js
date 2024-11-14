@@ -12,19 +12,6 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const redis = require("redis");
-
-const redisClient = redis.createClient(); // Create a new client instance
-
-// Ensure the client is connected
-redisClient.on("connect", function () {
-  console.log("Connected to Redis");
-});
-
-// Make sure you're not closing the client before using it
-redisClient.on("error", function (err) {
-  console.log("Redis error:", err);
-});
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -88,7 +75,7 @@ const changePassword = async (req, res) => {
 
     // Update password in the database
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await User.updateOne({ email }, { password: hashedPassword });
+    await ChurchUser.updateOne({ email }, { password: hashedPassword });
 
     res.json({ success: true, message: "Password changed successfully." });
   });
