@@ -21,6 +21,7 @@ function User_Interface() {
   const [error, setError] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [profileRefresh, setProfileRefresh] = useState(false);
   const [activeContent, setActiveContent] = useState("Personal");
 
   useEffect(() => {
@@ -49,7 +50,7 @@ function User_Interface() {
     };
 
     fetchUserData();
-  }, [refresh]);
+  }, [profileRefresh]);
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -111,7 +112,10 @@ function User_Interface() {
   return (
     <div className="user_interface_cont">
       <div className="nav_bar_user">
-        <User_NavBar refresh={refresh} />
+        <User_NavBar
+          setProfileRefresh={setProfileRefresh}
+          profileRefresh={profileRefresh}
+        />
       </div>
       <div className="main_user_cont">
         <div

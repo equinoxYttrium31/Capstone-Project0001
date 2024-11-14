@@ -29,7 +29,7 @@ const fetchUserProfile = async () => {
   }
 };
 
-function Users_Profiles({ setRefresh }) {
+function Users_Profiles({ setProfileRefresh }) {
   const [error, setError] = useState(null); // State to manage errors
   const [user, setUser] = useState({
     firstName: "",
@@ -206,13 +206,13 @@ function Users_Profiles({ setRefresh }) {
       }
 
       setOriginalUser(updatedUser);
-      setRefresh(true);
+      setProfileRefresh(true);
       setIsEditing(false);
       setIsFirstEdit(false);
 
       toast.success("Successfully updated the user!");
 
-      setTimeout(() => setRefresh(false), 100);
+      setTimeout(() => setProfileRefresh(false), 100);
     } catch (error) {
       toast.error("Failed to update profile.");
       console.error("Error updating profile:", error);
@@ -525,8 +525,7 @@ function Users_Profiles({ setRefresh }) {
 }
 
 Users_Profiles.propTypes = {
-  refresh: PropTypes.bool.isRequired,
-  setRefresh: PropTypes.func.isRequired,
+  setProfileRefresh: PropTypes.func.isRequired,
 };
 
 export default Users_Profiles;

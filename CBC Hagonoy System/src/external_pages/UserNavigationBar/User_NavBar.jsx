@@ -4,6 +4,7 @@ import "./User_NavBar.css";
 import Users_Profile from "../User_Profile/Users_Profiles";
 import Setting_Page from "../SettingFolder/Setting_Page";
 import Notifications from "../Notifications/notifications";
+import PropTypes from "prop-types";
 import {
   cbc_logo,
   account_icon_light,
@@ -20,7 +21,7 @@ import AboutUs from "../../components/NavBar_Components/About Us/AboutUs";
 import Beliefs from "../../components/NavBar_Components/Beliefs/Beliefs";
 import Ministries from "../../components/NavBar_Components/Ministries/ministries";
 
-function User_NavBar({ refresh, setRefresh }) {
+function User_NavBar({ profileRefresh, setProfileRefresh }) {
   const location = useLocation();
 
   // State variables
@@ -145,7 +146,12 @@ function User_NavBar({ refresh, setRefresh }) {
         </div>
       </div>
 
-      {showProfile && <Users_Profile setRefresh={setRefresh} />}
+      {showProfile && (
+        <Users_Profile
+          setProfileRefresh={setProfileRefresh}
+          profileRefresh={profileRefresh}
+        />
+      )}
       {showSettings && <Setting_Page />}
       {showNotifications && <Notifications />}
       {modalContent && (
@@ -156,5 +162,10 @@ function User_NavBar({ refresh, setRefresh }) {
     </div>
   );
 }
+
+User_NavBar.propTypes = {
+  profileRefresh: PropTypes.bool.isRequired,
+  setProfileRefresh: PropTypes.func.isRequired,
+};
 
 export default User_NavBar;
