@@ -13,18 +13,28 @@ function ForgotPasswordModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleRequestOtp = async () => {
+  const handleRequestOtp = async (email) => {
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://capstone-project0001-2.onrender.com/request-otp",
-        { email }
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer`, // If a token is required
+          },
+          body: JSON.stringify({ email }),
+        }
       );
-      if (response.data.success) {
-        toast.success("OTP sent to your email!");
-        setOtpSent(true);
+
+      if (!response.ok) {
+        throw new Error("Request failed with status " + response.status);
       }
+
+      const data = await response.json();
+      console.log("OTP sent:", data);
     } catch (error) {
-      toast.error("Error sending OTP. Please try again.");
+      console.error("Error requesting OTP:", error);
     }
   };
 
