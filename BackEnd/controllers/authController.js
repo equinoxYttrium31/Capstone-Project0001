@@ -48,23 +48,13 @@ const generateOtp = () => {
 };
 
 const sendOtpEmail = (email, otp) => {
-  const data = {
+  const mailOptions = {
     from: "no-reply@client-2oru.onrender.com/", // The "From" email, this must be verified in Mailgun
     to: email,
     subject: "Your OTP for Password Reset",
     text: `Your OTP for password reset is: ${otp}. This OTP is valid for 10 minutes.`,
     html: `<p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
-
-  // Send email using Mailgun
-  mg.messages().send(data, (error, body) => {
-    if (error) {
-      console.log("Error sending OTP email:", error);
-    } else {
-      console.log("OTP email sent:", body);
-    }
-  });
-
   return transporter.sendMail(mailOptions);
 };
 
