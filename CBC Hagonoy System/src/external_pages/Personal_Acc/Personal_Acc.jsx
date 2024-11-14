@@ -29,10 +29,11 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
-const Personal_Acc = ({ onSubmit, refresh }) => {
+const Personal_Acc = ({ onSubmit, profileRefresh }) => {
   //PropTypes Validation
   Personal_Acc.propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    profileRefresh: PropTypes.func.isRequired,
   };
 
   const [user, setUser] = useState(null);
@@ -51,10 +52,10 @@ const Personal_Acc = ({ onSubmit, refresh }) => {
   });
 
   useEffect(() => {
-    if (refresh) {
+    if (profileRefresh) {
       fetchUserProfile();
     }
-  }, [refresh]);
+  }, [profileRefresh]);
 
   // Function to submit attendance data to the backend
   const submitAttendanceData = async (event) => {

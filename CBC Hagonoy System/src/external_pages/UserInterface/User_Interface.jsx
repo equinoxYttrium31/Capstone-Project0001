@@ -80,7 +80,10 @@ function User_Interface() {
     if (activeContent === "Personal") {
       return (
         <div className="dynamic_container_personal active">
-          <Personal_Acc onSubmit={handleAttendanceSubmit} refresh={refresh} />
+          <Personal_Acc
+            onSubmit={handleAttendanceSubmit}
+            profileRefresh={profileRefresh}
+          />
           <User_Chart userId={userId} refresh={refresh} />{" "}
           {/* Pass userId here */}
         </div>
