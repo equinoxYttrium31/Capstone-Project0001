@@ -197,7 +197,8 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
   // Refresh user profile when profileRefresh flag changes
   useEffect(() => {
     if (profileRefresh) {
-      fetchUserProfile(); // Trigger the refresh
+      const userProfile = fetchUserProfile();
+      setUser(userProfile);
       console.log("User Data refreshed");
     }
   }, [profileRefresh]);
