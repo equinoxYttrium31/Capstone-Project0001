@@ -20,6 +20,7 @@ function User_Interface() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [activeContent, setActiveContent] = useState("Personal");
 
   useEffect(() => {
@@ -57,8 +58,6 @@ function User_Interface() {
   const handleContentClick = (content) => {
     setActiveContent(content);
   };
-
-  const [refresh, setRefresh] = useState(false);
 
   const handleAttendanceSubmit = (shouldRefresh) => {
     if (shouldRefresh) {
