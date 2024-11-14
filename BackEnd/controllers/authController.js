@@ -14,14 +14,33 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const redis = require("redis");
 
-const redisClient = redis.createClient(); // Create a new client instance
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token; // Access the token from cookies
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = decoded;
+    req.id = decoded.id;
+    console.log(decoded.id); // Store user ID in request object
+    console.log("Decoded Token:", decoded); // Log the decoded token
+    next(); // Proceed to the next middleware or route handler
+  });
+};
+
+// Create a global Redis client instance (initialized once at the beginning)
+const redisClient = redis.createClient();
 
 // Ensure the client is connected
 redisClient.on("connect", function () {
   console.log("Connected to Redis");
 });
 
-// Make sure you're not closing the client before using it
+// Handle Redis errors
 redisClient.on("error", function (err) {
   console.log("Redis error:", err);
 });
@@ -39,11 +58,11 @@ const sendOtpEmail = (email, otp) => {
     to: email,
     subject: "Your OTP for Password Reset",
     html: `
-    <p>Hello,</p>
-    <p>Your OTP for password reset is: <b>${otp}</b></p>
-    <p>This OTP is valid for 10 minutes.</p>
-    <img src="cid:otpImage" alt="OTP Image" />
-  `,
+      <p>Hello,</p>
+      <p>Your OTP for password reset is: <b>${otp}</b></p>
+      <p>This OTP is valid for 10 minutes.</p>
+      <img src="cid:otpImage" alt="OTP Image" />
+    `,
     attachments: [
       {
         filename: "otp-image.png",
@@ -64,14 +83,8 @@ const requestOtp = async (req, res) => {
   await redisClient.set(email, otp, { EX: otpExpiry });
 
   try {
-    // Check if the client is closed, reopen it if necessary
-    if (!redisClient || !redisClient.connected) {
-      redisClient = redis.createClient(); // Reopen the client if it's closed
-    }
-
     await sendOtpEmail(email, otp);
     res.json({ success: true, message: "OTP sent to your email." });
-    redisClient.quit();
   } catch (error) {
     res
       .status(500)
@@ -101,24 +114,6 @@ const changePassword = async (req, res) => {
 };
 
 // Middleware for token verification
-
-const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token; // Access the token from cookies
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Invalid token" });
-    }
-    req.user = decoded;
-    req.id = decoded.id;
-    console.log(decoded.id); // Store user ID in request object
-    console.log("Decoded Token:", decoded); // Log the decoded token
-    next(); // Proceed to the next middleware or route handler
-  });
-};
 
 const convertToJpeg = async (imageBuffer) => {
   try {

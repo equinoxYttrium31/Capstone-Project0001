@@ -81,8 +81,8 @@ router.get("/", (req, res) => res.send("Test Route"));
 // ====== PUBLIC ROUTES ======
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("/request-otp", requestOtp); // Request OTP for password reset
-router.post("/change-password", changePassword); // Change password with OTP
+router.post("/request-otp", authenticateToken, requestOtp); // Request OTP for password reset
+router.post("/change-password", authenticateToken, changePassword); // Change password with OTP
 
 // ====== AUTHENTICATED USER ROUTES ======
 // Profile
