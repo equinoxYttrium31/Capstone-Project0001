@@ -14,8 +14,17 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const redis = require("redis");
 
-//Forgot Password
-const redisClient = redis.createClient();
+const redisClient = redis.createClient(); // Create a new client instance
+
+// Ensure the client is connected
+redisClient.on("connect", function () {
+  console.log("Connected to Redis");
+});
+
+// Make sure you're not closing the client before using it
+redisClient.on("error", function (err) {
+  console.log("Redis error:", err);
+});
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -55,8 +64,14 @@ const requestOtp = async (req, res) => {
   await redisClient.set(email, otp, { EX: otpExpiry });
 
   try {
+    // Check if the client is closed, reopen it if necessary
+    if (!redisClient || !redisClient.connected) {
+      redisClient = redis.createClient(); // Reopen the client if it's closed
+    }
+
     await sendOtpEmail(email, otp);
     res.json({ success: true, message: "OTP sent to your email." });
+    redisClient.quit();
   } catch (error) {
     res
       .status(500)

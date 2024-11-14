@@ -4,12 +4,14 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import "./ForgotPasswordModal.css";
 
-function ForgotPasswordModal({ closeModal }) {
+function ForgotPasswordModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+
+  if (!isOpen) return null;
 
   const handleRequestOtp = async () => {
     try {
@@ -43,7 +45,7 @@ function ForgotPasswordModal({ closeModal }) {
       );
       if (response.data.success) {
         toast.success("Password changed successfully!");
-        closeModal();
+        onClose();
       } else {
         toast.error("Invalid OTP or error updating password.");
       }
@@ -87,14 +89,15 @@ function ForgotPasswordModal({ closeModal }) {
             <button onClick={handleChangePassword}>Change Password</button>
           </>
         )}
-        <button onClick={closeModal}>Cancel</button>
+        <button onClick={onClose}>Cancel</button>
       </div>
     </div>
   );
 }
 
 ForgotPasswordModal.propTypes = {
-  closeModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.func.isRequired,
 };
 
 export default ForgotPasswordModal;
