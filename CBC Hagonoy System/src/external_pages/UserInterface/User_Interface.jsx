@@ -48,7 +48,7 @@ function User_Interface() {
     };
 
     fetchUserData();
-  }, []);
+  }, [refresh]);
 
   const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -80,7 +80,7 @@ function User_Interface() {
     if (activeContent === "Personal") {
       return (
         <div className="dynamic_container_personal active">
-          <Personal_Acc onSubmit={handleAttendanceSubmit} />
+          <Personal_Acc onSubmit={handleAttendanceSubmit} refresh={refresh} />
           <User_Chart userId={userId} refresh={refresh} />{" "}
           {/* Pass userId here */}
         </div>
@@ -112,7 +112,7 @@ function User_Interface() {
   return (
     <div className="user_interface_cont">
       <div className="nav_bar_user">
-        <User_NavBar />
+        <User_NavBar refresh={refresh} />
       </div>
       <div className="main_user_cont">
         <div

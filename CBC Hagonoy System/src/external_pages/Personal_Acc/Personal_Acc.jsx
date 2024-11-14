@@ -29,7 +29,7 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
-const Personal_Acc = ({ onSubmit }) => {
+const Personal_Acc = ({ onSubmit, refresh }) => {
   //PropTypes Validation
   Personal_Acc.propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -49,6 +49,12 @@ const Personal_Acc = ({ onSubmit }) => {
     prayerMeeting: false,
     worshipService: false,
   });
+
+  useEffect(() => {
+    if (refresh) {
+      fetchUserProfile();
+    }
+  }, [refresh]);
 
   // Function to submit attendance data to the backend
   const submitAttendanceData = async (event) => {

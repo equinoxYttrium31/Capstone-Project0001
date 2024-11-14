@@ -20,7 +20,7 @@ import AboutUs from "../../components/NavBar_Components/About Us/AboutUs";
 import Beliefs from "../../components/NavBar_Components/Beliefs/Beliefs";
 import Ministries from "../../components/NavBar_Components/Ministries/ministries";
 
-function User_NavBar() {
+function User_NavBar({ refresh, setRefresh }) {
   const location = useLocation();
 
   // State variables
@@ -145,7 +145,9 @@ function User_NavBar() {
         </div>
       </div>
 
-      {showProfile && <Users_Profile />}
+      {showProfile && (
+        <Users_Profile refresh={refresh} setRefresh={setRefresh} />
+      )}
       {showSettings && <Setting_Page />}
       {showNotifications && <Notifications />}
       {modalContent && (
