@@ -113,6 +113,7 @@
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 13vh;
+  width: fit-content;
   align-items: center;
   gap: 1em;
   transition: all ease-out 0.3s;
