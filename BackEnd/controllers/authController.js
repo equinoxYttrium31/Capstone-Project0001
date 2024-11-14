@@ -41,13 +41,15 @@ const transporter = nodemailer.createTransport({
     user: "7fefc0001@smtp-brevo.com", // your SMTP login
     pass: "hfrwj8myWvCsqxHS", // your SMTP password
   },
+  debug: true, // Enable debug output
+  logger: true, // Log SMTP requests to console
 });
 // Function to generate a 6-digit OTP
 const generateOtp = () => {
-  return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
+  return crypto.randomBytes(4).toString("hex"); // Generates a 6-digit OTP
 };
 
-const sendOtpEmail = (email, otp) => {
+const sendOtpEmail = async (email, otp) => {
   const mailOptions = {
     from: "no-reply@client-2oru.onrender.com/",
     to: email,
@@ -55,8 +57,15 @@ const sendOtpEmail = (email, otp) => {
     text: `Your OTP for password reset is: ${otp}. This OTP is valid for 10 minutes.`,
     html: `<p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
-  console.log(mailOptions);
-  return transporter.sendMail(mailOptions);
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+    return true;
+  } catch (error) {
+    console.error("Error sending OTP email:", error);
+    return false;
+  }
 };
 
 const requestOtp = async (req, res) => {
