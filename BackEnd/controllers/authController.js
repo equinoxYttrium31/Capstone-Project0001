@@ -31,42 +31,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-let otpStore = {};
-
-// Create the transporter for sending emails
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: { user: "cbch.websystem@gmail.com", pass: "cbchwebsystem123" },
-});
-
-// Function to generate a 6-digit OTP
-const generateOtp = () => {
-  return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
-};
-
-// Function to send OTP email
-const sendOtpEmail = (email, otp) => {
-  const mailOptions = {
-    from: "cbch.websystem@gmail.com",
-    to: email,
-    subject: "Your OTP for Password Reset",
-    html: `
-      <p>Hello,</p>
-      <p>Your OTP for password reset is: <b>${otp}</b></p>
-      <p>This OTP is valid for 10 minutes.</p>
-      <img src="cid:otpImage" alt="OTP Image" />
-    `,
-    attachments: [
-      {
-        filename: "otp-image.png",
-        path: "../../CBC Hagonoy System/src/assets/Church_Images/salvation_header.png", // Local path to the image
-        cid: "otpImage", // Same CID as in the `src` attribute
-      },
-    ],
-  };
-
-  return transporter.sendMail(mailOptions);
-};
+let otpStore = {}; // In-memory OTP store
 
 // Function to request OTP
 const requestOtp = async (req, res) => {
@@ -99,31 +64,35 @@ const requestOtp = async (req, res) => {
     await sendOtpEmail(email, otp);
     res.json({ success: true, message: "OTP sent to your email." });
   } catch (error) {
+    console.error("Error sending OTP email:", error);
     res
       .status(500)
       .json({ success: false, message: "Error sending OTP email." });
   }
 };
 
+// Function to change password
 const changePassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
-  redisClient.get(email, async (err, otpStore) => {
-    if (err || otpStore !== otp) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid or expired OTP." });
-    }
+  // Retrieve OTP from the in-memory store
+  const storedOtp = otpStore[email];
 
-    // Clear OTP from Redis after successful verification
-    redisClient.del(email);
+  // Validate the OTP
+  if (!storedOtp || storedOtp.otp !== otp || Date.now() > storedOtp.expiry) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid or expired OTP." });
+  }
 
-    // Update password in the database
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await ChurchUser.updateOne({ email }, { password: hashedPassword });
+  // Remove OTP from in-memory store after successful verification
+  delete otpStore[email];
 
-    res.json({ success: true, message: "Password changed successfully." });
-  });
+  // Update password in the database
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await ChurchUser.updateOne({ email }, { password: hashedPassword });
+
+  res.json({ success: true, message: "Password changed successfully." });
 };
 
 // Middleware for token verification
