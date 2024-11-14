@@ -29,7 +29,7 @@ function User_NavBar({ refresh, setRefresh }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [user, setUser] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // New state for hamburger menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
