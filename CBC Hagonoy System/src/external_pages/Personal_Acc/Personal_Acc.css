@@ -244,6 +244,10 @@
     text-align: center;
   }
 
+  .personal_user_info_text {
+    align-items: center;
+  }
+
   .personal_record_cont {
     margin: 2rem auto;
     padding: 1rem 1.5rem;
