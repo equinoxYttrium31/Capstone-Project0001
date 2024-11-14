@@ -55,7 +55,7 @@ const sendOtpEmail = (email, otp) => {
     text: `Your OTP for password reset is: ${otp}. This OTP is valid for 10 minutes.`,
     html: `<p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
-  console.log(MailOptions);
+  console.log(mailOptions);
   return transporter.sendMail(mailOptions);
 };
 
