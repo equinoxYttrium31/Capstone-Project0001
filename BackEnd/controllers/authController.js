@@ -42,36 +42,23 @@ const generateOtp = () => {
   return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
 };
 
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "cbch.websystem@gmail.com", // Your email address
-    pass: "cbchwebsystem123", // Your email password or App-specific password
-  },
-});
-
-// Function to send OTP email
 const sendOtpEmail = (email, otp) => {
-  const mailOptions = {
-    from: "no-reply@CBCH.com",
+  const data = {
+    from: "your-email@your-domain.com", // The "From" email, this must be verified in Mailgun
     to: email,
     subject: "Your OTP for Password Reset",
-    html: `
-      <p>Hello,</p>
-      <p>Your OTP for password reset is: <b>${otp}</b></p>
-      <p>This OTP is valid for 10 minutes.</p>
-      <img src="cid:otpImage" alt="OTP Image" />
-    `,
-    attachments: [
-      {
-        filename: "salvation_header.png",
-        path: "../../CBC Hagonoy System/src/assets/Church_Images",
-        cid: "otpImage",
-      },
-    ],
+    text: `Your OTP for password reset is: ${otp}. This OTP is valid for 10 minutes.`,
+    html: `<p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
 
-  return transporter.sendMail(mailOptions);
+  // Send email using Mailgun
+  mg.messages().send(data, (error, body) => {
+    if (error) {
+      console.log("Error sending OTP email:", error);
+    } else {
+      console.log("OTP email sent:", body);
+    }
+  });
 };
 
 const requestOtp = async (req, res) => {
