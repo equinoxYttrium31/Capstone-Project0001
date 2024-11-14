@@ -4,9 +4,6 @@ const {
   registerUser,
   loginUser,
   getProfile,
-  authenticateToken,
-  uploadProfilePicture,
-  fetchProfilePicture,
   updateUserProfile,
   initialEditUserProfile,
   logoutUser,
@@ -24,32 +21,12 @@ const {
   getRecordsByNetworkLead,
   fetchArchivedAnnouncement,
   changeUserPassword,
-  requestOtp,
-  changePassword,
 } = require("../controllers/authController");
 
 const {
   getRecords,
   addNewRecord,
   updateRecord,
-  archiveRecord,
-  getUserById,
-  getArchivedUsers,
-  createNewCellGroup,
-  fetchCellGroups,
-  addAnnouncements,
-  fetchAnnouncements,
-  getSortedPrayerRequests,
-  getGroupedPrayerRequests,
-  getUserByFullName,
-  newMembers,
-  totalMembersPerMonth,
-  top5UsersByAttendance,
-  totalAttendancePercentage,
-  fetchTotalPrayerRequestWeekly,
-  fetchAllPrayer,
-  fetchNewMembers,
-  fetchAnnouncementById,
   archiveAnnouncementById,
   updateAnnouncementbyID,
 } = require("../controllers/authController_Admin");
@@ -81,38 +58,20 @@ router.get("/leader/:leaderName", getCellgroupByLeader);
 
 router.post("/default-attendance", authenticateToken, submitDefault);
 router.post("/attendance", authenticateToken, createOrUpdateAttendance);
-router.get(
-  "/attendance-month/:userId/:month/:year",
-  authenticateToken,
-  getAttendanceByMonthYear
-);
-router.get(
-  "/attendance-weekly/get/:userId/:month/:year/:weekNumber",
-  authenticateToken,
-  getWeeklyAttendance
-);
-router.get(
-  "/attendance/summary/:userId/:month/:year",
-  authenticateToken,
-  getMonthlyAttendanceSummary
-);
-
+router.get(authenticateToken, getMonthlyAttendanceSummary);
 router.get("/fetch-latestAnnouncement", fetchLatestAnnouncement);
 router.get("/fetch-currentAnnouncement", fetchCurrentAnnouncement);
 router.post("/send-prayer", sendPrayerRequest);
 router.post("/change-password", authenticateToken, changeUserPassword);
-
 // Attendance fetch function
 const getAttendanceByUser = async (req, res) => {
   const userId = req.params.userId;
   const month = req.params.month;
   const year = req.params.year;
   const week = req.params.week;
-
   console.log(
     `Fetching attendance for User ID: ${userId}, Month: ${month}, Year: ${year}, Week: ${week}`
   );
-
   try {
     const attendanceData = await AttendanceModel.findOne({
       userId,
@@ -120,21 +79,17 @@ const getAttendanceByUser = async (req, res) => {
       year,
       week,
     });
-
     if (!attendanceData) {
       return res.status(404).send("Attendance data not found");
     }
-
     res.status(200).json(attendanceData);
   } catch (error) {
     console.error("Error fetching attendance data:", error);
     res.status(500).send("Internal Server Error");
   }
 };
-
 // Progress route
 router.get("/progress/:year/:month", authenticateToken, getProgressByMonthYear); // Added authenticateToken middleware for progress
-
 // Logout route
 router.post("/logout", authenticateToken, logoutUser); // Ensure logout is also protected
 router.get("/check-auth", checkAuth);
@@ -170,8 +125,5 @@ router.get("/fetch-newusers", fetchNewMembers);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
-
-router.post("/change-password", changePassword);
-router.post("/request-otp", requestOtp);
 // Export the router
 module.exports = router;
