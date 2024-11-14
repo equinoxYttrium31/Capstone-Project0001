@@ -12,6 +12,7 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const mailgun = require("mailgun-js");
 
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.token; // Access the token from cookies
@@ -32,7 +33,10 @@ const authenticateToken = (req, res, next) => {
 };
 
 let otpStore = {}; // In-memory OTP store
-
+const mg = mailgun({
+  apiKey: "79eab9d4a313b7797c2c030e3cfb1006-79295dd0-9222a863",
+  domain: "sandboxc31c24d5105f4a05849ab64c98e13f66.mailgun.org",
+});
 // Function to generate a 6-digit OTP
 const generateOtp = () => {
   return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
@@ -70,38 +74,28 @@ const sendOtpEmail = (email, otp) => {
   return transporter.sendMail(mailOptions);
 };
 
-// Function to request OTP
 const requestOtp = async (req, res) => {
   const { email } = req.body;
 
-  console.log(email);
-
-  // Check if email is valid (simple check)
+  // Basic email validation
   if (!email || !email.includes("@")) {
     return res
       .status(400)
       .json({ success: false, message: "Invalid email address." });
   }
 
-  // Generate a new OTP
+  // Generate OTP
   const otp = generateOtp();
-  const otpExpiry = 600000; // OTP expiry time: 10 minutes (in milliseconds)
+  const otpExpiry = 600000; // 10 minutes expiry time (in ms)
 
-  // Store OTP in the in-memory store (use email as the key)
+  // Store OTP in-memory (This simulates storing the OTP)
   otpStore[email] = {
     otp: otp,
     expiry: Date.now() + otpExpiry,
   };
 
-  console.log(otp);
-
-  // Set a timeout to remove the OTP after expiry
-  setTimeout(() => {
-    delete otpStore[email]; // Remove OTP from the store once expired
-  }, otpExpiry);
-
+  // Send OTP email
   try {
-    // Send OTP email
     await sendOtpEmail(email, otp);
     res.json({ success: true, message: "OTP sent to your email." });
   } catch (error) {
