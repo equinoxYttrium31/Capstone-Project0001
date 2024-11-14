@@ -66,6 +66,8 @@ const sendOtpEmail = (email, otp) => {
 const requestOtp = async (req, res) => {
   const { email } = req.body;
 
+  console.log(email);
+
   // Check if email is valid (simple check)
   if (!email || !email.includes("@")) {
     return res
@@ -82,6 +84,8 @@ const requestOtp = async (req, res) => {
     otp: otp,
     expiry: Date.now() + otpExpiry,
   };
+
+  console.log(otp);
 
   // Set a timeout to remove the OTP after expiry
   setTimeout(() => {
