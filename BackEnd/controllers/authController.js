@@ -52,9 +52,9 @@ const sendOtpEmail = (email, otp) => {
     `,
     attachments: [
       {
-        filename: "otp-image.png",
-        path: "../../CBC Hagonoy System/src/assets/Church_Images/salvation_header.png", // Local path to the image
-        cid: "otpImage", // Same CID as in the src attribute
+        filename: "salvation_header.png",
+        path: "../../CBC Hagonoy System/src/assets/Church_Images", // Local path to the image
+        cid: "salvation_header", // Same CID as in the src attribute
       },
     ],
   };
