@@ -24,6 +24,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
           },
           body: JSON.stringify({ email }), // Pass only the email data
           withCredentials: true,
+          credentials: "include",
         }
       );
 
