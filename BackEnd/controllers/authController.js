@@ -107,7 +107,7 @@ const changePassword = async (req, res) => {
 
     // Update password in the database
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await User.updateOne({ email }, { password: hashedPassword });
+    await ChurchUser.updateOne({ email }, { password: hashedPassword });
 
     res.json({ success: true, message: "Password changed successfully." });
   });
