@@ -23,6 +23,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
           body: JSON.stringify({ email }), // Only the email is needed here
         }
       );
