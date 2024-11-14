@@ -172,8 +172,6 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
               <a href="#" onClick={openModal}>
                 Forgot Password?
               </a>
-
-              <ForgotPasswordModal isOpen={isModalOpen} onClose={closeModal} />
             </div>
             <div className="no_acc_container">
               <p className="no_acc_text">Don't have an account yet?</p>
@@ -184,6 +182,8 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
           </div>
         </div>
       )}
+
+      <ForgotPasswordModal isOpen={isModalOpen} onClose={closeModal} />
 
       {type === "signup" && (
         <div className="signup_container">
