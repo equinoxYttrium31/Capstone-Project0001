@@ -51,12 +51,6 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
     worshipService: false,
   });
 
-  useEffect(() => {
-    if (profileRefresh) {
-      fetchUserProfile();
-    }
-  }, [profileRefresh]);
-
   // Function to submit attendance data to the backend
   const submitAttendanceData = async (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -199,6 +193,14 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
       getAttendanceData();
     }
   }, [user, currentWeek, currentMonth, currentYear]); // Run when user or current week/month/year changes
+
+  // Refresh user profile when profileRefresh flag changes
+  useEffect(() => {
+    if (profileRefresh) {
+      fetchUserProfile(); // Trigger the refresh
+      console.log("User Data refreshed");
+    }
+  }, [profileRefresh]);
 
   let avatar;
   if (profilePicture) {
