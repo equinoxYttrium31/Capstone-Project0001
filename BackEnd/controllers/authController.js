@@ -19,17 +19,29 @@ const redisClient = redis.createClient();
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
-  auth: { user: "your-email@gmail.com", pass: "your-email-password" },
+  auth: { user: "cbch.websystem@gmail.com", pass: "cbchwebsystem123" },
 });
 
 const generateOtp = () => crypto.randomBytes(4).toString("hex");
 
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
-    from: "no-reply@yourapp.com",
+    from: "cbch.websystem@gmail.com",
     to: email,
     subject: "Your OTP for Password Reset",
-    html: `<p>Hello,</p><p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
+    html: `
+    <p>Hello,</p>
+    <p>Your OTP for password reset is: <b>${otp}</b></p>
+    <p>This OTP is valid for 10 minutes.</p>
+    <img src="cid:otpImage" alt="OTP Image" />
+  `,
+    attachments: [
+      {
+        filename: "otp-image.png",
+        path: "../../CBC Hagonoy System/src/assets/Church_Images/salvation_header.png", // Local path to the image
+        cid: "otpImage", // Same CID as in the `src` attribute
+      },
+    ],
   };
   return transporter.sendMail(mailOptions);
 };
@@ -40,7 +52,7 @@ const requestOtp = async (req, res) => {
   const otpExpiry = 600; // 10 minutes in seconds
 
   // Store OTP in Redis with expiry
-  redisClient.setex(email, otpExpiry, otp);
+  await redisClient.set(email, otp, { EX: otpExpiry });
 
   try {
     await sendOtpEmail(email, otp);

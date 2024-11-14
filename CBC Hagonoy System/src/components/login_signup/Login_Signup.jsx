@@ -20,7 +20,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = (e) => {
-    e.preventDefault(); // Prevent default link behavior
+    e.preventDefault();
     setIsModalOpen(true);
   };
 
