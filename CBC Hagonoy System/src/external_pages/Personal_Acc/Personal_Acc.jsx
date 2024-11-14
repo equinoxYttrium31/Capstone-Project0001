@@ -176,7 +176,7 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [profileRefresh]);
   // Effect to load attendance data from the backend
   useEffect(() => {
     if (user) {

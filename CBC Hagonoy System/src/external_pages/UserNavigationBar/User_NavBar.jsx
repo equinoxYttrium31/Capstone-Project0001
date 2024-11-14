@@ -146,12 +146,7 @@ function User_NavBar({ profileRefresh, setProfileRefresh }) {
         </div>
       </div>
 
-      {showProfile && (
-        <Users_Profile
-          setProfileRefresh={setProfileRefresh}
-          profileRefresh={profileRefresh}
-        />
-      )}
+      {showProfile && <Users_Profile setProfileRefresh={setProfileRefresh} />}
       {showSettings && <Setting_Page />}
       {showNotifications && <Notifications />}
       {modalContent && (
