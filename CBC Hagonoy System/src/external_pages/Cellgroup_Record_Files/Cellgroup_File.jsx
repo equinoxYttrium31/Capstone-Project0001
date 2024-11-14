@@ -151,7 +151,7 @@ function Cellgroup_File() {
         setFilteredRecords(response.data);
         setTimeout(() => {
           setLoading(false);
-        }, 1500);
+        }, 2000);
       } catch (error) {
         setLoading(false);
         console.error("Error fetching records:", error);
@@ -202,7 +202,7 @@ function Cellgroup_File() {
     const filtered = allRecords.filter(applyFilters);
     setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 300);
     setLoading(true);
     setFilteredRecords(filtered);
   }, [searchedUser, filters, records, usersUnderNetworkLead, userType]);
@@ -280,7 +280,7 @@ function Cellgroup_File() {
               <p>No records found.</p>
             )}
           </div>
-        ) : (
+        ) : userType === "Network Leader" ? (
           <div className="record_lower_part_left">
             {filteredRecords.length > 0 ? (
               filteredRecords.map((record) => {
@@ -315,80 +315,99 @@ function Cellgroup_File() {
                 );
               })
             ) : (
-              <p>No records found.</p>
+              <p>No records found under this network lead.</p>
             )}
           </div>
-        )}
+        ) : null}
       </div>
 
-      {/* Filter Modal */}
-      <div className={`filter_modal ${filterModal ? "active" : ""}`}>
-        <div className="filter_modal_content">
-          <div className="filter_header">
-            <h3>Filters</h3>
-            <button
-              className="close_filter_modal"
-              onClick={() => setFilterModal(false)}
-            >
-              X
-            </button>
-          </div>
-          <div className="filter_inputs">
-            <div className="filter_input">
-              <label htmlFor="age">Age Range:</label>
-              <select
-                id="age"
-                name="age"
-                value={filters.age}
-                onChange={handleSelectChange}
-              >
-                <option value="">Select Age Range</option>
-                <option value="0-17">0-17</option>
-                <option value="18-25">18-25</option>
-                <option value="26-35">26-35</option>
-                <option value="36-45">36-45</option>
-                <option value="46-60">46-60</option>
-                <option value="60+">60+</option>
-              </select>
+      {/* Filter modal and other UI elements */}
+      {filterModal && (
+        <div className="filter_modal">
+          <div className="filter_Modal_Container">
+            <div className="top_container">
+              <h2 className="filter_header">User Filters</h2>
             </div>
-            <div className="filter_input">
-              <label htmlFor="gender">Gender:</label>
-              <select
-                id="gender"
-                name="gender"
-                value={filters.gender}
-                onChange={handleSelectChange}
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
+            <div className="middle_container">
+              <p className="filter_text">
+                Use filters to make it easier to find accounts.
+              </p>
+              <div className="filter_selections">
+                <div className="row_filter_selection">
+                  <h3 className="filter_selection_label">Age: </h3>
+                  <select
+                    name="age"
+                    className="filter_select_input"
+                    onChange={handleSelectChange}
+                    value={filters.age || " "}
+                  >
+                    <option disabled value=" ">
+                      Select Age
+                    </option>
+                    <option value="1-18">18 or below</option>
+                    <option value="19-21">19-21</option>
+                    <option value="22-25">22-25</option>
+                    <option value="26-29">26-29</option>
+                    <option value="30-33">30-33</option>
+                    <option value="34-37">34-37</option>
+                    <option value="38-41">38-41</option>
+                    <option value="42-45">42-45</option>
+                    <option value="46-49">46-49</option>
+                    <option value="50-100">50 or above</option>
+                  </select>
+                </div>
+                <div className="row_filter_selection">
+                  <h3 className="filter_selection_label">Gender: </h3>
+                  <select
+                    name="gender"
+                    className="filter_select_input"
+                    onChange={handleSelectChange}
+                    value={filters.gender || " "}
+                  >
+                    <option disabled value=" ">
+                      Select Gender
+                    </option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="row_filter_selection">
+                  <h3 className="filter_selection_label">Member Type: </h3>
+                  <select
+                    name="memberType"
+                    className="filter_select_input"
+                    onChange={handleSelectChange}
+                    value={filters.memberType || " "}
+                  >
+                    <option disabled value=" ">
+                      Select Type
+                    </option>
+                    <option value="Member">Member</option>
+                    <option value="Cellgroup Leader">Cellgroup Leader</option>
+                    <option value="Network Leader">Network Leader</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <div className="filter_input">
-              <label htmlFor="memberType">Member Type:</label>
-              <select
-                id="memberType"
-                name="memberType"
-                value={filters.memberType}
-                onChange={handleSelectChange}
-              >
-                <option value="">Select Member Type</option>
-                <option value="Cell Leader">Cell Leader</option>
-                <option value="Member">Member</option>
-                <option value="Network Leader">Network Leader</option>
-              </select>
-            </div>
-            <div className="filter_buttons">
-              <button className="clear_filters" onClick={handleClearButton}>
-                Clear Filters
-              </button>
-              <button className="apply_filters" onClick={handleApplyFilters}>
-                Apply Filters
-              </button>
+            <div className="lower_container">
+              <div className="buttons_cont_filter">
+                <button
+                  className="clear_filter_button"
+                  onClick={handleClearButton}
+                >
+                  Clear
+                </button>
+                <button
+                  className="apply_filter_button"
+                  onClick={handleApplyFilters}
+                >
+                  Apply
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
