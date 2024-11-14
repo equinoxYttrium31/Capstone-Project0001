@@ -13,57 +13,17 @@ const ArchieveUserModel = require("../models/ArchieveRecords");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
-const { createClient } = require("@redis/client");
-
-const client = createClient();
-
-// Ensure the client is connected before performing any operations
-client.on("connect", () => {
-  console.log("Redis client connected");
-});
-
-client.on("error", (err) => {
-  console.error("Redis client error: ", err);
-});
-
-client
-  .connect()
-  .catch((err) => console.error("Error connecting to Redis:", err));
-
-const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token; // Access the token from cookies
-  if (!token) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Invalid token" });
-    }
-    req.user = decoded;
-    req.id = decoded.id;
-    console.log(decoded.id); // Store user ID in request object
-    console.log("Decoded Token:", decoded); // Log the decoded token
-    next(); // Proceed to the next middleware or route handler
-  });
-};
-
-// Ensure the client is connected
-redisClient.on("connect", function () {
-  console.log("Connected to Redis");
-});
-
-// Handle Redis errors
-redisClient.on("error", function (err) {
-  console.log("Redis error:", err);
-});
+let otpStore = {};
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: { user: "cbch.websystem@gmail.com", pass: "cbchwebsystem123" },
 });
 
-const generateOtp = () => crypto.randomBytes(4).toString("hex");
+// Function to generate a 6-digit OTP
+const generateOtp = () => {
+  return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
+};
 
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
@@ -84,18 +44,38 @@ const sendOtpEmail = (email, otp) => {
       },
     ],
   };
+
   return transporter.sendMail(mailOptions);
 };
 
+// Function to request OTP
 const requestOtp = async (req, res) => {
   const { email } = req.body;
-  const otp = generateOtp();
-  const otpExpiry = 600; // 10 minutes in seconds
 
-  // Store OTP in Redis with expiry
-  await redisClient.set(email, otp, { EX: otpExpiry });
+  // Check if email is valid (simple check)
+  if (!email || !email.includes("@")) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid email address." });
+  }
+
+  // Generate a new OTP
+  const otp = generateOtp();
+  const otpExpiry = 600000; // OTP expiry time: 10 minutes (in milliseconds)
+
+  // Store OTP in the in-memory store (use email as the key)
+  otpStore[email] = {
+    otp: otp,
+    expiry: Date.now() + otpExpiry,
+  };
+
+  // Set a timeout to remove the OTP after expiry
+  setTimeout(() => {
+    delete otpStore[email]; // Remove OTP from the store once expired
+  }, otpExpiry);
 
   try {
+    // Send OTP email
     await sendOtpEmail(email, otp);
     res.json({ success: true, message: "OTP sent to your email." });
   } catch (error) {
@@ -108,8 +88,8 @@ const requestOtp = async (req, res) => {
 const changePassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
-  redisClient.get(email, async (err, storedOtp) => {
-    if (err || storedOtp !== otp) {
+  redisClient.get(email, async (err, otpStore) => {
+    if (err || otpStore !== otp) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid or expired OTP." });
