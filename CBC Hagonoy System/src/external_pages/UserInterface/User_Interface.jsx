@@ -42,13 +42,15 @@ function User_Interface() {
         console.log("Fetched User Data:", response.data);
 
         setUserData(response.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2500);
       } catch (err) {
         setError(err);
-      } finally {
         setLoading(false);
       }
     };
-
+    setLoading(true);
     fetchUserData();
   }, [profileRefresh]);
 
@@ -67,7 +69,12 @@ function User_Interface() {
     }
   };
 
-  if (loading) return <div className="loader"></div>;
+  if (loading)
+    return (
+      <div className="loader_container">
+        <div className="loader"></div>
+      </div>
+    );
   if (error) return <div>Error loading user data: {error.message}</div>;
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors

@@ -165,7 +165,14 @@
   z-index: -1; /* Makes the background stay behind the content */
 }
 
-/* HTML: <div class="loader"></div> */
+.loader_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .loader {
   --r1: 154%;
   --r2: 68.5%;
@@ -182,8 +189,9 @@
   background-size: 50.5% 220%;
   background-position: -100% 0%, 0% 0%, 100% 0%;
   background-repeat: no-repeat;
-  animation: l9 2s infinite linear;
+  animation: l9 0.3s infinite linear;
 }
+
 @keyframes l9 {
   33% {
     background-position: 0% 33%, 100% 33%, 200% 33%;
