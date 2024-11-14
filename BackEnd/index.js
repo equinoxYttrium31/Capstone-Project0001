@@ -24,17 +24,6 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 
-// CORS configuration
-app.use(
-  cors({
-    origin: [
-      "https://client-2oru.onrender.com",
-      "https://cbc-hagonoy-admin.onrender.com",
-    ],
-    credentials: true, // Allow cookies to be sent and received
-  })
-);
-
 // Define your routes
 const authRoutes = require("./routes/authRoutes");
 app.use("/", authRoutes);
