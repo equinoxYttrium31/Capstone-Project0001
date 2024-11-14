@@ -48,7 +48,7 @@ const sendOtpEmail = (email, otp) => {
       <p>Hello,</p>
       <p>Your OTP for password reset is: <b>${otp}</b></p>
       <p>This OTP is valid for 10 minutes.</p>
-      <img src="cid:otpImage" alt="OTP Image" />
+      <img src="cid:salvation_header" alt="OTP Image" />
     `,
     attachments: [
       {
