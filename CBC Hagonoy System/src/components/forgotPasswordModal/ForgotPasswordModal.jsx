@@ -19,12 +19,10 @@ function ForgotPasswordModal({ isOpen, onClose }) {
         "https://capstone-project0001-2.onrender.com/request-otp",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer`, // If a token is required
-          },
+
           body: JSON.stringify({ email }),
-        }
+        },
+        { withCredentials: true }
       );
 
       if (!response.ok) {
