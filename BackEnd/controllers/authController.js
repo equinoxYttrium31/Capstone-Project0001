@@ -33,9 +33,14 @@ const authenticateToken = (req, res, next) => {
 };
 
 let otpStore = {}; // In-memory OTP store
-const mg = mailgun({
-  apiKey: "a2af5873921878044c39cbb4b1b8bb50-79295dd0-87abff0f",
-  domain: "sandbox2afc1bbad1904ae381ab061a3c85e8bc.mailgun.org",
+const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: "7fefc0001@smtp-brevo.com", // your SMTP login
+    pass: "hfrwj8myWvCsqxHS", // your SMTP password
+  },
 });
 // Function to generate a 6-digit OTP
 const generateOtp = () => {
@@ -59,6 +64,8 @@ const sendOtpEmail = (email, otp) => {
       console.log("OTP email sent:", body);
     }
   });
+
+  return transporter.sendMail(mailOptions);
 };
 
 const requestOtp = async (req, res) => {
