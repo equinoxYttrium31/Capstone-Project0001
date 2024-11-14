@@ -13,8 +13,27 @@ const ArchieveUserModel = require("../models/ArchieveRecords");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token; // Access the token from cookies
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = decoded;
+    req.id = decoded.id;
+    console.log(decoded.id); // Store user ID in request object
+    console.log("Decoded Token:", decoded); // Log the decoded token
+    next(); // Proceed to the next middleware or route handler
+  });
+};
+
 let otpStore = {};
 
+// Create the transporter for sending emails
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: { user: "cbch.websystem@gmail.com", pass: "cbchwebsystem123" },
@@ -25,6 +44,7 @@ const generateOtp = () => {
   return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
 };
 
+// Function to send OTP email
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
     from: "cbch.websystem@gmail.com",
