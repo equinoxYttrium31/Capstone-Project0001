@@ -210,8 +210,6 @@ function Users_Profiles({ setProfileRefresh }) {
       setIsEditing(false);
       setIsFirstEdit(false);
 
-      toast.success("Successfully updated the user!");
-
       setTimeout(() => setProfileRefresh(false), 100);
     } catch (error) {
       toast.error("Failed to update profile.");
