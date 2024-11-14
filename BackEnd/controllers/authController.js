@@ -13,6 +13,8 @@ const ArchieveUserModel = require("../models/ArchieveRecords");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
+const otpStore = {};
+
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: { user: "cbch.websystem@gmail.com", pass: "5599 587 637" },
@@ -39,9 +41,7 @@ exports.requestOtp = async (req, res) => {
   if (!user)
     return res.status(404).json({ success: false, message: "User not found." });
 
-  user.otp = otp;
-  user.otpExpiry = otpExpiry;
-  await user.save();
+  otpStore[email] = { otp, otpExpiry };
 
   try {
     await sendOtpEmail(email, otp);
