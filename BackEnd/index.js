@@ -31,6 +31,7 @@ app.use(
       "https://client-2oru.onrender.com",
       "https://cbc-hagonoy-admin.onrender.com",
     ],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow cookies to be sent and received
   })
 );
