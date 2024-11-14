@@ -32,7 +32,7 @@ const sendOtpEmail = (email, otp) => {
   return transporter.sendMail(mailOptions);
 };
 
-exports.requestOtp = async (req, res) => {
+const requestOtp = async (req, res) => {
   const { email } = req.body;
   const otp = generateOtp();
   const otpExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
@@ -53,7 +53,7 @@ exports.requestOtp = async (req, res) => {
   }
 };
 
-exports.changePassword = async (req, res) => {
+const changePassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
   const user = await ChurchUser.findOne({ email, otp });
 
@@ -855,4 +855,6 @@ module.exports = {
   getProgressByMonthYear,
   checkAuth,
   getCellgroupByLeader,
+  requestOtp,
+  changePassword,
 };
