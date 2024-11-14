@@ -34,8 +34,8 @@ const authenticateToken = (req, res, next) => {
 
 let otpStore = {}; // In-memory OTP store
 const mg = mailgun({
-  apiKey: "79eab9d4a313b7797c2c030e3cfb1006-79295dd0-9222a863",
-  domain: "sandboxc31c24d5105f4a05849ab64c98e13f66.mailgun.org",
+  apiKey: "a2af5873921878044c39cbb4b1b8bb50-79295dd0-87abff0f",
+  domain: "sandbox2afc1bbad1904ae381ab061a3c85e8bc.mailgun.org",
 });
 // Function to generate a 6-digit OTP
 const generateOtp = () => {
