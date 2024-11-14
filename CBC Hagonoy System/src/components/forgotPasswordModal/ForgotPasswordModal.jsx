@@ -23,8 +23,8 @@ function ForgotPasswordModal({ isOpen, onClose }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email }), // Pass only the email data
-        },
-        { withCredentials: true }
+          withCredentials: true,
+        }
       );
 
       if (!response.ok) {
@@ -53,7 +53,8 @@ function ForgotPasswordModal({ isOpen, onClose }) {
           email,
           otp,
           newPassword,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data.success) {
         toast.success("Password changed successfully!");
