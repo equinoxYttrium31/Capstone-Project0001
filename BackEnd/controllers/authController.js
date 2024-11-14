@@ -38,6 +38,14 @@ const generateOtp = () => {
   return crypto.randomBytes(8).toString("hex"); // Generates a 6-digit OTP
 };
 
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "cbch.websystem@gmail.com", // Your email address
+    pass: "cbchwebsystem123", // Your email password or App-specific password
+  },
+});
+
 // Function to send OTP email
 const sendOtpEmail = (email, otp) => {
   const mailOptions = {
