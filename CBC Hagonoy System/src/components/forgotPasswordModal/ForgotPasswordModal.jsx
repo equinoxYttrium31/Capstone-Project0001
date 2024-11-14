@@ -12,19 +12,19 @@ function ForgotPasswordModal({ isOpen, onClose }) {
   const [otpSent, setOtpSent] = useState(false);
 
   if (!isOpen) return null;
-
+  const token = localStorage.getItem("token");
   const handleRequestOtp = async (email) => {
     try {
       const response = await fetch(
         "https://capstone-project0001-2.onrender.com/request-otp",
         {
           method: "POST",
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ email }), // Pass only the email data
-          withCredentials: true,
-          credentials: "include",
         }
       );
 
