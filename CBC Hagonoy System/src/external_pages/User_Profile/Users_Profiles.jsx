@@ -7,6 +7,7 @@ import {
 } from "../../assets/Assets";
 import "./Users_Profiles.css";
 import axios from "axios";
+import PropTypes from "prop-types";
 import { toast } from "react-hot-toast";
 
 const fetchUserProfile = async () => {
@@ -28,7 +29,7 @@ const fetchUserProfile = async () => {
   }
 };
 
-function Users_Profiles({ refresh, setRefresh }) {
+function Users_Profiles({ setRefresh }) {
   const [error, setError] = useState(null); // State to manage errors
   const [user, setUser] = useState({
     firstName: "",
@@ -522,5 +523,10 @@ function Users_Profiles({ refresh, setRefresh }) {
     </div>
   );
 }
+
+Users_Profiles.propTypes = {
+  refresh: PropTypes.bool.isRequired,
+  setRefresh: PropTypes.func.isRequired,
+};
 
 export default Users_Profiles;
