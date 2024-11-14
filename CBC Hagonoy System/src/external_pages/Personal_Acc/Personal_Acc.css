@@ -27,7 +27,7 @@
   flex-direction: row;
   height: max-content;
   padding: 0rem 2.5rem;
-  margin-left: 2rem;
+  margin-left: 2.5rem;
   margin-top: -2rem;
   gap: 2rem;
   align-items: center;
@@ -238,6 +238,10 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
+  }
+
+  .personal_age_gender {
+    text-align: center;
   }
 
   .personal_record_cont {
