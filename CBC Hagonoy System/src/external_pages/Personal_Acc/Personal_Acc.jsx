@@ -197,9 +197,17 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
   // Refresh user profile when profileRefresh flag changes
   useEffect(() => {
     if (profileRefresh) {
-      const userProfile = fetchUserProfile();
-      setUser(userProfile);
-      console.log("User Data refreshed");
+      const getUserProfile = async () => {
+        try {
+          const userProfile = await fetchUserProfile();
+          setUser(userProfile);
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+          setError("Failed to fetch user profile");
+        }
+      };
+
+      getUserProfile();
     }
   }, [profileRefresh]);
 
