@@ -122,7 +122,9 @@ export default function TermsAndCondition({
               I agree
             </label>
           </div>
-          <button className="continue_button">Continue</button>
+          <button className="continue_button" onClick={onClose}>
+            Continue
+          </button>
         </div>
       </div>
     </div>

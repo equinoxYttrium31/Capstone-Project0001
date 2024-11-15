@@ -43,7 +43,7 @@
   color: #28282b;
   width: 50%;
   margin: 0 auto;
-  justify-content: space-around;
+  text-align: justify;
   background-color: whitesmoke;
 }
 
@@ -68,4 +68,17 @@
   padding: 1rem 0;
   gap: 0.5rem;
   overflow: auto;
+}
+
+.contents_title {
+  font-size: 0.95em;
+}
+
+.content_text {
+  font-size: 0.8em;
+}
+
+.close_btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
