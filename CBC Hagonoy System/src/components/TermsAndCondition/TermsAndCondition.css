@@ -89,6 +89,11 @@
   background-color: #4c4caf;
   color: whitesmoke;
   font-family: "Poppins";
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   margin-bottom: 3rem;
+}
+
+.continue_button:hover {
+  background-color: #4c4caf6b;
+  border-radius: 1.5rem;
 }
