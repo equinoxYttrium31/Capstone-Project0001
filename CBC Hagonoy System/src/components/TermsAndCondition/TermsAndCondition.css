@@ -13,13 +13,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-top: 2rem;
+  padding: 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
   margin: 0 auto;
   background-color: whitesmoke;
-  box-shadow: #28282b 2px 2px 5px;
 }
 
 .text_header_container {
@@ -39,14 +38,13 @@
 }
 
 .terms_condition_content {
-  padding-top: 2rem;
+  padding: 0rem 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
   margin: 0 auto;
   justify-content: space-around;
   background-color: whitesmoke;
-  box-shadow: #28282b 2px 2px 5px;
 }
 
 .main_title_of_contents {
@@ -60,4 +58,10 @@
 
 .introduction_of_terms_context {
   font-size: 0.8em;
+}
+
+.contents_container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
 }
