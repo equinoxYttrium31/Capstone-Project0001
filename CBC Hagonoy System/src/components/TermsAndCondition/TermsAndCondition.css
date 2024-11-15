@@ -70,6 +70,12 @@
   overflow: auto;
 }
 
+.contents {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .contents_title {
   font-size: 0.95em;
 }
@@ -79,8 +85,12 @@
   line-height: 1.125em;
 }
 
+.close_btn {
+  transition: all 0.3s ease-in-out;
+}
+
 .close_btn:hover {
-  filter: drop-shadow(2px 1px 3px #28282b);
+  filter: drop-shadow(2px 1px 3px #28282b69);
   cursor: pointer;
 }
 
@@ -91,9 +101,11 @@
   font-family: "Poppins";
   padding: 0.5rem 2rem;
   margin-bottom: 3rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .continue_button:hover {
-  background-color: #4c4caf6b;
-  border-radius: 1.5rem;
+  background-color: #4c4caf98;
+  border-radius: 1rem;
+  cursor: pointer;
 }
