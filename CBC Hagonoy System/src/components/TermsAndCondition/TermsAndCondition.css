@@ -1,9 +1,6 @@
 .terms-and-condition {
   position: absolute;
   z-index: 9999999999;
-  width: 50%;
-  height: 90vh;
-  margin: auto;
 }
 
 .terms_condition_header {
@@ -14,6 +11,9 @@
   padding: 2rem;
   font-family: "Poppins";
   color: #28282b;
+  width: 50%;
+  height: 90vh;
+  margin: auto;
 }
 
 .text_header_container {
