@@ -1,9 +1,9 @@
 .terms-and-condition {
   position: absolute;
-  height: 90vh;
+  height: 100vh;
   z-index: 9999999999;
   background-color: rgba(250, 235, 215, 0.158);
-  filter: blur(15%);
+  filter: blur(45%);
   box-shadow: #28282b 2px 2px 5px;
 }
 
@@ -12,7 +12,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
+  padding-top: 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
@@ -36,7 +36,6 @@
 }
 
 .terms_condition_content {
-  padding: 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
