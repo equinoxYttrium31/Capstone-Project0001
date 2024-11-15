@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { Login_Signup_bg, cbc_logo, bck_btn } from "../../assets/Assets";
 import "./Login_Signup.css";
 import ForgotPasswordModal from "../forgotPasswordModal/ForgotPasswordModal";
+import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
 
 function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [data, setData] = useState({
@@ -179,7 +180,6 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
           </div>
         </div>
       )}
-
       {type === "signup" && (
         <div className="signup_container">
           <div className="background-overlay"></div>
@@ -269,7 +269,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
                     />
                   </div>
                 </div>
-                <div className="checkbox_holder">
+                <div className="checkbox_holder" onClick={openModal}>
                   <input
                     type="checkbox"
                     className="checkbox-input"
@@ -301,6 +301,8 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
           </div>
         </div>
       )}
+      {/* Render Terms and Conditions Modal */}
+      <TermsAndCondition isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }
