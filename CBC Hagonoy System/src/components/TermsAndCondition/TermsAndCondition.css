@@ -1,5 +1,6 @@
 .terms-and-condition {
   position: absolute;
+  height: 90vh;
   z-index: 9999999999;
 }
 
@@ -12,7 +13,6 @@
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
-  height: 90vh;
   margin: 0 auto;
 }
 
@@ -29,4 +29,5 @@
 
 .header_title {
   font-size: 1.125em;
+  margin-top: 0;
 }
