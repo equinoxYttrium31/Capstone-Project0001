@@ -108,4 +108,5 @@
   background-color: #4c4caf98;
   border-radius: 1rem;
   cursor: pointer;
+  filter: drop-shadow(2px 1px 3px #28282b69);
 }
