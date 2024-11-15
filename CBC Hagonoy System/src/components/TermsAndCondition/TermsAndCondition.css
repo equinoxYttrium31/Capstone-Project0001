@@ -1,0 +1,32 @@
+.terms-and-condition {
+  position: absolute;
+  z-index: 9999999999;
+  width: 50%;
+  height: 90vh;
+  margin: auto;
+}
+
+.terms_condition_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  font-family: "Poppins";
+  color: #28282b;
+}
+
+.text_header_container {
+  display: flex;
+  flex-direction: column;
+  text-wrap: wrap;
+  width: fit-content;
+}
+
+.church_name_header {
+  font-size: 0.8em;
+}
+
+.header_title {
+  font-size: 1.125em;
+}

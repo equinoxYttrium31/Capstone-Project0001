@@ -1,5 +1,4 @@
 import "./TermsAndCondition.css";
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 export default function TermsAndCondition({
@@ -17,7 +16,7 @@ export default function TermsAndCondition({
     <div className="terms-and-condition">
       <div className="terms_condition_header">
         <div className="text_header_container">
-          <h2 className="church_name_heade">
+          <h2 className="church_name_header">
             CHRISTIAN BIBLE CHURCH OF HAGONOY
           </h2>
           <h1 className="header_title">Terms and Conditions</h1>
@@ -64,7 +63,7 @@ export default function TermsAndCondition({
               You agree to use this system only for legitimate church-related
               activities. Unauthorized use, including any attempt to access
               restricted areas, modify data without permission, or interfere
-              with other users' accounts, is strictly prohibited.
+              with other users&apos; accounts, is strictly prohibited.
             </p>
           </div>
           <div className="contents">
