@@ -76,9 +76,19 @@
 
 .content_text {
   font-size: 0.8em;
+  line-height: 1.125em;
 }
 
 .close_btn:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(2px 1px 3px #28282b);
   cursor: pointer;
+}
+
+.continue_button {
+  all: unset;
+  background-color: #4c4caf;
+  color: whitesmoke;
+  font-family: "Poppins";
+  padding: 1rem 2rem;
+  margin-bottom: 3rem;
 }
