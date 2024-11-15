@@ -122,7 +122,7 @@ export default function TermsAndCondition({
               I agree
             </label>
           </div>
-          <button className="continue_button" value={"Continue"} />
+          <button className="continue_button">Continue</button>
         </div>
       </div>
     </div>

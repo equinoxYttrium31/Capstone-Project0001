@@ -38,7 +38,7 @@
 }
 
 .terms_condition_content {
-  padding: 0rem 2rem;
+  padding: 0 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
@@ -58,7 +58,7 @@
 
 .introduction_of_terms_context {
   font-size: 0.8em;
-  line-height: 1em;
+  line-height: 1.125em;
 }
 
 .contents_container {
