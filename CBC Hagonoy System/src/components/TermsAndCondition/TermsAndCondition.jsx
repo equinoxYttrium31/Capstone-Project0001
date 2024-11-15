@@ -94,6 +94,20 @@ export default function TermsAndCondition({ isOpen, onClose }) {
           </div>
         </div>
         <hr></hr>
+        <div className="terms_condition_footer">
+          <div className="checkbox_holder">
+            <input
+              type="checkbox"
+              className="checkbox-input"
+              id="agreement"
+              required
+            />
+            <label htmlFor="agreement" className="agreement_label">
+              I agree
+            </label>
+          </div>
+          <button className="continue_button" value={"Continue"} />
+        </div>
       </div>
     </div>
   );
