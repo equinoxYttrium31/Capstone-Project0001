@@ -1,5 +1,6 @@
 import "./TermsAndCondition.css";
 import PropTypes from "prop-types";
+import { close_ic } from "../../../../CBC Hagonoy System Admin/src/assets/Images";
 
 export default function TermsAndCondition({
   isOpen,
@@ -21,7 +22,12 @@ export default function TermsAndCondition({
           </h2>
           <h1 className="header_title">Terms and Conditions</h1>
         </div>
-        <img src="" alt="closeButton" className="close_btn" onClick={onClose} />
+        <img
+          src={close_ic}
+          alt="closeButton"
+          className="close_btn"
+          onClick={onClose}
+        />
       </div>
 
       {/*this is where the content will render*/}
