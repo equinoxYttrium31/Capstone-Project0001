@@ -19,6 +19,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(false);
 
   const openModal = (e) => {
     e.preventDefault();
@@ -56,6 +57,10 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     } catch (error) {
       toast.error("Login failed:", error);
     }
+  };
+
+  const handleCheckboxChange = (e) => {
+    setTermsChecked(e.target.checked); // Update the checkbox state
   };
 
   const handleSignup = async (e) => {
@@ -275,6 +280,8 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
                     className="checkbox-input"
                     id="agreement"
                     required
+                    checked={termsChecked} // Bind to shared state
+                    onChange={handleCheckboxChange}
                   />
                   <label htmlFor="agreement" className="agreement_label">
                     I agree to the Privacy Policy and Terms of Service Agreement
@@ -302,7 +309,12 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
         </div>
       )}
       {/* Render Terms and Conditions Modal */}
-      <TermsAndCondition isOpen={isModalOpen} onClose={closeModal} />
+      <TermsAndCondition
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        termsChecked={termsChecked}
+        setTermsChecked={setTermsChecked}
+      />
     </div>
   );
 }
