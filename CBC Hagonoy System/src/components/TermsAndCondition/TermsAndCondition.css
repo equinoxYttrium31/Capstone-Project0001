@@ -3,8 +3,9 @@
   height: 100vh;
   z-index: 9999999999;
   background-color: rgba(250, 235, 215, 0.158);
-  filter: blur(45%);
-  box-shadow: #28282b 2px 2px 5px;
+  filter: blur(50%);
+  backdrop-filter: blur(45%);
+  box-shadow: #28282b 10px 10px 10px;
 }
 
 .terms_condition_header {
@@ -17,6 +18,8 @@
   color: #28282b;
   width: 50%;
   margin: 0 auto;
+  background-color: whitesmoke;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
 .text_header_container {
@@ -36,9 +39,25 @@
 }
 
 .terms_condition_content {
+  padding-top: 2rem;
   font-family: "Poppins";
   color: #28282b;
   width: 50%;
   margin: 0 auto;
   justify-content: space-around;
+  background-color: whitesmoke;
+  box-shadow: #28282b 2px 2px 5px;
+}
+
+.main_title_of_contents {
+  font-size: 0.95em;
+}
+
+.update_date {
+  font-size: 0.8em;
+  color: #4c4caf;
+}
+
+.introduction_of_terms_context {
+  font-size: 0.8em;
 }
