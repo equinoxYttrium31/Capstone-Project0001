@@ -237,6 +237,37 @@
   margin: auto;
 }
 
+.pastors_container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.pastor_container,
+.pastora_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.meet_the_team_btn {
+  all: unset;
+  border: #4c4caf 2px solid;
+  padding: 0.5rem 2rem;
+  font-family: "Poppins";
+  margin-bottom: 2rem;
+  transition: all ease-in-out 0.3s;
+}
+
+.meet_the_team_btn:hover {
+  border: #4c4caf 2px solid;
+  background-color: #4c4caf;
+  border-radius: 1rem;
+  color: whitesmoke;
+  box-shadow: #28282b 2px 2px 5px;
+}
+
 .leadership_header_text {
   text-align: center;
   margin-bottom: 0;

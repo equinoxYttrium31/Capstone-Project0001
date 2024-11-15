@@ -12,7 +12,7 @@ import {
   welcoming_ic,
 } from "../../../assets/Church_Images/church_images";
 import { useScrollAnimation } from "./useScrollAnimation";
-import ContactUs from '../../footer/Contact_Us'
+import ContactUs from "../../footer/Contact_Us";
 import "./about_us.css";
 
 export default function AboutUs() {
@@ -22,7 +22,7 @@ export default function AboutUs() {
   const [isVisibleMission, missionRef] = useScrollAnimation(0.6);
   const [isVisibleValues, valuesRef] = useScrollAnimation(0.6);
   const [isVisiblePastor, pastorRef] = useScrollAnimation(0.2);
-  const [isVisibleDetail,detailRef] = useScrollAnimation(1);
+  const [isVisibleDetail, detailRef] = useScrollAnimation(1);
 
   return (
     <div className="aboutUs_page_cont">
@@ -132,8 +132,8 @@ export default function AboutUs() {
           <h2 className={`values_header ${isVisibleValues ? "fly-in" : ""}`}>
             Our Values
           </h2>
-          <div className="values_rows_container" >
-            <div className={`values_rows ${isVisibleValues ? 'fade-in' : ''}`}>
+          <div className="values_rows_container">
+            <div className={`values_rows ${isVisibleValues ? "fade-in" : ""}`}>
               <div className="values_container">
                 <img src={faith_ic} alt="Faith" className="values_icon" />
                 <h4 className="values_title">Faith</h4>
@@ -151,7 +151,7 @@ export default function AboutUs() {
                 </p>
               </div>
             </div>
-            <div className={`values_rows ${isVisibleValues ? 'fade-in' : ''}`}>
+            <div className={`values_rows ${isVisibleValues ? "fade-in" : ""}`}>
               <div className="values_container">
                 <img src={services_ic} alt="Service" className="values_icon" />
                 <h4 className="values_title">Service</h4>
@@ -175,9 +175,13 @@ export default function AboutUs() {
                 </p>
               </div>
             </div>
-            <div className={`values_rows ${isVisibleValues ? 'fade-in' : ''}`}>
+            <div className={`values_rows ${isVisibleValues ? "fade-in" : ""}`}>
               <div className="values_container">
-                <img src={discipleship_ic} alt="Discipleship" className="values_icon" />
+                <img
+                  src={discipleship_ic}
+                  alt="Discipleship"
+                  className="values_icon"
+                />
                 <h4 className="values_title">Discipleship</h4>
                 <p className="values_details">
                   We prioritize spiritual growth through teaching, mentorship,
@@ -186,7 +190,11 @@ export default function AboutUs() {
                 </p>
               </div>
               <div className="values_container">
-                <img src={integrity_ic} alt="Integrity" className="values_icon" />
+                <img
+                  src={integrity_ic}
+                  alt="Integrity"
+                  className="values_icon"
+                />
                 <h4 className="values_title">Integrity</h4>
                 <p className="values_details">
                   We uphold honesty and transparency in all we do, striving to
@@ -200,13 +208,50 @@ export default function AboutUs() {
 
       {/**Leadership Pastor */}
       <div className="leadership_pastor_container" ref={pastorRef}>
-        <h2 className={`leadership_header_text ${isVisiblePastor ? 'fade-in':''}`}>Leadership and Staff</h2>
-        <p className={`leadership_context_text ${isVisiblePastor ? 'fade-in':''}`} ref={detailRef}>Meet our dedicated team of leaders who guide our congregation.</p>
-        <div className={`image_handler ${isVisibleDetail ? 'fly-in':''}`}>
-          <img src={Pastor_Ike} alt="Leadership Pastor" className="image_pastor"/>
+        <h2
+          className={`leadership_header_text ${
+            isVisiblePastor ? "fade-in" : ""
+          }`}
+        >
+          Leadership and Staff
+        </h2>
+        <p
+          className={`leadership_context_text ${
+            isVisiblePastor ? "fade-in" : ""
+          }`}
+          ref={detailRef}
+        >
+          Meet our dedicated team of leaders who guide our congregation.
+        </p>
+        <div className="pastors_container">
+          <div className="pastor_container">
+            <div className={`image_handler ${isVisibleDetail ? "fly-in" : ""}`}>
+              <img
+                src={Pastor_Ike}
+                alt="Leadership Pastor"
+                className="image_pastor"
+              />
+            </div>
+            <h3 className="leader_pastor_name">Pastor Ike Serapio</h3>
+            <p className="leader_descrption">
+              Senior Pastor – Providing spiritual leadership and preaching.
+            </p>
+          </div>
+          <div className="pastora_container">
+            <div className={`image_handler ${isVisibleDetail ? "fly-in" : ""}`}>
+              <img
+                src={Pastor_Ike}
+                alt="Leadership Pastor"
+                className="image_pastor"
+              />
+            </div>
+            <h3 className="leader_pastor_name">Pastor Ike Serapio</h3>
+            <p className="leader_descrption">
+              Senior Pastor – Providing spiritual leadership and preaching.
+            </p>
+          </div>
         </div>
-        <h3 className="leader_pastor_name">Pastor Ike Serapio</h3>
-        <p className="leader_descrption">Senior Pastor – Providing spiritual leadership and preaching.</p>
+        <button className="meet_the_team_btn">Meet The GUIsq</button>
       </div>
 
       {/**Footer */}

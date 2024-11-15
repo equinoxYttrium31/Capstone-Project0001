@@ -30,6 +30,7 @@ app.use(
     origin: [
       "https://client-2oru.onrender.com",
       "https://cbc-hagonoy-admin.onrender.com",
+      "http://localhost:5173",
     ],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow cookies to be sent and received
