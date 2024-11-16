@@ -8,12 +8,15 @@ import {
   love_ic,
   mission_header,
   Pastor_Ike,
+  pastora_gigi,
   services_ic,
   welcoming_ic,
 } from "../../../assets/Church_Images/church_images";
 import { useScrollAnimation } from "./useScrollAnimation";
 import ContactUs from "../../footer/Contact_Us";
+import { useState, useEffect } from "react";
 import "./about_us.css";
+import Team_Page from "./TeamPage/Team_Page";
 
 export default function AboutUs() {
   const [isVisiblePassage, passageRef] = useScrollAnimation(0.8); // Apply to passage
@@ -23,6 +26,24 @@ export default function AboutUs() {
   const [isVisibleValues, valuesRef] = useScrollAnimation(0.6);
   const [isVisiblePastor, pastorRef] = useScrollAnimation(0.2);
   const [isVisibleDetail, detailRef] = useScrollAnimation(1);
+
+  const [showTeamPage, setShowTeamPage] = useState(false);
+
+  // Disable scrolling when modal is active
+  useEffect(() => {
+    if (showTeamPage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto"; // Clean up on unmount
+    };
+  }, [showTeamPage]);
+
+  const handleGUIsqBTN = () => {
+    setShowTeamPage(!showTeamPage);
+  };
 
   return (
     <div className="aboutUs_page_cont">
@@ -240,19 +261,32 @@ export default function AboutUs() {
           <div className="pastora_container">
             <div className={`image_handler ${isVisibleDetail ? "fly-in" : ""}`}>
               <img
-                src={Pastor_Ike}
+                src={pastora_gigi}
                 alt="Leadership Pastor"
                 className="image_pastor"
               />
             </div>
-            <h3 className="leader_pastor_name">Pastor Ike Serapio</h3>
+            <h3 className="leader_pastor_name">Pastora Gigi Serapio</h3>
             <p className="leader_descrption">
               Senior Pastor – Providing spiritual leadership and preaching.
             </p>
           </div>
         </div>
-        <button className="meet_the_team_btn">Meet The GUIsq</button>
+        <button className="meet_the_team_btn" onClick={handleGUIsqBTN}>
+          Meet The GUIsq
+        </button>
       </div>
+
+      {showTeamPage && (
+        <div className="teamPage_modal_overlay" onClick={handleGUIsqBTN}>
+          <div
+            className="teamPage_modal_content"
+            onClick={(e) => e.stopPropagation()} // Prevent click propagation
+          >
+            <Team_Page handleGUIsqBTN={handleGUIsqBTN} />
+          </div>
+        </div>
+      )}
 
       {/**Footer */}
       <ContactUs />

@@ -814,6 +814,68 @@ const changeUserPassword = async (req, res) => {
   }
 };
 
+const fetchuserUnderNetLead = async (req, res) => {
+  const { networkLeaderId } = req.query;
+
+  if (!networkLeaderId) {
+    return res.status(400).json({ message: "Network leader ID is required" });
+  }
+
+  try {
+    // Fetch users under this network leader
+    const users = await ChurchUser.find({ NetLead: networkLeaderId });
+
+    if (users.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No users found for this network leader" });
+    }
+
+    // Process attendance data for each user
+    const attendanceData = await Promise.all(
+      users.map(async (user) => {
+        const attendanceRecords = await UserAttendanceModel.find({
+          userId: user._id,
+        });
+
+        // Calculate total attendance for each category
+        const totalAttendance = {
+          cellGroup: 0,
+          personalDevotion: 0,
+          familyDevotion: 0,
+          prayerMeeting: 0,
+          worshipService: 0,
+        };
+
+        // Aggregate attendance from weekly attendance records
+        attendanceRecords.forEach((attendance) => {
+          attendance.weeklyAttendance.forEach((week) => {
+            if (week.cellGroup) totalAttendance.cellGroup++;
+            if (week.personalDevotion) totalAttendance.personalDevotion++;
+            if (week.familyDevotion) totalAttendance.familyDevotion++;
+            if (week.prayerMeeting) totalAttendance.prayerMeeting++;
+            if (week.worshipService) totalAttendance.worshipService++;
+          });
+        });
+
+        // Return the summarized data for this user
+        return {
+          userId: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          attendance: totalAttendance,
+        };
+      })
+    );
+
+    // Return the aggregated attendance data for all users
+    res.status(200).json(attendanceData);
+  } catch (error) {
+    console.error("Error fetching network attendance data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
@@ -846,6 +908,7 @@ module.exports = {
   getRecordsByNetworkLead,
   fetchArchivedAnnouncement,
   changeUserPassword,
+  fetchuserUnderNetLead,
 
   //Exporting attendance functions
   createOrUpdateAttendance,

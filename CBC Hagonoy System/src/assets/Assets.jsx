@@ -37,8 +37,10 @@ import avatar_female from "./avatar_female.png";
 import avatar_male from "./avatar_male.png";
 import notif_ic_selected from "./notif_ic_selected.png";
 import cbc_loading_gif from "./cbc_loading.gif";
+import linkedin_ic from "./linkedin_ic.png";
 
 export {
+  linkedin_ic,
   facebook_icon_dark,
   facebook_icon_light,
   instagram_icon_dark,

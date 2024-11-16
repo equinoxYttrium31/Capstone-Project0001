@@ -18,6 +18,7 @@ import denomination_header from "./denomination_header.png";
 import service_image_call from "./service_image_call.png";
 import joinUs_image_call from "./joinUs_image_call.png";
 import contactUs_image_call from "./contactUs_image_call.png";
+import pastora_gigi from "./pastora_gigi.png";
 
 /**Icons */
 import discipleship_ic from "./icons_values/discipleship_ic.png";
@@ -50,6 +51,7 @@ export {
   service_image_call,
   joinUs_image_call,
   contactUs_image_call,
+  pastora_gigi,
 
   /**icons */
   discipleship_ic,

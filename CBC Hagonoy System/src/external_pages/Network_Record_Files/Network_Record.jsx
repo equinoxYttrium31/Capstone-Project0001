@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Network_Record.css";
 import { toast } from "react-hot-toast";
+import NetworkAttendance from "../../components/NetworkAttendanceMonitoring/NetworkAttendance";
 
 function Network_Record() {
   const [totalMembers, setTotalMembers] = useState(0);
@@ -165,6 +166,9 @@ function Network_Record() {
                 <h3 className="data_info_count">{totalCellGroups}</h3>
               </div>
             </div>
+          </div>
+          <div className="network_attendance_graph">
+            <NetworkAttendance networkLeader={networkLeader} />
           </div>
         </div>
         <div className="network_bottomlayer_rightside">

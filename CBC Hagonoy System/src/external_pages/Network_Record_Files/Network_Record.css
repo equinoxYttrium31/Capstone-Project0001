@@ -40,8 +40,10 @@
 
 .network_bottomlayer_leftside {
   width: 50vw;
+  height: 60vh;
   align-items: center;
   display: flex;
+  overflow: auto;
   flex-direction: column;
 }
 

@@ -27,6 +27,7 @@ const {
   changeUserPassword,
   requestOtp,
   changePassword,
+  fetchuserUnderNetLead,
 } = require("../controllers/authController");
 
 const {
@@ -158,6 +159,8 @@ router.get("/weekly-prayer-requests", fetchTotalPrayerRequestWeekly);
 //Notification Admin Routes
 router.get("/fetch-prayers", fetchAllPrayer);
 router.get("/fetch-newusers", fetchNewMembers);
+
+router.get("/network-attendance", fetchuserUnderNetLead);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
