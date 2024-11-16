@@ -838,23 +838,33 @@ const fetchuserUnderNetLead = async (req, res) => {
           userId: user._id,
         });
 
-        // Calculate total attendance for each category
-        const totalAttendance = {
-          cellGroup: 0,
-          personalDevotion: 0,
-          familyDevotion: 0,
-          prayerMeeting: 0,
-          worshipService: 0,
-        };
+        // Initialize the aggregated attendance data by month
+        const aggregatedData = {};
 
-        // Aggregate attendance from weekly attendance records
+        // Aggregate attendance by month
         attendanceRecords.forEach((attendance) => {
           attendance.weeklyAttendance.forEach((week) => {
-            if (week.cellGroup) totalAttendance.cellGroup++;
-            if (week.personalDevotion) totalAttendance.personalDevotion++;
-            if (week.familyDevotion) totalAttendance.familyDevotion++;
-            if (week.prayerMeeting) totalAttendance.prayerMeeting++;
-            if (week.worshipService) totalAttendance.worshipService++;
+            // Extract the month from the date (assuming there's a `date` field for each week)
+            const month = new Date(week.date).toLocaleString("default", {
+              month: "long",
+            });
+
+            if (!aggregatedData[month]) {
+              aggregatedData[month] = {
+                cellGroup: 0,
+                personalDevotion: 0,
+                familyDevotion: 0,
+                prayerMeeting: 0,
+                worshipService: 0,
+              };
+            }
+
+            // Aggregate attendance by category for the specific month
+            if (week.cellGroup) aggregatedData[month].cellGroup++;
+            if (week.personalDevotion) aggregatedData[month].personalDevotion++;
+            if (week.familyDevotion) aggregatedData[month].familyDevotion++;
+            if (week.prayerMeeting) aggregatedData[month].prayerMeeting++;
+            if (week.worshipService) aggregatedData[month].worshipService++;
           });
         });
 
@@ -863,7 +873,7 @@ const fetchuserUnderNetLead = async (req, res) => {
           userId: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          attendance: totalAttendance,
+          attendanceByMonth: aggregatedData, // Include aggregated data by month
         };
       })
     );

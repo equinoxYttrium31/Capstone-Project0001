@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import "./NetworkAttendance.css";
 
 ChartJS.register(
   CategoryScale,
@@ -21,11 +22,11 @@ ChartJS.register(
 );
 
 const NetworkAttendance = ({ networkLeader }) => {
-  const [categoryPercentage, setCategoryPercentage] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategoryPercentage = async () => {
+    const fetchMonthlyData = async () => {
       try {
         const response = await axios.get(
           `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`,
@@ -36,7 +37,45 @@ const NetworkAttendance = ({ networkLeader }) => {
           }
         );
         console.log(response.data); // Log data for debugging
-        setCategoryPercentage(response.data);
+
+        // Aggregate the attendance data by month
+        const aggregatedData = response.data.reduce((acc, user) => {
+          // Format the month from the attendance data (assume there's a 'date' field)
+          const month = new Date(user.attendance.date).toLocaleString(
+            "default",
+            {
+              month: "long",
+            }
+          );
+
+          if (!acc[month]) {
+            acc[month] = {
+              cellGroup: 0,
+              personalDevotion: 0,
+              familyDevotion: 0,
+              prayerMeeting: 0,
+              worshipService: 0,
+            };
+          }
+
+          acc[month].cellGroup += user.attendance.cellGroup || 0;
+          acc[month].personalDevotion += user.attendance.personalDevotion || 0;
+          acc[month].familyDevotion += user.attendance.familyDevotion || 0;
+          acc[month].prayerMeeting += user.attendance.prayerMeeting || 0;
+          acc[month].worshipService += user.attendance.worshipService || 0;
+
+          return acc;
+        }, {});
+
+        // Convert the aggregated data into a format suitable for the chart
+        const formattedData = Object.entries(aggregatedData).map(
+          ([month, data]) => ({
+            month,
+            ...data,
+          })
+        );
+
+        setMonthlyData(formattedData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching attendance data", error);
@@ -45,43 +84,50 @@ const NetworkAttendance = ({ networkLeader }) => {
     };
 
     if (networkLeader) {
-      fetchCategoryPercentage();
+      fetchMonthlyData();
     }
   }, [networkLeader]);
 
+  // Prepare data for the chart
   const chartData = {
-    labels: [
-      "Cell Group",
-      "Personal Devotion",
-      "Family Devotion",
-      "Prayer Meeting",
-      "Worship Service",
+    labels: monthlyData.map((data) => data.month), // Month labels
+    datasets: [
+      {
+        label: "Cell Group",
+        data: monthlyData.map((data) => data.cellGroup),
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Personal Devotion",
+        data: monthlyData.map((data) => data.personalDevotion),
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Family Devotion",
+        data: monthlyData.map((data) => data.familyDevotion),
+        backgroundColor: "rgba(255, 206, 86, 0.6)",
+        borderColor: "rgba(255, 206, 86, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Prayer Meeting",
+        data: monthlyData.map((data) => data.prayerMeeting),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "Worship Service",
+        data: monthlyData.map((data) => data.worshipService),
+        backgroundColor: "rgba(153, 102, 255, 0.6)",
+        borderColor: "rgba(153, 102, 255, 1)",
+        borderWidth: 1,
+      },
     ],
-    datasets: categoryPercentage.map((user) => ({
-      label: `${user.firstName} ${user.lastName}`,
-      data: [
-        user.attendance.cellGroup || 0,
-        user.attendance.personalDevotion || 0,
-        user.attendance.familyDevotion || 0,
-        user.attendance.prayerMeeting || 0,
-        user.attendance.worshipService || 0,
-      ],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.6)",
-        "rgba(54, 162, 235, 0.6)",
-        "rgba(255, 206, 86, 0.6)",
-        "rgba(75, 192, 192, 0.6)",
-        "rgba(153, 102, 255, 0.6)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-      ],
-      borderWidth: 1,
-    })),
   };
 
   const options = {
@@ -92,7 +138,18 @@ const NetworkAttendance = ({ networkLeader }) => {
       },
       title: {
         display: true,
-        text: "Attendance Percentage by Category (Church Users)",
+        text: "Total Attendance by Category per Month",
+      },
+    },
+    scales: {
+      x: {
+        stacked: true, // Stack the bars for each month
+      },
+      y: {
+        beginAtZero: true, // Start the y-axis from zero
+        ticks: {
+          stepSize: 10, // Adjust the step size if necessary
+        },
       },
     },
   };
