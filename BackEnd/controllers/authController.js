@@ -822,12 +822,10 @@ const fetchuserUnderNetLead = async (req, res) => {
   }
 
   try {
-    const totalWeeksInYear = 52; // assuming 52 weeks in a year
-
-    // Get the current date's month and year
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
-    const currentYear = currentDate.getFullYear();
+    const currentMonth = new Date().toLocaleString("default", {
+      month: "long",
+    }); // Get current month name
+    const currentYear = new Date().getFullYear(); // Get current year
 
     // Fetch users under this network leader
     const users = await ChurchUser.find({ NetLead: networkLeaderId });
@@ -841,22 +839,16 @@ const fetchuserUnderNetLead = async (req, res) => {
     // Aggregate attendance data for the current month and year
     const attendanceData = await UserAttendanceModel.aggregate([
       { $match: { userId: { $in: users.map((user) => user._id) } } },
-      { $unwind: "$weeklyAttendance" },
-      {
-        $addFields: {
-          month: { $month: "$weeklyAttendance.date" },
-          year: { $year: "$weeklyAttendance.date" },
-        },
-      },
       {
         $match: {
-          month: currentMonth,
-          year: currentYear,
+          month: currentMonth, // Match the current month
+          year: currentYear, // Match the current year
         },
       },
+      { $unwind: "$weeklyAttendance" },
       {
         $group: {
-          _id: null, // No need to group by month/year since we're filtering for the current month
+          _id: null,
           totalCellGroup: {
             $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
           },
@@ -876,35 +868,18 @@ const fetchuserUnderNetLead = async (req, res) => {
       },
       {
         $project: {
-          cellGroup: {
-            $multiply: [
-              { $divide: ["$totalCellGroup", totalWeeksInYear] },
-              100,
-            ],
-          },
+          cellGroup: { $multiply: [{ $divide: ["$totalCellGroup", 4] }, 100] }, // Adjust as needed
           personalDevotion: {
-            $multiply: [
-              { $divide: ["$totalPersonalDevotion", totalWeeksInYear] },
-              100,
-            ],
+            $multiply: [{ $divide: ["$totalPersonalDevotion", 4] }, 100],
           },
           familyDevotion: {
-            $multiply: [
-              { $divide: ["$totalFamilyDevotion", totalWeeksInYear] },
-              100,
-            ],
+            $multiply: [{ $divide: ["$totalFamilyDevotion", 4] }, 100],
           },
           prayerMeeting: {
-            $multiply: [
-              { $divide: ["$totalPrayerMeeting", totalWeeksInYear] },
-              100,
-            ],
+            $multiply: [{ $divide: ["$totalPrayerMeeting", 4] }, 100],
           },
           worshipService: {
-            $multiply: [
-              { $divide: ["$totalWorshipService", totalWeeksInYear] },
-              100,
-            ],
+            $multiply: [{ $divide: ["$totalWorshipService", 4] }, 100],
           },
         },
       },
