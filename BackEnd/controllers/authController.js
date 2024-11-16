@@ -848,7 +848,7 @@ const fetchuserUnderNetLead = async (req, res) => {
       { $unwind: "$weeklyAttendance" },
       {
         $group: {
-          _id: null,
+          _id: { month: "$month", year: "$year" }, // Group by month and year
           totalCellGroup: {
             $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
           },
@@ -868,7 +868,11 @@ const fetchuserUnderNetLead = async (req, res) => {
       },
       {
         $project: {
-          cellGroup: { $multiply: [{ $divide: ["$totalCellGroup", 4] }, 100] }, // Adjust as needed
+          month: "$_id.month",
+          year: "$_id.year",
+          cellGroup: {
+            $multiply: [{ $divide: ["$totalCellGroup", 4] }, 100],
+          },
           personalDevotion: {
             $multiply: [{ $divide: ["$totalPersonalDevotion", 4] }, 100],
           },

@@ -26,7 +26,7 @@ const NetworkAttendance = ({ networkLeader }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCurrentMonthData = async () => {
+    const fetchMonthlyData = async () => {
       try {
         console.log("Fetching data for networkLeader:", networkLeader);
 
@@ -38,41 +38,22 @@ const NetworkAttendance = ({ networkLeader }) => {
             },
           }
         );
-
         console.log("API Response:", response.data);
 
-        // Log each attendance record to understand its structure
-        response.data.forEach((attendance, index) => {
-          console.log(`Record ${index}:`, attendance);
+        const currentMonth = new Date().toLocaleString("default", {
+          month: "long",
         });
+        const currentYear = new Date().getFullYear();
 
-        // Get the current month and year
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
-        const currentYear = currentDate.getFullYear();
-
-        // Adjust filtering logic based on the API response structure
-        const currentMonthData = response.data.filter(
+        // Filter for the current month and year
+        const filteredData = response.data.filter(
           (attendance) =>
-            attendance._id?.month === currentMonth &&
-            attendance._id?.year === currentYear
+            attendance.month === currentMonth && attendance.year === currentYear
         );
 
-        console.log("Filtered Current Month Data:", currentMonthData);
+        console.log("Filtered Current Month Data:", filteredData);
 
-        // Format data for the chart
-        const formattedData = currentMonthData.map((attendance) => ({
-          monthYear: `${attendance._id.year}-${String(
-            attendance._id.month
-          ).padStart(2, "0")}`,
-          cellGroup: attendance.cellGroup,
-          personalDevotion: attendance.personalDevotion,
-          familyDevotion: attendance.familyDevotion,
-          prayerMeeting: attendance.prayerMeeting,
-          worshipService: attendance.worshipService,
-        }));
-
-        setMonthlyData(formattedData);
+        setMonthlyData(filteredData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching attendance data:", error);
@@ -81,7 +62,7 @@ const NetworkAttendance = ({ networkLeader }) => {
     };
 
     if (networkLeader) {
-      fetchCurrentMonthData();
+      fetchMonthlyData();
     }
   }, [networkLeader]);
 
