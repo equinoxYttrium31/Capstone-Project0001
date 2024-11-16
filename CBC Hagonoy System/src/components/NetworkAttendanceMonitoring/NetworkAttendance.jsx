@@ -26,7 +26,7 @@ const NetworkAttendance = ({ networkLeader }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMonthlyData = async () => {
+    const fetchCurrentMonthData = async () => {
       try {
         console.log("Fetching data for networkLeader:", networkLeader);
 
@@ -38,11 +38,33 @@ const NetworkAttendance = ({ networkLeader }) => {
             },
           }
         );
+
         console.log("API Response:", response.data);
 
-        // Process the monthly attendance data
-        const formattedData = response.data.map((attendance) => ({
-          monthYear: `${attendance.month}-${attendance.year}`,
+        // Log each attendance record to understand its structure
+        response.data.forEach((attendance, index) => {
+          console.log(`Record ${index}:`, attendance);
+        });
+
+        // Get the current month and year
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
+        const currentYear = currentDate.getFullYear();
+
+        // Adjust filtering logic based on the API response structure
+        const currentMonthData = response.data.filter(
+          (attendance) =>
+            attendance._id?.month === currentMonth &&
+            attendance._id?.year === currentYear
+        );
+
+        console.log("Filtered Current Month Data:", currentMonthData);
+
+        // Format data for the chart
+        const formattedData = currentMonthData.map((attendance) => ({
+          monthYear: `${attendance._id.year}-${String(
+            attendance._id.month
+          ).padStart(2, "0")}`,
           cellGroup: attendance.cellGroup,
           personalDevotion: attendance.personalDevotion,
           familyDevotion: attendance.familyDevotion,
@@ -50,7 +72,6 @@ const NetworkAttendance = ({ networkLeader }) => {
           worshipService: attendance.worshipService,
         }));
 
-        console.log("Formatted Data for Chart:", formattedData);
         setMonthlyData(formattedData);
         setLoading(false);
       } catch (error) {
@@ -60,13 +81,13 @@ const NetworkAttendance = ({ networkLeader }) => {
     };
 
     if (networkLeader) {
-      fetchMonthlyData();
+      fetchCurrentMonthData();
     }
   }, [networkLeader]);
 
   // Chart data preparation
   const chartData = {
-    labels: monthlyData.map((data) => data.monthYear), // Month and year labels
+    labels: monthlyData.map((data) => data.monthYear),
     datasets: [
       {
         label: "Cell Group",
@@ -104,12 +125,9 @@ const NetworkAttendance = ({ networkLeader }) => {
       },
       title: {
         display: true,
-        text: "Total Attendance by Category per Month",
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
+        text: `Attendance for ${new Date().toLocaleString("default", {
+          month: "long",
+        })} ${new Date().getFullYear()}`,
       },
     },
   };

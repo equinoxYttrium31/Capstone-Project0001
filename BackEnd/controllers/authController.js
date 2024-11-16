@@ -824,6 +824,11 @@ const fetchuserUnderNetLead = async (req, res) => {
   try {
     const totalWeeksInYear = 52; // assuming 52 weeks in a year
 
+    // Get the current date's month and year
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
+    const currentYear = currentDate.getFullYear();
+
     // Fetch users under this network leader
     const users = await ChurchUser.find({ NetLead: networkLeaderId });
 
@@ -833,16 +838,25 @@ const fetchuserUnderNetLead = async (req, res) => {
         .json({ message: "No users found for this network leader" });
     }
 
-    // Aggregate attendance data by month for each user
+    // Aggregate attendance data for the current month and year
     const attendanceData = await UserAttendanceModel.aggregate([
       { $match: { userId: { $in: users.map((user) => user._id) } } },
       { $unwind: "$weeklyAttendance" },
       {
+        $addFields: {
+          month: { $month: "$weeklyAttendance.date" },
+          year: { $year: "$weeklyAttendance.date" },
+        },
+      },
+      {
+        $match: {
+          month: currentMonth,
+          year: currentYear,
+        },
+      },
+      {
         $group: {
-          _id: {
-            month: { $month: "$weeklyAttendance.date" },
-            year: { $year: "$weeklyAttendance.date" },
-          },
+          _id: null, // No need to group by month/year since we're filtering for the current month
           totalCellGroup: {
             $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
           },
@@ -862,8 +876,6 @@ const fetchuserUnderNetLead = async (req, res) => {
       },
       {
         $project: {
-          month: "$_id.month",
-          year: "$_id.year",
           cellGroup: {
             $multiply: [
               { $divide: ["$totalCellGroup", totalWeeksInYear] },
@@ -894,16 +906,6 @@ const fetchuserUnderNetLead = async (req, res) => {
               100,
             ],
           },
-        },
-      },
-      {
-        $group: {
-          _id: { month: "$month", year: "$year" },
-          cellGroup: { $avg: "$cellGroup" },
-          personalDevotion: { $avg: "$personalDevotion" },
-          familyDevotion: { $avg: "$familyDevotion" },
-          prayerMeeting: { $avg: "$prayerMeeting" },
-          worshipService: { $avg: "$worshipService" },
         },
       },
     ]);
