@@ -45,15 +45,21 @@ const NetworkAttendance = ({ networkLeader }) => {
         });
         const currentYear = new Date().getFullYear();
 
-        // Filter for the current month and year
+        // Filter and format data
         const filteredData = response.data.filter(
           (attendance) =>
-            attendance.month === currentMonth && attendance.year === currentYear
+            attendance.month?.toLowerCase() === currentMonth.toLowerCase() &&
+            attendance.year === currentYear
         );
 
-        console.log("Filtered Current Month Data:", filteredData);
+        const formattedData = filteredData.map((attendance) => ({
+          ...attendance,
+          monthYear: `${attendance.month} ${attendance.year}`,
+        }));
 
-        setMonthlyData(filteredData);
+        console.log("Filtered and Formatted Data:", formattedData);
+
+        setMonthlyData(formattedData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching attendance data:", error);

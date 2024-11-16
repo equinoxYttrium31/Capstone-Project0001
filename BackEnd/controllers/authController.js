@@ -838,56 +838,68 @@ const fetchuserUnderNetLead = async (req, res) => {
 
     // Aggregate attendance data for the current month and year
     const attendanceData = await UserAttendanceModel.aggregate([
-      { $match: { userId: { $in: users.map((user) => user._id) } } },
+      { $match: { userId: { $in: users.map((user) => user._id) } } }, // Filter by users under the same network leader
+      {
+        $unwind: "$weeklyAttendance", // Unwind the weekly attendance
+      },
       {
         $match: {
-          month: currentMonth, // Match the current month
-          year: currentYear, // Match the current year
+          "weeklyAttendance.date": {
+            // Match attendance data for the current month and year
+            $gte: new Date(currentYear, new Date().getMonth(), 1), // Start of the current month
+            $lt: new Date(currentYear, new Date().getMonth() + 1, 0), // End of the current month
+          },
         },
       },
-      { $unwind: "$weeklyAttendance" },
       {
         $group: {
-          _id: { month: "$month", year: "$year" }, // Group by month and year
-          totalCellGroup: {
-            $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
-          },
-          totalPersonalDevotion: {
-            $sum: { $cond: ["$weeklyAttendance.personalDevotion", 1, 0] },
-          },
-          totalFamilyDevotion: {
-            $sum: { $cond: ["$weeklyAttendance.familyDevotion", 1, 0] },
-          },
-          totalPrayerMeeting: {
-            $sum: { $cond: ["$weeklyAttendance.prayerMeeting", 1, 0] },
-          },
-          totalWorshipService: {
-            $sum: { $cond: ["$weeklyAttendance.worshipService", 1, 0] },
-          },
+          _id: null, // Aggregate across all users
+          totalCellGroup: { $sum: "$weeklyAttendance.cellGroup" },
+          totalPersonalDevotion: { $sum: "$weeklyAttendance.personalDevotion" },
+          totalFamilyDevotion: { $sum: "$weeklyAttendance.familyDevotion" },
+          totalPrayerMeeting: { $sum: "$weeklyAttendance.prayerMeeting" },
+          totalWorshipService: { $sum: "$weeklyAttendance.worshipService" },
         },
       },
       {
         $project: {
-          month: "$_id.month",
-          year: "$_id.year",
-          cellGroup: {
-            $multiply: [{ $divide: ["$totalCellGroup", 4] }, 100],
+          totalCellGroup: {
+            $multiply: [{ $divide: ["$totalCellGroup", users.length] }, 100],
+          }, // Calculate average attendance as percentage
+          totalPersonalDevotion: {
+            $multiply: [
+              { $divide: ["$totalPersonalDevotion", users.length] },
+              100,
+            ],
           },
-          personalDevotion: {
-            $multiply: [{ $divide: ["$totalPersonalDevotion", 4] }, 100],
+          totalFamilyDevotion: {
+            $multiply: [
+              { $divide: ["$totalFamilyDevotion", users.length] },
+              100,
+            ],
           },
-          familyDevotion: {
-            $multiply: [{ $divide: ["$totalFamilyDevotion", 4] }, 100],
+          totalPrayerMeeting: {
+            $multiply: [
+              { $divide: ["$totalPrayerMeeting", users.length] },
+              100,
+            ],
           },
-          prayerMeeting: {
-            $multiply: [{ $divide: ["$totalPrayerMeeting", 4] }, 100],
-          },
-          worshipService: {
-            $multiply: [{ $divide: ["$totalWorshipService", 4] }, 100],
+          totalWorshipService: {
+            $multiply: [
+              { $divide: ["$totalWorshipService", users.length] },
+              100,
+            ],
           },
         },
       },
     ]);
+
+    // If no data found for the current month
+    if (attendanceData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No attendance data found for the current month" });
+    }
 
     res.json(attendanceData);
   } catch (error) {
