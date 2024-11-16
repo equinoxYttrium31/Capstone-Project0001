@@ -28,6 +28,8 @@ const NetworkAttendance = ({ networkLeader }) => {
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
+        console.log("Fetching data for networkLeader:", networkLeader); // Log the network leader being passed
+
         const response = await axios.get(
           `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`,
           {
@@ -36,49 +38,69 @@ const NetworkAttendance = ({ networkLeader }) => {
             },
           }
         );
-        console.log(response.data); // Log data for debugging
+        console.log("API Response:", response.data); // Log API response to check data structure
 
-        // Aggregate the attendance data by month
+        // Aggregate the attendance data by month and year
         const aggregatedData = response.data.reduce((acc, user) => {
-          // Format the month from the attendance data (assume there's a 'date' field)
-          const month = new Date(user.attendance.date).toLocaleString(
-            "default",
-            {
-              month: "long",
-            }
-          );
+          console.log("Processing user:", user); // Log each user data
 
-          if (!acc[month]) {
-            acc[month] = {
-              cellGroup: 0,
-              personalDevotion: 0,
-              familyDevotion: 0,
-              prayerMeeting: 0,
-              worshipService: 0,
-            };
+          // Make sure attendanceByMonth exists and is an array
+          if (user.attendanceByMonth && Array.isArray(user.attendanceByMonth)) {
+            user.attendanceByMonth.forEach((attendance) => {
+              const {
+                month,
+                year,
+                cellGroup,
+                personalDevotion,
+                familyDevotion,
+                prayerMeeting,
+                worshipService,
+              } = attendance;
+
+              // Combine month and year to create the monthYear key
+              const monthYear = `${month} ${year}`;
+              console.log("Processing attendance for monthYear:", monthYear); // Log the combined monthYear
+
+              // Initialize the monthYear entry if it doesn't exist
+              if (!acc[monthYear]) {
+                acc[monthYear] = {
+                  cellGroup: 0,
+                  personalDevotion: 0,
+                  familyDevotion: 0,
+                  prayerMeeting: 0,
+                  worshipService: 0,
+                };
+              }
+
+              // Sum attendance by category for each month
+              acc[monthYear].cellGroup += cellGroup || 0;
+              acc[monthYear].personalDevotion += personalDevotion || 0;
+              acc[monthYear].familyDevotion += familyDevotion || 0;
+              acc[monthYear].prayerMeeting += prayerMeeting || 0;
+              acc[monthYear].worshipService += worshipService || 0;
+            });
+          } else {
+            console.warn("No attendanceByMonth data found for user:", user); // Warn if attendanceByMonth is missing
           }
-
-          acc[month].cellGroup += user.attendance.cellGroup || 0;
-          acc[month].personalDevotion += user.attendance.personalDevotion || 0;
-          acc[month].familyDevotion += user.attendance.familyDevotion || 0;
-          acc[month].prayerMeeting += user.attendance.prayerMeeting || 0;
-          acc[month].worshipService += user.attendance.worshipService || 0;
-
           return acc;
         }, {});
 
-        // Convert the aggregated data into a format suitable for the chart
+        console.log("Aggregated Data:", aggregatedData); // Log aggregated data after processing all users
+
+        // Convert aggregated data to an array for chart display
         const formattedData = Object.entries(aggregatedData).map(
-          ([month, data]) => ({
-            month,
+          ([monthYear, data]) => ({
+            monthYear,
             ...data,
           })
         );
 
+        console.log("Formatted Data for Chart:", formattedData); // Log formatted data ready for the chart
+
         setMonthlyData(formattedData);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching attendance data", error);
+        console.error("Error fetching attendance data:", error);
         setLoading(false);
       }
     };
@@ -88,44 +110,34 @@ const NetworkAttendance = ({ networkLeader }) => {
     }
   }, [networkLeader]);
 
-  // Prepare data for the chart
+  // Chart data preparation
   const chartData = {
-    labels: monthlyData.map((data) => data.month), // Month labels
+    labels: monthlyData.map((data) => data.monthYear), // Month and year labels
     datasets: [
       {
         label: "Cell Group",
-        data: monthlyData.map((data) => data.cellGroup),
+        data: monthlyData.map((data) => data.cellGroup || 0),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
       },
       {
         label: "Personal Devotion",
-        data: monthlyData.map((data) => data.personalDevotion),
+        data: monthlyData.map((data) => data.personalDevotion || 0),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
       },
       {
         label: "Family Devotion",
-        data: monthlyData.map((data) => data.familyDevotion),
+        data: monthlyData.map((data) => data.familyDevotion || 0),
         backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        borderWidth: 1,
       },
       {
         label: "Prayer Meeting",
-        data: monthlyData.map((data) => data.prayerMeeting),
+        data: monthlyData.map((data) => data.prayerMeeting || 0),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
       },
       {
         label: "Worship Service",
-        data: monthlyData.map((data) => data.worshipService),
+        data: monthlyData.map((data) => data.worshipService || 0),
         backgroundColor: "rgba(153, 102, 255, 0.6)",
-        borderColor: "rgba(153, 102, 255, 1)",
-        borderWidth: 1,
       },
     ],
   };
@@ -142,18 +154,13 @@ const NetworkAttendance = ({ networkLeader }) => {
       },
     },
     scales: {
-      x: {
-        stacked: true, // Stack the bars for each month
-      },
       y: {
-        beginAtZero: true, // Start the y-axis from zero
-        ticks: {
-          stepSize: 10, // Adjust the step size if necessary
-        },
+        beginAtZero: true,
       },
     },
   };
 
+  // Render the bar chart
   return (
     <div className="attendance_overview_container">
       {loading ? <p>Loading...</p> : <Bar data={chartData} options={options} />}

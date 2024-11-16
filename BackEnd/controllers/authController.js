@@ -822,81 +822,89 @@ const fetchuserUnderNetLead = async (req, res) => {
   }
 
   try {
+    const totalWeeksInYear = 52; // assuming 52 weeks in a year
+
     // Fetch users under this network leader
     const users = await ChurchUser.find({ NetLead: networkLeaderId });
 
+    // If no users are found for the network leader, return an empty response
     if (users.length === 0) {
       return res
         .status(404)
         .json({ message: "No users found for this network leader" });
     }
 
-    // Process attendance data for each user
-    const attendanceData = await Promise.all(
-      users.map(async (user) => {
-        const attendanceRecords = await UserAttendanceModel.find({
-          userId: user._id,
-        });
+    const attendanceData = await UserAttendance.aggregate([
+      { $match: { userId: { $in: users.map((user) => user._id) } } }, // Filter by users under this network leader
+      { $unwind: "$weeklyAttendance" },
+      {
+        $group: {
+          _id: null,
+          totalCellGroup: {
+            $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
+          },
+          totalPersonalDevotion: {
+            $sum: { $cond: ["$weeklyAttendance.personalDevotion", 1, 0] },
+          },
+          totalFamilyDevotion: {
+            $sum: { $cond: ["$weeklyAttendance.familyDevotion", 1, 0] },
+          },
+          totalPrayerMeeting: {
+            $sum: { $cond: ["$weeklyAttendance.prayerMeeting", 1, 0] },
+          },
+          totalWorshipService: {
+            $sum: { $cond: ["$weeklyAttendance.worshipService", 1, 0] },
+          },
+          totalPossibleAttendance: { $sum: totalWeeksInYear },
+        },
+      },
+      {
+        $project: {
+          cellGroup: {
+            $multiply: [
+              { $divide: ["$totalCellGroup", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          personalDevotion: {
+            $multiply: [
+              {
+                $divide: ["$totalPersonalDevotion", "$totalPossibleAttendance"],
+              },
+              100,
+            ],
+          },
+          familyDevotion: {
+            $multiply: [
+              { $divide: ["$totalFamilyDevotion", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          prayerMeeting: {
+            $multiply: [
+              { $divide: ["$totalPrayerMeeting", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+          worshipService: {
+            $multiply: [
+              { $divide: ["$totalWorshipService", "$totalPossibleAttendance"] },
+              100,
+            ],
+          },
+        },
+      },
+    ]);
 
-        // Calculate total attendance for each category by month
-        const totalAttendanceByMonth = {};
-
-        // Aggregate attendance from monthly attendance records
-        attendanceRecords.forEach((attendance) => {
-          const monthYearKey = `${attendance.month} ${attendance.year}`;
-
-          if (!totalAttendanceByMonth[monthYearKey]) {
-            totalAttendanceByMonth[monthYearKey] = {
-              cellGroup: 0,
-              personalDevotion: 0,
-              familyDevotion: 0,
-              prayerMeeting: 0,
-              worshipService: 0,
-            };
-          }
-
-          // Sum attendance categories for the month
-          attendance.weeklyAttendance.forEach((week) => {
-            if (week.cellGroup)
-              totalAttendanceByMonth[monthYearKey].cellGroup++;
-            if (week.personalDevotion)
-              totalAttendanceByMonth[monthYearKey].personalDevotion++;
-            if (week.familyDevotion)
-              totalAttendanceByMonth[monthYearKey].familyDevotion++;
-            if (week.prayerMeeting)
-              totalAttendanceByMonth[monthYearKey].prayerMeeting++;
-            if (week.worshipService)
-              totalAttendanceByMonth[monthYearKey].worshipService++;
-          });
-        });
-
-        // Return the summarized data for this user by month and year
-        return {
-          userId: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          attendanceByMonth: totalAttendanceByMonth,
-        };
-      })
-    );
-
-    // Flatten the data to make it easier to send as a response
-    const allAttendanceData = attendanceData.flatMap((userData) =>
-      Object.entries(userData.attendanceByMonth).map(
-        ([monthYear, attendance]) => ({
-          userId: userData.userId,
-          monthYear,
-          ...attendance,
-        })
-      )
-    );
-
-    res.status(200).json(allAttendanceData);
+    res.json(attendanceData[0]);
   } catch (error) {
-    console.error("Error fetching network attendance data:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error calculating total attendance percentage", error);
+    res
+      .status(500)
+      .json({ error: "Error calculating total attendance percentage" });
   }
 };
+
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
