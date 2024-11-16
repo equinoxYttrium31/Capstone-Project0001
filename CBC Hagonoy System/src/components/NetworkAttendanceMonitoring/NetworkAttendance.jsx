@@ -28,7 +28,7 @@ const NetworkAttendance = ({ networkLeader }) => {
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
-        console.log("Fetching data for networkLeader:", networkLeader); // Log the network leader being passed
+        console.log("Fetching data for networkLeader:", networkLeader);
 
         const response = await axios.get(
           `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`,
@@ -38,65 +38,19 @@ const NetworkAttendance = ({ networkLeader }) => {
             },
           }
         );
-        console.log("API Response:", response.data); // Log API response to check data structure
+        console.log("API Response:", response.data);
 
-        // Aggregate the attendance data by month and year
-        const aggregatedData = response.data.reduce((acc, user) => {
-          console.log("Processing user:", user); // Log each user data
+        // Process the monthly attendance data
+        const formattedData = response.data.map((attendance) => ({
+          monthYear: `${attendance.month}-${attendance.year}`,
+          cellGroup: attendance.cellGroup,
+          personalDevotion: attendance.personalDevotion,
+          familyDevotion: attendance.familyDevotion,
+          prayerMeeting: attendance.prayerMeeting,
+          worshipService: attendance.worshipService,
+        }));
 
-          // Make sure attendanceByMonth exists and is an array
-          if (user.attendanceByMonth && Array.isArray(user.attendanceByMonth)) {
-            user.attendanceByMonth.forEach((attendance) => {
-              const {
-                month,
-                year,
-                cellGroup,
-                personalDevotion,
-                familyDevotion,
-                prayerMeeting,
-                worshipService,
-              } = attendance;
-
-              // Combine month and year to create the monthYear key
-              const monthYear = `${month} ${year}`;
-              console.log("Processing attendance for monthYear:", monthYear); // Log the combined monthYear
-
-              // Initialize the monthYear entry if it doesn't exist
-              if (!acc[monthYear]) {
-                acc[monthYear] = {
-                  cellGroup: 0,
-                  personalDevotion: 0,
-                  familyDevotion: 0,
-                  prayerMeeting: 0,
-                  worshipService: 0,
-                };
-              }
-
-              // Sum attendance by category for each month
-              acc[monthYear].cellGroup += cellGroup || 0;
-              acc[monthYear].personalDevotion += personalDevotion || 0;
-              acc[monthYear].familyDevotion += familyDevotion || 0;
-              acc[monthYear].prayerMeeting += prayerMeeting || 0;
-              acc[monthYear].worshipService += worshipService || 0;
-            });
-          } else {
-            console.warn("No attendanceByMonth data found for user:", user); // Warn if attendanceByMonth is missing
-          }
-          return acc;
-        }, {});
-
-        console.log("Aggregated Data:", aggregatedData); // Log aggregated data after processing all users
-
-        // Convert aggregated data to an array for chart display
-        const formattedData = Object.entries(aggregatedData).map(
-          ([monthYear, data]) => ({
-            monthYear,
-            ...data,
-          })
-        );
-
-        console.log("Formatted Data for Chart:", formattedData); // Log formatted data ready for the chart
-
+        console.log("Formatted Data for Chart:", formattedData);
         setMonthlyData(formattedData);
         setLoading(false);
       } catch (error) {
@@ -160,7 +114,6 @@ const NetworkAttendance = ({ networkLeader }) => {
     },
   };
 
-  // Render the bar chart
   return (
     <div className="attendance_overview_container">
       {loading ? <p>Loading...</p> : <Bar data={chartData} options={options} />}

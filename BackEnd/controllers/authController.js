@@ -827,19 +827,22 @@ const fetchuserUnderNetLead = async (req, res) => {
     // Fetch users under this network leader
     const users = await ChurchUser.find({ NetLead: networkLeaderId });
 
-    // If no users are found for the network leader, return an empty response
     if (users.length === 0) {
       return res
         .status(404)
         .json({ message: "No users found for this network leader" });
     }
 
+    // Aggregate attendance data by month for each user
     const attendanceData = await UserAttendance.aggregate([
-      { $match: { userId: { $in: users.map((user) => user._id) } } }, // Filter by users under this network leader
+      { $match: { userId: { $in: users.map((user) => user._id) } } },
       { $unwind: "$weeklyAttendance" },
       {
         $group: {
-          _id: null,
+          _id: {
+            month: { $month: "$weeklyAttendance.date" },
+            year: { $year: "$weeklyAttendance.date" },
+          },
           totalCellGroup: {
             $sum: { $cond: ["$weeklyAttendance.cellGroup", 1, 0] },
           },
@@ -855,48 +858,57 @@ const fetchuserUnderNetLead = async (req, res) => {
           totalWorshipService: {
             $sum: { $cond: ["$weeklyAttendance.worshipService", 1, 0] },
           },
-          totalPossibleAttendance: { $sum: totalWeeksInYear },
         },
       },
       {
         $project: {
+          month: "$_id.month",
+          year: "$_id.year",
           cellGroup: {
             $multiply: [
-              { $divide: ["$totalCellGroup", "$totalPossibleAttendance"] },
+              { $divide: ["$totalCellGroup", totalWeeksInYear] },
               100,
             ],
           },
           personalDevotion: {
             $multiply: [
-              {
-                $divide: ["$totalPersonalDevotion", "$totalPossibleAttendance"],
-              },
+              { $divide: ["$totalPersonalDevotion", totalWeeksInYear] },
               100,
             ],
           },
           familyDevotion: {
             $multiply: [
-              { $divide: ["$totalFamilyDevotion", "$totalPossibleAttendance"] },
+              { $divide: ["$totalFamilyDevotion", totalWeeksInYear] },
               100,
             ],
           },
           prayerMeeting: {
             $multiply: [
-              { $divide: ["$totalPrayerMeeting", "$totalPossibleAttendance"] },
+              { $divide: ["$totalPrayerMeeting", totalWeeksInYear] },
               100,
             ],
           },
           worshipService: {
             $multiply: [
-              { $divide: ["$totalWorshipService", "$totalPossibleAttendance"] },
+              { $divide: ["$totalWorshipService", totalWeeksInYear] },
               100,
             ],
           },
         },
       },
+      {
+        $group: {
+          _id: { month: "$month", year: "$year" },
+          cellGroup: { $avg: "$cellGroup" },
+          personalDevotion: { $avg: "$personalDevotion" },
+          familyDevotion: { $avg: "$familyDevotion" },
+          prayerMeeting: { $avg: "$prayerMeeting" },
+          worshipService: { $avg: "$worshipService" },
+        },
+      },
     ]);
 
-    res.json(attendanceData[0]);
+    res.json(attendanceData);
   } catch (error) {
     console.error("Error calculating total attendance percentage", error);
     res

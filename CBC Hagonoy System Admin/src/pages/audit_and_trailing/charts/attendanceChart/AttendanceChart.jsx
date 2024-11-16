@@ -20,36 +20,25 @@ ChartJS.register(
   Legend
 );
 
-const AttendanceOverview = () => {
+const NetworkAttendanceOverview = ({ networkLeaderId }) => {
   const [categoryPercentage, setCategoryPercentage] = useState({});
-  const [topUsers, setTopUsers] = useState([]);
 
   useEffect(() => {
     const fetchCategoryPercentage = async () => {
       try {
         const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/attendance-category-percentage"
+          `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`
         );
         setCategoryPercentage(response.data);
       } catch (error) {
-        console.error("Error fetching category percentage", error);
+        console.error("Error fetching network category percentage", error);
       }
     };
 
-    const fetchTopUsers = async () => {
-      try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/top-users-attendance"
-        );
-        setTopUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching top users", error);
-      }
-    };
-
-    fetchCategoryPercentage();
-    fetchTopUsers();
-  }, []);
+    if (networkLeaderId) {
+      fetchCategoryPercentage();
+    }
+  }, [networkLeaderId]);
 
   // Prepare data for the chart
   const chartData = {
@@ -97,7 +86,7 @@ const AttendanceOverview = () => {
       },
       title: {
         display: true,
-        text: "Attendance Percentage by Category",
+        text: "Network Attendance Percentage by Category",
       },
     },
   };
@@ -107,20 +96,8 @@ const AttendanceOverview = () => {
       <div>
         <Bar data={chartData} options={options} /> {/* Render the chart */}
       </div>
-
-      <div>
-        <h3>Top 5 Users by Total Attendance</h3>
-        <ul>
-          {topUsers.map((user) => (
-            <li key={user.userId}>
-              {user.userDetails?.firstName} {user.userDetails?.lastName} - Total
-              Attendance: {user.totalAttendance}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
 
-export default AttendanceOverview;
+export default NetworkAttendanceOverview;
