@@ -834,7 +834,7 @@ const fetchuserUnderNetLead = async (req, res) => {
     }
 
     // Aggregate attendance data by month for each user
-    const attendanceData = await UserAttendance.aggregate([
+    const attendanceData = await UserAttendanceModel.aggregate([
       { $match: { userId: { $in: users.map((user) => user._id) } } },
       { $unwind: "$weeklyAttendance" },
       {
