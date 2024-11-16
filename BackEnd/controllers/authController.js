@@ -824,36 +824,30 @@ const fetchuserUnderNetLead = async (req, res) => {
   try {
     const currentMonth = new Date().toLocaleString("default", {
       month: "long",
-    }); // Get current month name
-    const currentYear = new Date().getFullYear(); // Get current year
+    });
+    const currentYear = new Date().getFullYear();
 
-    // Fetch users under this network leader
     const users = await ChurchUser.find({ NetLead: networkLeaderId });
-
     if (users.length === 0) {
       return res
         .status(404)
         .json({ message: "No users found for this network leader" });
     }
 
-    // Aggregate attendance data for the current month and year
+    const startOfMonth = new Date(currentYear, new Date().getMonth(), 1);
+    const endOfMonth = new Date(currentYear, new Date().getMonth() + 1, 0);
+
     const attendanceData = await UserAttendanceModel.aggregate([
-      { $match: { userId: { $in: users.map((user) => user._id) } } }, // Filter by users under the same network leader
-      {
-        $unwind: "$weeklyAttendance", // Unwind the weekly attendance
-      },
+      { $match: { userId: { $in: users.map((user) => user._id) } } },
+      { $unwind: "$weeklyAttendance" },
       {
         $match: {
-          "weeklyAttendance.date": {
-            // Match attendance data for the current month and year
-            $gte: new Date(currentYear, new Date().getMonth(), 1), // Start of the current month
-            $lt: new Date(currentYear, new Date().getMonth() + 1, 0), // End of the current month
-          },
+          "weeklyAttendance.date": { $gte: startOfMonth, $lt: endOfMonth },
         },
       },
       {
         $group: {
-          _id: null, // Aggregate across all users
+          _id: null,
           totalCellGroup: { $sum: "$weeklyAttendance.cellGroup" },
           totalPersonalDevotion: { $sum: "$weeklyAttendance.personalDevotion" },
           totalFamilyDevotion: { $sum: "$weeklyAttendance.familyDevotion" },
@@ -865,7 +859,7 @@ const fetchuserUnderNetLead = async (req, res) => {
         $project: {
           totalCellGroup: {
             $multiply: [{ $divide: ["$totalCellGroup", users.length] }, 100],
-          }, // Calculate average attendance as percentage
+          },
           totalPersonalDevotion: {
             $multiply: [
               { $divide: ["$totalPersonalDevotion", users.length] },
@@ -894,7 +888,6 @@ const fetchuserUnderNetLead = async (req, res) => {
       },
     ]);
 
-    // If no data found for the current month
     if (attendanceData.length === 0) {
       return res
         .status(404)
