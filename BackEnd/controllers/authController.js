@@ -838,54 +838,65 @@ const fetchuserUnderNetLead = async (req, res) => {
           userId: user._id,
         });
 
-        // Initialize the aggregated attendance data by month
-        const aggregatedData = {};
+        // Calculate total attendance for each category by month
+        const totalAttendanceByMonth = {};
 
-        // Aggregate attendance by month
+        // Aggregate attendance from monthly attendance records
         attendanceRecords.forEach((attendance) => {
+          const monthYearKey = `${attendance.month} ${attendance.year}`;
+
+          if (!totalAttendanceByMonth[monthYearKey]) {
+            totalAttendanceByMonth[monthYearKey] = {
+              cellGroup: 0,
+              personalDevotion: 0,
+              familyDevotion: 0,
+              prayerMeeting: 0,
+              worshipService: 0,
+            };
+          }
+
+          // Sum attendance categories for the month
           attendance.weeklyAttendance.forEach((week) => {
-            // Extract the month from the date (assuming there's a `date` field for each week)
-            const month = new Date(week.date).toLocaleString("default", {
-              month: "long",
-            });
-
-            if (!aggregatedData[month]) {
-              aggregatedData[month] = {
-                cellGroup: 0,
-                personalDevotion: 0,
-                familyDevotion: 0,
-                prayerMeeting: 0,
-                worshipService: 0,
-              };
-            }
-
-            // Aggregate attendance by category for the specific month
-            if (week.cellGroup) aggregatedData[month].cellGroup++;
-            if (week.personalDevotion) aggregatedData[month].personalDevotion++;
-            if (week.familyDevotion) aggregatedData[month].familyDevotion++;
-            if (week.prayerMeeting) aggregatedData[month].prayerMeeting++;
-            if (week.worshipService) aggregatedData[month].worshipService++;
+            if (week.cellGroup)
+              totalAttendanceByMonth[monthYearKey].cellGroup++;
+            if (week.personalDevotion)
+              totalAttendanceByMonth[monthYearKey].personalDevotion++;
+            if (week.familyDevotion)
+              totalAttendanceByMonth[monthYearKey].familyDevotion++;
+            if (week.prayerMeeting)
+              totalAttendanceByMonth[monthYearKey].prayerMeeting++;
+            if (week.worshipService)
+              totalAttendanceByMonth[monthYearKey].worshipService++;
           });
         });
 
-        // Return the summarized data for this user
+        // Return the summarized data for this user by month and year
         return {
           userId: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          attendanceByMonth: aggregatedData, // Include aggregated data by month
+          attendanceByMonth: totalAttendanceByMonth,
         };
       })
     );
 
-    // Return the aggregated attendance data for all users
-    res.status(200).json(attendanceData);
+    // Flatten the data to make it easier to send as a response
+    const allAttendanceData = attendanceData.flatMap((userData) =>
+      Object.entries(userData.attendanceByMonth).map(
+        ([monthYear, attendance]) => ({
+          userId: userData.userId,
+          monthYear,
+          ...attendance,
+        })
+      )
+    );
+
+    res.status(200).json(allAttendanceData);
   } catch (error) {
     console.error("Error fetching network attendance data:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 const fetchCurrentAnnouncement = async (req, res) => {
   try {
     const today = new Date();
