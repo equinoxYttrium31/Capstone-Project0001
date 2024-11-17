@@ -816,7 +816,7 @@ const changeUserPassword = async (req, res) => {
 
 const fetchuserUnderNetLead = async (req, res) => {
   try {
-    const { netLeader } = req.params;
+    const { netLeader } = req.params.networkLead.trim();
 
     // Find all users under the specified Network Leader
     const users = await ChurchUser.find({ NetLead: netLeader }, "_id");

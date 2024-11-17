@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import "./NetworkAttendance.css";
 
 ChartJS.register(
   CategoryScale,
@@ -21,107 +20,79 @@ ChartJS.register(
   Legend
 );
 
-const NetworkAttendance = ({ networkLeader }) => {
-  const [monthlyData, setMonthlyData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const NetworkAttendance = ({ netLeader }) => {
+  const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    const fetchMonthlyData = async () => {
+    const fetchAttendanceData = async () => {
       try {
-        console.log("Fetching data for networkLeader:", networkLeader);
-
         const response = await axios.get(
-          `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+          `https://capstone-project0001-2.onrender.com/attendance-report/${netLeader}`
+        );
+        const data = response.data;
+
+        const labels = data.map((item) => `${item._id.month} ${item._id.year}`);
+        const cellGroup = data.map((item) => item.cellGroup);
+        const personalDevotion = data.map((item) => item.personalDevotion);
+        const familyDevotion = data.map((item) => item.familyDevotion);
+        const prayerMeeting = data.map((item) => item.prayerMeeting);
+        const worshipService = data.map((item) => item.worshipService);
+
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "Cell Group",
+              data: cellGroup,
+              backgroundColor: "rgba(255, 99, 132, 0.5)",
             },
-          }
-        );
-        console.log("API Response:", response.data);
-
-        const currentMonth = new Date().toLocaleString("default", {
-          month: "long",
+            {
+              label: "Personal Devotion",
+              data: personalDevotion,
+              backgroundColor: "rgba(54, 162, 235, 0.5)",
+            },
+            {
+              label: "Family Devotion",
+              data: familyDevotion,
+              backgroundColor: "rgba(255, 206, 86, 0.5)",
+            },
+            {
+              label: "Prayer Meeting",
+              data: prayerMeeting,
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
+            },
+            {
+              label: "Worship Service",
+              data: worshipService,
+              backgroundColor: "rgba(153, 102, 255, 0.5)",
+            },
+          ],
         });
-        const currentYear = new Date().getFullYear();
-
-        // Filter and format data
-        const filteredData = response.data.filter(
-          (attendance) =>
-            attendance.month?.toLowerCase() === currentMonth.toLowerCase() &&
-            attendance.year === currentYear
-        );
-
-        const formattedData = filteredData.map((attendance) => ({
-          ...attendance,
-          monthYear: `${attendance.month} ${attendance.year}`,
-        }));
-
-        console.log("Filtered and Formatted Data:", formattedData);
-
-        setMonthlyData(formattedData);
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching attendance data:", error);
-        setLoading(false);
+        console.error("Error fetching attendance data", error);
       }
     };
 
-    if (networkLeader) {
-      fetchMonthlyData();
-    }
-  }, [networkLeader]);
-
-  // Chart data preparation
-  const chartData = {
-    labels: monthlyData.map((data) => data.monthYear),
-    datasets: [
-      {
-        label: "Cell Group",
-        data: monthlyData.map((data) => data.cellGroup || 0),
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-      },
-      {
-        label: "Personal Devotion",
-        data: monthlyData.map((data) => data.personalDevotion || 0),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-      },
-      {
-        label: "Family Devotion",
-        data: monthlyData.map((data) => data.familyDevotion || 0),
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-      },
-      {
-        label: "Prayer Meeting",
-        data: monthlyData.map((data) => data.prayerMeeting || 0),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-      },
-      {
-        label: "Worship Service",
-        data: monthlyData.map((data) => data.worshipService || 0),
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: `Attendance for ${new Date().toLocaleString("default", {
-          month: "long",
-        })} ${new Date().getFullYear()}`,
-      },
-    },
-  };
+    fetchAttendanceData();
+  }, [netLeader]);
 
   return (
-    <div className="attendance_overview_container">
-      {loading ? <p>Loading...</p> : <Bar data={chartData} options={options} />}
+    <div>
+      <h2>Monthly Attendance Report</h2>
+      {chartData ? (
+        <Bar
+          data={chartData}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: { position: "top" },
+              title: { display: true, text: "Monthly Attendance Report" },
+            },
+          }}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
