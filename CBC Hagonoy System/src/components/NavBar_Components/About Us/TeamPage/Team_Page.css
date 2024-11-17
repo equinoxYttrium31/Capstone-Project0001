@@ -10,8 +10,9 @@
 .teamPage_content {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   z-index: 999999;
+  overflow: scroll;
+  height: 42vw;
   gap: 1rem;
   width: 100%;
   justify-content: space-around;
