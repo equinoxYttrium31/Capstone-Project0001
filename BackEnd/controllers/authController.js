@@ -816,10 +816,20 @@ const changeUserPassword = async (req, res) => {
 
 const fetchuserUnderNetLead = async (req, res) => {
   try {
-    const { networkLeader } = req.params.networkLeader.trim();
+    const networkLeader = req.params.networkLeader?.trim();
+
+    if (!networkLeader) {
+      return res.status(400).json({ error: "Network Leader is required" });
+    }
 
     // Find all users under the specified Network Leader
     const users = await ChurchUser.find({ NetLead: networkLeader }, "_id");
+    if (users.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No users found under this Network Leader" });
+    }
+
     const userIds = users.map((user) => user._id);
 
     // Aggregate attendance data grouped by month and categories
@@ -834,7 +844,7 @@ const fetchuserUnderNetLead = async (req, res) => {
                 $filter: {
                   input: "$weeklyAttendance",
                   as: "week",
-                  cond: "$$week.cellGroup",
+                  cond: { $eq: ["$$week.cellGroup", true] },
                 },
               },
             },
@@ -845,7 +855,7 @@ const fetchuserUnderNetLead = async (req, res) => {
                 $filter: {
                   input: "$weeklyAttendance",
                   as: "week",
-                  cond: "$$week.personalDevotion",
+                  cond: { $eq: ["$$week.personalDevotion", true] },
                 },
               },
             },
@@ -856,7 +866,7 @@ const fetchuserUnderNetLead = async (req, res) => {
                 $filter: {
                   input: "$weeklyAttendance",
                   as: "week",
-                  cond: "$$week.familyDevotion",
+                  cond: { $eq: ["$$week.familyDevotion", true] },
                 },
               },
             },
@@ -867,7 +877,7 @@ const fetchuserUnderNetLead = async (req, res) => {
                 $filter: {
                   input: "$weeklyAttendance",
                   as: "week",
-                  cond: "$$week.prayerMeeting",
+                  cond: { $eq: ["$$week.prayerMeeting", true] },
                 },
               },
             },
@@ -878,7 +888,7 @@ const fetchuserUnderNetLead = async (req, res) => {
                 $filter: {
                   input: "$weeklyAttendance",
                   as: "week",
-                  cond: "$$week.worshipService",
+                  cond: { $eq: ["$$week.worshipService", true] },
                 },
               },
             },
@@ -892,7 +902,7 @@ const fetchuserUnderNetLead = async (req, res) => {
 
     res.json(attendanceData);
   } catch (error) {
-    console.error(error);
+    console.error("Error in fetching attendance data:", error);
     res.status(500).json({ error: "Failed to fetch attendance report" });
   }
 };

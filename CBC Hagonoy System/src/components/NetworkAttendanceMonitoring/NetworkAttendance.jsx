@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -24,6 +24,10 @@ const NetworkAttendance = ({ networkLeader }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
+    if (!networkLeader) {
+      console.log("No networkLeader provided, skipping fetch.");
+      return;
+    }
     const fetchAttendanceData = async () => {
       try {
         const response = await axios.get(
@@ -68,6 +72,9 @@ const NetworkAttendance = ({ networkLeader }) => {
             },
           ],
         });
+
+        console.log("Fetched data:", data);
+        console.log("networkLeader:", networkLeader);
       } catch (error) {
         console.error("Error fetching attendance data", error);
       }
