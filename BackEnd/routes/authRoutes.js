@@ -160,7 +160,7 @@ router.get("/weekly-prayer-requests", fetchTotalPrayerRequestWeekly);
 router.get("/fetch-prayers", fetchAllPrayer);
 router.get("/fetch-newusers", fetchNewMembers);
 
-router.get("/attendance-report/:netLeader", fetchuserUnderNetLead);
+router.get("/attendance-report/:networkLeader", fetchuserUnderNetLead);
 
 router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
