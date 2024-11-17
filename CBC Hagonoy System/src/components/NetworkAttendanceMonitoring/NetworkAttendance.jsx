@@ -20,14 +20,14 @@ ChartJS.register(
   Legend
 );
 
-const NetworkAttendance = ({ netLeader }) => {
+const NetworkAttendance = ({ networkLeader }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
         const response = await axios.get(
-          `https://capstone-project0001-2.onrender.com/attendance-report/${netLeader}`
+          `https://capstone-project0001-2.onrender.com/attendance-report/${networkLeader}`
         );
         const data = response.data;
 
@@ -74,7 +74,7 @@ const NetworkAttendance = ({ netLeader }) => {
     };
 
     fetchAttendanceData();
-  }, [netLeader]);
+  }, [networkLeader]);
 
   return (
     <div>

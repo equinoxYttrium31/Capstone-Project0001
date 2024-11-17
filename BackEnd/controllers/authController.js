@@ -816,10 +816,10 @@ const changeUserPassword = async (req, res) => {
 
 const fetchuserUnderNetLead = async (req, res) => {
   try {
-    const { netLeader } = req.params.netLeader.trim();
+    const { networkLeader } = req.params.networkLeader.trim();
 
     // Find all users under the specified Network Leader
-    const users = await ChurchUser.find({ NetLead: netLeader }, "_id");
+    const users = await ChurchUser.find({ NetLead: networkLeader }, "_id");
     const userIds = users.map((user) => user._id);
 
     // Aggregate attendance data grouped by month and categories
