@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "./NetworkAttendance.css";
 
 ChartJS.register(
   CategoryScale,
@@ -22,25 +23,87 @@ ChartJS.register(
 
 const NetworkAttendance = ({ networkLeader }) => {
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Helper function to generate all months between two dates
+  const generateMonthLabels = (data) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const firstYear = Math.min(...data.map((d) => d._id.year));
+    const lastYear = Math.max(...data.map((d) => d._id.year));
+
+    const labels = [];
+    for (let year = firstYear; year <= lastYear; year++) {
+      for (let month = 0; month < 12; month++) {
+        labels.push(`${months[month]} ${year}`);
+      }
+    }
+
+    return labels;
+  };
+
+  // Helper to match data with month labels
+  const mapDataToLabels = (labels, data, category) => {
+    return labels.map((label) => {
+      const [month, year] = label.split(" ");
+      const found = data.find(
+        (item) =>
+          item._id.month === month && parseInt(item._id.year) === parseInt(year)
+      );
+      return found ? found[category] : 0;
+    });
+  };
 
   useEffect(() => {
     if (!networkLeader) {
-      console.log("No networkLeader provided, skipping fetch.");
+      console.warn("No networkLeader provided, skipping fetch.");
+      setLoading(false);
       return;
     }
+
     const fetchAttendanceData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
-          `https://capstone-project0001-2.onrender.com/attendance-report/${networkLeader}`
+          `https://capstone-project0001-2.onrender.com/attendance-report/${encodeURIComponent(
+            networkLeader
+          )}`
         );
         const data = response.data;
 
-        const labels = data.map((item) => `${item._id.month} ${item._id.year}`);
-        const cellGroup = data.map((item) => item.cellGroup);
-        const personalDevotion = data.map((item) => item.personalDevotion);
-        const familyDevotion = data.map((item) => item.familyDevotion);
-        const prayerMeeting = data.map((item) => item.prayerMeeting);
-        const worshipService = data.map((item) => item.worshipService);
+        if (!data || data.length === 0) {
+          console.warn("No attendance data available.");
+          setLoading(false);
+          return;
+        }
+
+        // Generate full list of labels (all months between first and last entry)
+        const labels = generateMonthLabels(data);
+
+        // Map data for each category
+        const cellGroup = mapDataToLabels(labels, data, "cellGroup");
+        const personalDevotion = mapDataToLabels(
+          labels,
+          data,
+          "personalDevotion"
+        );
+        const familyDevotion = mapDataToLabels(labels, data, "familyDevotion");
+        const prayerMeeting = mapDataToLabels(labels, data, "prayerMeeting");
+        const worshipService = mapDataToLabels(labels, data, "worshipService");
 
         setChartData({
           labels,
@@ -73,10 +136,12 @@ const NetworkAttendance = ({ networkLeader }) => {
           ],
         });
 
-        console.log("Fetched data:", data);
-        console.log("networkLeader:", networkLeader);
-      } catch (error) {
-        console.error("Error fetching attendance data", error);
+        console.log("Fetched and mapped data:", { labels, data });
+      } catch (err) {
+        console.error("Error fetching attendance data:", err);
+        setError("Failed to load attendance data. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,22 +149,30 @@ const NetworkAttendance = ({ networkLeader }) => {
   }, [networkLeader]);
 
   return (
-    <div>
+    <div className="network_progress_cont">
       <h2>Monthly Attendance Report</h2>
-      {chartData ? (
-        <Bar
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: { position: "top" },
-              title: { display: true, text: "Monthly Attendance Report" },
-            },
-          }}
-        />
-      ) : (
-        <p>Loading...</p>
-      )}
+      <div className="chart-container">
+        {loading ? (
+          <div className="loader_container">
+            <div className="loader"></div>
+          </div>
+        ) : error ? (
+          <p style={{ color: "red" }}>{error}</p>
+        ) : chartData ? (
+          <Bar
+            data={chartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: { position: "top" },
+                title: { display: true, text: "Monthly Attendance Report" },
+              },
+            }}
+          />
+        ) : (
+          <p>No data available for the selected network leader.</p>
+        )}
+      </div>
     </div>
   );
 };
