@@ -49,7 +49,13 @@ export default function UserDemographics() {
   return (
     <div className="user_demographics_container">
       <div className="chart_container">
-        {chartData ? <Pie data={chartData} /> : <p>Loading chart...</p>}
+        {chartData ? (
+          <Pie data={chartData} />
+        ) : (
+          <div className="loader_container">
+            <div className="loader"></div>
+          </div>
+        )}
       </div>
     </div>
   );

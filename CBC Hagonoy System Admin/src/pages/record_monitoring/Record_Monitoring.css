@@ -59,10 +59,14 @@
   transition: all 0.3s ease-in-out;
 }
 
+.search_record_input:hover {
+  box-shadow: #120652 2px 2px 5px;
+}
+
 .search_record_input:focus,
 .search_record_input:not(:placeholder-shown) {
   background-color: transparent;
-  box-shadow: #28282b 1px 1px 5px;
+  box-shadow: #120652 2px 2px 5px;
 }
 
 .search_record_icon {
@@ -78,6 +82,7 @@
 
 .filter_record_icon:hover {
   cursor: pointer;
+  filter: drop-shadow(#11065273 1px 1px 3px);
 }
 
 .record_lower_part {
@@ -199,6 +204,11 @@
   border-radius: 12px;
 }
 
+.selection_container_record:hover {
+  background-color: #28282b2f;
+  box-shadow: #120652 2px 2px 5px;
+}
+
 .selection_icon {
   width: 1.5rem;
   height: 1.5rem;
@@ -296,6 +306,11 @@
   outline: none;
 }
 
+.filter_select_input:hover {
+  border-color: #072a63;
+  cursor: pointer;
+}
+
 /*Lower Part Modal*/
 
 .lower_container {
@@ -319,6 +334,11 @@
   font-family: "Poppins";
   font-size: 0.9em;
   border: #28282b 2px solid;
+  transition: all 0.3s ease-in-out;
+}
+
+.buttons_cont_filter button:hover {
+  box-shadow: #120652 2px 2px 5px;
 }
 
 .apply_filter_button {
@@ -380,6 +400,7 @@
 
 .add_close_button:hover {
   cursor: pointer;
+  filter: drop-shadow(#2d2f6577 1px 1px 3px);
 }
 /*Adding Main Container*/
 .main_add_cntr {
@@ -694,6 +715,7 @@
   border-radius: 0.5rem;
   border: #2d2f65 solid 2px;
   font-family: "Poppins";
+  transition: all 0.3s ease-in-out;
 }
 
 .add_new_record {
@@ -703,6 +725,7 @@
 
 .row_adding_buttons_container button:hover {
   cursor: pointer;
+  box-shadow: #282828 2px 2px 4px;
 }
 
 /*Confirmation Modal*/
@@ -801,6 +824,7 @@
 
 .close_cellgroup_modal:hover {
   cursor: pointer;
+  filter: drop-shadow(#2d2f6577 1px 1px 3px);
 }
 
 .cellgroup_header {
@@ -864,6 +888,10 @@
   font-family: "Poppins";
 }
 
+.create_cellgroup_btn:hover {
+  box-shadow: #282828 2px 2px 4px;
+}
+
 /*Archived Modal*/
 .archivedRecordsModal {
   background-color: #00000036;
@@ -882,6 +910,7 @@
 
 .close_archive_modal:hover {
   cursor: pointer;
+  filter: drop-shadow(#2d2f6577 1px 1px 3px);
 }
 
 .showArchiveRecords_Cont {
@@ -997,6 +1026,10 @@ td {
 
 .category {
   width: 57rem;
+}
+
+.category-header:hover {
+  box-shadow: #282828 2px 2px 5px;
 }
 
 .category-header {

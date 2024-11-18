@@ -69,6 +69,15 @@
   transition: left 0.3s ease-in-out;
 }
 
+.menu_icon_dashboard:hover {
+  transform: scale(1.1);
+}
+
+.left_dashboard_cont.minimized .menu_icon_dashboard:hover {
+  transform: scale(2.2);
+  transform: translateX(-45%);
+}
+
 .left_dashboard_cont.minimized .menu_icon_dashboard {
   left: 50%; /* Centers the icon when minimized */
   transform: translateX(-50%);
@@ -168,6 +177,11 @@
   font-family: "Poppins";
   line-height: 1em;
   color: #28282b;
+  transition: all 0.3s ease-in-out;
+}
+
+.dashboard_icon:hover .dashboard_label {
+  color: #f0f0f0;
 }
 
 .dashboard_icon.active {
@@ -177,6 +191,45 @@
 
 .dashboard_icon.active .dashboard_label {
   color: white;
+}
+
+.loader_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  --r1: 154%;
+  --r2: 68.5%;
+  width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+      var(--r1) var(--r2) at top,
+      #0000 79.5%,
+      #269af2 80%
+    ),
+    radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%),
+    radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%), #ccc;
+  background-size: 50.5% 220%;
+  background-position: -100% 0%, 0% 0%, 100% 0%;
+  background-repeat: no-repeat;
+  animation: l9 1s infinite linear;
+}
+
+@keyframes l9 {
+  33% {
+    background-position: 0% 33%, 100% 33%, 200% 33%;
+  }
+  66% {
+    background-position: -100% 66%, 0% 66%, 100% 66%;
+  }
+  100% {
+    background-position: 0% 100%, 100% 100%, 200% 100%;
+  }
 }
 
 @keyframes spin {

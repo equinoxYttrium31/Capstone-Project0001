@@ -156,7 +156,13 @@ function Main_Dashboard() {
 
         {/* Right side content */}
         <div className="right_dashboard_cont">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="loader_container">
+                <div className="loader"></div>
+              </div>
+            }
+          >
             <Routes>
               <Route path="/" element={<Navigate to="/admin-dashboard" />} />{" "}
               {/* Default route */}

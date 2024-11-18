@@ -51,6 +51,16 @@
   border-radius: 5px;
   border: 1px solid #ddd;
   font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.search_container input:hover {
+  border: 2px solid #120652;
+}
+
+.search_container input:focus {
+  outline: none;
+  border: 2px solid #120652;
 }
 
 .announcement_list_body_container {
@@ -88,8 +98,14 @@
   cursor: pointer;
   color: #fff;
   font-weight: bold;
+  transition: all 0.3s ease-in-out;
 }
 
+.edit_button:hover,
+.archive_button:hover {
+  border-radius: 0.6rem;
+  box-shadow: #28282b 2px 2px 5px;
+}
 .edit_button {
   background-color: #120652;
 }
@@ -118,6 +134,14 @@
 .page_button.active {
   background-color: #120652;
   border-radius: 0.5rem;
+  width: 5rem;
+}
+
+.page_button.active:hover {
+  background-color: #120652;
+  border-radius: 0.5rem;
+  color: #ddd;
+  cursor: default;
   width: 5rem;
 }
 

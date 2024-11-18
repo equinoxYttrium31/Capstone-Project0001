@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import "./AttendanceChart.css";
 
 ChartJS.register(
   CategoryScale,
@@ -116,7 +117,7 @@ const NetworkAttendanceOverview = () => {
           <div>
             <Bar data={chartData} options={options} />
           </div>
-          <div>
+          <div className="ranking-container">
             <h2>Top 5 Users by Attendance</h2>
             <ul>
               {topUsers.map((user, index) => (

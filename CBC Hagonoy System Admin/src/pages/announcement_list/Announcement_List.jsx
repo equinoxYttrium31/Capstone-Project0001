@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Announcement_List.css";
+import ConfirmationModal from "./confirmationModal/ConfirmationModal";
 import { xlsx_icon } from "../../assets/Images";
 import EditAnnouncementModal from "./EditAnnouncementModal";
 import ExcelJS from "exceljs";
@@ -13,6 +14,9 @@ export default function Announcement_List() {
   const [currentPageArchived, setCurrentPageArchived] = useState(1);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAnnouncementToArchive, setSelectedAnnouncementToArchive] =
+    useState(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const itemsPerPage = 5;
 
@@ -207,25 +211,42 @@ export default function Announcement_List() {
   const archiveAnnouncement = async (id) => {
     const announcementToArchive = announcements.find((ann) => ann._id === id);
 
-    setAnnouncements((prev) => prev.filter((ann) => ann._id !== id));
+    // Show confirmation modal
+    setSelectedAnnouncementToArchive(announcementToArchive);
+    setIsConfirmModalOpen(true);
+  };
 
+  const handleConfirmArchive = async () => {
+    if (!selectedAnnouncementToArchive) return;
+
+    const announcementToArchive = selectedAnnouncementToArchive;
+
+    setAnnouncements((prev) =>
+      prev.filter((ann) => ann._id !== announcementToArchive._id)
+    );
     setArchivedAnnouncements((prev) => [announcementToArchive, ...prev]);
 
     try {
       const response = await fetch(
-        `https://capstone-project0001-2.onrender.com/archive-announcement/${id}`,
-        {
-          method: "DELETE",
-        }
+        `https://capstone-project0001-2.onrender.com/archive-announcement/${announcementToArchive._id}`,
+        { method: "DELETE" }
       );
       if (!response.ok) throw new Error("Failed to archive announcement");
     } catch (error) {
       console.error("Error archiving announcement:", error);
+      // Revert changes if error occurs
       setAnnouncements((prev) => [...prev, announcementToArchive]);
       setArchivedAnnouncements((prev) =>
         prev.filter((ann) => ann._id !== announcementToArchive._id)
       );
     }
+
+    setIsConfirmModalOpen(false); // Close the confirmation modal after archiving
+  };
+
+  const handleCancelArchive = () => {
+    setSelectedAnnouncementToArchive(null); // Reset the selected announcement
+    setIsConfirmModalOpen(false); // Close the modal if canceled
   };
 
   const handleExportToExcel = () => {
@@ -459,6 +480,13 @@ export default function Announcement_List() {
           onSave={handleSaveAnnouncement}
         />
       )}
+
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onConfirm={handleConfirmArchive}
+        onCancel={handleCancelArchive}
+        message={`Are you sure you want to archive this announcement?`}
+      />
     </div>
   );
 }

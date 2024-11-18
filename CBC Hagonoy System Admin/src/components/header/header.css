@@ -56,6 +56,7 @@
 
 .icon_container:hover {
   cursor: pointer;
+  filter: drop-shadow(#2d2f6577 1px 1px 3px);
 }
 
 .header_icon {

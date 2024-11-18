@@ -12,9 +12,11 @@
 .ranking-container {
   margin-top: 20px;
   text-align: center;
+  font-family: "poppins";
 }
 
-.ranking-container h3 {
+.ranking-container h2 {
+  font-size: 1.125em;
   margin-bottom: 10px;
 }
 

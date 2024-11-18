@@ -1,171 +1,167 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-.admin_dashboard_main_container{
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
+.admin_dashboard_main_container {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
 }
 
-.left_container_adminDash{
-    margin: 0px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
+.left_container_adminDash {
+  margin: 0px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
 }
 
-.left_container_upper{
-    margin: 0px;
-    padding: 0px;
+.left_container_upper {
+  margin: 0px;
+  padding: 0px;
 }
 
-.church_name_admin{
-    font-family: "Lato";
-    font-size: .75em;
-    margin-bottom: -1rem;
-    color: #28282b;
+.church_name_admin {
+  font-family: "Lato";
+  font-size: 0.75em;
+  margin-bottom: -1rem;
+  color: #28282b;
 }
 
-.admin_title{
-    font-family: "Poppins";
-    margin-top: .8rem;
-    font-size: 1.8em;
-    color: #120652;
+.admin_title {
+  font-family: "Poppins";
+  margin-top: 0.8rem;
+  font-size: 1.8em;
+  color: #120652;
 }
 
-.welcome_container{
-    background-color: rgb(201, 201, 201);
-    padding-left: 1rem;
-    height: 2.5rem;
-    margin-top: -1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: 10px;
+.welcome_container {
+  background-color: rgb(201, 201, 201);
+  padding-left: 1rem;
+  height: 2.5rem;
+  margin-top: -1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 10px;
 }
 
-.welcome_text_admin{
-    color: #120652;
-    margin-right: .5rem;
-    font-family: "Poppins";
-    font-size: .9em;
-    font-weight: 600;
+.welcome_text_admin {
+  color: #120652;
+  margin-right: 0.5rem;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  font-weight: 600;
 }
 
-.user_text_admin{
-    color: #120652;
-    font-family: "Poppins";
-    font-size: .9em;
+.user_text_admin {
+  color: #120652;
+  font-family: "Poppins";
+  font-size: 0.9em;
 }
 
-.left_container_lower{
-    margin: 55px 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.left_container_lower {
+  margin: 55px 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .lower_container_top,
-.lower_container_low{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+.lower_container_low {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
-.content_container_top{
-    width: 20vw;
-    height: auto;
-    background-color: whitesmoke;
-    border-radius: 20px;
-    margin-left: 23px;
-    margin-top: 18px;
-    padding: 1rem 1rem;
-    box-shadow: #28282b 1px 1px 5px;
-    transition: all ease-in-out .3s;
+.content_container_top {
+  width: 20vw;
+  height: auto;
+  background-color: whitesmoke;
+  border-radius: 20px;
+  margin-left: 23px;
+  margin-top: 18px;
+  padding: 1rem 1rem;
+  box-shadow: #28282b 1px 1px 5px;
+  transition: all ease-in-out 0.3s;
 }
 
-.content_header_admin{
-    color: #28282b;
-    font-family: "Lato";
-    margin-bottom: -1.125rem;
+.content_header_admin {
+  color: #28282b;
+  font-family: "Lato";
+  margin-bottom: -1.125rem;
 }
 
-.count_content_admin{
-    color: #120652;
-    font-family: "Poppins";
+.count_content_admin {
+  color: #120652;
+  font-family: "Poppins";
 }
 
-.content_container_top:hover{
-    background-color: #f8ba33ab;
+.right_container_adminDash {
+  display: flex;
+  flex-direction: column;
 }
 
-.right_container_adminDash{
-    display: flex;
-    flex-direction: column;
+.right_top_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
 }
 
-.right_top_container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
+.right_bot_container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 20px;
+  width: 19rem;
 }
 
-.right_bot_container{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin: 20px;
-    width: 19rem;
+.event_header_admin {
+  margin-top: -5px;
+  font-family: "Poppins";
+  color: #120652;
+  font-weight: 700;
+  font-size: 1.5em;
 }
 
-.event_header_admin{
-    margin-top: -5px;
-    font-family: "Poppins";
-    color: #120652;
-    font-weight: 700;
-    font-size: 1.5em;
+.events_holder_scroll {
+  height: 25vh;
+  width: 25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  margin-top: -15px;
+  margin-left: -0.8rem;
+  scroll-behavior: smooth;
 }
 
-.events_holder_scroll{
-    height: 25vh;
-    width: 25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: scroll;
-    margin-top: -15px;
-    margin-left: -.8rem;
-    scroll-behavior: smooth;
+.event_content_admin {
+  padding-left: 15px;
+  border-radius: 10px;
+  width: 90%;
+  background-color: rgb(183, 181, 181);
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.event_content_admin{
-    padding-left: 15px;
-    border-radius: 10px;
-    width: 90%;
-    background-color: rgb(183, 181, 181);
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
+.event_title_admin {
+  margin-bottom: -1rem;
+  font-family: "Poppins";
+  color: #120652;
 }
 
-.event_title_admin{
-    margin-bottom: -1rem;
-    font-family: "Poppins";
-    color: #120652;
+.event_date_admin {
+  font-family: "Poppins";
+  font-size: 0.8em;
+  margin-left: 0.1rem;
 }
 
-.event_date_admin{
-    font-family: "Poppins";
-    font-size: .8em;
-    margin-left: .1rem;
-}
-
-.event_details_admin{
-    margin-top: .6em;
-    font-family: "Lato";
-    color: #28282b;
+.event_details_admin {
+  margin-top: 0.6em;
+  font-family: "Poppins";
+  color: #28282b;
 }
