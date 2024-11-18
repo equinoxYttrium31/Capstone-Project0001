@@ -110,3 +110,42 @@
   cursor: pointer;
   filter: drop-shadow(2px 1px 3px #28282b69);
 }
+
+@media (max-width: 1000px) {
+  .terms_condition_content {
+    width: 98vw;
+  }
+
+  .terms_condition_header {
+    width: 98vw;
+  }
+}
+
+@media (max-width: 452px) {
+  .terms_condition_content {
+    width: 90vw;
+    height: 150vw;
+  }
+
+  .terms_condition_header {
+    width: 90vw;
+  }
+
+  .terms_condition_footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    justify-content: space-between;
+  }
+
+  .continue_button {
+    margin-top: 10px;
+  }
+
+  .terms_condition_footer .checkbox_holder {
+    margin: 0;
+    width: fit-content;
+    margin-top: -50px;
+  }
+}

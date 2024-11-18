@@ -150,9 +150,16 @@ function Record_Monitoring() {
           birthDate: "",
         });
         toast.success("Record Added. Thank You!");
-        setTimeout(function () {
-          window.location.reload();
-        }, 1500);
+        try {
+          const response = await axios.get(
+            "https://capstone-project0001-2.onrender.com/records"
+          );
+          console.log(response.data);
+          setRecords(response.data);
+          setFilteredRecords(response.data);
+        } catch (error) {
+          console.error("Error fetching records:", error);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -243,10 +250,15 @@ function Record_Monitoring() {
         handleCloseCellgroup(); // Use existing close function to reset state
         toast.success("CellGroup Added. Thank You!");
 
-        // Delay the page refresh
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        try {
+          const response = await axios.get(
+            "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
+          ); // Adjust the URL as needed
+          setCellGroups(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching cell groups:", error);
+        }
       }
     } catch (error) {
       console.error(error);

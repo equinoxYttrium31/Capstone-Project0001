@@ -163,3 +163,9 @@ li {
     font-weight: 600;
   }
 }
+
+@media (max-width: 425px) {
+  .right_side_nav {
+    margin-left: -5rem;
+  }
+}

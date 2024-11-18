@@ -1025,10 +1025,14 @@
     width: 106vw;
   }
 
+  .reg_back_btn_cont {
+    z-index: 2;
+  }
+
   /*Sign Up Part*/
   .signup_container {
     width: 100%;
-    margin-top: -2rem;
+    margin-top: -9.3rem;
     margin-left: -4rem;
     height: 120vh;
     overflow-y: hidden;
