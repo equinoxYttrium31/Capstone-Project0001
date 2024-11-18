@@ -20,27 +20,41 @@ ChartJS.register(
   Legend
 );
 
-const NetworkAttendanceOverview = ({ networkLeaderId }) => {
-  const [categoryPercentage, setCategoryPercentage] = useState({});
+const NetworkAttendanceOverview = () => {
+  const [attendancePercentages, setAttendancePercentages] = useState({});
+  const [topUsers, setTopUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCategoryPercentage = async () => {
+    const fetchAttendanceData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await axios.get(
-          `https://capstone-project0001-2.onrender.com/network-attendance?networkLeaderId=${networkLeader}`
+        // Fetch attendance category percentages
+        const percentagesResponse = await axios.get(
+          `https://capstone-project0001-2.onrender.com/attendance-category-percentage`
         );
-        setCategoryPercentage(response.data);
-      } catch (error) {
-        console.error("Error fetching network category percentage", error);
+        setAttendancePercentages(percentagesResponse.data);
+
+        // Fetch top 5 users by attendance
+        const topUsersResponse = await axios.get(
+          `https://capstone-project0001-2.onrender.com/top-users-attendance`
+        );
+        setTopUsers(topUsersResponse.data);
+      } catch (err) {
+        console.error("Error fetching attendance data:", err);
+        setError("Failed to fetch attendance data. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (networkLeaderId) {
-      fetchCategoryPercentage();
-    }
-  }, [networkLeaderId]);
+    fetchAttendanceData();
+  }, []);
 
-  // Prepare data for the chart
+  // Prepare data for attendance percentage chart
   const chartData = {
     labels: [
       "Cell Group",
@@ -53,11 +67,11 @@ const NetworkAttendanceOverview = ({ networkLeaderId }) => {
       {
         label: "Attendance Percentage",
         data: [
-          categoryPercentage.cellGroup || 0,
-          categoryPercentage.personalDevotion || 0,
-          categoryPercentage.familyDevotion || 0,
-          categoryPercentage.prayerMeeting || 0,
-          categoryPercentage.worshipService || 0,
+          attendancePercentages.cellGroup || 0,
+          attendancePercentages.personalDevotion || 0,
+          attendancePercentages.familyDevotion || 0,
+          attendancePercentages.prayerMeeting || 0,
+          attendancePercentages.worshipService || 0,
         ],
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
@@ -86,16 +100,35 @@ const NetworkAttendanceOverview = ({ networkLeaderId }) => {
       },
       title: {
         display: true,
-        text: "Network Attendance Percentage by Category",
+        text: "Attendance Percentage by Category",
       },
     },
   };
 
   return (
     <div>
-      <div>
-        <Bar data={chartData} options={options} /> {/* Render the chart */}
-      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p className="error">{error}</p>
+      ) : (
+        <div>
+          <div>
+            <Bar data={chartData} options={options} />
+          </div>
+          <div>
+            <h2>Top 5 Users by Attendance</h2>
+            <ul>
+              {topUsers.map((user, index) => (
+                <li key={index}>
+                  {`${user.userDetails.firstName} ${user.userDetails.lastName}`}{" "}
+                  - <b>{user.totalAttendance}</b> Attendance
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

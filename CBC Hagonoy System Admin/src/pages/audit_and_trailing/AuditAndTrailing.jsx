@@ -4,6 +4,7 @@ import NewMembersChart from "./charts/newMembers/NewMembersChart";
 import TotalMembersChart from "./charts/totalMembers/TotalMembersChart";
 import AttendanceChart from "./charts/attendanceChart/AttendanceChart";
 import PrayerRequestChart from "./charts/PrayerRequestTraffic/PrayerRequestChart";
+import UserDemographics from "./charts/UserDemographics/UserDemographics";
 
 export default function AuditAndTrailing() {
   return (
@@ -36,6 +37,13 @@ export default function AuditAndTrailing() {
           </Typography>
           {/* PrayerRequestCharts component */}
           <PrayerRequestChart />
+        </Paper>
+        <Paper className="grid-item">
+          <Typography className="typography" variant="h6">
+            User Demographics
+          </Typography>
+          {/* PrayerRequestCharts component */}
+          <UserDemographics />
         </Paper>
       </Box>
     </div>

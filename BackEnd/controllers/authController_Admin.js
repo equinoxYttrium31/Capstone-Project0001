@@ -775,6 +775,25 @@ const getSortedPrayerRequests = async (req, res) => {
   }
 };
 
+const getUsersGender = async (req, res) => {
+  const { gender } = req.query;
+
+  try {
+    if (gender === "all" || !gender) {
+      const maleCount = await ChurchUser.countDocuments({ gender: "Male" });
+      const femaleCount = await ChurchUser.countDocuments({ gender: "Female" });
+
+      return res.json({ male: maleCount, female: femaleCount });
+    } else {
+      const count = await User.countDocuments({ gender });
+      return res.json({ [gender]: count });
+    }
+  } catch (error) {
+    console.error("Error fetching users by gender:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // Schedule the function to run daily at 12 AM
 cron.schedule("00 00 * * *", () => {
   console.log("Running archiveExpiredAnnouncements job at 12:15 PM");
@@ -782,6 +801,7 @@ cron.schedule("00 00 * * *", () => {
 });
 
 module.exports = {
+  getUsersGender,
   getRecords,
   addNewRecord,
   updateRecord,

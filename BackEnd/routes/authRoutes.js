@@ -54,6 +54,7 @@ const {
   fetchAnnouncementById,
   archiveAnnouncementById,
   updateAnnouncementbyID,
+  getUsersGender,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -155,6 +156,7 @@ router.get("/total-members-per-month", totalMembersPerMonth);
 router.get("/attendance-category-percentage", totalAttendancePercentage);
 router.get("/top-users-attendance", top5UsersByAttendance);
 router.get("/weekly-prayer-requests", fetchTotalPrayerRequestWeekly);
+router.get("/users-by-gender", getUsersGender);
 
 //Notification Admin Routes
 router.get("/fetch-prayers", fetchAllPrayer);
