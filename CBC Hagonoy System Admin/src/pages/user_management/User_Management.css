@@ -1,239 +1,287 @@
-.main_user_management_cont{
-    width: 75rem;
-    height: 40.5rem;
-    display: flex;
-    flex-direction: column;
-    
+.main_user_management_cont {
+  width: 75rem;
+  height: 40.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.header_user_management{
-    width: 100%;
+.header_user_management {
+  width: 100%;
 }
 
-.church_name_user_management{
-    margin: 1rem 0rem;
-    font-size: 0.75em;
-    font-family: "Lato";
-    color: #28282b;
+.church_name_user_management {
+  margin: 1rem 0rem;
+  font-size: 0.75em;
+  font-family: "Lato";
+  color: #28282b;
 }
 
-.user_management_lbl{
-    font-family: "Poppins";
-    font-size: 1.8em;
-    color: #2d2f65;
-    margin-top: -1.3rem;
+.user_management_lbl {
+  font-family: "Poppins";
+  font-size: 1.8em;
+  color: #2d2f65;
+  margin-top: -1.3rem;
 }
 
-.search_bar_cont_userManage{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
+.search_bar_cont_userManage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 2rem;
 }
 
-.search_bar_userManage{
-    width: 20rem;
-    height: 2rem;
-    padding: 0rem 1rem;
-    font-size: 1em;
-    font-family: "Lato";
-    border-radius: 0.5rem;
-    color: #28282b;
+.search_bar_userManage {
+  width: 20rem;
+  height: 2rem;
+  padding: 0rem 1rem;
+  margin-right: 2em;
+  font-size: 1em;
+  font-family: "Lato";
+  border-radius: 0.5rem;
+  color: #28282b;
 }
 
-.search_bar_userManage:focus{
-    outline: none;
-    box-shadow: #28282b 1px 1px 5px;
-    border: none;
+.export_button {
+  all: unset;
+  display: flex;
+  height: fit-content;
+  padding: 0.1rem 2rem;
+  gap: 0.5rem;
+  color: #120652;
+  border: #120652 2px solid;
+  border-radius: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
 }
 
-.search_icon_userManage{
-    position: absolute;
-    top: 11.2rem;
-    right: 2.5rem;
+.export_button:hover {
+  cursor: pointer;
+  border-radius: 1rem;
+  box-shadow: 2px 2px 5px #28282b;
 }
 
-.description-cell{
-    width: 100%;
-    margin-top: 2rem;
-    font-family: "Lato";
-    font-size: .9rem;
-    padding: 0rem 2rem;
+.search_bar_userManage:focus {
+  outline: none;
+  box-shadow: #28282b 1px 1px 5px;
+  border: none;
 }
 
-.user_management_container{
-    margin: -.5rem 2rem;
-    overflow: scroll;
+.search_icon_userManage {
+  position: relative;
+  top: 0rem;
+  left: -6rem;
 }
 
-.user-management-accounts-table{
-    border-collapse: collapse;
-    width: 100%;
+.description-cell {
+  width: 100%;
+  margin-top: 2rem;
+  font-family: "Lato";
+  font-size: 0.9rem;
+  padding: 0rem 2rem;
 }
 
-.user-management-table-headers{
-    font-family: "Poppins";
-    color: #2d2f65;
+.user_management_container {
+  margin: -0.5rem 2rem;
+  overflow: scroll;
 }
 
-.table-header-row, .table-body tr {
-    border: 2px solid #28282B; /* Add bottom borders to rows */
+.user-management-accounts-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.user-management-table-headers {
+  font-family: "Poppins";
+  color: #2d2f65;
+}
+
+.table-header-row,
+.table-body tr {
+  border: 1px solid #28282b; /* Add bottom borders to rows */
 }
 
 .table-header {
-    border-bottom: 2px solid #28282B; /* Thicker border for header row */
-    padding: 8px; /* Add some padding */
-    background-color: #9fb6ff86; /* Optional: Add background color to headers */
+  padding: 10px;
+  text-align: center;
 }
 
-.user-management-accounts-table td, .user-management-accounts-table th {
-    border-right: 2px solid #28282B; /* Add right borders */
+.user-management-accounts-table td,
+.user-management-accounts-table th {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd; /* Optional: for better visibility */
 }
 
-.user-management-accounts-table td:last-child, 
+.user-management-accounts-table td:last-child,
 .user-management-accounts-table th:last-child {
-    border-right: 2px solid #28282b; /* Remove the right border for the last column */
+  border-right: 1px solid #ddd; /* Remove the right border for the last column */
 }
 
 .table-body-userManagement td {
-    padding: 8px;
-    border: 2px solid #28282B; /* Add border for each row */
+  padding: 8px;
+  border: 1px solid #ddd; /* Add border for each row */
 }
 
-.number_management{
-    width: 5%;
+.number_management {
+  width: 5%;
 }
 
-.name_management{
-    width: 40%;
+.name_management {
+  width: 40%;
 }
 
-.table-body-userManagement{
-    font-family: "Lato";
-    background-color: rgba(245, 245, 245, 0.192);
-    overflow-y: scroll;
-    margin-bottom: 5rem;
-    animation: slowLoading .3s ease-in-out;
+.table-body-userManagement tr {
+  width: 100%;
 }
 
-.user_number_management{
-    text-align: end;
+.user-management-table-headers {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+  border: #ddd 1px solid;
 }
 
-.user_age_management{
-    text-align: center;
+.table-body-userManagement {
+  font-family: "Lato";
+  background-color: rgba(245, 245, 245, 0.192);
+  overflow-y: auto;
+  margin-bottom: 5rem;
+  animation: slowLoading 0.3s ease-in-out;
 }
 
-.user_gender_management{
-    text-align: center;
+.user_number_management {
+  text-align: end;
 }
 
-.user_edit_management{
-    width: 30%;
+.user_age_management {
+  text-align: center;
 }
 
-.user_edit_management_btn_cont{
-    width: 50%;
-    padding-left: 5rem;
-    display: flex;
-    gap: 2rem;
+.user_gender_management {
+  text-align: center;
 }
 
-.edit_user_btn{
-    background-color: #2d2f65;
-    width: 5rem;
-    border: 1px solid #2d2f65;
-    color: whitesmoke;
-    font-family: "Poppins";
-    border-radius: 1rem;
+.user_edit_management {
+  width: 30%;
 }
 
-.archive_user_btn{
-    background-color: red;
-    width: 5rem;
-    border: 1px solid red;
-    color: whitesmoke;
-    font-family: "Poppins";
-    border-radius: 1rem;
+.user_edit_management_btn_cont {
+  width: 50%;
+  padding-left: 5rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.edit_user_btn {
+  background-color: #2d2f65;
+  width: 5rem;
+  border: 1px solid #2d2f65;
+  color: whitesmoke;
+  font-family: "Poppins";
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.archive_user_btn {
+  background-color: red;
+  width: 5rem;
+  border: 1px solid red;
+  color: whitesmoke;
+  font-family: "Poppins";
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .archive_user_btn:hover,
 .edit_user_btn:hover {
-    cursor: pointer;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
 /*Modal Config*/
-.edit_modal_container{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 15;
-    animation: slowLoading .3s ease-in;
+.edit_modal_container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 15;
+  animation: slowLoading 0.3s ease-in;
 }
 
-.modal_content_edit{
-    width: 60rem;
-    height: 40rem;
-    border-radius: 1rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: whitesmoke;
-    box-shadow: #28282B 2px 2px 5px;
+.modal_content_edit {
+  width: 60rem;
+  height: 40rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: whitesmoke;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
-.edit_modal_header{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0rem 3rem;
-    border-bottom: #28282bab 2px solid;
+.edit_modal_header {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0rem 3rem;
+  border-bottom: #28282bab 2px solid;
 }
 
-.close_edit_button:hover{
-    cursor: pointer;
+.close_edit_button {
+  transition: all 0.3s ease-in-out;
 }
 
-.edit_modal-text_header{
-    font-family: "Poppins";
-    color: #2d2f65;
+.close_edit_button:hover {
+  filter: drop-shadow(#28282b75 2px 2px 3px);
+  cursor: pointer;
 }
 
-.edit_modal_context_cont{
-    padding: 0rem 3rem;
-    color: #28282b;
-    font-family: "Lato";
-    font-size: 0.85em;
+.edit_modal-text_header {
+  font-family: "Poppins";
+  color: #2d2f65;
 }
 
-.form_edit_cont{
-    padding: 1rem 3rem;
-    display: flex;
-    flex-direction: row;
-    
+.edit_modal_context_cont {
+  padding: 0rem 3rem;
+  color: #28282b;
+  font-family: "Lato";
+  font-size: 0.85em;
+}
+
+.form_edit_cont {
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .form_edit_cont_left,
-.form_edit_cont_right{
-    width: 50%;
-    align-items: start;
-    display: flex;
-    flex-direction: column;
+.form_edit_cont_right {
+  width: 50%;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
 }
 
-.form_edit_cont_rows{
-    width: 90%;
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: space-between;
+.form_edit_cont_rows {
+  width: 90%;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .editLabel_firstName,
@@ -244,209 +292,223 @@
 .editLabel_netLeader,
 .editLabel_telNumber,
 .editLabel_cellNumber,
-.editLabel_memberType{
-    font-family: "Poppins";
-    color: #28282b;
+.editLabel_memberType {
+  font-family: "Poppins";
+  color: #28282b;
 }
 
 .editInp_firstName,
 .editInp_lastName,
-.editInp_birthDate{
-    width: 12rem;
-    padding: 0.5rem 2rem;
-    font-family: "Poppins";
-    color: #28282b;
-    border: #2d2f65 2px solid;
+.editInp_birthDate {
+  width: 12rem;
+  padding: 0.5rem 2rem;
+  font-family: "Poppins";
+  color: #28282b;
+  border: #2d2f65 2px solid;
 }
 
 .editInp_cellNumber,
 .editInp_telNumber,
 .editInp_netLeader,
-.editInp_cellLeader{
-    width: 10rem;
-    padding: 0.51rem 2rem;
-    color: #28282b;
-    font-family: "Poppins";
-    border: #2d2f65 2px solid;
+.editInp_cellLeader {
+  width: 10rem;
+  padding: 0.51rem 2rem;
+  color: #28282b;
+  font-family: "Poppins";
+  border: #2d2f65 2px solid;
 }
 
 .editInp_userGender,
-.editInp_userType{
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
-    background-repeat: no-repeat;
-    background-position: right 1.5rem center;
-    padding-right: 2rem;
-    font-family: "Poppins";
-    color: #28282b;
-    border: #2d2f65 2px solid;
-    font-family: "Poppins";
-    width: 16.2rem;
-    padding: .5rem 2rem;
+.editInp_userType {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.5rem center;
+  padding-right: 2rem;
+  font-family: "Poppins";
+  color: #28282b;
+  border: #2d2f65 2px solid;
+  font-family: "Poppins";
+  width: 16.2rem;
+  padding: 0.5rem 2rem;
 }
 
-.editInp_isBaptized{
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e');
-    background-repeat: no-repeat;
-    background-position: right 1.5rem center;
-    padding-right: 2rem;
-    font-family: "Poppins";
-    color: #28282b;
-    border: #2d2f65 2px solid;
-    font-family: "Poppins";
-    width: 14.2rem;
-    padding: .5rem 2rem;
+.editInp_isBaptized {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3e%3cpath fill=%27%2328282B%27 d=%27M7 10l5 5 5-5H7z%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.5rem center;
+  padding-right: 2rem;
+  font-family: "Poppins";
+  color: #28282b;
+  border: #2d2f65 2px solid;
+  font-family: "Poppins";
+  width: 14.2rem;
+  padding: 0.5rem 2rem;
 }
 
-.form_edit_cont_lower{
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 3rem;
+.form_edit_cont_lower {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 3rem;
 }
 
-.address_header_edit{
-    font-size: 1.3rem;
-    font-family: "Poppins";
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+.address_header_edit {
+  font-size: 1.3rem;
+  font-family: "Poppins";
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
-.form_edit_cont_lower_rows{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.form_edit_cont_lower_rows {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.form_edit_cont_lower_columns{
-    width: 13rem;
-    display: flex;
-    flex-direction: column;
+.form_edit_cont_lower_columns {
+  width: 13rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .editInp_street,
 .editInp_barangay,
 .editInp_city,
-.editInp_province{
-    font-family: "Poppins";
-    width: 70%;
-    padding: 0.53rem 2rem;
-    color: #28282b;
-    border: #2d2f65 2px solid;
+.editInp_province {
+  font-family: "Poppins";
+  width: 70%;
+  padding: 0.53rem 2rem;
+  color: #28282b;
+  border: #2d2f65 2px solid;
 }
 
 .editLbl_province,
 .editLbl_city,
 .editLbl_barangay,
-.editLbl_street{
-    font-family: "Poppins";
-    font-size: .7em;
-    margin: 0 .5rem;
+.editLbl_street {
+  font-family: "Poppins";
+  font-size: 0.7em;
+  margin: 0 0.5rem;
 }
 
-.personal_info_edit_text{
-    margin-left: 3rem;
-    font-size: 1.3rem;
-    font-family: "Poppins";
-    margin-top: 2.5rem;
-    margin-bottom: 0;
+.personal_info_edit_text {
+  margin-left: 3rem;
+  font-size: 1.3rem;
+  font-family: "Poppins";
+  margin-top: 2.5rem;
+  margin-bottom: 0;
 }
 
-.edit_button_container_modal{
-    width: 90.7%;
-    padding: 0rem 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
+.edit_button_container_modal {
+  width: 90.7%;
+  padding: 0rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
-.edit_Modal_button{
-    border: #2d2f65 2px solid;
-    padding: .5rem 2rem;
-    background-color: #2d2f65;
-    color: whitesmoke;
-    font-family: "Poppins";
-    border-radius: .5rem;
+.edit_Modal_button {
+  border: #2d2f65 2px solid;
+  padding: 0.5rem 2rem;
+  background-color: #2d2f65;
+  color: whitesmoke;
+  font-family: "Poppins";
+  border-radius: 0.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.edit_Modal_button:hover {
+  cursor: pointer;
+  border-radius: 1rem;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
 /*Confirmation Modal*/
-.confirmation_modal_container{
-    position: absolute;
-    z-index: 15;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px);
-    animation: slowLoading .3s;
+.confirmation_modal_container {
+  position: absolute;
+  z-index: 15;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  animation: slowLoading 0.3s;
 }
 
-.confirmation_modal_content{
-    background-color: ivory;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30rem;
-    height: 10rem;
-    padding: 2rem;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: #28282b 2px 2px 5px;
+.confirmation_modal_content {
+  background-color: ivory;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30rem;
+  height: 10rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
-.confirm_modal_header{
-    font-size: 1.5rem;
-    font-family: "Poppins";
-    margin-top: 0;
-    color: #ff010e;
+.confirm_modal_header {
+  font-size: 1.5rem;
+  font-family: "Poppins";
+  margin-top: 0;
+  color: #ff010e;
 }
 
-.confirm_modal_context{
-    font-family: "Lato";
-    margin-top: 0;
-    margin-bottom: 2rem;
+.confirm_modal_context {
+  font-family: "Lato";
+  margin-top: 0;
+  margin-bottom: 2rem;
 }
 
-.confirmation_modal_actions{
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 3rem;
+.confirmation_modal_actions {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 3rem;
 }
 
-.modal_cancel_button{
-    background-color: transparent;
-    border: #2d2f65 2px solid;
-    padding: .5rem 2rem;
-    font-weight: 600;
-    color: #28282b;
-    font-family: "Poppins";
-    border-radius: .5rem;
+.modal_cancel_button {
+  background-color: transparent;
+  border: #2d2f65 2px solid;
+  padding: 0.5rem 2rem;
+  font-weight: 600;
+  color: #28282b;
+  font-family: "Poppins";
+  border-radius: 0.5rem;
+  transition: all.3s ease-in-out;
 }
 
-.form_userType_cont_rows{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    width: 100%;
-    margin-left: -32.8rem;
-    margin-top: 0rem;
-    margin-bottom: 1rem;
-    gap: 1rem;
+.modal_cancel_button:hover {
+  background-color: #ff010e;
+  border: #ff010e 2px solid;
+  color: whitesmoke;
+  border-radius: 1rem;
 }
 
-
+.form_userType_cont_rows {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 100%;
+  margin-left: -32.8rem;
+  margin-top: 0rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
 
 @keyframes slowLoading {
-    from{
-        opacity: 0;
-    } to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

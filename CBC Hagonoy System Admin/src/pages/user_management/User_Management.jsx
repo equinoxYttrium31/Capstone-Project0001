@@ -1,9 +1,10 @@
 import "./User_Management.css";
-import { search_ic, close_ic } from "../../assets/Images";
+import { search_ic, close_ic, xlsx_icon } from "../../assets/Images";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
 import { toast } from "react-hot-toast"; // Import toast for notifications
+import ExcelJS from "exceljs";
 
 const calculateAge = (birthDate) => {
   const today = new Date();
@@ -89,9 +90,7 @@ function EditUserModal({ record, onClose, onSave }) {
       memberType,
       isBaptized,
     });
-    setTimeout(function () {
-      window.location.reload();
-    }, 3000);
+
     onClose();
   };
 
@@ -425,11 +424,141 @@ export default function User_Management() {
           withCredentials: true,
         }
       );
+      fetchRecords();
       toast.success("User updated successfully");
       console.log("User updated successfully");
     } catch (error) {
       console.error("Error updating profile:", error);
     }
+  };
+
+  const handleDownloadXLSX = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("ChurchUsers", {
+      pageSetup: {
+        orientation: "landscape", // Set the orientation to landscape
+        paperSize: 5,
+      },
+    });
+
+    // Add title row at the top
+    worksheet.mergeCells("A1:J1"); // Merge the cells across the columns for the title
+    const titleRow = worksheet.getCell("A1");
+    titleRow.value = "Christian Bible Church Hagonoy User Information"; // Set title text
+    titleRow.style = {
+      font: {
+        size: 18,
+        bold: true,
+        color: { argb: "FFFFFF" },
+      },
+      alignment: {
+        vertical: "middle",
+        horizontal: "center",
+      },
+      fill: {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "4F81BD" }, // Light blue background
+      },
+    };
+
+    // Set height for title row to give it enough space
+    worksheet.getRow(1).height = 40; // Adjust the row height for the title
+
+    // Add headers manually
+    const headerRow = worksheet.addRow([
+      "First Name",
+      "Last Name",
+      "Email",
+      "Birth Date",
+      "Address",
+      "Cell Number",
+      "Tel Number",
+      "Gender",
+      "Member Type",
+      "Baptism Status",
+    ]);
+
+    // Style table headers
+    headerRow.font = { bold: true, color: { argb: "FFFFFF" } };
+    headerRow.alignment = { horizontal: "center", vertical: "middle" };
+    headerRow.eachCell((cell, colNumber) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "2E75B6" }, // Dark blue background for headers
+      };
+      cell.border = {
+        top: { style: "thin", color: { argb: "000000" } },
+        left: { style: "thin", color: { argb: "000000" } },
+        bottom: { style: "thin", color: { argb: "000000" } },
+        right: { style: "thin", color: { argb: "000000" } },
+      };
+    });
+
+    // Add data rows to the worksheet
+    records.forEach((record, index) => {
+      const row = worksheet.addRow([
+        record.firstName,
+        record.lastName,
+        record.email,
+        record.birthDate
+          ? new Date(record.birthDate).toLocaleDateString()
+          : "N/A",
+        `${record.address.baseAddress}, ${record.address.barangay}, ${record.address.city}, ${record.address.province}`,
+        record.CellNum,
+        record.TelNum,
+        record.gender,
+        record.memberType,
+        record.isBaptized,
+      ]);
+
+      // Style data rows with alternating row colors
+      row.eachCell((cell, colNumber) => {
+        // Add borders
+        cell.border = {
+          top: { style: "thin", color: { argb: "000000" } },
+          left: { style: "thin", color: { argb: "000000" } },
+          bottom: { style: "thin", color: { argb: "000000" } },
+          right: { style: "thin", color: { argb: "000000" } },
+        };
+      });
+
+      // Alternate row background color for better readability
+      if (index % 2 === 0) {
+        row.eachCell((cell, colNumber) => {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "F2F2F2" }, // Light gray for alternate rows
+          };
+        });
+      }
+    });
+
+    // Set custom column widths based on category
+    worksheet.getColumn(1).width = 15; // First Name
+    worksheet.getColumn(2).width = 15; // Last Name
+    worksheet.getColumn(3).width = 30; // Email
+    worksheet.getColumn(4).width = 10; // Birth Date
+    worksheet.getColumn(5).width = 45; // Address (longer width)
+    worksheet.getColumn(6).width = 12; // Cell Number
+    worksheet.getColumn(7).width = 12; // Tel Number
+    worksheet.getColumn(8).width = 8; // Gender
+    worksheet.getColumn(9).width = 15; // Member Type
+    worksheet.getColumn(10).width = 12; // Baptism Status
+
+    // Write the workbook to a file and trigger a download
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    // Create a link element to trigger download
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "ChurchUsers.xlsx";
+    link.click();
   };
 
   return (
@@ -442,6 +571,10 @@ export default function User_Management() {
       </div>
 
       <div className="search_bar_cont_userManage">
+        <button className="export_button" onClick={handleDownloadXLSX}>
+          <img src={xlsx_icon} alt="" className="expport_icon" />
+          Export
+        </button>
         <input
           type="text"
           className="search_bar_userManage"
