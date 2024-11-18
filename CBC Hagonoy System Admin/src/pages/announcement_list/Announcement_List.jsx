@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./Announcement_List.css";
+import { xlsx_icon } from "../../assets/Images";
 import EditAnnouncementModal from "./EditAnnouncementModal";
+import ExcelJS from "exceljs";
 
 export default function Announcement_List() {
   const [announcements, setAnnouncements] = useState([]);
@@ -226,6 +228,147 @@ export default function Announcement_List() {
     }
   };
 
+  const handleExportToExcel = () => {
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString("en-US", options);
+    };
+
+    const simplifyAnnouncement = (announcement) => ({
+      title: announcement.title,
+      audience: announcement.audience,
+      publishDate: formatDate(announcement.publishDate),
+      endDate: formatDate(announcement.endDate),
+    });
+
+    const upcomingAnnouncementsSimplified = (upcomingEvents || []).map(
+      simplifyAnnouncement
+    );
+    const currentAnnouncementsSimplified = (currentEvents || []).map(
+      simplifyAnnouncement
+    );
+    const archivedAnnouncementsSimplified = (archivedAnnouncements || []).map(
+      simplifyAnnouncement
+    );
+
+    // Create a new workbook
+    const workbook = new ExcelJS.Workbook();
+
+    // Function to add a worksheet and populate data
+    const addWorksheet = (worksheetName, announcements) => {
+      const worksheet = workbook.addWorksheet(worksheetName);
+
+      // Title row
+      worksheet.addRow([
+        `CHRISTIAN BIBLE CHURCH OF HAGONOY - ${worksheetName}`,
+      ]);
+      const titleRow = worksheet.getRow(1);
+      titleRow.font = { bold: true, size: 16 };
+      titleRow.alignment = { horizontal: "center" };
+      worksheet.mergeCells("A1:D1");
+
+      // Header row (row 2)
+      worksheet.addRow(["Title", "Audience", "Publish Date", "End Date"]);
+      const headerRow = worksheet.getRow(2);
+      headerRow.font = { bold: true };
+      headerRow.eachCell((cell) => {
+        cell.alignment = { horizontal: "center" };
+        cell.border = {
+          top: { style: "thin" },
+          left: { style: "thin" },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+
+      // Set column widths
+      worksheet.columns = [
+        { key: "title", width: 30 },
+        { key: "audience", width: 20 },
+        { key: "publishDate", width: 20 },
+        { key: "endDate", width: 20 },
+      ];
+
+      let lastDataRowNumber;
+
+      // Data rows start from row 3
+      if (announcements.length > 0) {
+        announcements.forEach((announcement, index) => {
+          const row = worksheet.addRow(announcement);
+          lastDataRowNumber = row.number; // Update to the latest data row number
+
+          row.height = 45;
+          // Alternate row colors
+          if (index % 2 === 0) {
+            row.eachCell((cell) => {
+              cell.fill = {
+                type: "pattern",
+                pattern: "solid",
+                fgColor: { argb: "F2F2F2" },
+              };
+            });
+          }
+
+          row.eachCell((cell) => {
+            cell.border = {
+              top: { style: "thin" },
+              left: { style: "thin" },
+              bottom: { style: "thin" },
+              right: { style: "thin" },
+            };
+            cell.alignment = {
+              horizontal: "left",
+              vertical: "middle",
+              wrapText: true,
+            };
+          });
+        });
+      } else {
+        // If no announcements, display a single row with "No Announcements"
+        const noAnnouncementsRow = worksheet.addRow(["No Announcements"]);
+        noAnnouncementsRow.font = { italic: true };
+        noAnnouncementsRow.alignment = { horizontal: "center" };
+        worksheet.mergeCells(`A3:D3`);
+        lastDataRowNumber = noAnnouncementsRow.number; // Assign the row number of "No Announcements"
+      }
+      worksheet.addRow([]);
+
+      // Footer row (current date)
+      const footerRow = worksheet.addRow([
+        `Generated on: ${new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}`,
+      ]);
+
+      footerRow.font = { italic: true };
+      footerRow.alignment = { horizontal: "right" };
+
+      // Merge cells A-D in the footer row
+      worksheet.mergeCells(`A${footerRow.number}:D${footerRow.number}`);
+    };
+
+    // Add worksheets for each category
+    addWorksheet("Upcoming Announcements", upcomingAnnouncementsSimplified);
+    addWorksheet("Current Announcements", currentAnnouncementsSimplified);
+    addWorksheet("Archived Announcements", archivedAnnouncementsSimplified);
+
+    // Write the Excel file to the browser
+    workbook.xlsx
+      .writeBuffer()
+      .then((buffer) => {
+        const blob = new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Announcements.xlsx";
+        link.click();
+      })
+      .catch((err) => console.error("Error exporting to Excel:", err));
+  };
+
   return (
     <div className="announcement_list_mainContainer">
       <div className="announcement_header_container">
@@ -242,6 +385,10 @@ export default function Announcement_List() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+        <button className="export_button" onClick={handleExportToExcel}>
+          <img src={xlsx_icon} alt="" className="expport_icon" />
+          Export
+        </button>
       </div>
 
       <div className="announcement_list_body_container">

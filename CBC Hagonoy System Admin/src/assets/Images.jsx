@@ -30,10 +30,12 @@ import UM_selected from "./Dashboard_Icons/UM_selected.png";
 import CT_selected from "./Dashboard_Icons/CT_selected.png";
 import ATL_selected from "./Dashboard_Icons/ATL_selected.png";
 import AL_selected from "./Dashboard_Icons/AL_selected.png";
+import xlsx_icon from "../assets/icons/xlsx_icon.png";
 
 export {
   cbc_logo,
   new_user_icon,
+  xlsx_icon,
   prayer_request_icon,
   notif_ic_dark,
   setting_ic_dark,

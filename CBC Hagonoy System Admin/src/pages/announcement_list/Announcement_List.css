@@ -21,6 +21,28 @@
 
 .search_container {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.export_button {
+  all: unset;
+  display: flex;
+  height: fit-content;
+  padding: 0.1rem 2rem;
+  gap: 0.5rem;
+  color: #120652;
+  border: #120652 2px solid;
+  border-radius: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.export_button:hover {
+  cursor: pointer;
+  border-radius: 1rem;
+  box-shadow: 2px 2px 5px #28282b;
 }
 
 .search_container input {
@@ -102,4 +124,42 @@
 .page_button:hover {
   background-color: #11065246;
   color: #28282b;
+}
+
+.print_view {
+  display: none; /* Hidden in standard view */
+}
+
+@media print {
+  .pagination, /* Hide pagination in print */
+  .search_container, /* Hide search bar in print */
+  .edit_button,
+  .archive_button {
+    display: none !important; /* Hide buttons in print */
+  }
+
+  /* Adjust table layout for printing */
+  .announcement_table {
+    width: 100%;
+    font-size: 12px; /* Adjust font size */
+  }
+
+  .announcement_table th,
+  .announcement_table td {
+    border: 1px solid #000; /* Ensure visible borders */
+    padding: 5px;
+  }
+
+  .announcement_list_mainContainer {
+    padding: 0;
+    margin: 0;
+  }
+
+  .standard_view {
+    display: none; /* Hide the main view */
+  }
+
+  .print_view {
+    display: block; /* Show print-friendly view */
+  }
 }
