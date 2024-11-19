@@ -113,7 +113,7 @@
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 13vh;
-  width: fit-content;
+  width: 20rem;
   align-items: center;
   gap: 1em;
   transition: all ease-out 0.3s;
@@ -121,6 +121,7 @@
 
 .record_container_profile {
   height: 15vh;
+  width: 15vh;
   object-fit: cover;
   border-radius: 50%;
 }
