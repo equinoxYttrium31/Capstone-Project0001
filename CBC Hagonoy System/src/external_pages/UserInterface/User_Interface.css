@@ -389,6 +389,10 @@ body {
     max-height: 87vh;
   }
 
+  .user_dashboard_cont.minimized {
+    max-height: 87vh;
+  }
+
   .personal {
     top: 16rem;
   }
