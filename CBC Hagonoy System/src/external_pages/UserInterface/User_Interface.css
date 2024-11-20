@@ -405,6 +405,14 @@ body {
   .cellgroup {
     top: 21.9rem;
   }
+
+  .user_dashboard_cont {
+    max-height: 75vh;
+  }
+
+  .dynamic_container_personal {
+    height: 78vh;
+  }
 }
 
 @media (max-width: 480px) {
