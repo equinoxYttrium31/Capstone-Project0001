@@ -381,6 +381,43 @@ body {
   }
 }
 
+@media (max-width: 425px) {
+  .main_user_cont {
+    height: 85vh;
+  }
+  .user_dashboard_cont {
+    max-height: 85vh;
+  }
+
+  .user_dashboard_cont.minimized {
+    max-height: 85vh;
+  }
+
+  .icon_cellgroup_user {
+    top: 19.65rem;
+  }
+
+  .icon_network_user {
+    top: 24.75rem;
+  }
+
+  .icon_personal_user {
+    top: 14.5rem;
+  }
+
+  .personal {
+    top: 17rem;
+  }
+
+  .network {
+    top: 27rem;
+  }
+
+  .cellgroup {
+    top: 21.9rem;
+  }
+}
+
 @media (max-width: 395px) {
   .main_user_cont {
     height: 87vh;
@@ -393,16 +430,20 @@ body {
     max-height: 87vh;
   }
 
-  .personal {
-    top: 16rem;
-  }
-
   .icon_cellgroup_user {
     top: 18.65rem;
   }
 
   .icon_network_user {
     top: 23.75rem;
+  }
+
+  .icon_personal_user {
+    top: 13.5rem;
+  }
+
+  .personal {
+    top: 16rem;
   }
 
   .network {

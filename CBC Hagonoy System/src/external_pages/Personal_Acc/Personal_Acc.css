@@ -352,4 +352,8 @@
   .week_text {
     margin-top: 0;
   }
+
+  .personal_record_cont {
+    margin: 0 auto;
+  }
 }
