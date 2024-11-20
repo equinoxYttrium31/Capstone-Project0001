@@ -320,7 +320,7 @@
   }
 }
 
-@media (max-width: 395px) {
+@media (max-width: 420px) {
   .personal_title {
     font-size: 1.2rem;
   }
@@ -354,6 +354,39 @@
   }
 
   .personal_record_cont {
-    margin: 0 auto;
+  }
+}
+
+@media (max-width: 395px) {
+  .personal_title {
+    font-size: 1.2rem;
+  }
+
+  .personal_img_holder {
+    width: 10rem;
+    height: 10rem;
+    object-position: center;
+  }
+
+  .personal_profile_pic {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .personal_user_name {
+    font-size: 1.2em;
+  }
+
+  .personal_user_info {
+    gap: 0.5rem;
+  }
+
+  .personal_age_gender {
+    font-size: 0.9em;
+    margin-top: 1.5rem;
+  }
+
+  .week_text {
+    margin-top: 0;
   }
 }
