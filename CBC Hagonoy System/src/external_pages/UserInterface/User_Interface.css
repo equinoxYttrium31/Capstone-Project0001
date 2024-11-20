@@ -386,6 +386,10 @@ body {
     width: 100%;
   }
 
+  .container_network_record.active {
+    width: 100%;
+  }
+
   .dynamic_container_personal {
     height: 78vh;
   }

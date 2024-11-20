@@ -1,6 +1,6 @@
 .chart-container {
   width: 45vw;
-  height: fit-content;
+  height: 20rem;
   margin-bottom: 2rem;
   padding: 20px;
   background-color: #f9f9f9;
@@ -9,7 +9,17 @@
 }
 
 .network_progress_cont h2 {
+  margin-top: 3rem;
   margin-bottom: 1.5rem;
   font-family: "poppins";
   color: #28282b;
+}
+
+@media (max-width: 480px) {
+  .network_progress_cont {
+    width: 80vw;
+  }
+  .chart-container {
+    width: 100vw;
+  }
 }
