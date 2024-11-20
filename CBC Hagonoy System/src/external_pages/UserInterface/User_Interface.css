@@ -381,6 +381,32 @@ body {
   }
 }
 
+@media (max-width: 566px) {
+  .icon_cellgroup_user {
+    top: 19.65rem;
+  }
+
+  .icon_network_user {
+    top: 24.75rem;
+  }
+
+  .icon_personal_user {
+    top: 14.5rem;
+  }
+
+  .personal {
+    top: 17rem;
+  }
+
+  .network {
+    top: 27rem;
+  }
+
+  .cellgroup {
+    top: 21.9rem;
+  }
+}
+
 @media (max-width: 480px) {
   .container_cellgroup {
     width: 100%;
