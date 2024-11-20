@@ -447,26 +447,84 @@ form {
   }
 }
 
-@media (max-width: 462px) {
-  .NewPass {
-    width: 12rem;
+@media (max-width: 480px) {
+  .setting_header {
+    font-size: 1.5em;
   }
 
-  .OldPass {
-    width: 12rem;
+  .setting_Selection_list {
+    font-size: 1em;
   }
 
-  .ConfPass {
-    width: 12rem;
+  .setting_content_container {
+    height: fit-content;
+  }
+
+  .account_setting_modal {
+    width: 100%;
+    left: 5%;
+    top: 20%;
+  }
+
+  .AccountSettings {
+    width: 100vw;
+    font-size: 1.5em;
   }
 
   .PaS_Context {
+    width: 87vw;
     text-wrap: wrap;
-    width: 100%;
+    font-size: 0.9em;
   }
 
-  .PaS_Setting_cont {
+  .Logout_Header {
+    font-size: 1.3em;
+  }
+
+  .btn_change_Pass {
+    font-size: 0.9em;
+    padding: 0.5rem 2rem;
+  }
+
+  .change_passwordContainer {
+    font-size: 0.9em;
+  }
+
+  .btn-logout_settings {
+    font-size: 0.8em;
+    padding: 0.5rem 2rem;
+  }
+
+  .logout_button_container {
     width: 70%;
+    margin: 1rem 0;
+  }
+
+  .change_passwordContainer {
+    width: 70%;
+    margin: 0;
+  }
+
+  .Change_Pass_Form {
+    margin-left: -5rem;
+  }
+
+  .NewPass {
+    width: 100%;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;
+  }
+
+  .OldPass {
+    width: 100%;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;
+  }
+
+  .ConfPass {
+    width: 100%;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2rem;
   }
 }
 
