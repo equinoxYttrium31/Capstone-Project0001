@@ -233,6 +233,10 @@
 }
 
 @media (max-width: 481px) {
+  .network_bottomlayer {
+    height: 75vh;
+  }
+
   .container_leftside_top {
     width: 90vw;
   }

@@ -97,7 +97,7 @@ const Setting_Page = () => {
               Password and Account
             </li>
           </ul>
-          <ul className="setting_Selection">
+          {/** <ul className="setting_Selection">
             <li
               className={`setting_Selection_list ${
                 isActive === "Appearance" ? "isActive" : ""
@@ -106,7 +106,7 @@ const Setting_Page = () => {
             >
               Appearance
             </li>
-          </ul>
+          </ul>*/}
         </div>
       </div>
 
