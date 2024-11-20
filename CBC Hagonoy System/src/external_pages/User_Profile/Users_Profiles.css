@@ -652,7 +652,7 @@
   }
 }
 
-@media (max-width: 395px) {
+@media (max-width: 480px) {
   .user_pic_prof {
     width: 10rem;
     height: 10rem;
@@ -691,7 +691,7 @@
   }
 
   .User_Profile_mainCont {
-    height: 87vh;
+    height: 78vh;
   }
 
   .contact_deets_inp,
