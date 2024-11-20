@@ -411,7 +411,8 @@ body {
   }
 
   .dynamic_container_personal {
-    max-height: 78vh;
+    max-height: 100vh;
+    height: 100%;
     width: 100vw;
   }
 }
