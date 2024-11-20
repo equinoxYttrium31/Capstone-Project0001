@@ -4,5 +4,6 @@ import drex_p from "./drex_p.png";
 import janna_o from "./janna_o.jpg";
 import john_f from "./john_f.png";
 import johnel_g from "./johnel_g.jpeg";
+import marcus from "./marcus.jpg";
 
-export { camille_s, dexter_r, drex_p, janna_o, john_f, johnel_g };
+export { marcus, camille_s, dexter_r, drex_p, janna_o, john_f, johnel_g };

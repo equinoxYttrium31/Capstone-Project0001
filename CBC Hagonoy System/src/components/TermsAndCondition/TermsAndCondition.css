@@ -121,7 +121,7 @@
   }
 }
 
-@media (max-width: 452px) {
+@media (max-width: 480px) {
   .terms_condition_content {
     width: 90vw;
     height: 150vw;

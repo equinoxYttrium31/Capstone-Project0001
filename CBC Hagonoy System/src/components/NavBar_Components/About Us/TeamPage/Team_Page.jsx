@@ -8,6 +8,7 @@ import {
   janna_o,
   john_f,
   johnel_g,
+  marcus,
 } from "../../../../assets/GUIsq/GUIsq";
 import { facebook_icon_dark, linkedin_ic } from "../../../../assets/Assets";
 
@@ -31,7 +32,7 @@ export default function Team_Page({ handleGUIsqBTN }) {
         <div className="team_adviser_cont">
           <div className="team_members">
             <img
-              src=""
+              src={marcus}
               alt="Marcus Louis N. Marcos"
               className="formal_picture"
             />

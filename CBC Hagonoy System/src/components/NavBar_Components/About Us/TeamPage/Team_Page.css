@@ -113,3 +113,24 @@
   display: flex;
   gap: 1rem;
 }
+
+@media (max-width: 940px) {
+  .main_container_teamPage {
+    height: 200vw;
+  }
+
+  .teamPage_content {
+    height: 90vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .main_container_teamPage {
+    height: 200vw;
+  }
+
+  .teamPage_content {
+    margin-top: 2.5rem;
+    height: 150vw;
+  }
+}
