@@ -138,6 +138,14 @@ li {
 
 /* Responsive Layout */
 @media (max-width: 1090px) {
+  .nav_bar_cont {
+    height: fit-content;
+  }
+
+  .user_nav_logo {
+    margin-top: 0;
+  }
+
   .right_side_nav {
     gap: 2rem;
     z-index: 11;

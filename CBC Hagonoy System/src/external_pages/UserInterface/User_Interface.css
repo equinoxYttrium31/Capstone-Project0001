@@ -381,8 +381,31 @@ body {
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 395px) {
+  .main_user_cont {
+    height: 87vh;
+  }
   .user_dashboard_cont {
-    max-height: fit-content;
+    max-height: 87vh;
+  }
+
+  .personal {
+    top: 16rem;
+  }
+
+  .icon_cellgroup_user {
+    top: 18.65rem;
+  }
+
+  .icon_network_user {
+    top: 23.75rem;
+  }
+
+  .network {
+    top: 26rem;
+  }
+
+  .cellgroup {
+    top: 20.9rem;
   }
 }
