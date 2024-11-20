@@ -325,7 +325,7 @@
   }
 
   .cellgroup_title_cont {
-    width: 100%;
+    width: 90%;
   }
   .cellgroup_toplayer_cont {
     flex-direction: column;
@@ -334,15 +334,24 @@
   }
 
   .cellgroup_church_name {
-    width: 100%;
+    width: 90%;
+    font-size: 0.7em;
+  }
+
+  .cellgroup_title {
+    font-size: 1.5em;
+  }
+
+  .record_content_card {
+    width: 18rem;
   }
 
   .search_and_menu_cont {
-    width: 100%;
+    width: 90%;
     justify-content: space-around;
   }
 
   .search_cellgroup {
-    width: 100%;
+    width: 90%;
   }
 }
