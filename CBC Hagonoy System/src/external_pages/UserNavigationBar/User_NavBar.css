@@ -113,12 +113,17 @@ li {
   padding: 1rem;
   align-items: center;
   gap: 1.5rem;
-  z-index: 10;
+  z-index: 99;
 }
 
 .user_nav_links.open li {
   width: auto;
   font-size: 18px;
+}
+
+.user_nav_links.open .user_nav_links_contents {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Modal */
@@ -146,9 +151,11 @@ li {
   }
 
   .user_nav_links.open {
+    position: absolute;
     margin-top: 0%;
-    height: 1rem;
+    height: fit-content;
     background-color: whitesmoke;
+    box-shadow: #28282b -2px 2px 5px;
     justify-content: end;
     align-items: end;
     width: fit-content;

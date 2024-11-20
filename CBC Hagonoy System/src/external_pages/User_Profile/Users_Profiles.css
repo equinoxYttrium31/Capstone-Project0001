@@ -651,3 +651,74 @@
     height: 330vw;
   }
 }
+
+@media (max-width: 350px) {
+  .user_pic_prof {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .profile_picContainer {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .edit_icon_prof {
+    margin-left: -4rem;
+  }
+  .name_user_editCont {
+    font-size: 0.9em;
+    margin-left: -3rem;
+  }
+
+  .member_type_profile {
+    font-size: 0.8em;
+    margin-top: 0.5rem;
+  }
+
+  .row_user_info {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .right_side_detail {
+    margin-left: -1.5rem;
+  }
+
+  .address_bar_inp,
+  .address_bar_inp:disabled {
+    width: 8rem;
+  }
+
+  .User_Profile_mainCont {
+    height: 210vw;
+  }
+
+  .contact_deets_inp,
+  .contact_deets_inp:disabled {
+    width: 8rem;
+  }
+
+  .leader_personal_inp,
+  .leader_personal_inp:disabled {
+    width: 8rem;
+  }
+
+  .user_prof_button_container {
+    left: 0;
+    flex-direction: column;
+  }
+
+  .save_changes_button {
+    font-size: 0.9em;
+  }
+
+  .Cancel_changes_button {
+    font-size: 0.9em;
+  }
+
+  .right_side_userProf_cont {
+    margin-bottom: 1rem;
+    height: max-content;
+  }
+}
