@@ -318,3 +318,31 @@
     text-wrap: wrap;
   }
 }
+
+@media (max-width: 481px) {
+  .cellgroup_main_cont {
+    width: 100vw;
+  }
+
+  .cellgroup_title_cont {
+    width: 100%;
+  }
+  .cellgroup_toplayer_cont {
+    flex-direction: column;
+    width: 23rem;
+    margin: 0 auto;
+  }
+
+  .cellgroup_church_name {
+    width: 100%;
+  }
+
+  .search_and_menu_cont {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .search_cellgroup {
+    width: 100%;
+  }
+}
