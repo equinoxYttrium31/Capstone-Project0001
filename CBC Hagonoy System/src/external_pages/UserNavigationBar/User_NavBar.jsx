@@ -28,7 +28,7 @@ function User_NavBar({ profileRefresh, setProfileRefresh }) {
   const [showProfile, setShowProfile] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
+  const [modalUserContent, setModalContent] = useState(null);
   const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -149,9 +149,9 @@ function User_NavBar({ profileRefresh, setProfileRefresh }) {
       {showProfile && <Users_Profile setProfileRefresh={setProfileRefresh} />}
       {showSettings && <Setting_Page />}
       {showNotifications && <Notifications />}
-      {modalContent && (
-        <div className="modal">
-          <div className="modal-content">{modalContent}</div>
+      {modalUserContent && (
+        <div className="modal-user-nav">
+          <div className="modal-content-user-nav">{modalUserContent}</div>
         </div>
       )}
     </div>
