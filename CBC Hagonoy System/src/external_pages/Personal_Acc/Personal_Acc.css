@@ -317,11 +317,14 @@
 
   .personal_user_acc_main_cont {
     margin-left: 2%;
-    height: 75vh;
   }
 }
 
 @media (max-width: 480px) {
+  .personal_title_cont {
+    padding-top: 0.5rem;
+  }
+
   .personal_title {
     font-size: 1.2rem;
   }
