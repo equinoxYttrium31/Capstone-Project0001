@@ -380,3 +380,9 @@ body {
     flex-direction: column;
   }
 }
+
+@media (max-width: 350px) {
+  .user_dashboard_cont {
+    max-height: fit-content;
+  }
+}
