@@ -307,20 +307,7 @@
   }
 }
 
-@media (max-width: 420px) {
-  .personal_user_name {
-    width: 12rem;
-    line-height: 1.8rem;
-    text-align: center;
-    text-wrap: wrap;
-  }
-
-  .personal_user_acc_main_cont {
-    margin-left: 2%;
-  }
-}
-
-@media (max-width: 420px) {
+@media (max-width: 550px) {
   .personal_title {
     font-size: 1.2rem;
   }
@@ -351,9 +338,6 @@
 
   .week_text {
     margin-top: 0;
-  }
-
-  .personal_record_cont {
   }
 }
 
