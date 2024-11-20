@@ -308,6 +308,19 @@
 }
 
 @media (max-width: 480px) {
+  .personal_user_name {
+    width: 12rem;
+    line-height: 1.8rem;
+    text-align: center;
+    text-wrap: wrap;
+  }
+
+  .personal_user_acc_main_cont {
+    margin-left: 2%;
+  }
+}
+
+@media (max-width: 480px) {
   .personal_title {
     font-size: 1.2rem;
   }
