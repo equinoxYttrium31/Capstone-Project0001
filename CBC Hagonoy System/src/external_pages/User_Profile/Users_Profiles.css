@@ -668,7 +668,7 @@
   }
   .name_user_editCont {
     font-size: 0.9em;
-    margin-left: -3rem;
+    margin-left: 0rem;
   }
 
   .member_type_profile {
@@ -691,7 +691,7 @@
   }
 
   .User_Profile_mainCont {
-    height: 78vh;
+    height: 79vh;
   }
 
   .contact_deets_inp,

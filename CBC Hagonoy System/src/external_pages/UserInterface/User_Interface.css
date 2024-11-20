@@ -383,14 +383,14 @@ body {
 
 @media (max-width: 480px) {
   .main_user_cont {
-    height: 78vh;
+    height: 75vh;
   }
   .user_dashboard_cont {
-    max-height: 78vh;
+    max-height: 75vh;
   }
 
   .user_dashboard_cont.minimized {
-    max-height: 78vh;
+    max-height: 75vh;
   }
 
   .icon_cellgroup_user {
