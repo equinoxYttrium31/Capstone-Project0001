@@ -381,16 +381,16 @@ body {
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 480px) {
   .main_user_cont {
-    height: 85vh;
+    height: 83vh;
   }
   .user_dashboard_cont {
-    max-height: 85vh;
+    max-height: 83vh;
   }
 
   .user_dashboard_cont.minimized {
-    max-height: 85vh;
+    max-height: 83vh;
   }
 
   .icon_cellgroup_user {
