@@ -290,7 +290,8 @@
   }
 
   .personal_user_acc_main_cont {
-    height: 100vh;
+    height: 200vh;
+    margin-bottom: 5rem;
   }
 
   .personal_title_cont {
