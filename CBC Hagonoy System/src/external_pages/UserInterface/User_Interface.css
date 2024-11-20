@@ -407,11 +407,12 @@ body {
   }
 
   .user_dashboard_cont {
-    max-height: 75vh;
+    height: 75vh;
   }
 
   .dynamic_container_personal {
-    height: 78vh;
+    max-height: 78vh;
+    width: 100vw;
   }
 }
 
