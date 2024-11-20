@@ -381,7 +381,7 @@ body {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .icon_cellgroup_user {
     top: 19.65rem;
   }
