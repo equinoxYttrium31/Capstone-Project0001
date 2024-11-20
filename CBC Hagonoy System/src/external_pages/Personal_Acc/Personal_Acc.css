@@ -284,13 +284,13 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 650px) {
   .checkbox_columns {
     flex-direction: column;
   }
 
   .personal_user_acc_main_cont {
-    height: max-content;
+    height: 100vh;
   }
 
   .personal_title_cont {
