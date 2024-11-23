@@ -4,7 +4,6 @@ import {
   Route,
   Routes,
   Link,
-  useLocation,
   Navigate,
 } from "react-router-dom";
 import "./Main_Dashboard.css";
@@ -99,7 +98,7 @@ function Main_Dashboard() {
               }`}
               onClick={() => setIsActive("/record-monitoring")}
             >
-              Recording Management
+              Record Management
             </Link>
 
             <Link
@@ -139,7 +138,7 @@ function Main_Dashboard() {
               }`}
               onClick={() => setIsActive("/audit-trail-logging")}
             >
-              Audit Trail and Logging
+              Audit Trail
             </Link>
 
             <Link

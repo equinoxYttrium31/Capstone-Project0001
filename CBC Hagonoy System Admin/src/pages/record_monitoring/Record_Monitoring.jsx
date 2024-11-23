@@ -415,7 +415,7 @@ function Record_Monitoring() {
           <p className="church_name_record">
             CHRISTIAN BIBLE CHURCH OF HAGONOY
           </p>
-          <h2 className="record_monitor_title">Recording Management</h2>
+          <h2 className="record_monitor_title">Record Management</h2>
         </div>
         <div className="search_record">
           <div className="search_bar_cont">
