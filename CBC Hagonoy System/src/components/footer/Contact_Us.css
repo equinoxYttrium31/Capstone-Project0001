@@ -7,6 +7,7 @@
   width: 100vw;
   height: 100vh;
   background-color: #efb934;
+  color: #28282b;
 }
 
 .header-img {
@@ -50,6 +51,22 @@ p {
   line-height: 30px;
 }
 
+a {
+  text-decoration: none;
+  color: #28282b;
+  font-family: "Lato";
+  font-size: clamp(16px, 1vw, 24px);
+  line-height: 30px;
+}
+
+a:hover span {
+  text-decoration: underline;
+}
+
+.email-text:hover {
+  text-decoration: underline;
+}
+
 .address-bar {
   display: flex;
   flex-direction: column;
@@ -65,6 +82,8 @@ p {
 .contact-numbers {
   margin-right: -5%;
   margin-bottom: 15%;
+  display: flex;
+  flex-direction: column;
 }
 
 .email_address_footer {

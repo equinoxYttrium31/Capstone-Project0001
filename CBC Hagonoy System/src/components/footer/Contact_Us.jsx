@@ -21,11 +21,22 @@ function Contact_Us() {
           </div>
           <div className="contact_details_cont">
             <div className="contact-numbers">
-              <p className="tel-num">Telephone: (123) 456-7890</p>
-              <p className="cell-num">Mobile: (123) 456-7890</p>
+              <a href="tel:" className="tel-num">
+                Telephone: <span>(+44) 8123-4567</span>
+              </a>
+              <a href="tel:09557007745" className="cell-num">
+                Mobile: <span>(+63)955-700-7745</span>
+              </a>
             </div>
             <div className="email_address_footer">
-              <p className="email-text">hello@reallygreatsite.com</p>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="mailto:johnmarkflameno@gmail.com"
+                className="email-text"
+              >
+                johnmarkflameno@gmail.com
+              </a>
             </div>
           </div>
           <div className="office-hours">

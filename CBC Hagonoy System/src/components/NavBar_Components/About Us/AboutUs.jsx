@@ -14,9 +14,7 @@ import {
 } from "../../../assets/Church_Images/church_images";
 import { useScrollAnimation } from "./useScrollAnimation";
 import ContactUs from "../../footer/Contact_Us";
-import { useState, useEffect } from "react";
 import "./about_us.css";
-import Team_Page from "./TeamPage/Team_Page";
 
 export default function AboutUs() {
   const [isVisiblePassage, passageRef] = useScrollAnimation(0.8); // Apply to passage
@@ -26,24 +24,6 @@ export default function AboutUs() {
   const [isVisibleValues, valuesRef] = useScrollAnimation(0.6);
   const [isVisiblePastor, pastorRef] = useScrollAnimation(0.2);
   const [isVisibleDetail, detailRef] = useScrollAnimation(1);
-
-  const [showTeamPage, setShowTeamPage] = useState(false);
-
-  // Disable scrolling when modal is active
-  useEffect(() => {
-    if (showTeamPage) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto"; // Clean up on unmount
-    };
-  }, [showTeamPage]);
-
-  const handleGUIsqBTN = () => {
-    setShowTeamPage(!showTeamPage);
-  };
 
   return (
     <div className="aboutUs_page_cont">
@@ -121,7 +101,7 @@ export default function AboutUs() {
             isVisibleVaM ? "fly-in" : ""
           }`}
         >
-          Our Values and Missions
+          Our Values and Mission
         </h1>
         <div className="mission_statement_container" ref={missionRef}>
           <img
@@ -145,7 +125,7 @@ export default function AboutUs() {
           >
             At Christian Bible Church of Hagonoy, our mission is rooted in the
             love of God, service to others, and humility in Christ. We strive to
-            impact our community and beyond through outreach programs, missions
+            impact our community and beyond through outreach programs, mission
             work, and fostering a welcoming environment for all.
           </p>
         </div>
@@ -179,7 +159,7 @@ export default function AboutUs() {
                 <p className="values_details">
                   We embrace the call to serve our community and the world,
                   meeting physical and spiritual needs through outreach and
-                  missions.
+                  mission.
                 </p>
               </div>
               <div className="values_container">
@@ -272,21 +252,7 @@ export default function AboutUs() {
             </p>
           </div>
         </div>
-        <button className="meet_the_team_btn" onClick={handleGUIsqBTN}>
-          Meet The GUIsq
-        </button>
       </div>
-
-      {showTeamPage && (
-        <div className="teamPage_modal_overlay" onClick={handleGUIsqBTN}>
-          <div
-            className="teamPage_modal_content"
-            onClick={(e) => e.stopPropagation()} // Prevent click propagation
-          >
-            <Team_Page handleGUIsqBTN={handleGUIsqBTN} />
-          </div>
-        </div>
-      )}
 
       {/**Footer */}
       <ContactUs />
