@@ -3,8 +3,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Login_Signup_bg, cbc_logo, bck_btn } from "../../assets/Assets";
 import "./Login_Signup.css";
-import ForgotPasswordModal from "../forgotPasswordModal/ForgotPasswordModal";
 import TermsAndCondition from "../TermsAndCondition/TermsAndCondition";
+import PropTypes from "prop-types";
 
 function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
   const [data, setData] = useState({
@@ -63,6 +63,23 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     setTermsChecked(e.target.checked); // Update the checkbox state
   };
 
+  // Helper function to validate age
+  const isAgeValid = (birthDate) => {
+    const today = new Date();
+    const birthDateObj = new Date(birthDate);
+    const age = today.getFullYear() - birthDateObj.getFullYear();
+
+    // Check if birthday has occurred this year
+    const isBirthdayPassedThisYear =
+      today.getMonth() > birthDateObj.getMonth() ||
+      (today.getMonth() === birthDateObj.getMonth() &&
+        today.getDate() >= birthDateObj.getDate());
+
+    // Calculate the final age
+    const calculatedAge = isBirthdayPassedThisYear ? age : age - 1;
+    return calculatedAge >= 7;
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
     const { firstName, lastName, email, password, confirmPassword, birthDate } =
@@ -70,6 +87,12 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
+      return;
+    }
+
+    // Check if age is valid
+    if (!isAgeValid(birthDate)) {
+      toast.error("Please enter a valid birthdate.");
       return;
     }
 
@@ -177,7 +200,7 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
               </form>
             </div>
             <div className="no_acc_container">
-              <p className="no_acc_text">Don't have an account yet?</p>
+              <p className="no_acc_text">Don&apos;t have an account yet?</p>
               <button className="no_acc_link" onClick={toggleOverlayType}>
                 Sign Up
               </button>
@@ -318,5 +341,12 @@ function Login_Signup({ type, onClose, toggleOverlayType, onLoginSuccess }) {
     </div>
   );
 }
+
+Login_Signup.propTypes = {
+  type: PropTypes.func.isRequired,
+  onClose: PropTypes.bool.isRequired,
+  toggleOverlayType: PropTypes.func.isRequired,
+  onLoginSuccess: PropTypes.func.isRequired,
+};
 
 export default Login_Signup;

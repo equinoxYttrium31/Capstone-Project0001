@@ -120,6 +120,16 @@ function App() {
 
   return (
     <div className="App">
+      {/* Toast notifications */}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        gutter={3}
+        toastOptions={{
+          duration: 2000,
+          style: { zIndex: 999999 },
+        }}
+      />
       {isLoading && <Loading fadeOut={fadeOut} />}
       {!isLoading && (
         <>
@@ -179,17 +189,6 @@ function App() {
               />
             </div>
           )}
-
-          {/* Toast notifications */}
-          <Toaster
-            position="top-right"
-            reverseOrder={false}
-            gutter={3}
-            toastOptions={{
-              duration: 2000,
-              style: { zIndex: 9999 },
-            }}
-          />
         </>
       )}
     </div>
