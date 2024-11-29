@@ -10,6 +10,27 @@ const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
 const cron = require("node-cron");
 
+async function generateCellGroupID() {
+  try {
+    const lastEntry = await CellGroup.findOne()
+      .sort({ cellgroupID: -1 })
+      .exec();
+
+    let newID = "01-0001";
+
+    if (lastEntry?.cellgroupID) {
+      const [prefix, number] = lastEntry.cellgroupID.split("-");
+      const nextNumber = String(parseInt(number, 10) + 1).padStart(4, "0");
+      newID = `${prefix}-${nextNumber}`; // Reassign newID
+    }
+
+    return newID;
+  } catch (error) {
+    console.error("Error generating CellGroupID:", error);
+    throw new Error("Failed to generate CellGroupID");
+  }
+}
+
 const getMonthName = (monthIndex) => {
   const months = [
     "January",
@@ -434,10 +455,13 @@ const createNewCellGroup = async (req, res) => {
       return res.status(400).json({ error: "Input fields are required" });
     }
 
+    const newID = await generateCellGroupID();
+
     // Create new CellGroup
     const newCellGroup = await CellGroup.create({
       cellgroupName,
       cellgroupLeader,
+      cellgroupID: newID,
     });
 
     // Respond with the newly created CellGroup
