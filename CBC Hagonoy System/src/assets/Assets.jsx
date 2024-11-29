@@ -38,8 +38,10 @@ import avatar_male from "./avatar_male.png";
 import notif_ic_selected from "./notif_ic_selected.png";
 import cbc_loading_gif from "./cbc_loading.gif";
 import linkedin_ic from "./linkedin_ic.png";
+import placeholder_attendance from "./placeholder_attendance.png";
 
 export {
+  placeholder_attendance,
   linkedin_ic,
   facebook_icon_dark,
   facebook_icon_light,

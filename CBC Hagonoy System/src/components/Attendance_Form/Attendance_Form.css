@@ -1,0 +1,59 @@
+.Form_Container {
+  height: fit-content;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: beige;
+  z-index: 9;
+}
+
+.header_container {
+  padding: 0.5rem 5rem;
+  gap: 2.5rem;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 5rem;
+  aspect-ratio: 1;
+}
+
+.header_texts {
+  display: flex;
+  flex-direction: column;
+  font-family: "Cinzel";
+  color: #28282b;
+}
+
+.church_name {
+  font-family: "Lato";
+  font-size: 0.9em;
+  margin-left: 0.2rem;
+}
+
+.form_container {
+  height: max-content;
+  font-family: "Poppins";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 5rem;
+}
+
+.placer_img {
+  aspect-ratio: 1;
+  width: 30rem;
+}
+
+.placer_text {
+  font-size: 1.125em;
+}
+
+.placer_subtext {
+  margin-top: -0.5rem;
+  font-size: 0.9em;
+}
