@@ -505,6 +505,28 @@ const createNewCellGroup = async (req, res) => {
   }
 };
 
+const updateCellgroupIDList = async (networkID) => {
+  try {
+    // Extract the prefix (first two digits) from the networkID
+    const networkPrefix = networkID.substring(0, 2);
+
+    // Find all CellGroups where cellgroupID starts with the same prefix as networkID
+    const cellGroups = await CellGroupModel.find({
+      cellgroupID: { $regex: `^${networkPrefix}` }, // Regex to match the prefix
+    });
+
+    // Extract the cellgroupID of the matching CellGroups
+    const cellgroupIDList = cellGroups.map(
+      (cellGroup) => cellGroup.cellgroupID
+    );
+
+    return cellgroupIDList;
+  } catch (error) {
+    console.error("Error fetching cellgroups:", error);
+    throw new Error("Failed to update cellgroupID list");
+  }
+};
+
 const createNewNetwork = async (req, res) => {
   try {
     const { networkLeader } = req.body;
@@ -516,11 +538,13 @@ const createNewNetwork = async (req, res) => {
 
     const newID = await generateNetworkID();
 
+    const cellgroupIDList = await updateCellgroupIDList(newID);
+
     // Create new CellGroup
     const newNetwork = await NetworkModel.create({
       networkLeader,
       networkID: newID,
-      cellgroupIDList: null,
+      cellgroupIDList: cellgroupIDList,
     });
 
     // Respond with the newly created CellGroup
