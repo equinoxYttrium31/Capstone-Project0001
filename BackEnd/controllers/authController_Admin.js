@@ -255,6 +255,8 @@ const updateCellgroupByID = async (req, res) => {
     // Destructure the necessary fields from the request body
     const { cellgroupName, cellgroupLeader, networkLeader } = req.body;
 
+    const newID = await generateCellGroupID(networkLeader);
+
     // Validate required fields
     if (!cellgroupName || !cellgroupLeader || !networkLeader) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -265,6 +267,7 @@ const updateCellgroupByID = async (req, res) => {
       cellgroupName,
       cellgroupLeader,
       networkLeader,
+      cellgroupID: newID,
     };
 
     // Find and update the cell group by its ID
