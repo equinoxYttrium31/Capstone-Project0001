@@ -648,7 +648,9 @@ const fetchCellgroupByID = async (req, res) => {
       return res.status(404).json({ message: "Cell group not found" });
     }
 
-    res.json(toBeEdit);
+    console.log(toBeEdit);
+
+    return res.json(toBeEdit);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch cell group" });
   }
