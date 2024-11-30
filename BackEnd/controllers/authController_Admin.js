@@ -13,7 +13,20 @@ const cron = require("node-cron");
 
 async function generateCellGroupID(networkLeader) {
   try {
-    // Step 1: Fetch the network using the networkLeader to get the correct networkID
+    // Step 1: Find the network leader from the latest CellGroup
+    const cellGroup = await CellGroup.findOne()
+      .sort({ cellgroupID: -1 })
+      .exec();
+
+    // If no CellGroups exist yet, return a default ID
+    if (!cellGroup) {
+      return `${networkID}-0001`; // Default ID when no groups exist
+    }
+
+    const networkLeader = cellGroup.networkLeader; // Get the network leader name
+    console.log(`Network Leader found: ${networkLeader}`); // Debugging line
+
+    // Step 2: Find the networkID associated with the network leader
     const network = await NetworkModel.findOne({ networkLeader }).exec();
 
     if (!network) {
@@ -21,26 +34,54 @@ async function generateCellGroupID(networkLeader) {
     }
 
     const networkID = network.networkID; // Get the networkID
+    console.log(`Network ID found: ${networkID}`); // Debugging line
 
-    // Step 2: Fetch the last entry from CellGroup to get the highest cellgroupID
-    const lastEntry = await CellGroup.findOne()
-      .sort({ cellgroupID: -1 })
-      .exec();
+    if (!networkID) {
+      throw new Error(
+        `No networkID found for network leader: ${networkLeader}`
+      );
+    }
 
-    let newID = `${networkID}-0001`; // Default new ID
+    // Step 3: Fetch all existing cellgroupIDs from the CellGroup collection
+    const cellGroups = await CellGroup.find({ networkLeader }).exec();
 
-    if (lastEntry?.cellgroupID) {
-      // Extract the prefix (networkID) and the number part from the last cellgroupID
-      const [prefix, number] = lastEntry.cellgroupID.split("-");
+    // Step 4: Identify the last assigned cellgroupID and check for gaps in the sequence
+    const existingIDs = cellGroups.map((group) => group.cellgroupID);
+    const usedNumbers = existingIDs
+      .map((id) => {
+        const [prefix, num] = id.split("-");
+        return parseInt(num, 10);
+      })
+      .sort((a, b) => a - b); // Sort the IDs numerically
 
-      // Ensure the prefix matches the new networkID
-      if (prefix !== networkID) {
-        throw new Error("Network ID mismatch");
+    // Step 5: Find the first missing slot in the sequence
+    let newNumber = null;
+    for (let i = 1; i <= usedNumbers.length; i++) {
+      if (usedNumbers[i] !== usedNumbers[i - 1] + 1) {
+        newNumber = usedNumbers[i - 1] + 1;
+        break;
       }
+    }
 
-      // Increment the numeric part of the ID
-      const nextNumber = String(parseInt(number, 10) + 1).padStart(4, "0");
-      newID = `${prefix}-${nextNumber}`; // New ID: networkID-incrementedNumber
+    // If no missing slot, increment the last used number
+    if (!newNumber) {
+      newNumber = usedNumbers[usedNumbers.length - 1] + 1;
+    }
+
+    // Format the new cellgroupID with the networkID as the prefix and the new number
+    const newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
+
+    // Step 6: Check if the newID already exists in the collection
+    const existingCellGroup = await CellGroup.findOne({
+      cellgroupID: newID,
+    }).exec();
+
+    // If the newID already exists, increment the number and try again
+    if (existingCellGroup) {
+      console.log(
+        `CellGroup ID ${newID} already exists, generating a new one.`
+      );
+      return generateCellGroupID(); // Recursively generate a new ID
     }
 
     return newID;
