@@ -44,7 +44,11 @@ function Record_Monitoring() {
   const [openArchive, setOpenArchiveModal] = useState(false);
   const [selectedRange, setSelectedRange] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
-  const [cellgroupData, setCellgroupData] = useState([]);
+  const [cellgroupData, setCellgroupData] = useState({
+    cellgroupName: "",
+    cellgroupLeader: "",
+    networkLeader: "",
+  });
   const [selectedMemberType, setSelectedMemberType] = useState("");
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
@@ -227,8 +231,14 @@ function Record_Monitoring() {
       const response = await fetch(
         `https://capstone-project0001-2.onrender.com/cellgroups/${cellgroupID}`
       );
-      console.log(response.data);
-      setCellgroupData(response.data);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`);
+      }
+
+      const data = await response.json(); // Parse JSON response
+      console.log("Fetched Data:", data); // Log fetched data
+      setCellgroupData(data); // Update state with fetched data
     } catch (err) {
       console.error("Error fetching cell group data:", err);
     }
@@ -453,6 +463,36 @@ function Record_Monitoring() {
       socket.current.disconnect();
     };
   }, []);
+
+  const handleOnSave = async () => {
+    const { cellgroupName, cellgroupLeader, networkLeader } = cellgroupData;
+
+    try {
+      const response = await axios.post(
+        `https://capstone-project0001-2.onrender.com/cellgroup/${editingCellGroupID}`,
+        {
+          networkLeader,
+          cellgroupLeader,
+          cellgroupName,
+        }
+      );
+
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        setCellgroupData({
+          cellgroupName: "",
+          cellgroupLeader: "",
+          networkLeader: "",
+        });
+        setEditModalC(false);
+        toast.success("CellGroup Updated. Thank You!");
+        fetchCellGroups();
+      }
+    } catch (error) {
+      console.error("Error creating network:", error);
+    }
+  };
 
   const filterRecords = (query) => {
     return records.filter((record) => {
@@ -1069,11 +1109,11 @@ function Record_Monitoring() {
                 <input
                   name="cellgroupLeader"
                   placeholder=""
-                  value={cellgroupData.cellgroupName || ""}
+                  value={cellgroupData.cellgroupLeader || ""}
                   onChange={(e) =>
                     setCellgroupData({
                       ...cellgroupData,
-                      cellgroupName: e.target.value,
+                      cellgroupLeader: e.target.value,
                     })
                   }
                   type="text"
@@ -1085,17 +1125,22 @@ function Record_Monitoring() {
                 <input
                   name="networkLeader"
                   placeholder=""
-                  value={cellgroupData.cellgroupName || ""}
+                  value={cellgroupData.networkLeader || ""}
                   onChange={(e) =>
                     setCellgroupData({
                       ...cellgroupData,
-                      cellgroupName: e.target.value,
+                      networkLeader: e.target.value,
                     })
                   }
                   type="text"
                   className="cellgroup_name_input"
                 />
               </div>
+            </div>
+            <div className="btn_cont">
+              <button className="save_btn" onClick={handleOnSave}>
+                Save
+              </button>
             </div>
           </div>
         </div>

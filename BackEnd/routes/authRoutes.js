@@ -57,6 +57,7 @@ const {
   getUsersGender,
   createNewNetwork,
   fetchCellgroupByID,
+  updateCellgroupByID,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -173,5 +174,6 @@ router.post("/change-password", changePassword);
 
 router.post("/create-network", createNewNetwork);
 router.get("/cellgroups/:cellgroupID", fetchCellgroupByID);
+router.put("/cellgroups/:cellgroupID", updateCellgroupByID);
 // Export the router
 module.exports = router;

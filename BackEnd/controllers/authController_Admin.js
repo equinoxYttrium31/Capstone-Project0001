@@ -60,6 +60,31 @@ async function generateNetworkID() {
   }
 }
 
+const updateCellgroupByID = async (req, res) => {
+  try {
+    const { cellgroupID } = req.params; // Extract cellgroupID from route parameter
+    const { cellgroupName, cellgroupLeader, networkLeader } = req.body; // Extract data from request body
+
+    // Find and update the cell group by its ID
+    const updatedCellGroup = await CellGroup.findOneAndUpdate(
+      { cellgroupID: cellgroupID }, // Find the cell group by ID
+      { cellgroupName, cellgroupLeader, networkLeader }, // Fields to update
+      { new: true } // Return the updated document
+    );
+
+    // If the cell group was not found
+    if (!updatedCellGroup) {
+      return res.status(404).json({ error: "Cell group not found" });
+    }
+
+    // Respond with the updated cell group
+    res.json(updatedCellGroup);
+  } catch (error) {
+    console.error("Error updating cell group:", error);
+    res.status(500).json({ error: "Failed to update cell group" });
+  }
+};
+
 const getMonthName = (monthIndex) => {
   const months = [
     "January",
@@ -954,4 +979,5 @@ module.exports = {
   updateAnnouncementbyID,
   createNewNetwork,
   fetchCellgroupByID,
+  updateCellgroupByID,
 };
