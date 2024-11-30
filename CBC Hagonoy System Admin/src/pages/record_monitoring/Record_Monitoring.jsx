@@ -8,6 +8,7 @@ import {
   add_ic,
   archived_ic,
   close_ic,
+  edit_ic,
   avatar_male,
   avatar_female,
   user_placeholder,
@@ -36,6 +37,9 @@ function Record_Monitoring() {
   const [filterModal, setFilterModal] = useState(false);
   const [addNewUserModal, setAddNewUserModal] = useState(false);
   const [newCellGroupModal, setNewCellGroupModal] = useState(false);
+  const [newNetworkModal, setNewNetworkModal] = useState(false);
+  const [editCellGroupModal, setEditCellGroupModal] = useState(false);
+  const [editNetworkModal, setEditNetworkModal] = useState(false);
   const [openArchive, setOpenArchiveModal] = useState(false);
   const [selectedRange, setSelectedRange] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
@@ -111,6 +115,7 @@ function Record_Monitoring() {
     const { name, value } = e.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
     setCellData((prevData) => ({ ...prevData, [name]: value }));
+    setNetData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleAddingRecord = (e) => {
@@ -172,6 +177,11 @@ function Record_Monitoring() {
   const [cellData, setCellData] = useState({
     cellgroupName: "",
     cellgroupLeader: "",
+    networkLeader: "",
+  });
+
+  const [netData, setNetData] = useState({
+    networkLeader: "",
   });
 
   const handleChangeCellGroup = (e) => {
@@ -205,14 +215,36 @@ function Record_Monitoring() {
     }
   };
 
+  const handleChangeNetwork = (e) => {
+    const { name, value } = e.target;
+
+    // Update cellData
+    setNetData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   // Determine the displayed value for cellgroupName
   const displayValue =
     !hasTyped && cellData.cellgroupLeader
-      ? `${cellData.cellgroupLeader}'s CellGroup`
+      ? `${cellData.cellgroupLeader}'s Cellgroup`
       : cellData.cellgroupName;
 
   const setCellGroupModal = () => {
     setNewCellGroupModal(true);
+  };
+
+  const setNetworkModal = () => {
+    setNewNetworkModal(true);
+  };
+
+  const setEditNetwork = () => {
+    setEditNetworkModal(true);
+  };
+
+  const setEditCellgroup = () => {
+    setEditCellGroupModal(true);
   };
 
   const handleCloseCellgroup = () => {
@@ -224,10 +256,18 @@ function Record_Monitoring() {
     setNewCellGroupModal(false);
   };
 
-  const handleAddCellgroup = async () => {
-    const { cellgroupName, cellgroupLeader } = cellData;
+  const handleCloseNetwork = () => {
+    setNewNetworkModal(false);
+  };
 
-    console.log("Sending data:", { cellgroupName, cellgroupLeader });
+  const handleAddCellgroup = async () => {
+    const { cellgroupName, cellgroupLeader, networkLeader } = cellData;
+
+    console.log("Sending data:", {
+      cellgroupName,
+      cellgroupLeader,
+      networkLeader,
+    });
     // Check for required fields before sending
     if (!cellgroupName || !cellgroupLeader) {
       toast.error("Both fields are required!");
@@ -240,6 +280,7 @@ function Record_Monitoring() {
         {
           cellgroupName,
           cellgroupLeader,
+          networkLeader,
         }
       );
 
@@ -263,6 +304,39 @@ function Record_Monitoring() {
     } catch (error) {
       console.error(error);
       toast.error("Creation of CellGroup failed. Please try again.");
+    }
+  };
+
+  const handleAddNetwork = async () => {
+    const { networkLeader } = netData;
+
+    console.log("Sending data:", {
+      networkLeader,
+    });
+    // Check for required fields before sending
+    if (!networkLeader || !networkLeader) {
+      toast.error("Both fields are required!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://capstone-project0001-2.onrender.com/create-network",
+        {
+          networkLeader,
+        }
+      );
+
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        // Clear form and show success message
+        handleCloseNetwork(); // Use existing close function to reset state
+        toast.success("Network Added. Thank You!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Creation of Network failed. Please try again.");
     }
   };
 
@@ -533,7 +607,18 @@ function Record_Monitoring() {
               alt="add_cell_group_ic"
               className="selection_icon"
             />
-            <h2 className="selection_title">Add New Cell Group</h2>
+            <h2 className="selection_title">Add New Cellgroup</h2>
+          </div>
+          <div
+            className="selection_container_record"
+            onClick={setEditCellgroup}
+          >
+            <img
+              src={edit_ic}
+              alt="edit_cellgroup"
+              className="selection_icon"
+            />
+            <h2 className="selection_title">Edit Cellgroup</h2>
           </div>
           <div
             className="selection_container_record"
@@ -545,6 +630,18 @@ function Record_Monitoring() {
               className="selection_icon"
             />
             <h2 className="selection_title">Archived Records</h2>
+          </div>
+          <div className="selection_container_record" onClick={setNetworkModal}>
+            <img src={add_ic} alt="add_network_ic" className="selection_icon" />
+            <h2 className="selection_title">Add New Network</h2>
+          </div>
+          <div className="selection_container_record" onClick={setEditNetwork}>
+            <img
+              src={edit_ic}
+              alt="edit_network_ic"
+              className="selection_icon"
+            />
+            <h2 className="selection_title">Edit Network</h2>
           </div>
         </div>
       </div>
@@ -810,6 +907,17 @@ function Record_Monitoring() {
                     className="cellgroup_name_input"
                   />
                 </div>
+                <div className="cellgroup_inputs_cont">
+                  <h3 className="cellgroup_name_label">Network Leader:</h3>
+                  <input
+                    name="networkLeader"
+                    placeholder=""
+                    value={cellData.networkLeader}
+                    onChange={handleChangeCellGroup}
+                    type="text"
+                    className="cellgroup_name_input"
+                  />
+                </div>
               </div>
               <div className="cellgroup_create_btn">
                 <button
@@ -817,6 +925,47 @@ function Record_Monitoring() {
                   onClick={handleAddCellgroup}
                 >
                   Create Cellgroup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {newNetworkModal && (
+        <div className="create_cellgroup_cont">
+          <div className="cellgroup_main_cont">
+            <div className="cellgroup_header_cont">
+              <h2 className="cellgroup_header">Create New Network</h2>
+              <img
+                src={close_ic}
+                alt="close_icon"
+                onClick={handleCloseNetwork}
+                className="close_cellgroup_modal"
+              />
+            </div>
+
+            <div className="create_cellgroup_main_cont">
+              <p className="cellgroup_text">Creating a new network.</p>
+              <div className="cellgroup_form_cont">
+                <div className="cellgroup_inputs_cont">
+                  <h3 className="cellgroup_name_label">Network Leader:</h3>
+                  <input
+                    name="networkLeader"
+                    placeholder=""
+                    value={netData.networkLeader}
+                    onChange={handleChangeNetwork}
+                    type="text"
+                    className="cellgroup_name_input"
+                  />
+                </div>
+              </div>
+              <div className="cellgroup_create_btn">
+                <button
+                  className="create_cellgroup_btn"
+                  onClick={handleAddNetwork}
+                >
+                  Create Network
                 </button>
               </div>
             </div>

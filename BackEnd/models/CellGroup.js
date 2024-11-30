@@ -11,8 +11,11 @@ const CellGroup = new Schema({
     type: String,
     required: true,
   },
+  networkLeader: {
+    type: String,
+    required: true,
+  },
   cellgroupID: {
-    // Add this field
     type: String,
     unique: true,
     required: true,

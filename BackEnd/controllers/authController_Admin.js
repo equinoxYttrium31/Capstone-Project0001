@@ -1,5 +1,6 @@
 const ChurchUser = require("../models/ChurchUser");
 const UserAttendance = require("../models/UserAttendance");
+const NetworkModel = require("../models/NetworkLeader");
 const CellGroup = require("../models/CellGroup");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const AnnouncementModel = require("../models/Announcements"); // Adjust to your model
@@ -28,6 +29,34 @@ async function generateCellGroupID() {
   } catch (error) {
     console.error("Error generating CellGroupID:", error);
     throw new Error("Failed to generate CellGroupID");
+  }
+}
+
+async function generateNetworkID() {
+  try {
+    // Find the latest Network with the highest networkID
+    const lastEntry = await NetworkModel.findOne()
+      .sort({ networkID: -1 })
+      .exec();
+
+    let newID = "01";
+
+    if (lastEntry && lastEntry.networkID) {
+      const lastNetworkID = lastEntry.networkID;
+      const currentNetworkPrefix = lastNetworkID.substring(0, 2);
+
+      // Increment the network ID
+      const nextNetworkPrefix = String(
+        parseInt(currentNetworkPrefix, 10) + 1
+      ).padStart(2, "0");
+
+      newID = nextNetworkPrefix; // Set the new network ID
+    }
+
+    return newID;
+  } catch (error) {
+    console.error("Error generating NetworkID:", error);
+    throw new Error("Failed to generate NetworkID");
   }
 }
 
@@ -448,7 +477,7 @@ const updateRecord = async (req, res) => {
 // Controller for creating a new CellGroup
 const createNewCellGroup = async (req, res) => {
   try {
-    const { cellgroupName, cellgroupLeader } = req.body;
+    const { cellgroupName, cellgroupLeader, networkLeader } = req.body;
 
     // Validate input fields
     if (!cellgroupName || !cellgroupLeader) {
@@ -461,6 +490,7 @@ const createNewCellGroup = async (req, res) => {
     const newCellGroup = await CellGroup.create({
       cellgroupName,
       cellgroupLeader,
+      networkLeader,
       cellgroupID: newID,
     });
 
@@ -471,6 +501,35 @@ const createNewCellGroup = async (req, res) => {
     });
   } catch (error) {
     console.error("Error during creation of CellGroup:", error); // Log the error
+    return res.status(500).json({ error: "Server error" }); // Return server error to client
+  }
+};
+
+const createNewNetwork = async (req, res) => {
+  try {
+    const { networkLeader } = req.body;
+
+    // Validate input fields
+    if (!networkLeader || !networkLeader) {
+      return res.status(400).json({ error: "Input fields are required" });
+    }
+
+    const newID = await generateNetworkID();
+
+    // Create new CellGroup
+    const newNetwork = await NetworkModel.create({
+      networkLeader,
+      networkID: newID,
+      cellgroupIDList: null,
+    });
+
+    // Respond with the newly created CellGroup
+    return res.status(201).json({
+      message: "Network created successfully",
+      data: newNetwork,
+    });
+  } catch (error) {
+    console.error("Error during creation of Network:", error); // Log the error
     return res.status(500).json({ error: "Server error" }); // Return server error to client
   }
 };
@@ -850,4 +909,5 @@ module.exports = {
   fetchAnnouncementById,
   archiveAnnouncementById,
   updateAnnouncementbyID,
+  createNewNetwork,
 };

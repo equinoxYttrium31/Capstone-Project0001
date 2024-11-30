@@ -7,6 +7,7 @@ import filter_ic from "./icons/filter_ic.png";
 import add_ic from "./icons/add_ic.png";
 import archived_ic from "./icons/archived_ic.png";
 import delete_ic from "./icons/delete_ic.png";
+import edit_ic from "./icons/edit_ic.png";
 import close_ic from "./icons/close_ic.png";
 import avatar_male from "./avatar_male.png";
 import avatar_female from "./avatar_female.png";
@@ -34,6 +35,7 @@ import xlsx_icon from "../assets/icons/xlsx_icon.png";
 
 export {
   cbc_logo,
+  edit_ic,
   new_user_icon,
   xlsx_icon,
   prayer_request_icon,

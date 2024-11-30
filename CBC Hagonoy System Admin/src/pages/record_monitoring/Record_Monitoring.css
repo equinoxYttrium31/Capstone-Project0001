@@ -805,7 +805,8 @@
 .cellgroup_main_cont {
   background-color: whitesmoke;
   width: 52rem;
-  height: 22.5rem;
+  height: fit-content;
+  padding-bottom: 1rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -835,6 +836,7 @@
 
 .create_cellgroup_main_cont {
   margin-left: 2rem;
+  height: fit-content;
   margin-top: -0.5rem;
 }
 

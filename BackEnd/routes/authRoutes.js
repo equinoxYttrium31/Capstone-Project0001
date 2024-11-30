@@ -55,6 +55,7 @@ const {
   archiveAnnouncementById,
   updateAnnouncementbyID,
   getUsersGender,
+  createNewNetwork,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -168,5 +169,7 @@ router.delete("/archive-announcement/:id", archiveAnnouncementById);
 router.put("/update-announcement/:id", updateAnnouncementbyID);
 router.post("/request-otp", requestOtp);
 router.post("/change-password", changePassword);
+
+router.post("/create-network", createNewNetwork);
 // Export the router
 module.exports = router;
