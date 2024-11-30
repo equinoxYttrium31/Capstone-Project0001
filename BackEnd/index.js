@@ -46,7 +46,7 @@ app.use(
       "http://localhost:5174",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type: application/json", "Authorization"],
     credentials: true, // Allow cookies to be sent and received
   })
 );
