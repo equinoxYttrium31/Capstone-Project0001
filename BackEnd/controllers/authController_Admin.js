@@ -23,7 +23,6 @@ async function generateCellGroupID(networkLeader) {
       return `${networkID}-0001`; // Default ID when no groups exist
     }
 
-    const networkLeader = cellGroup.networkLeader; // Get the network leader name
     console.log(`Network Leader found: ${networkLeader}`); // Debugging line
 
     // Step 2: Find the networkID associated with the network leader
@@ -69,19 +68,23 @@ async function generateCellGroupID(networkLeader) {
     }
 
     // Format the new cellgroupID with the networkID as the prefix and the new number
-    const newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
+    let newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
 
     // Step 6: Check if the newID already exists in the collection
-    const existingCellGroup = await CellGroup.findOne({
+    let existingCellGroup = await CellGroup.findOne({
       cellgroupID: newID,
     }).exec();
 
-    // If the newID already exists, increment the number and try again
-    if (existingCellGroup) {
+    // Keep trying with incremented number until a unique ID is found
+    while (existingCellGroup) {
       console.log(
         `CellGroup ID ${newID} already exists, generating a new one.`
       );
-      return generateCellGroupID(); // Recursively generate a new ID
+      newNumber++; // Increment the number to find the next available slot
+      newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
+      existingCellGroup = await CellGroup.findOne({
+        cellgroupID: newID,
+      }).exec();
     }
 
     return newID;
