@@ -511,8 +511,8 @@ const updateCellgroupIDList = async (networkID) => {
     const networkPrefix = networkID.substring(0, 2);
 
     // Find all CellGroups where cellgroupID starts with the same prefix as networkID
-    const cellGroups = await CellGroupModel.find({
-      cellgroupID: { $regex: `^${networkPrefix}` }, // Regex to match the prefix
+    const cellGroups = await CellGroup.find({
+      cellgroupID: { $regex: `^${networkPrefix}-` }, // Regex to match the prefix
     });
 
     // Extract the cellgroupID of the matching CellGroups
