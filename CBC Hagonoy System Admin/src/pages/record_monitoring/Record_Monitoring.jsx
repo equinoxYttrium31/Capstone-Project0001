@@ -1081,7 +1081,7 @@ function Record_Monitoring() {
               <img
                 src={close_ic}
                 alt="close_icon"
-                onClick={handleCloseEdit}
+                onClick={() => setEditModalC(false)}
                 className="close_cellgroup_modal"
               />
             </div>

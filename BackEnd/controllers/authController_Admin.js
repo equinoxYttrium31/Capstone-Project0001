@@ -66,11 +66,15 @@ const updateCellgroupByID = async (req, res) => {
     const { cellgroupName, cellgroupLeader, networkLeader } = req.body; // Extract data from request body
 
     // Find and update the cell group by its ID
+
+    console.log(cellgroupID);
     const updatedCellGroup = await CellGroup.findOneAndUpdate(
       { cellgroupID }, // Find the cell group by ID
       { cellgroupName, cellgroupLeader, networkLeader }, // Fields to update
       { new: true } // Return the updated document
     );
+
+    console.table(updatedCellGroup);
 
     // If the cell group was not found
     if (!updatedCellGroup) {
