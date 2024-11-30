@@ -17,7 +17,19 @@ const app = express();
 
 // Create a server with http and integrate Socket.io
 const server = http.createServer(app);
-const io = socketIo(server); // Initialize Socket.io with the server
+const io = socketIo(server, {
+  cors: {
+    origin: [
+      "https://client-2oru.onrender.com",
+      "https://cbc-hagonoy-admin.onrender.com",
+      "http://localhost:5173",
+      "http://localhost:5174",
+    ], // List your frontend origins here
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies to be sent/received
+  },
+}); // Initialize Socket.io with the server
 
 // Middleware
 app.use(express.json({ limit: "10mb" }));

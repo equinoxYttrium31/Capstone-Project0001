@@ -468,13 +468,14 @@ function Record_Monitoring() {
     const { cellgroupName, cellgroupLeader, networkLeader } = cellgroupData;
 
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `https://capstone-project0001-2.onrender.com/cellgroup/${editingCellGroupID}`,
         {
           networkLeader,
           cellgroupLeader,
           cellgroupName,
-        }
+        },
+        { withCredentials: true }
       );
 
       if (response.data.error) {

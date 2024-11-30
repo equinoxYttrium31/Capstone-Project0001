@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const http = require("http"); // Import the http module for creating the server
 const socketIo = require("socket.io"); // Import socket.io
+const ChurchUser = require("./models/ChurchUser");
 
 require("dotenv").config();
 
@@ -17,8 +18,19 @@ const app = express();
 
 // Create a server with http and integrate Socket.io
 const server = http.createServer(app);
-const io = socketIo(server); // Initialize Socket.io with the server
-
+const io = socketIo(server, {
+  cors: {
+    origin: [
+      "https://client-2oru.onrender.com",
+      "https://cbc-hagonoy-admin.onrender.com",
+      "http://localhost:5173",
+      "http://localhost:5174",
+    ], // List your frontend origins here
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies to be sent/received
+  },
+});
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
@@ -35,7 +47,7 @@ app.use(
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Allow cookies to be sent and received
+    credentials: true,
   })
 );
 
