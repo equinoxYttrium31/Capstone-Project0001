@@ -74,7 +74,7 @@ const updateCellgroupByID = async (req, res) => {
       { new: true } // Return the updated document
     );
 
-    console.table(updatedCellGroup);
+    console.log(updatedCellGroup);
 
     // If the cell group was not found
     if (!updatedCellGroup) {

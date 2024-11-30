@@ -474,8 +474,7 @@ function Record_Monitoring() {
           networkLeader,
           cellgroupLeader,
           cellgroupName,
-        },
-        { withCredentials: true }
+        }
       );
 
       if (response.data.error) {
