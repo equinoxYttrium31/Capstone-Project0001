@@ -445,60 +445,74 @@ function Record_Monitoring() {
       <div className="record_lower_part">
         <div className="record_lower_part_left">
           <div className="expandable-container">
-            {groupedRecords.map(({ cellGroup, records }) => (
-              <div className="category" key={cellGroup._id}>
-                <h3
-                  className="category-header"
-                  onClick={() => toggleExpand(cellGroup._id)}
-                >
-                  {cellGroup.cellgroupName}
-                </h3>
-                {expanded[cellGroup._id] && (
-                  <div className="category-contentLeader">
-                    <p className="LeaderName">
-                      Leader: {cellGroup.cellgroupLeader}
-                    </p>
-                    <div className="category-content">
-                      {records.map((record) => {
-                        // Determine the appropriate avatar based on gender
-                        let avatar;
-                        if (record.gender === "Male") {
-                          avatar = avatar_male; // Ensure you have Avatar_Male imported
-                        } else if (record.gender === "Female") {
-                          avatar = avatar_female; // Ensure you have Avatar_Female imported
-                        } else {
-                          avatar = user_placeholder; // Default avatar for other cases
-                        }
+            {groupedRecords // Sort based on cellgroupID
+              .sort((a, b) => {
+                const [prefixA, numberA] = a.cellGroup.cellgroupID.split("-");
+                const [prefixB, numberB] = b.cellGroup.cellgroupID.split("-");
 
-                        return (
-                          <div className="record_content_card" key={record._id}>
-                            <img
-                              src={record.profilePic || avatar} // Use profilePic or gender-based avatar
-                              alt="profile_picture"
-                              className="record_container_profile"
-                            />
-                            <div className="record_content_card_deets">
-                              <h2 className="record_person_name">
-                                {record.firstName}
-                              </h2>
-                              <p className="record_person_age_and_gender">
-                                {calculateAge(record.birthDate)},{" "}
-                                {record.gender}
-                              </p>
-                              <div className="record_person_type">
-                                <h2 className="record_type_text">
-                                  {record.memberType}
+                // Compare the prefixes first (if applicable), then the numeric part
+                if (prefixA !== prefixB) {
+                  return prefixA.localeCompare(prefixB);
+                }
+                return parseInt(numberA, 10) - parseInt(numberB, 10);
+              })
+              .map(({ cellGroup, records }) => (
+                <div className="category" key={cellGroup._id}>
+                  <h3
+                    className="category-header"
+                    onClick={() => toggleExpand(cellGroup._id)}
+                  >
+                    {cellGroup.cellgroupName}
+                  </h3>
+                  {expanded[cellGroup._id] && (
+                    <div className="category-contentLeader">
+                      <p className="LeaderName">
+                        Leader: {cellGroup.cellgroupLeader}
+                      </p>
+                      <div className="category-content">
+                        {records.map((record) => {
+                          // Determine the appropriate avatar based on gender
+                          let avatar;
+                          if (record.gender === "Male") {
+                            avatar = avatar_male; // Ensure you have Avatar_Male imported
+                          } else if (record.gender === "Female") {
+                            avatar = avatar_female; // Ensure you have Avatar_Female imported
+                          } else {
+                            avatar = user_placeholder; // Default avatar for other cases
+                          }
+
+                          return (
+                            <div
+                              className="record_content_card"
+                              key={record._id}
+                            >
+                              <img
+                                src={record.profilePic || avatar} // Use profilePic or gender-based avatar
+                                alt="profile_picture"
+                                className="record_container_profile"
+                              />
+                              <div className="record_content_card_deets">
+                                <h2 className="record_person_name">
+                                  {record.firstName}
                                 </h2>
+                                <p className="record_person_age_and_gender">
+                                  {calculateAge(record.birthDate)},{" "}
+                                  {record.gender}
+                                </p>
+                                <div className="record_person_type">
+                                  <h2 className="record_type_text">
+                                    {record.memberType}
+                                  </h2>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              ))}
           </div>
         </div>
         <div className="divider_lower"></div>

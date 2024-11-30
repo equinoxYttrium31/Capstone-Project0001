@@ -8,7 +8,8 @@ import { toast } from "react-hot-toast";
 function Announcement_Management() {
   const [value, setValue] = useState(""); // For ReactQuill content
   const [imageBase64, setImageBase64] = useState(null); // Base64 image data
-  const [title, setTitle] = useState(""); // Title input
+  const [title, setTitle] = useState(""); // Custom title input
+  const [commonTitle, setCommonTitle] = useState(""); // Title input
   const [audience, setAudience] = useState(""); // Audience selection
   const [publishDateFrom, setPublishDateFrom] = useState(""); // Publish start date
   const [publishDateTo, setPublishDateTo] = useState(""); // Publish end date
@@ -23,8 +24,10 @@ function Announcement_Management() {
       return;
     }
 
+    const finalTitle = commonTitle === "Other" ? title : commonTitle;
+
     const announcementData = {
-      title,
+      title: finalTitle,
       content: value, // Styled content from ReactQuill
       announcementPic: imageBase64, // Base64 image
       audience,
@@ -126,18 +129,40 @@ function Announcement_Management() {
       <div className="create_announcement_title_cont">
         <h3 className="create_announcement_title">Create an announcement</h3>
       </div>
-      <div className="add_title_cont">
-        <label htmlFor="add_title" className="add_title_text">
-          Announcement Title :
-        </label>
-        <input
-          type="text"
-          name="add_title"
-          id="add_title"
-          className="add_title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+      <div className="addtitle_cont">
+        <div className="add_title_cont select">
+          <label htmlFor="common_title" className="add_title_text">
+            Announcement Title:
+          </label>
+          <select
+            id="common_title"
+            className="common_title_dropdown"
+            value={commonTitle}
+            onChange={(e) => setCommonTitle(e.target.value)}
+          >
+            <option value="">Select Title</option>
+            <option value="Worship Service">Worship Service</option>
+            <option value="Prayer Meeting">Prayer Meeting</option>
+            <option value="Fasting">Fasting</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        {commonTitle === "Other" && (
+          <div className="add_title_cont fill">
+            <label htmlFor="add_title" className="add_title_text">
+              Custom Title:
+            </label>
+            <input
+              type="text"
+              name="add_title"
+              id="add_title"
+              className="add_title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required={commonTitle === "Other"}
+            />
+          </div>
+        )}
       </div>
       <div className="rich_text_input_container">
         <label

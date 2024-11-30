@@ -37,13 +37,14 @@
 }
 
 .create_announcement_title {
+  margin-top: -1rem;
   font-family: "Poppins";
   font-size: 1.125em;
   color: #28282b;
 }
 
 .add_title_cont {
-  width: 97%;
+  width: fit-content;
   height: 10vh;
   margin-left: 2rem;
   display: flex;
@@ -52,15 +53,45 @@
   gap: 4.5rem;
 }
 
+.addtitle_cont {
+  margin-top: -1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.select {
+  gap: 4.5rem;
+}
+
+.fill {
+  gap: 1.5rem;
+}
+
+.common_title_dropdown {
+  border: none;
+  height: 2rem;
+  font-size: 1em;
+  font-family: "Poppins";
+  font-family: "Poppins";
+  padding-left: 0.938rem;
+  border-radius: 0.938rem;
+  background-color: lightgrey;
+  border: none;
+  outline: none;
+  color: #28282b;
+}
+
 .add_title_text {
   font-family: "Poppins";
   font-size: 0.8em;
   font-weight: 600;
   color: #28282b;
+  text-wrap: nowrap;
 }
 
 .add_title {
-  width: 73%;
+  width: 35vw;
   height: 2rem;
   font-size: 1em;
   font-family: "Poppins";
