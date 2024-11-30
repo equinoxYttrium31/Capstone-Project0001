@@ -641,6 +641,8 @@ const fetchCellgroupByID = async (req, res) => {
   try {
     const cellgroupID = req.params.cellgroupID;
 
+    console.log(cellgroupID);
+
     const toBeEdit = await CellGroup.findOne({ cellgroupID: cellgroupID });
     if (!toBeEdit) {
       return res.status(404).json({ message: "Cell group not found" });

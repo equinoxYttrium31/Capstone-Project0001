@@ -44,6 +44,7 @@ function Record_Monitoring() {
   const [openArchive, setOpenArchiveModal] = useState(false);
   const [selectedRange, setSelectedRange] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
+  const [cellgroupData, setCellgroupData] = useState([]);
   const [selectedMemberType, setSelectedMemberType] = useState("");
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
@@ -226,7 +227,8 @@ function Record_Monitoring() {
       const response = await fetch(
         `https://capstone-project0001-2.onrender.com/cellgroups/${cellgroupID}`
       );
-      setCellData(response.data);
+      console.log(response.data);
+      setCellgroupData(response.data);
     } catch (err) {
       console.error("Error fetching cell group data:", err);
     }
@@ -236,6 +238,7 @@ function Record_Monitoring() {
     setEditingCellGroupID(cellgroupID);
     fetchCellGroupData(cellgroupID);
     setEditModalC(true);
+    console.log(cellgroupData);
   };
 
   const handleChangeNetwork = (e) => {
@@ -672,7 +675,6 @@ function Record_Monitoring() {
           </div>
         </div>
       </div>
-
       {filterModal && (
         <div className="filter_modal">
           <div className="filter_Modal_Container">
@@ -760,7 +762,6 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
-
       {/*Add new Record Modal*/}
       {addNewUserModal && (
         <div className="newUserModal">
@@ -870,7 +871,6 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
-
       {confirmationModal && (
         <div className="confirmation-modal">
           <div className="confirmation-modal-content">
@@ -895,7 +895,6 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
-
       {newCellGroupModal && (
         <div className="create_cellgroup_cont">
           <div className="cellgroup_main_cont">
@@ -958,7 +957,6 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
-
       {editCellGroupModal && (
         <div className="editCellGroup_container">
           <div className="editCellgroup_container_main">
@@ -1035,7 +1033,73 @@ function Record_Monitoring() {
         </div>
       )}
 
-      {editModalC && <div className="main_editing_container"></div>}
+      {editModalC && (
+        <div className="main_editing_container">
+          <div className="editing_container">
+            <div className="editCellgroup_header_container">
+              <h2 className="editCellgroup_header">Edit Cellgroup</h2>
+              <img
+                src={close_ic}
+                alt="close_icon"
+                onClick={handleCloseEdit}
+                className="close_cellgroup_modal"
+              />
+            </div>
+
+            <p className="cellgroup_text">Editing a cellgroup.</p>
+            <div className="cellgroup_form_cont">
+              <div className="cellgroup_inputs_cont">
+                <h3 className="cellgroup_name_label">Cellgroup Name:</h3>
+                <input
+                  name="cellgroupName"
+                  placeholder=""
+                  value={cellgroupData.cellgroupName || ""}
+                  onChange={(e) =>
+                    setCellgroupData({
+                      ...cellgroupData,
+                      cellgroupName: e.target.value,
+                    })
+                  }
+                  type="text"
+                  className="cellgroup_name_input"
+                />
+              </div>
+              <div className="cellgroup_inputs_cont">
+                <h3 className="cellgroup_name_label">Cellgroup Leader:</h3>
+                <input
+                  name="cellgroupLeader"
+                  placeholder=""
+                  value={cellgroupData.cellgroupName || ""}
+                  onChange={(e) =>
+                    setCellgroupData({
+                      ...cellgroupData,
+                      cellgroupName: e.target.value,
+                    })
+                  }
+                  type="text"
+                  className="cellgroup_name_input"
+                />
+              </div>
+              <div className="cellgroup_inputs_cont">
+                <h3 className="cellgroup_name_label">Network Leader:</h3>
+                <input
+                  name="networkLeader"
+                  placeholder=""
+                  value={cellgroupData.cellgroupName || ""}
+                  onChange={(e) =>
+                    setCellgroupData({
+                      ...cellgroupData,
+                      cellgroupName: e.target.value,
+                    })
+                  }
+                  type="text"
+                  className="cellgroup_name_input"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {newNetworkModal && (
         <div className="create_cellgroup_cont">
@@ -1077,7 +1141,6 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
-
       {/**New Modal for Archived Records*/}
       {openArchive && (
         <div className="archivedRecordsModal">
