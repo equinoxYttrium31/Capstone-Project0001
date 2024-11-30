@@ -183,7 +183,7 @@ const fetchTotalPrayerRequestWeekly = async (req, res) => {
 const updateCellgroupByID = async (req, res) => {
   try {
     // Get the cellgroupID from the request parameters
-    const cellgroupID = req.params.cellgroupID;
+    const cellgroupID = req.params;
 
     // Validate if cellgroupID is provided
     if (!cellgroupID) {
