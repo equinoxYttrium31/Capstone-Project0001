@@ -13,19 +13,7 @@ const cron = require("node-cron");
 
 async function generateCellGroupID(networkLeader) {
   try {
-    // Step 1: Find the network leader from the latest CellGroup
-    const cellGroup = await CellGroup.findOne()
-      .sort({ cellgroupID: -1 })
-      .exec();
-
-    // If no CellGroups exist yet, return a default ID
-    if (!cellGroup) {
-      return `${networkID}-0001`; // Default ID when no groups exist
-    }
-
-    console.log(`Network Leader found: ${networkLeader}`); // Debugging line
-
-    // Step 2: Find the networkID associated with the network leader
+    // Step 1: Find the network associated with the network leader
     const network = await NetworkModel.findOne({ networkLeader }).exec();
 
     if (!network) {
@@ -41,36 +29,36 @@ async function generateCellGroupID(networkLeader) {
       );
     }
 
-    // Step 3: Fetch all existing cellgroupIDs from the CellGroup collection
+    // Step 2: Fetch all existing cellgroupIDs for this specific networkLeader
     const cellGroups = await CellGroup.find({ networkLeader }).exec();
 
-    // Step 4: Identify the last assigned cellgroupID and check for gaps in the sequence
+    // Step 3: Identify the last assigned cellgroupID and check for gaps in the sequence
     const existingIDs = cellGroups.map((group) => group.cellgroupID);
     const usedNumbers = existingIDs
       .map((id) => {
         const [prefix, num] = id.split("-");
-        return parseInt(num, 10);
+        return parseInt(num, 10); // Extract the numeric part of the ID
       })
       .sort((a, b) => a - b); // Sort the IDs numerically
 
-    // Step 5: Find the first missing slot in the sequence
-    let newNumber = null;
+    // Step 4: Find the first missing slot in the sequence or start from 1 if no gaps
+    let newNumber = 1; // Always start at 1 for each new network
     for (let i = 1; i <= usedNumbers.length; i++) {
       if (usedNumbers[i] !== usedNumbers[i - 1] + 1) {
-        newNumber = usedNumbers[i - 1] + 1;
+        newNumber = usedNumbers[i - 1] + 1; // Found a gap, use the next number
         break;
       }
     }
 
     // If no missing slot, increment the last used number
-    if (!newNumber) {
+    if (newNumber === 1) {
       newNumber = usedNumbers[usedNumbers.length - 1] + 1;
     }
 
     // Format the new cellgroupID with the networkID as the prefix and the new number
     let newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
 
-    // Step 6: Check if the newID already exists in the collection
+    // Step 5: Check if the newID already exists in the collection
     let existingCellGroup = await CellGroup.findOne({
       cellgroupID: newID,
     }).exec();
