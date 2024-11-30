@@ -62,30 +62,52 @@ async function generateNetworkID() {
 
 const updateCellgroupByID = async (req, res) => {
   try {
-    const { cellgroupID } = req.params; // Extract cellgroupID from route parameter
-    const { cellgroupName, cellgroupLeader, networkLeader } = req.body; // Extract data from request body
+    // Get the cellgroupID from the request parameters
+    const cellgroupID = req.params.cellgroupID;
 
-    // Find and update the cell group by its ID
-
-    console.log(cellgroupID);
-    const updatedCellGroup = await CellGroup.findOneAndUpdate(
-      { cellgroupID }, // Find the cell group by ID
-      { cellgroupName, cellgroupLeader, networkLeader }, // Fields to update
-      { new: true } // Return the updated document
-    );
-
-    console.log(updatedCellGroup);
-
-    // If the cell group was not found
-    if (!updatedCellGroup) {
-      return res.status(404).json({ error: "Cell group not found" });
+    // Validate if cellgroupID is provided
+    if (!cellgroupID) {
+      return res.status(400).json({ error: "Cellgroup ID is required" });
     }
 
-    // Respond with the updated cell group
+    // Destructure the necessary fields from the request body
+    const { cellgroupName, cellgroupLeader, networkLeader } = req.body;
+
+    // Validate required fields
+    if (!cellgroupName || !cellgroupLeader || !networkLeader) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Prepare the update data object
+    const updateData = {
+      cellgroupName,
+      cellgroupLeader,
+      networkLeader,
+    };
+
+    // Find and update the cell group by its ID
+    let updatedCellGroup;
+    try {
+      updatedCellGroup = await CellGroup.findOneAndUpdate(
+        { cellgroupID }, // Find the cell group by cellgroupID
+        updateData, // Data to update
+        { new: true } // Return the updated document
+      );
+    } catch (dbError) {
+      console.error("Database update error:", dbError);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    // Check if the cell group was found and updated
+    if (!updatedCellGroup) {
+      return res.status(404).json({ error: "Cellgroup not found" });
+    }
+
+    // Return the updated cell group data
     res.json(updatedCellGroup);
   } catch (error) {
     console.error("Error updating cell group:", error);
-    res.status(500).json({ error: "Failed to update cell group" });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
