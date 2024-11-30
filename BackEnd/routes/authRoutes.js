@@ -174,6 +174,6 @@ router.post("/change-password", changePassword);
 
 router.post("/create-network", createNewNetwork);
 router.get("/cellgroups/:cellgroupID", fetchCellgroupByID);
-router.put("/cellgroups/:cellgroupID", updateCellgroupByID);
+router.put("/cellgroups/:editingCellGroupID", updateCellgroupByID);
 // Export the router
 module.exports = router;
