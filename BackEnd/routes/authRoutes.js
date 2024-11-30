@@ -56,6 +56,7 @@ const {
   updateAnnouncementbyID,
   getUsersGender,
   createNewNetwork,
+  fetchCellgroupByID,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -171,5 +172,6 @@ router.post("/request-otp", requestOtp);
 router.post("/change-password", changePassword);
 
 router.post("/create-network", createNewNetwork);
+router.get("/cellgroups/:cellgroupID", fetchCellgroupByID);
 // Export the router
 module.exports = router;

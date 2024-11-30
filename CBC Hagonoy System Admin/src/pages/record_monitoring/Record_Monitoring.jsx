@@ -32,6 +32,7 @@ const calculateAge = (birthDate) => {
 
 function Record_Monitoring() {
   const [records, setRecords] = useState([]);
+  const [editingCellGroupID, setEditingCellGroupID] = useState(null);
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [archivedUsers, setArchivedUsers] = useState([]);
   const [filterModal, setFilterModal] = useState(false);
@@ -47,6 +48,7 @@ function Record_Monitoring() {
   const [searchedUser, setSearchedUser] = useState(""); // State for search query
   const socket = useRef(null); // Create a ref for the socket
   const [cellGroups, setCellGroups] = useState([]);
+  const [editModalC, setEditModalC] = useState(false);
   const [expanded, setExpanded] = useState({});
 
   //expandable cellgroups
@@ -80,6 +82,10 @@ function Record_Monitoring() {
 
   const handleCloseAddModal = () => {
     setAddNewUserModal(false);
+  };
+
+  const handleCloseEdit = () => {
+    setEditCellGroupModal(false);
   };
 
   const [data, setData] = useState({
@@ -215,6 +221,23 @@ function Record_Monitoring() {
     }
   };
 
+  const fetchCellGroupData = async (cellgroupID) => {
+    try {
+      const response = await fetch(
+        `https://capstone-project0001-2.onrender.com/cellgroups/${cellgroupID}`
+      );
+      setCellData(response.data);
+    } catch (err) {
+      console.error("Error fetching cell group data:", err);
+    }
+  };
+
+  const handleEdit = (cellgroupID) => {
+    setEditingCellGroupID(cellgroupID);
+    fetchCellGroupData(cellgroupID);
+    setEditModalC(true);
+  };
+
   const handleChangeNetwork = (e) => {
     const { name, value } = e.target;
 
@@ -251,12 +274,16 @@ function Record_Monitoring() {
     setCellData({
       cellgroupName: "",
       cellgroupLeader: "",
+      networkLeader: "",
     });
     setHasTyped(false); // Reset hasTyped when closing the modal
     setNewCellGroupModal(false);
   };
 
   const handleCloseNetwork = () => {
+    setNetData({
+      networkLeader: "",
+    });
     setNewNetworkModal(false);
   };
 
@@ -531,14 +558,14 @@ function Record_Monitoring() {
                 return parseInt(numberA, 10) - parseInt(numberB, 10);
               })
               .map(({ cellGroup, records }) => (
-                <div className="category" key={cellGroup._id}>
+                <div className="category" key={cellGroup.cellgroupID}>
                   <h3
                     className="category-header"
-                    onClick={() => toggleExpand(cellGroup._id)}
+                    onClick={() => toggleExpand(cellGroup.cellgroupID)}
                   >
                     {cellGroup.cellgroupName}
                   </h3>
-                  {expanded[cellGroup._id] && (
+                  {expanded[cellGroup.cellgroupID] && (
                     <div className="category-contentLeader">
                       <p className="LeaderName">
                         Leader: {cellGroup.cellgroupLeader}
@@ -931,6 +958,84 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
+
+      {editCellGroupModal && (
+        <div className="editCellGroup_container">
+          <div className="editCellgroup_container_main">
+            <div className="editCellgroup_header_container">
+              <h2 className="editCellgroup_header">Edit Cellgroup</h2>
+              <img
+                src={close_ic}
+                alt="close_icon"
+                onClick={handleCloseEdit}
+                className="close_cellgroup_modal"
+              />
+            </div>
+            <div className="editCellgroup_list_container">
+              <table className="cellgroup_list">
+                <thead className="list_header">
+                  <th className="ci_head">Cellgroup ID</th>
+                  <th className="cn_head">Cellgroup Name</th>
+                  <th className="cl_head">Cellgroup Leader</th>
+                  <th className="nl_head">Network Leader</th>
+                  <th className="a_head">Actions</th>
+                </thead>
+                <tbody className="cellgroup_list_deets">
+                  {cellGroups.length > 0 ? (
+                    cellGroups
+                      .sort((a, b) => {
+                        // Split the "cellgroupID" into prefix and number
+                        const [prefixA, numberA] = a.cellgroupID.split("-");
+                        const [prefixB, numberB] = b.cellgroupID.split("-");
+
+                        // Compare the prefixes first (lexicographically)
+                        const prefixComparison = prefixA.localeCompare(prefixB);
+                        if (prefixComparison !== 0) {
+                          return prefixComparison;
+                        }
+
+                        // If prefixes are equal, compare the numeric parts
+                        return parseInt(numberA, 10) - parseInt(numberB, 10);
+                      })
+                      .map((cellgroup) => (
+                        <tr className="row-table" key={cellgroup._id}>
+                          <td>{cellgroup.cellgroupID}</td>
+                          <td>{cellgroup.cellgroupName}</td>
+                          <td>{cellgroup.cellgroupLeader}</td>
+                          <td>{cellgroup.networkLeader}</td>
+                          <td className="actions">
+                            <button
+                              className="edit btn"
+                              onClick={() => handleEdit(cellgroup.cellgroupID)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="archive btn"
+                              onClick={() =>
+                                handleDelete(cellgroup.cellgroupID)
+                              }
+                            >
+                              Archive
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="no_data">
+                        No Cell Groups Found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editModalC && <div className="main_editing_container"></div>}
 
       {newNetworkModal && (
         <div className="create_cellgroup_cont">

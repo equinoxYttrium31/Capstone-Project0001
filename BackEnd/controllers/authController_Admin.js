@@ -637,6 +637,21 @@ const fetchCellGroups = async (req, res) => {
   }
 };
 
+const fetchCellgroupByID = async (req, res) => {
+  try {
+    const cellgroupID = req.params.cellgroupID;
+
+    const toBeEdit = await CellGroup.findOne({ cellgroupID: cellgroupID });
+    if (!toBeEdit) {
+      return res.status(404).json({ message: "Cell group not found" });
+    }
+
+    res.json(toBeEdit);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch cell group" });
+  }
+};
+
 const addAnnouncements = async (req, res) => {
   try {
     const { title, content, audience, publishDate, endDate, announcementPic } =
@@ -934,4 +949,5 @@ module.exports = {
   archiveAnnouncementById,
   updateAnnouncementbyID,
   createNewNetwork,
+  fetchCellgroupByID,
 };

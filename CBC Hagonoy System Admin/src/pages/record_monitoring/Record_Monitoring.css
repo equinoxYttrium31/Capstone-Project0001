@@ -785,6 +785,148 @@
   border-radius: 0.3rem;
   padding: 0.5rem 1rem;
 }
+/*Edit Cellgroup Modal*/
+.editCellGroup_container {
+  background-color: #00000036;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.2px);
+  -webkit-backdrop-filter: blur(4.2px);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.editCellgroup_container_main {
+  background-color: whitesmoke;
+  width: 75rem;
+  height: 45rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column; /* Allow the table to grow within */
+  overflow: hidden; /* Prevent unintended overflow */
+}
+
+.editCellgroup_header_container {
+  padding: 0rem 2rem;
+  border-bottom: #28282b93 2px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editCellgroup_header {
+  font-size: 1.5rem;
+  font-family: "Poppins";
+  color: #2d2f65;
+}
+
+.list_header {
+  font-size: 1em;
+  font-family: "Poppins";
+  color: #2d2f65;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: rgb(212, 237, 253); /* Header background color */
+  border-bottom: 1px solid #ddd;
+}
+
+.editCellgroup_list_container {
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  margin: 1rem 0;
+}
+
+.cellgroup_list_deets {
+  max-height: 350px; /* Set a fixed height for scrollable content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  font-family: "lato";
+  font-size: 0.9em;
+}
+
+.cellgroup_list_deets tr {
+  table-layout: fixed;
+  width: 90%; /* Match parent width */
+}
+
+.cellgroup_list {
+  width: 90%;
+  margin: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.cn_head {
+  width: 20rem;
+}
+
+.cl_head {
+  width: 15rem;
+}
+
+.nl_head {
+  width: 10rem;
+}
+
+.a_head {
+  width: 10rem;
+}
+
+td,
+th {
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid #ddd;
+  overflow: hidden; /* Prevent content overflow */
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis;
+}
+
+.no_data {
+  text-align: center;
+  padding: 1rem;
+}
+
+.actions {
+  text-align: center;
+  justify-content: space-between;
+  display: flex;
+}
+
+.btn {
+  font-family: "poppins";
+  width: 4.5rem;
+  font-size: 0.9em;
+  color: whitesmoke;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all ease-in-out 0.3s;
+}
+
+.btn:hover {
+  box-shadow: #282828 2px 2px 5px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.archive {
+  background-color: #f04e4e;
+}
+
+.edit {
+  background-color: #2d2f65;
+}
 
 /*Create CellGroup*/
 .create_cellgroup_cont {
