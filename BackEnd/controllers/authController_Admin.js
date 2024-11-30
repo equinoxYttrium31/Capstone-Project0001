@@ -11,22 +11,9 @@ const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
 const cron = require("node-cron");
 
-async function generateCellGroupID() {
+async function generateCellGroupID(networkLeader) {
   try {
-    // Step 1: Find the network leader from the latest CellGroup
-    const cellGroup = await CellGroup.findOne()
-      .sort({ cellgroupID: -1 })
-      .exec();
-
-    if (!cellGroup) {
-      throw new Error("No cell group found.");
-    }
-
-    const networkLeader = cellGroup.networkLeader; // Get the network leader name
-
-    console.log(`Network Leader found: ${networkLeader}`); // Debugging line
-
-    // Step 2: Find the networkID associated with the network leader
+    // Step 1: Fetch the network using the networkLeader to get the correct networkID
     const network = await NetworkModel.findOne({ networkLeader }).exec();
 
     if (!network) {
@@ -35,36 +22,26 @@ async function generateCellGroupID() {
 
     const networkID = network.networkID; // Get the networkID
 
-    console.log(`Network ID found: ${networkID}`); // Debugging line
+    // Step 2: Fetch the last entry from CellGroup to get the highest cellgroupID
+    const lastEntry = await CellGroup.findOne()
+      .sort({ cellgroupID: -1 })
+      .exec();
 
-    // Step 3: Fetch all existing cellgroupIDs from the CellGroup collection
-    const cellGroups = await CellGroup.find({ networkLeader }).exec();
+    let newID = `${networkID}-0001`; // Default new ID
 
-    // Step 4: Identify the last assigned cellgroupID and check for gaps in the sequence
-    const existingIDs = cellGroups.map((group) => group.cellgroupID);
-    const usedNumbers = existingIDs
-      .map((id) => {
-        const [prefix, num] = id.split("-");
-        return parseInt(num, 10);
-      })
-      .sort((a, b) => a - b); // Sort the IDs numerically
+    if (lastEntry?.cellgroupID) {
+      // Extract the prefix (networkID) and the number part from the last cellgroupID
+      const [prefix, number] = lastEntry.cellgroupID.split("-");
 
-    // Step 5: Find the first missing slot in the sequence
-    let newNumber = null;
-    for (let i = 1; i <= usedNumbers.length; i++) {
-      if (usedNumbers[i] !== usedNumbers[i - 1] + 1) {
-        newNumber = usedNumbers[i - 1] + 1;
-        break;
+      // Ensure the prefix matches the new networkID
+      if (prefix !== networkID) {
+        throw new Error("Network ID mismatch");
       }
-    }
 
-    // If no missing slot, increment the last used number
-    if (!newNumber) {
-      newNumber = usedNumbers[usedNumbers.length - 1] + 1;
+      // Increment the numeric part of the ID
+      const nextNumber = String(parseInt(number, 10) + 1).padStart(4, "0");
+      newID = `${prefix}-${nextNumber}`; // New ID: networkID-incrementedNumber
     }
-
-    // Format the new cellgroupID with the networkID as the prefix and the new number
-    const newID = `${networkID}-${String(newNumber).padStart(4, "0")}`;
 
     return newID;
   } catch (error) {
@@ -565,19 +542,36 @@ const updateRecord = async (req, res) => {
   }
 };
 
-// Controller for creating a new CellGroup
 const createNewCellGroup = async (req, res) => {
   try {
     const { cellgroupName, cellgroupLeader, networkLeader } = req.body;
 
     // Validate input fields
-    if (!cellgroupName || !cellgroupLeader) {
-      return res.status(400).json({ error: "Input fields are required" });
+    if (!cellgroupName || !cellgroupLeader || !networkLeader) {
+      return res.status(400).json({ error: "All input fields are required" });
     }
 
-    const newID = await generateCellGroupID();
+    // Step 1: Fetch the Network document using the networkLeader
+    const network = await NetworkModel.findOne({ networkLeader }).exec();
 
-    // Create new CellGroup
+    if (!network) {
+      return res.status(404).json({
+        error: `No network found for network leader: ${networkLeader}`,
+      });
+    }
+
+    // Step 2: Generate the CellGroupID, passing the networkLeader to get the correct networkID
+    const newID = await generateCellGroupID(networkLeader);
+
+    // Step 3: Check if the cellgroupName already exists
+    const existingCellGroup = await CellGroup.findOne({ cellgroupName }).exec();
+    if (existingCellGroup) {
+      return res.status(400).json({
+        error: `CellGroup with name "${cellgroupName}" already exists.`,
+      });
+    }
+
+    // Step 4: Create the new CellGroup
     const newCellGroup = await CellGroup.create({
       cellgroupName,
       cellgroupLeader,
@@ -592,10 +586,15 @@ const createNewCellGroup = async (req, res) => {
     });
   } catch (error) {
     console.error("Error during creation of CellGroup:", error); // Log the error
+    // Provide more specific error message
+    if (error.message.includes("Failed to generate CellGroupID")) {
+      return res
+        .status(500)
+        .json({ error: "Error generating unique CellGroupID" });
+    }
     return res.status(500).json({ error: "Server error" }); // Return server error to client
   }
 };
-
 const updateCellgroupIDList = async (networkID) => {
   try {
     // Extract the prefix (first two digits) from the networkID
