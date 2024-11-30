@@ -13,16 +13,45 @@ const cron = require("node-cron");
 
 async function generateCellGroupID() {
   try {
+    // Step 1: Find the network leader from the latest CellGroup
+    const cellGroup = await CellGroup.findOne()
+      .sort({ cellgroupID: -1 })
+      .exec();
+
+    if (!cellGroup) {
+      throw new Error("No cell group found.");
+    }
+
+    const networkLeader = cellGroup.networkLeader; // Get the network leader name
+
+    // Step 2: Find the networkID associated with the network leader
+    const network = await NetworkModel.findOne({ networkLeader }).exec();
+
+    if (!network) {
+      throw new Error(`No network found for network leader: ${networkLeader}`);
+    }
+
+    const networkID = network.networkID; // Get the networkID
+
+    // Step 3: Fetch the last entry from CellGroup collection to get the highest cellgroupID
     const lastEntry = await CellGroup.findOne()
       .sort({ cellgroupID: -1 })
       .exec();
 
-    let newID = "01-0001";
+    let newID = `${networkID}-0001`;
 
     if (lastEntry?.cellgroupID) {
+      // Extract the prefix (networkID) and number part from the last cellgroupID
       const [prefix, number] = lastEntry.cellgroupID.split("-");
+
+      // Ensure the prefix matches the new networkID
+      if (prefix !== networkID) {
+        throw new Error("Network ID mismatch");
+      }
+
+      // Increment the numeric part of the ID
       const nextNumber = String(parseInt(number, 10) + 1).padStart(4, "0");
-      newID = `${prefix}-${nextNumber}`; // Reassign newID
+      newID = `${prefix}-${nextNumber}`; // New ID: networkID-incrementedNumber
     }
 
     return newID;

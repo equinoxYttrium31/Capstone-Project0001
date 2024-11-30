@@ -487,6 +487,16 @@ function Record_Monitoring() {
         });
         setEditModalC(false);
         toast.success("CellGroup Updated. Thank You!");
+
+        try {
+          const response = await axios.get(
+            "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
+          ); // Adjust the URL as needed
+          setCellGroups(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching cell groups:", error);
+        }
       }
     } catch (error) {
       console.error("Error updating Cellgroup:", error);
