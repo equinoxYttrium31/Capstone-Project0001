@@ -487,10 +487,9 @@ function Record_Monitoring() {
         });
         setEditModalC(false);
         toast.success("CellGroup Updated. Thank You!");
-        fetchCellGroups();
       }
     } catch (error) {
-      console.error("Error creating network:", error);
+      console.error("Error updating Cellgroup:", error);
     }
   };
 
