@@ -466,7 +466,7 @@ function Record_Monitoring() {
 
   const handleOnSave = async () => {
     const { cellgroupName, cellgroupLeader, networkLeader } = cellgroupData;
-
+    console.log(editingCellGroupID);
     try {
       const response = await axios.put(
         `https://capstone-project0001-2.onrender.com/cellgroup/${editingCellGroupID}`,

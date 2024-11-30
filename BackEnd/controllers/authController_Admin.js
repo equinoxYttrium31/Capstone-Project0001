@@ -67,7 +67,7 @@ const updateCellgroupByID = async (req, res) => {
 
     // Find and update the cell group by its ID
     const updatedCellGroup = await CellGroup.findOneAndUpdate(
-      { cellgroupID: cellgroupID }, // Find the cell group by ID
+      { cellgroupID }, // Find the cell group by ID
       { cellgroupName, cellgroupLeader, networkLeader }, // Fields to update
       { new: true } // Return the updated document
     );
