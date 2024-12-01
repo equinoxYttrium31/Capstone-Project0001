@@ -281,24 +281,25 @@ function Record_Monitoring() {
     setEditNetworkModal(true);
   };
 
-  useEffect(() => {
-    const fetchNetworksDetails = async () => {
-      try {
-        const response = await fetch(
-          "https://capstone-project0001-2.onrender.com/network"
-        );
+  const fetchNetworksDetails = async () => {
+    try {
+      const response = await fetch(
+        "https://capstone-project0001-2.onrender.com/network"
+      );
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-
-        const netData = await response.json();
-        console.log(netData);
-        setNetworkData(netData);
-      } catch (error) {
-        console.error("Error fetching network details:", error);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`);
       }
-    };
+
+      const netData = await response.json();
+      console.log(netData);
+      setNetworkData(netData);
+    } catch (error) {
+      console.error("Error fetching network details:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchNetworksDetails();
   }, []);
 
@@ -526,16 +527,18 @@ function Record_Monitoring() {
     }
   };
 
+  const handleCloseModalN = () => {
+    setEditModalN(false);
+    fetchNetworksDetails();
+  };
+
   const fetchNetworkbyID = async (networkID) => {
     try {
       const response = await axios.get(
         `https://capstone-project0001-2.onrender.com/network/${networkID}`
       );
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${response.status}`);
-      }
 
-      const networkdata = await response.json();
+      const networkdata = response.data;
       console.log("Fetched Data:", networkdata);
       setNetworkData(networkdata);
     } catch (err) {
@@ -546,6 +549,7 @@ function Record_Monitoring() {
   const handleEditNetwork = (networkID) => {
     fetchNetworkbyID(networkID);
     setEditModalN(networkID);
+    console.log(networkData);
   };
 
   const filterRecords = (query) => {
@@ -1040,23 +1044,28 @@ function Record_Monitoring() {
               <img
                 src={close_ic}
                 alt="close_icon"
-                onClick={() => setEditModalN(false)}
+                onClick={handleCloseModalN}
                 className="close_cellgroup_modal"
               />
             </div>
 
             <div className="create_cellgroup_main_cont">
               <p className="cellgroup_text">
-                Editing {networkData.networkLeader || " "} network.
+                Editing {networkData.networkLeader || "this"} network.
               </p>
               <div className="cellgroup_form_cont">
                 <div className="cellgroup_inputs_cont">
                   <h3 className="cellgroup_name_label">Network Leader:</h3>
                   <input
                     name="networkLeader"
-                    placeholder=""
-                    value={networkData.networkLeader || " "}
-                    onChange={handleChangeNetwork}
+                    placeholder="Enter Network Leader"
+                    value={networkData.networkLeader || ""}
+                    onChange={(e) =>
+                      setNetworkData({
+                        ...networkData,
+                        networkLeader: e.target.value,
+                      })
+                    }
                     type="text"
                     className="cellgroup_name_input"
                   />
