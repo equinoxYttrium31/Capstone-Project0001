@@ -254,7 +254,7 @@ const archivePrayerRequests = async () => {
       return;
     }
 
-    // Process and move them to the archive
+    // Prepare archives
     const archives = prayerRequestsToArchive.map((request) => {
       const prayersToArchive = request.prayers.filter(
         (prayer) => prayer.dateSubmitted < firstDayOfCurrentMonth
@@ -269,17 +269,24 @@ const archivePrayerRequests = async () => {
     });
 
     // Save archived requests in the archive collection
-    await ArchivedPrayerRequestModel.insertMany(archives);
+    if (archives.length > 0) {
+      await ArchivedPrayerRequestModel.insertMany(archives);
+    }
 
-    // Remove archived prayers from the original requests
-    await Promise.all(
-      prayerRequestsToArchive.map(async (request) => {
-        request.prayers = request.prayers.filter(
-          (prayer) => prayer.dateSubmitted >= firstDayOfCurrentMonth
-        );
-        await request.save();
-      })
+    // Remove archived prayers from original requests using $pull
+    const updatePromises = prayerRequestsToArchive.map((request) =>
+      PrayerRequestModel.updateOne(
+        { _id: request._id },
+        {
+          $pull: {
+            prayers: { dateSubmitted: { $lt: firstDayOfCurrentMonth } },
+          },
+        }
+      )
     );
+
+    // Wait for all updates to complete
+    await Promise.all(updatePromises);
 
     console.log(`${archives.length} prayer requests archived.`);
   } catch (error) {
