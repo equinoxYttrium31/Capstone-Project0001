@@ -225,6 +225,8 @@ const fetchTotalPrayerRequestWeekly = async (req, res) => {
       { $sort: { year: 1, month: 1 } }, // Sort by year and week
     ]);
 
+    await archivePrayerRequests();
+
     res.json(weeklyData);
     console.log(weeklyData);
   } catch (error) {
