@@ -124,12 +124,11 @@ const getProfile = async (req, res) => {
 const generateUserID = async (NetLead, CellLead) => {
   let networkID = "00"; // Default network ID if no leader is found
   let cellgroupID = "0000"; // Default cellgroup ID if no leader is found
+  let lastPart = "00000001"; // Default value for last part, will be incremented based on existing users
 
   // Fetch the networkID based on the networkLeader name
   if (NetLead) {
-    const network = await NetworkModel.findOne({
-      networkLeader: NetLead,
-    });
+    const network = await NetworkModel.findOne({ networkLeader: NetLead });
     if (network) {
       networkID = network.networkID || "00"; // Use the networkID if found, else default to "00"
     }
@@ -141,7 +140,8 @@ const generateUserID = async (NetLead, CellLead) => {
       cellgroupLeader: CellLead,
     });
     if (cellGroup) {
-      cellgroupID = cellGroup.cellgroupID || "0000"; // Use the cellgroupID if found, else default to "0000"
+      // Use the last 4 digits of the cellgroupID
+      cellgroupID = cellGroup.cellgroupID.slice(-4) || "0000";
     }
   }
 
@@ -151,8 +151,16 @@ const generateUserID = async (NetLead, CellLead) => {
     .toString()
     .padStart(2, "0")}`;
 
-  // Generate the last part, this can be incremented or adjusted as needed.
-  const lastPart = "00000003"; // You can implement logic to dynamically increment this if needed.
+  // Find the highest existing userID for the current year and month to determine the last part
+  const lastUser = await ChurchUser.findOne({
+    userID: new RegExp(`^${networkID}-${yearMonth}-${cellgroupID}-`),
+  }).sort({ userID: -1 }); // Sort by userID in descending order to get the latest
+
+  if (lastUser && lastUser.userID) {
+    const lastUserID = lastUser.userID.split("-").pop(); // Get the last part of the userID
+    const lastDigit = parseInt(lastUserID, 10); // Convert it to an integer
+    lastPart = (lastDigit + 1).toString().padStart(8, "0"); // Increment and pad to 8 digits
+  }
 
   // Return the final generated ID in the desired format
   return `${networkID}-${yearMonth}-${cellgroupID}-${lastPart}`;
