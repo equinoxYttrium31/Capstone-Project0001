@@ -172,6 +172,8 @@ const fetchAllPrayer = async (req, res) => {
       },
     ]);
 
+    await archivePrayerRequests();
+
     console.log(prayerRequests); // Log the result to the console
     res.status(200).json(prayerRequests); // Respond with the unwound data
   } catch (error) {
