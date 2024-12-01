@@ -14,7 +14,8 @@ export default function Communication_Tools() {
     const fetchGroupedPrayerRequests = async () => {
       try {
         const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/prayer-requests/grouped"
+          "https://capstone-project0001-2.onrender.com/prayer-requests/grouped",
+          "https://capstone-project0001-2.onrender.com/archivePrayer"
         );
         if (response.status === 200) {
           setGroupedPrayerRequests(response.data);

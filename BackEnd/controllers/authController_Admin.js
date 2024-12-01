@@ -235,7 +235,7 @@ const fetchTotalPrayerRequestWeekly = async (req, res) => {
   }
 };
 
-async function archivePrayerRequests() {
+const archivePrayerRequests = async () => {
   try {
     const currentDate = new Date();
     const firstDayOfCurrentMonth = new Date(
@@ -285,7 +285,7 @@ async function archivePrayerRequests() {
   } catch (error) {
     console.error("Error archiving prayer requests:", error);
   }
-}
+};
 
 const schedule = require("node-schedule");
 
@@ -1141,4 +1141,5 @@ module.exports = {
   createNewNetwork,
   fetchCellgroupByID,
   updateCellgroupByID,
+  archivePrayerRequests,
 };
