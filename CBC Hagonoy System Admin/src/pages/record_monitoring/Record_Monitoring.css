@@ -820,6 +820,84 @@
   overflow: hidden;
 }
 
+.edit_network_modal_container {
+  background-color: #00000036;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.2px);
+  -webkit-backdrop-filter: blur(4.2px);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.edit_network_modal {
+  background-color: whitesmoke;
+  width: 50rem;
+  height: fit-content;
+  padding: 0 0 2rem 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.edit_network_header_container {
+  padding: 0rem 2rem;
+  border-bottom: #28282b93 2px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.close_btn {
+  height: 24px;
+  width: 24px;
+}
+
+.close_btn:hover {
+  cursor: pointer;
+  filter: drop-shadow(#2d2f6577 1px 1px 3px);
+}
+
+.edit_network_header {
+  font-size: 1.5rem;
+  color: #2d2f65;
+  font-family: "Poppins";
+}
+
+.save_btn {
+  font-family: "poppins";
+  padding: 0.3rem 2rem;
+  border: none;
+  border-radius: 0.2rem;
+  background-color: #120652;
+  color: whitesmoke;
+  transition: all 0.2s ease-in-out;
+}
+
+.save_btn:hover {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 5px #28282b;
+}
+
+.btn_cont {
+  display: flex;
+  justify-content: end;
+  width: 90%;
+  padding: 1rem 2rem;
+}
+
 /*Edit Cellgroup Modal*/
 .editCellGroup_container {
   background-color: #00000036;

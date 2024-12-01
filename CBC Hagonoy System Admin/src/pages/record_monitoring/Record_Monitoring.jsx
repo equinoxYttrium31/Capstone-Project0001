@@ -54,6 +54,7 @@ function Record_Monitoring() {
   const socket = useRef(null); // Create a ref for the socket
   const [cellGroups, setCellGroups] = useState([]);
   const [editModalC, setEditModalC] = useState(false);
+  const [networkData, setNetworkData] = useState([]);
   const [expanded, setExpanded] = useState({});
 
   //expandable cellgroups
@@ -278,6 +279,27 @@ function Record_Monitoring() {
   const setEditNetwork = () => {
     setEditNetworkModal(true);
   };
+
+  useEffect(() => {
+    const fetchNetworksDetails = async () => {
+      try {
+        const response = await fetch(
+          "https://capstone-project0001-2.onrender.com/networks"
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+
+        const netData = await response.json();
+        console.log(netData);
+        setNetworkData(netData);
+      } catch (error) {
+        console.error("Error fetching network details:", error);
+      }
+    };
+    fetchNetworksDetails();
+  }, []);
 
   const setEditCellgroup = () => {
     setEditCellGroupModal(true);
@@ -920,6 +942,60 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
+
+      {editNetworkModal && (
+        <div className="edit_network_modal_container">
+          <div className="edit_network_modal">
+            <div className="edit_network_header_container">
+              <h1 className="edit_network_header">Edit Network</h1>
+              <img
+                src={close_ic}
+                alt="close button"
+                onClick={() => setEditNetworkModal(false)}
+                className="close_btn"
+              />
+            </div>
+            <div className="main_editor_container">
+              <table className="network_table">
+                <thead className="network_table_header">
+                  <th>Network ID</th>
+                  <th>Network Leader</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody className="network_table_body">
+                  {networkData.length > 0 ? (
+                    networkData
+                      .sort((a, b) => {
+                        // Split the "cellgroupID" into prefix and number
+                        const [prefixA, numberA] = a.cellgroupID.split("-");
+                        const [prefixB, numberB] = b.cellgroupID.split("-");
+
+                        // Compare the prefixes first (lexicographically)
+                        const prefixComparison = prefixA.localeCompare(prefixB);
+                        if (prefixComparison !== 0) {
+                          return prefixComparison;
+                        }
+
+                        // If prefixes are equal, compare the numeric parts
+                        return parseInt(numberA, 10) - parseInt(numberB, 10);
+                      })
+                      .map((network) => (
+                        <tr className="row-table" key={network._id}></tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="no_data">
+                        No Cell Groups Found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
       {confirmationModal && (
         <div className="confirmation-modal">
           <div className="confirmation-modal-content">
@@ -944,6 +1020,7 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
+
       {newCellGroupModal && (
         <div className="create_cellgroup_cont">
           <div className="cellgroup_main_cont">
@@ -1006,6 +1083,7 @@ function Record_Monitoring() {
           </div>
         </div>
       )}
+
       {editCellGroupModal && (
         <div className="editCellGroup_container">
           <div className="editCellgroup_container_main">
@@ -1025,7 +1103,7 @@ function Record_Monitoring() {
                   <th className="cn_head">Cellgroup Name</th>
                   <th className="cl_head">Cellgroup Leader</th>
                   <th className="nl_head">Network Leader</th>
-                  <th className="a_head">Actions</th>
+                  <th className="a_head">Action</th>
                 </thead>
                 <tbody className="cellgroup_list_deets">
                   {cellGroups.length > 0 ? (
@@ -1056,14 +1134,6 @@ function Record_Monitoring() {
                               onClick={() => handleEdit(cellgroup.cellgroupID)}
                             >
                               Edit
-                            </button>
-                            <button
-                              className="archive btn"
-                              onClick={() =>
-                                handleDelete(cellgroup.cellgroupID)
-                              }
-                            >
-                              Archive
                             </button>
                           </td>
                         </tr>

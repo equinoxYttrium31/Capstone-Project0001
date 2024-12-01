@@ -156,6 +156,15 @@ const getRecords = async (req, res) => {
   }
 };
 
+const fetchAllNetwork = async (req, res) => {
+  try {
+    const networks = await NetworkModel.find(); // Assuming you have a Mongoose model
+    res.json(networks);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch cell groups" });
+  }
+};
+
 const fetchAllPrayer = async (req, res) => {
   try {
     // Use aggregation pipeline to unwind the prayers array
@@ -1149,4 +1158,5 @@ module.exports = {
   fetchCellgroupByID,
   updateCellgroupByID,
   archivePrayerRequests,
+  fetchAllNetwork,
 };
