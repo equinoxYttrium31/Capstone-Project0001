@@ -6,6 +6,7 @@ const ArchieveUserModel = require("../models/ArchieveRecords");
 const AnnouncementModel = require("../models/Announcements"); // Adjust to your model
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
+const ArchivedPrayerRequestModel = require("../models/ArchivePrayer");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
@@ -229,6 +230,65 @@ const fetchTotalPrayerRequestWeekly = async (req, res) => {
     res.status(500).json({ error: "Error fetching weekly prayer requests" });
   }
 };
+
+async function archivePrayerRequests() {
+  try {
+    const currentDate = new Date();
+    const firstDayOfCurrentMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+
+    // Find all prayer requests with prayers submitted before the current month
+    const prayerRequestsToArchive = await PrayerRequestModel.find({
+      "prayers.dateSubmitted": { $lt: firstDayOfCurrentMonth },
+    });
+
+    if (prayerRequestsToArchive.length === 0) {
+      console.log("No prayer requests to archive.");
+      return;
+    }
+
+    // Process and move them to the archive
+    const archives = prayerRequestsToArchive.map((request) => {
+      const prayersToArchive = request.prayers.filter(
+        (prayer) => prayer.dateSubmitted < firstDayOfCurrentMonth
+      );
+
+      return {
+        name: request.name,
+        prayers: prayersToArchive,
+        archiveMonth: currentDate.getMonth(),
+        archiveYear: currentDate.getFullYear(),
+      };
+    });
+
+    // Save archived requests in the archive collection
+    await ArchivedPrayerRequestModel.insertMany(archives);
+
+    // Remove archived prayers from the original requests
+    await Promise.all(
+      prayerRequestsToArchive.map(async (request) => {
+        request.prayers = request.prayers.filter(
+          (prayer) => prayer.dateSubmitted >= firstDayOfCurrentMonth
+        );
+        await request.save();
+      })
+    );
+
+    console.log(`${archives.length} prayer requests archived.`);
+  } catch (error) {
+    console.error("Error archiving prayer requests:", error);
+  }
+}
+
+const schedule = require("node-schedule");
+
+schedule.scheduleJob("0 0 1 * *", async () => {
+  console.log("Running monthly prayer request archiving job...");
+  await archivePrayerRequests();
+});
 
 const updateCellgroupByID = async (req, res) => {
   try {
