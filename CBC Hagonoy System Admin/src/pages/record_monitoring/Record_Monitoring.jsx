@@ -54,6 +54,7 @@ function Record_Monitoring() {
   const socket = useRef(null); // Create a ref for the socket
   const [cellGroups, setCellGroups] = useState([]);
   const [editModalC, setEditModalC] = useState(false);
+  const [editModalN, setEditModalN] = useState(false);
   const [networkData, setNetworkData] = useState([]);
   const [expanded, setExpanded] = useState({});
 
@@ -284,7 +285,7 @@ function Record_Monitoring() {
     const fetchNetworksDetails = async () => {
       try {
         const response = await fetch(
-          "https://capstone-project0001-2.onrender.com/networks"
+          "https://capstone-project0001-2.onrender.com/network"
         );
 
         if (!response.ok) {
@@ -523,6 +524,28 @@ function Record_Monitoring() {
     } catch (error) {
       console.error("Error updating Cellgroup:", error);
     }
+  };
+
+  const fetchNetworkbyID = async (networkID) => {
+    try {
+      const response = await axios.get(
+        `https://capstone-project0001-2.onrender.com/network/${networkID}`
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Fetched Data:", data);
+      setNetworkData(data);
+    } catch (err) {
+      console.error("Error fetching cell group data:", err);
+    }
+  };
+
+  const handleEditNetwork = (networkID) => {
+    fetchNetworkbyID(networkData);
+    setEditModalN(networkID);
   };
 
   const filterRecords = (query) => {
@@ -967,8 +990,8 @@ function Record_Monitoring() {
                     networkData
                       .sort((a, b) => {
                         // Split the "cellgroupID" into prefix and number
-                        const [prefixA, numberA] = a.cellgroupID.split("-");
-                        const [prefixB, numberB] = b.cellgroupID.split("-");
+                        const [prefixA, numberA] = a.networkID.split("-");
+                        const [prefixB, numberB] = b.networkID.split("-");
 
                         // Compare the prefixes first (lexicographically)
                         const prefixComparison = prefixA.localeCompare(prefixB);
@@ -980,7 +1003,20 @@ function Record_Monitoring() {
                         return parseInt(numberA, 10) - parseInt(numberB, 10);
                       })
                       .map((network) => (
-                        <tr className="row-table" key={network._id}></tr>
+                        <tr className="row-table" key={network.networkID}>
+                          <td>{network.networkID}</td>
+                          <td>{network.networkLeader}</td>
+                          <td>
+                            <button
+                              className="edit btn"
+                              onClick={() =>
+                                handleEditNetwork(network.networkID)
+                              }
+                            >
+                              Edit
+                            </button>
+                          </td>
+                        </tr>
                       ))
                   ) : (
                     <tr>
@@ -991,6 +1027,49 @@ function Record_Monitoring() {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editModalN && (
+        <div className="main_editing_container">
+          <div className="editing_container">
+            <div className="editCellgroup_header_container">
+              <h2 className="editCellgroup_header">Edit Network</h2>
+              <img
+                src={close_ic}
+                alt="close_icon"
+                onClick={() => setEditModalN(false)}
+                className="close_cellgroup_modal"
+              />
+            </div>
+
+            <div className="create_cellgroup_main_cont">
+              <p className="cellgroup_text">
+                Editing {networkData.networkLeader} network.
+              </p>
+              <div className="cellgroup_form_cont">
+                <div className="cellgroup_inputs_cont">
+                  <h3 className="cellgroup_name_label">Network Leader:</h3>
+                  <input
+                    name="networkLeader"
+                    placeholder=""
+                    value={networkData.networkLeader || ""}
+                    onChange={handleChangeNetwork}
+                    type="text"
+                    className="cellgroup_name_input"
+                  />
+                </div>
+              </div>
+              <div className="cellgroup_create_btn">
+                <button
+                  className="create_cellgroup_btn"
+                  onClick={handleAddNetwork}
+                >
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>

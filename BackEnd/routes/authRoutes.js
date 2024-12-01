@@ -60,6 +60,7 @@ const {
   updateCellgroupByID,
   archivePrayerRequests,
   fetchAllNetwork,
+  fetchNetworkbyID,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -179,5 +180,6 @@ router.get("/cellgroups/:cellgroupID", fetchCellgroupByID);
 router.put("/cellgroups/:cellgroupID", updateCellgroupByID);
 router.get("/archivePrayer", archivePrayerRequests);
 router.get("/network", fetchAllNetwork);
+router.get("/network/:networkID", fetchNetworkbyID);
 // Export the router
 module.exports = router;

@@ -839,6 +839,22 @@ const fetchCellGroups = async (req, res) => {
   }
 };
 
+const fetchNetworkbyID = async (req, res) => {
+  try {
+    const networkID = req.params.networkID;
+
+    const networkToEdit = await NetworkModel.findOne({ networkID });
+    if (!networkToEdit) {
+      return res.status(404).json({ message: "Network not found" });
+    }
+
+    return res.json(networkToEdit);
+  } catch (error) {
+    console.error("Error fetching network:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 const fetchCellgroupByID = async (req, res) => {
   try {
     const cellgroupID = req.params.cellgroupID;
@@ -1159,4 +1175,5 @@ module.exports = {
   updateCellgroupByID,
   archivePrayerRequests,
   fetchAllNetwork,
+  fetchNetworkbyID,
 };
