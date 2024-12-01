@@ -1,5 +1,6 @@
 const ChurchUser = require("../models/ChurchUser");
-const CellGroupModel = require("../models/CellGroup"); // Adjust path accordingly
+const CellGroupModel = require("../models/CellGroup");
+const NetworkModel = require("../models/NetworkLeader");
 const UserAttendanceModel = require("../models/UserAttendance");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const mongoose = require("mongoose");
@@ -120,6 +121,43 @@ const getProfile = async (req, res) => {
   }
 };
 
+const generateUserID = async (NetLead, CellLead) => {
+  let networkID = "00"; // Default network ID if no leader is found
+  let cellgroupID = "0000"; // Default cellgroup ID if no leader is found
+
+  // Fetch the networkID based on the networkLeader name
+  if (NetLead) {
+    const network = await NetworkModel.findOne({
+      networkLeader: NetLead,
+    });
+    if (network) {
+      networkID = network.networkID || "00"; // Use the networkID if found, else default to "00"
+    }
+  }
+
+  // Fetch the cellgroupID based on the cellgroupLeader name
+  if (CellLead) {
+    const cellGroup = await CellGroupModel.findOne({
+      cellgroupLeader: CellLead,
+    });
+    if (cellGroup) {
+      cellgroupID = cellGroup.cellgroupID || "0000"; // Use the cellgroupID if found, else default to "0000"
+    }
+  }
+
+  // Get the current year and month in yyyymm format
+  const currentDate = new Date();
+  const yearMonth = `${currentDate.getFullYear()}${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}`;
+
+  // Generate the last part, this can be incremented or adjusted as needed.
+  const lastPart = "00000003"; // You can implement logic to dynamically increment this if needed.
+
+  // Return the final generated ID in the desired format
+  return `${networkID}-${yearMonth}-${cellgroupID}-${lastPart}`;
+};
+
 // Register a new user
 const registerUser = async (req, res) => {
   try {
@@ -142,6 +180,11 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ error: "User already exists" });
     }
 
+    const generatedID = await generateUserID(
+      (NetLead = null),
+      (CellLead = null)
+    );
+
     // Hash the password and create a new user
     const hashedPassword = await hashPassword(password);
     const newUser = await ChurchUser.create({
@@ -150,6 +193,7 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       birthDate,
+      userID: generatedID,
     });
 
     return res.status(201).json(newUser); // Return the newly created user
@@ -332,6 +376,8 @@ const updateUserProfile = async (req, res) => {
       NetLead,
     } = req.body;
 
+    const generatedID = await generateUserID(NetLead, CellLead);
+
     // Prepare the update object
     const updateData = {
       firstName,
@@ -344,6 +390,7 @@ const updateUserProfile = async (req, res) => {
       TelNum,
       CellLead,
       NetLead,
+      userID: generatedID,
     };
 
     // Find and update the user in the database

@@ -30,6 +30,8 @@ const ChurchUser = new Schema(
     gender: { type: String, default: null },
     memberType: { type: String, default: "Member" },
     isBaptized: { type: String, default: null },
+
+    userID: { type: String, default: null, unique: true },
   },
   { timestamps: true }
 );
