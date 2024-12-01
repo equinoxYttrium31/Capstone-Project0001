@@ -535,16 +535,16 @@ function Record_Monitoring() {
         throw new Error(`Failed to fetch data: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Fetched Data:", data);
-      setNetworkData(data);
+      const networkdata = await response.json();
+      console.log("Fetched Data:", networkdata);
+      setNetworkData(networkdata);
     } catch (err) {
-      console.error("Error fetching cell group data:", err);
+      console.error("Error fetching Network data:", err);
     }
   };
 
   const handleEditNetwork = (networkID) => {
-    fetchNetworkbyID(networkData);
+    fetchNetworkbyID(networkID);
     setEditModalN(networkID);
   };
 
@@ -1047,7 +1047,7 @@ function Record_Monitoring() {
 
             <div className="create_cellgroup_main_cont">
               <p className="cellgroup_text">
-                Editing {networkData.networkLeader} network.
+                Editing {networkData.networkLeader || " "} network.
               </p>
               <div className="cellgroup_form_cont">
                 <div className="cellgroup_inputs_cont">
@@ -1055,7 +1055,7 @@ function Record_Monitoring() {
                   <input
                     name="networkLeader"
                     placeholder=""
-                    value={networkData.networkLeader || ""}
+                    value={networkData.networkLeader || " "}
                     onChange={handleChangeNetwork}
                     type="text"
                     className="cellgroup_name_input"

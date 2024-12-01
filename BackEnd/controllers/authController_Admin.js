@@ -841,12 +841,14 @@ const fetchCellGroups = async (req, res) => {
 
 const fetchNetworkbyID = async (req, res) => {
   try {
-    const networkID = req.params.networkID;
+    const networkID = req.params;
 
     const networkToEdit = await NetworkModel.findOne({ networkID });
     if (!networkToEdit) {
       return res.status(404).json({ message: "Network not found" });
     }
+
+    console.log(networkToEdit);
 
     return res.json(networkToEdit);
   } catch (error) {
