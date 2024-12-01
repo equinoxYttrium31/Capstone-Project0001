@@ -841,7 +841,7 @@ const fetchCellGroups = async (req, res) => {
 
 const fetchNetworkbyID = async (req, res) => {
   try {
-    const networkID = req.params;
+    const networkID = req.params.networkID;
 
     const networkToEdit = await NetworkModel.findOne({ networkID });
     if (!networkToEdit) {
