@@ -57,8 +57,9 @@ export default function Attendance_Management() {
 
     // If attendanceID exists, generate QR
     if (attendanceID) {
+      // Generate a QR code that redirects to /user-interface page
       setQrCodeData(
-        `https://client-2oru.onrender.com/attendance-details/${attendanceID}`
+        `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
       );
     } else {
       alert("Please create attendance first.");

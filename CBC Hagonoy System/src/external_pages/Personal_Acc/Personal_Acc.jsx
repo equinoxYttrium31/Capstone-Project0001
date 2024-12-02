@@ -14,6 +14,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import PropTypes from "prop-types";
 
+import Attendance_Form from "../../components/Attendance_Form/Attendance_Form";
+
 const calculateAge = (birthDate) => {
   const today = new Date();
   const birthDateObj = new Date(birthDate);
@@ -256,124 +258,8 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
           )}
         </div>
       </div>
-      <div className="personal_record_cont">
-        <div className="date_edit_container">
-          <h4 className="month_text">{currentMonth}</h4>
-          <h4 className="week_text">Week {currentWeek}</h4>
-        </div>
-        <form onSubmit={submitAttendanceData}>
-          <div className="record_info_checker">
-            <div className="checkbox_columns">
-              <div className="checkbox_column">
-                <div className="personal_checkboxes_cont">
-                  <input
-                    type="checkbox"
-                    id="cellGroup"
-                    className="personal_checkboxes"
-                    checked={attendanceData.cellGroup}
-                    onChange={(e) =>
-                      setAttendanceData((prev) => ({
-                        ...prev,
-                        cellGroup: e.target.checked,
-                      }))
-                    }
-                  />
-                  <label
-                    htmlFor="cellGroup"
-                    className="personal_checkboxes_label"
-                  >
-                    Cell Group
-                  </label>
-                </div>
-                <div className="personal_checkboxes_cont">
-                  <input
-                    type="checkbox"
-                    id="personalDevotion"
-                    className="personal_checkboxes"
-                    checked={attendanceData.personalDevotion}
-                    onChange={(e) =>
-                      setAttendanceData((prev) => ({
-                        ...prev,
-                        personalDevotion: e.target.checked,
-                      }))
-                    } // Use defaultChecked for initial state
-                  />
-                  <label
-                    htmlFor="personalDevotion"
-                    className="personal_checkboxes_label"
-                  >
-                    Personal Devotion
-                  </label>
-                </div>
-                <div className="personal_checkboxes_cont">
-                  <input
-                    type="checkbox"
-                    id="familyDevotion"
-                    className="personal_checkboxes"
-                    checked={attendanceData.familyDevotion}
-                    onChange={(e) =>
-                      setAttendanceData((prev) => ({
-                        ...prev,
-                        familyDevotion: e.target.checked,
-                      }))
-                    } // Use defaultChecked for initial state
-                  />
-                  <label
-                    htmlFor="familyDevotion"
-                    className="personal_checkboxes_label"
-                  >
-                    Family Devotion
-                  </label>
-                </div>
-              </div>
-              <div className="checkbox_column">
-                <div className="personal_checkboxes_cont">
-                  <input
-                    type="checkbox"
-                    id="prayerMeeting"
-                    className="personal_checkboxes"
-                    checked={attendanceData.prayerMeeting}
-                    onChange={(e) =>
-                      setAttendanceData((prev) => ({
-                        ...prev,
-                        prayerMeeting: e.target.checked,
-                      }))
-                    } // Use defaultChecked for initial state
-                  />
-                  <label
-                    htmlFor="prayerMeeting"
-                    className="personal_checkboxes_label"
-                  >
-                    Prayer Meeting
-                  </label>
-                </div>
-                <div className="personal_checkboxes_cont">
-                  <input
-                    type="checkbox"
-                    id="worshipService"
-                    className="personal_checkboxes"
-                    checked={attendanceData.worshipService}
-                    onChange={(e) =>
-                      setAttendanceData((prev) => ({
-                        ...prev,
-                        worshipService: e.target.checked,
-                      }))
-                    } // Use defaultChecked for initial state
-                  />
-                  <label
-                    htmlFor="worshipService"
-                    className="personal_checkboxes_label"
-                  >
-                    Worship Service
-                  </label>
-                </div>
-                <button type="submit" className="submit_attendance_button">
-                  Submit Attendance
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
+      <div className="__attendance_form">
+        <Attendance_Form />
       </div>
     </div>
   );
