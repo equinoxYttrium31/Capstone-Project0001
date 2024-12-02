@@ -7,10 +7,90 @@ const AnnouncementModel = require("../models/Announcements"); // Adjust to your 
 const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchivedPrayerRequestModel = require("../models/ArchivePrayer");
+const AttendanceDeets = require("../models/AttendanceDetails");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
 const cron = require("node-cron");
+
+const generateDeetsID = async () => {
+  try {
+    // Find the latest document sorted by attendanceID
+    const lastEntry = await AttendanceDeets.findOne()
+      .sort({ attendanceID: -1 })
+      .exec();
+
+    // Get the current year and month
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+
+    let newID;
+
+    if (lastEntry) {
+      const lastID = lastEntry.attendanceID;
+
+      // Extract year and month from the last ID
+      const [lastYear, lastMonth] = lastID.split("-");
+
+      if (lastYear === year.toString() && lastMonth === month) {
+        // Increment the numeric part if within the same year and month
+        const lastNumericPart = parseInt(lastID.split("-")[2], 10);
+        const nextNumericPart = (lastNumericPart + 1)
+          .toString()
+          .padStart(7, "0");
+        newID = `${year}-${month}-${nextNumericPart}`;
+      } else {
+        // Reset the numeric part for a new month or year
+        newID = `${year}-${month}-0000001`;
+      }
+    } else {
+      // Initialize the first ID if no entries exist
+      newID = `${year}-${month}-0000001`;
+    }
+
+    return newID;
+  } catch (error) {
+    console.error("Error generating attendance ID:", error.message);
+    throw new Error("Could not generate a new attendance ID.");
+  }
+};
+
+const storeAttendanceDeets = async (req, res) => {
+  try {
+    // Extract details from the request body
+    const { title, date, qrCodeData } = req.body;
+
+    // Validate input
+    if (!title || !date) {
+      return res.status(400).json({ error: "Title and Date are required." });
+    }
+
+    // Generate a unique attendanceID
+    const attendanceID = await generateDeetsID();
+
+    // Create a new AttendanceDeets document
+    const attendance = new AttendanceDeets({
+      title,
+      date,
+      attendanceID,
+    });
+
+    // Save the document to the database
+    const savedAttendance = await attendance.save();
+
+    // Respond with the saved attendance details
+    res.status(201).json({
+      message: "Attendance details successfully stored.",
+      data: savedAttendance,
+    });
+  } catch (error) {
+    console.error("Error storing attendance deets:", error.message);
+    res.status(500).json({
+      error: "An error occurred while storing attendance details.",
+    });
+  }
+};
 
 async function generateCellGroupID(networkLeader) {
   try {
@@ -1177,5 +1257,6 @@ module.exports = {
   updateCellgroupByID,
   archivePrayerRequests,
   fetchAllNetwork,
+  storeAttendanceDeets,
   fetchNetworkbyID,
 };
