@@ -182,6 +182,6 @@ router.put("/cellgroups/:cellgroupID", updateCellgroupByID);
 router.get("/archivePrayer", archivePrayerRequests);
 router.get("/network", fetchAllNetwork);
 router.get("/network/:networkID", fetchNetworkbyID);
-router.post("/attendance", storeAttendanceDeets);
+router.post("/attendance-deets", storeAttendanceDeets);
 // Export the router
 module.exports = router;

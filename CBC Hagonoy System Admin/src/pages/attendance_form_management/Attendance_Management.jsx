@@ -21,7 +21,7 @@ export default function Attendance_Management() {
     try {
       // Send the attendance details to the backend API
       const response = await axios.post(
-        "https://capstone-project0001-2.onrender.com/api/attendance/create-attendance",
+        "https://capstone-project0001-2.onrender.com/attendance-deets",
         {
           title: finalTitle,
           date,

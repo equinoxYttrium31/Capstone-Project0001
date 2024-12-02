@@ -59,7 +59,7 @@ const generateDeetsID = async () => {
 const storeAttendanceDeets = async (req, res) => {
   try {
     // Extract details from the request body
-    const { title, date, qrCodeData } = req.body;
+    const { title, date } = req.body;
 
     // Validate input
     if (!title || !date) {
