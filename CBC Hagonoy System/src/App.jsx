@@ -23,6 +23,7 @@ import Ministries from "./components/NavBar_Components/Ministries/ministries";
 import Events_Page from "./components/events_page/Event_Page";
 
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
 
 import "./App.css";
 
@@ -44,7 +45,6 @@ function App() {
     }, 4000); // Initial loading time before fade-out begins
   }, []);
 
-  // Function to toggle the menu
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -79,9 +79,7 @@ function App() {
           "Error checking auth:",
           error.response ? error.response.data : error.message
         );
-        // Handle unauthorized error
         if (error.response && error.response.status === 401) {
-          console.log("User is not authenticated");
           setIsLoggedIn(false);
         }
       }
@@ -90,7 +88,6 @@ function App() {
     checkAuth();
   }, []);
 
-  // Effect to lock/unlock scrolling
   useEffect(() => {
     document.body.style.overflow =
       showOverlay || isLoggedIn ? "hidden" : "auto";
@@ -99,13 +96,13 @@ function App() {
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setShowOverlay(false);
-    navigate("/user-interface"); // Redirect to user interface page
+    navigate("/user-interface");
   };
 
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://capstone-project0001-2.onrender.com//logout",
+        "https://capstone-project0001-2.onrender.com/logout",
         {},
         { withCredentials: true }
       );
@@ -120,7 +117,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* Toast notifications */}
       <Toaster
         position="top-right"
         reverseOrder={false}
@@ -133,7 +129,6 @@ function App() {
       {isLoading && <Loading fadeOut={fadeOut} />}
       {!isLoading && (
         <>
-          {/* Conditionally render either the NavBar or User_NavBar */}
           <NavBar
             onLoginClick={handleLoginClick}
             menuOpen={menuOpen}
@@ -176,10 +171,17 @@ function App() {
               element={<Ministries onLoginClick={handleLoginClick} />}
             />
 
-            <Route path="/user-interface" element={<User_Interface />} />
+            {/* Protected Routes */}
+            <Route
+              path="/user-interface"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <User_Interface />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
 
-          {/* Login/signup overlay */}
           {showOverlay && (
             <div className="overlay">
               <Login_Signup

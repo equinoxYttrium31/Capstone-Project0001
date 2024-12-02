@@ -1,6 +1,7 @@
 import axios from "axios"; // Import Axios
 import { useState } from "react";
 import QRCode from "react-qr-code";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { close_ic } from "../../assets/Images";
 import "./Attendance_Management.css";
 
@@ -9,6 +10,8 @@ export default function Attendance_Management() {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [qrCodeData, setQrCodeData] = useState("");
+  const [attendanceID, setAttendanceID] = useState(null); // Store the attendanceID
+  const navigate = useNavigate(); // For navigation
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
 
@@ -28,6 +31,15 @@ export default function Attendance_Management() {
         }
       );
 
+      // Extract the attendanceID from the response
+      const { attendanceID } = response.data.data;
+
+      // Set the attendanceID and generate the QR code with the ID
+      setAttendanceID(attendanceID);
+      setQrCodeData(
+        `https://client-2oru.onrender.com/attendance-details/${attendanceID}`
+      );
+
       // Show a success message upon successful storage
       alert(`Attendance Created: \nEvent: ${finalTitle}\nDate: ${date}`);
       console.log("Attendance Created Successfully:", response.data);
@@ -42,7 +54,15 @@ export default function Attendance_Management() {
       alert("Please fill in all the required fields.");
       return;
     }
-    setQrCodeData(`Event: ${finalTitle}, Date: ${date}`);
+
+    // If attendanceID exists, generate QR
+    if (attendanceID) {
+      setQrCodeData(
+        `https://client-2oru.onrender.com/attendance-details/${attendanceID}`
+      );
+    } else {
+      alert("Please create attendance first.");
+    }
   };
 
   return (
