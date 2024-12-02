@@ -29,7 +29,7 @@ import "./App.css";
 
 function App() {
   const [showOverlay, setShowOverlay] = useState(false);
-  const [overlayType, setOverlayType] = useState("");
+  const [overlayType, setOverlayType] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
@@ -177,7 +177,8 @@ function App() {
               element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
-                  showOverlay={handleLoginClick}
+                  handleLoginClick={handleLoginClick} // This line ensures the function is passed
+                  showOverlay={setShowOverlay}
                 >
                   <User_Interface />
                 </ProtectedRoute>
