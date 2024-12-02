@@ -31,6 +31,8 @@ import UM_selected from "./Dashboard_Icons/UM_selected.png";
 import CT_selected from "./Dashboard_Icons/CT_selected.png";
 import ATL_selected from "./Dashboard_Icons/ATL_selected.png";
 import AL_selected from "./Dashboard_Icons/AL_selected.png";
+import ATM_selected from "./Dashboard_Icons/ATM_selected.png";
+import ATM_notSelected from "./Dashboard_Icons/ATM_notSelected.png";
 import xlsx_icon from "../assets/icons/xlsx_icon.png";
 
 export {
@@ -68,4 +70,6 @@ export {
   CT_selected,
   ATL_selected,
   AL_selected,
+  ATM_notSelected,
+  ATM_selected,
 };

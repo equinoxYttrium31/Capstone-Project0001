@@ -23,6 +23,8 @@ import {
   RM_selected,
   AL_notSelected,
   AL_selected,
+  ATM_notSelected,
+  ATM_selected,
 } from "../../assets/Images";
 
 // Lazy-loaded components
@@ -46,6 +48,9 @@ const Communication_Tools = React.lazy(() =>
 );
 const Announcement_List = React.lazy(() =>
   import("../announcement_list/Announcement_List")
+);
+const Attendance_Management = React.lazy(() =>
+  import("../attendance_form_management/Attendance_Management")
 );
 
 function Main_Dashboard() {
@@ -150,6 +155,16 @@ function Main_Dashboard() {
             >
               Announcement Lists
             </Link>
+
+            <Link
+              to="/attendance-management"
+              className={`contents_dashboard ${
+                isActive === "/attendance-management" ? "active" : ""
+              }`}
+              onClick={() => setIsActive("/attendance-management")}
+            >
+              Attendance Management
+            </Link>
           </div>
         </div>
 
@@ -186,6 +201,10 @@ function Main_Dashboard() {
               <Route
                 path="/announcement-records"
                 element={<Announcement_List />}
+              />
+              <Route
+                path="/attendance-management"
+                element={<Attendance_Management />}
               />
             </Routes>
           </Suspense>
@@ -320,6 +339,24 @@ function Main_Dashboard() {
                 className="icon"
               />
               <p className="dashboard_label">Announcement Lists</p>
+            </Link>
+            <Link
+              className={`dashboard_icon ${
+                isActive === "/attendance-management" ? "active" : ""
+              }`}
+              to="/attendance-management"
+              onClick={() => setIsActive("/attendance-management")}
+            >
+              <img
+                src={
+                  isActive === "/attendance-management"
+                    ? ATM_selected
+                    : ATM_notSelected
+                }
+                alt="Audit Icon"
+                className="icon"
+              />
+              <p className="dashboard_label">Attendance Management</p>
             </Link>
           </div>
         )}

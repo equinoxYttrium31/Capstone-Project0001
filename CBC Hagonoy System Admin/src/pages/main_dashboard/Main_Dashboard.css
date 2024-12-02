@@ -33,7 +33,7 @@
 .dashboard_title_left {
   display: flex;
   flex-direction: row;
-  height: 10vh;
+  height: 5vh;
   align-items: center;
   gap: 5.5rem;
   color: #28282b;
@@ -87,7 +87,8 @@
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin-top: 1.125rem;
+  height: 82vh;
+  margin-top: 0rem;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -145,7 +146,9 @@
 
 .icons_container_admin {
   position: absolute;
-  top: 21%;
+  top: 20%;
+  height: 75vh;
+  overflow: scroll;
   left: 1.5%;
   display: flex;
   flex-direction: column;
