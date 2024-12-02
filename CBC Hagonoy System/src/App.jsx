@@ -23,7 +23,7 @@ import Ministries from "./components/NavBar_Components/Ministries/ministries";
 import Events_Page from "./components/events_page/Event_Page";
 
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./components/ProtectedRoute/"; // Import ProtectedRoute
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import ProtectedRoute
 
 import "./App.css";
 
