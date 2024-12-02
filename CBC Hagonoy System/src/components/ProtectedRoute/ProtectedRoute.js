@@ -1,13 +1,13 @@
-// src/components/ProtectedRoute.js
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ isLoggedIn, children }) => {
-  // If the user is not logged in, redirect to login page
+const ProtectedRoute = ({ isLoggedIn, children, showOverlay }) => {
+  // If the user is not logged in, show the overlay and prevent access to the protected page
   if (!isLoggedIn) {
-    return <Navigate to="/login" />;
+    showOverlay(); // Trigger the overlay display
+    return <Navigate to="/" />; // Optionally redirect to the home page or wherever you'd like
   }
 
-  // If logged in, render the children (i.e., the protected page)
+  // If logged in, render the children (protected page)
   return children;
 };
 
