@@ -1,14 +1,28 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const ProtectedRoute = ({ isLoggedIn, children, showOverlay }) => {
-  // If the user is not logged in, show the overlay and prevent access to the protected page
-  if (!isLoggedIn) {
-    showOverlay(); // Trigger the overlay display
-    return <Navigate to="/" />; // Optionally redirect to the home page or wherever you'd like
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      // Show overlay when not logged in
+      showOverlay();
+
+      // Redirect to home page or login page after a delay if needed
+      setTimeout(() => {
+        navigate("/", { replace: true }); // This will redirect to the home page (or login)
+      }, 500); // Adjust the delay if you want to show the overlay first
+    }
+  }, [isLoggedIn, navigate, showOverlay]);
 
   // If logged in, render the children (protected page)
-  return children;
+  if (isLoggedIn) {
+    return children;
+  }
+
+  // If not logged in, return null temporarily (the redirect will happen)
+  return null;
 };
 
 export default ProtectedRoute;
