@@ -253,7 +253,6 @@ const loginUser = async (req, res) => {
 
     // Set the cookie with the token
     res.cookie("token", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
       sameSite: "None", // Adjust based on your app needs
