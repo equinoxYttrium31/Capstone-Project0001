@@ -248,6 +248,8 @@ const loginUser = async (req, res) => {
       { expiresIn: "7d" } // Set expiration here
     );
 
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
     // Log the generated token
     console.log("Generated Token:", token);
 
