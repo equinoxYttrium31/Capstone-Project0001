@@ -5,6 +5,7 @@ import axios from "axios";
 const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   // Function to check if the user is authenticated via API
   const checkAuth = async () => {
@@ -15,13 +16,13 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
           withCredentials: true,
         }
       );
-      return response.data.isLoggedIn;
+      return response.data.isLoggedIn; // API response to indicate login status
     } catch (error) {
       console.error(
         "Error checking auth:",
         error.response ? error.response.data : error.message
       );
-      return false;
+      return false; // Default to false if an error occurs
     }
   };
 
@@ -29,29 +30,38 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
     const checkAuthentication = async () => {
       const isAuthenticatedFromAPI = await checkAuth();
 
-      if (isAuthenticatedFromAPI) {
+      if (!isAuthenticatedFromAPI) {
         // User is not authenticated, handle login
-        handleLoginClick("login");
-        showOverlay(true);
+        handleLoginClick("login"); // Trigger login functionality
+        showOverlay(true); // Display overlay if applicable
 
+        // Redirect to the login page or home page
         setTimeout(() => {
           navigate("/", { replace: true });
         }, 1000);
+
+        setLoading(false); // Stop loading after redirect preparation
         return;
       }
 
-      setIsAuthenticated(true);
+      setIsAuthenticated(true); // User is authenticated, allow access
+      setLoading(false); // Stop loading
     };
 
     checkAuthentication();
   }, [navigate, handleLoginClick, showOverlay]);
 
-  // If authenticated, render the children components
+  // Show a loading spinner while checking authentication
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Render the children components if authenticated
   if (isAuthenticated) {
     return children;
   }
 
-  // If not authenticated, temporarily render null
+  // Render null or a fallback UI while redirecting
   return null;
 };
 
