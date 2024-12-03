@@ -36,9 +36,6 @@ export default function Attendance_Management() {
 
       // Set the attendanceID and generate the QR code with the ID
       setAttendanceID(attendanceID);
-      setQrCodeData(
-        `https://client-2oru.onrender.com/attendance-details/${attendanceID}`
-      );
 
       // Show a success message upon successful storage
       alert(`Attendance Created: \nEvent: ${finalTitle}\nDate: ${date}`);

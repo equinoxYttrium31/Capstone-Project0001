@@ -1,33 +1,57 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const ProtectedRoute = ({
-  isLoggedIn,
-  children,
-  handleLoginClick,
-  showOverlay,
-}) => {
+const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Function to check if the user is authenticated via API
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get(
+        "https://capstone-project0001-2.onrender.com/check-auth",
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data.isLoggedIn;
+    } catch (error) {
+      console.error(
+        "Error checking auth:",
+        error.response ? error.response.data : error.message
+      );
+      return false;
+    }
+  };
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      // Trigger the modal to show (login or signup)
-      handleLoginClick("login"); // You can change this to 'signup' based on your logic
-      showOverlay(true); // Make sure overlay is visible
+    const checkAuthentication = async () => {
+      const isAuthenticatedFromAPI = await checkAuth();
 
-      // Optionally, after a short delay, redirect to the home page or login page
-      setTimeout(() => {
-        navigate("/", { replace: true });
-      }, 1000); // Adjust delay as necessary
-    }
-  }, [isLoggedIn, navigate, handleLoginClick, showOverlay]);
+      if (!isAuthenticatedFromAPI) {
+        // User is not authenticated, handle login
+        handleLoginClick("login");
+        showOverlay(true);
 
-  // If logged in, render the children (protected page)
-  if (isLoggedIn) {
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1000);
+        return;
+      }
+
+      setIsAuthenticated(true);
+    };
+
+    checkAuthentication();
+  }, [navigate, handleLoginClick, showOverlay]);
+
+  // If authenticated, render the children components
+  if (isAuthenticated) {
     return children;
   }
 
-  // If not logged in, return null temporarily (the redirect will happen)
+  // If not authenticated, temporarily render null
   return null;
 };
 

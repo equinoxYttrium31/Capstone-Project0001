@@ -173,7 +173,7 @@ function App() {
 
             {/* Protected Routes */}
             <Route
-              path="/user-interface"
+              path="/user-interface?attendanceID=${attendanceID}"
               element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
