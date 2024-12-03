@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
         "Error checking auth:",
         error.response ? error.response.data : error.message
       );
-      return false; // Default to false if an error occurs
+      return false;
     }
   };
 
