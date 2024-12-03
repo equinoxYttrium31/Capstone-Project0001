@@ -52,13 +52,20 @@ const Personal_Acc = ({ profileRefresh }) => {
 
     try {
       const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/attendance-details/${attendanceID}`
+        `https://capstone-project0001-2.onrender.com/attendance-details/${attendanceID}`,
+        { withCredentials: true }
       );
 
-      console.log(attendanceID);
+      console.log("Attendance ID:", attendanceID);
+      console.log("Response:", response.data);
       setAttendance(response.data); // Save attendance details
     } catch (error) {
-      console.error("Error fetching attendance details:", error);
+      if (error.response) {
+        // Log detailed server error
+        console.error("Server responded with an error:", error.response.data);
+      } else {
+        console.error("Error making request:", error.message);
+      }
     }
   };
 

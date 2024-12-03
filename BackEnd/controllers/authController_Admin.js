@@ -103,7 +103,7 @@ const fetchAttendanceDeets = async (req, res) => {
       return res.status(404).json({ message: "Attendance not found" });
     }
 
-    return res.json(attendance);
+    res.json(attendance);
   } catch (error) {
     console.error("Error fetching attendance details:", error.message);
     res.status(500).json({
