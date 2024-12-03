@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
     // Check if the token exists in the cookies
     const token = document.cookie
       .split("; ")
-      .find((row) => row.startsWith("token="));
+      .find((row) => row.startsWith("ey"));
     return token ? true : false;
   };
 
@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
       if (!isAuthenticatedFromCookies) {
         // If no token, redirect to the login page
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
         return;
       }
 
