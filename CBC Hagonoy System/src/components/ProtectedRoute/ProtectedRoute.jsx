@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
       const isAuthenticatedFromAPI = await checkAuth();
       console.log("Is user authenticated from API:", isAuthenticatedFromAPI);
 
-      if (!isAuthenticatedFromAPI) {
+      if (isAuthenticatedFromAPI) {
         // User is not authenticated, handle login
         handleLoginClick("login");
         showOverlay(true);
@@ -59,7 +59,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   }
 
   // If authenticated, render the children components
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     console.log("User is authenticated, rendering children.");
     return children;
   }
