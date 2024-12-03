@@ -96,7 +96,9 @@ const fetchAttendanceDeets = async (req, res) => {
   try {
     const attendanceID = req.params.attendanceID;
 
-    const attendance = AttendanceDeets.findOne({ attendanceID: attendanceID });
+    const attendance = await AttendanceDeets.findOne({
+      attendanceID: attendanceID,
+    });
     console.log(attendance);
 
     if (!attendance) {
