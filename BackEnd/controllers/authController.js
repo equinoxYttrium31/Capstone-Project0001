@@ -237,12 +237,7 @@ const loginUser = async (req, res) => {
     // Signing the token with relevant user information
     const token = jwt.sign(
       {
-        id: churchUser._id,
-        email: churchUser.email,
-        firstName: churchUser.firstName,
-        lastName: churchUser.lastName,
-        birthDate: churchUser.birthDate,
-        memberType: churchUser.memberType,
+        userID: churchUser.userID,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" } // Set expiration here
