@@ -33,10 +33,6 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
       console.log("Is user authenticated from API:", isAuthenticatedFromAPI);
 
       if (isAuthenticatedFromAPI) {
-        // User is not authenticated, handle login
-        handleLoginClick("login");
-        showOverlay(true);
-
         // Ensure navigation happens only after the check
         setTimeout(() => {
           navigate("/", { replace: true });
@@ -54,9 +50,9 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   }, [navigate, handleLoginClick, showOverlay]);
 
   // Show a loading spinner while checking authentication
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // User is not authenticated, handle login
+  handleLoginClick("login");
+  showOverlay(true);
 
   // If authenticated, render the children components
   if (isAuthenticated) {
