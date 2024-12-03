@@ -57,7 +57,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   }
 
   // Render the children components if authenticated
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return children;
   }
 
