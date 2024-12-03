@@ -29,7 +29,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
     const checkAuthentication = async () => {
       const isAuthenticatedFromAPI = await checkAuth();
 
-      if (!isAuthenticatedFromAPI) {
+      if (isAuthenticatedFromAPI) {
         // User is not authenticated, handle login
         handleLoginClick("login");
         showOverlay(true);
