@@ -1279,4 +1279,5 @@ module.exports = {
   fetchAllNetwork,
   storeAttendanceDeets,
   fetchNetworkbyID,
+  fetchAttendanceDeets,
 };

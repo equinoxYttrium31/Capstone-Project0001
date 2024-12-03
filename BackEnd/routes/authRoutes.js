@@ -62,6 +62,7 @@ const {
   fetchAllNetwork,
   storeAttendanceDeets,
   fetchNetworkbyID,
+  fetchAttendanceDeets,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -183,5 +184,7 @@ router.get("/archivePrayer", archivePrayerRequests);
 router.get("/network", fetchAllNetwork);
 router.get("/network/:networkID", fetchNetworkbyID);
 router.post("/attendance-deets", storeAttendanceDeets);
+router.get("/attendance-details/:attendanceID", fetchAttendanceDeets);
+
 // Export the router
 module.exports = router;
