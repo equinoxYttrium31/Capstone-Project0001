@@ -54,6 +54,8 @@ const Personal_Acc = ({ profileRefresh }) => {
       const response = await axios.get(
         `https://capstone-project0001-2.onrender.com/attendance-details/${attendanceID}`
       );
+
+      console.log(attendanceID);
       setAttendance(response.data); // Save attendance details
     } catch (error) {
       console.error("Error fetching attendance details:", error);
