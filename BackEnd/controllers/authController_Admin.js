@@ -92,6 +92,26 @@ const storeAttendanceDeets = async (req, res) => {
   }
 };
 
+const fetchAttendanceDeets = async (req, res) => {
+  try {
+    const attendanceID = req.params.attendanceID;
+
+    const attendance = AttendanceDeets.findOne(attendanceID);
+    console.log(attendance);
+
+    if (!attendance) {
+      return res.status(404).json({ message: "Attendance not found" });
+    }
+
+    return res.json(attendance);
+  } catch (error) {
+    console.error("Error fetching attendance details:", error.message);
+    res.status(500).json({
+      error: "An error occurred while fetching attendance details.",
+    });
+  }
+};
+
 async function generateCellGroupID(networkLeader) {
   try {
     // Step 1: Find the network associated with the network leader

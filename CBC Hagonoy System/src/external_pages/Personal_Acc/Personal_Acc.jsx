@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Personal_Acc.css";
+import { useSearchParams } from "react-router-dom";
 import {
   user_placeholder,
   avatar_female,
@@ -31,7 +32,7 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
-const Personal_Acc = ({ onSubmit, profileRefresh }) => {
+const Personal_Acc = ({ profileRefresh }) => {
   //PropTypes Validation
   Personal_Acc.propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -39,60 +40,30 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
   };
 
   const [user, setUser] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState("");
-  const [currentYear, setCurrentYear] = useState("");
-  const [currentWeek, setCurrentWeek] = useState("");
   const [error, setError] = useState(null);
   const [hasProfilePicture, setHasProfilePicture] = useState(false);
   const [profilePicture, setProfilePicture] = useState();
-  const [attendanceData, setAttendanceData] = useState({
-    cellGroup: false,
-    personalDevotion: false,
-    familyDevotion: false,
-    prayerMeeting: false,
-    worshipService: false,
-  });
+  const [searchParams] = useSearchParams();
+  const attendanceID = searchParams.get("attendanceID");
+  const [attendance, setAttendance] = useState(null);
 
-  // Function to submit attendance data to the backend
-  const submitAttendanceData = async (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-    const userId = user?._id; // Assuming user has an _id field
-    const month = currentMonth; // Current month
-    const year = currentYear; // Current year
-    const weekNumber = currentWeek; // Current week number
-
-    // Get checkbox states from the form elements
-    const attendanceData = {
-      cellGroup: event.target.cellGroup.checked,
-      personalDevotion: event.target.personalDevotion.checked,
-      familyDevotion: event.target.familyDevotion.checked,
-      prayerMeeting: event.target.prayerMeeting.checked,
-      worshipService: event.target.worshipService.checked,
-    };
-
-    const attendancePayload = {
-      userId,
-      month,
-      year,
-      weekNumber,
-      attendanceData, // Use the collected data here
-    };
+  const fetchAttendanceDetails = async () => {
+    if (!attendanceID) return;
 
     try {
-      await axios.post(
-        "https://capstone-project0001-2.onrender.com/attendance",
-        attendancePayload,
-        {
-          withCredentials: true,
-        }
+      const response = await axios.get(
+        `https://capstone-project0001-2.onrender.com/attendance-details/${attendanceID}`
       );
-      toast.success("Attendance recorded successfully!");
-      onSubmit(true);
+      setAttendance(response.data); // Save attendance details
     } catch (error) {
-      console.error("Error submitting attendance data:", error);
-      toast.error("Failed to submit attendance data.");
+      console.error("Error fetching attendance details:", error);
     }
   };
+
+  useEffect(() => {
+    fetchUserProfile();
+    fetchAttendanceDetails(); // Fetch attendance details when attendanceID changes
+  }, [attendanceID]);
 
   // Function to fetch user profile
   const fetchUserProfile = async () => {
@@ -110,30 +81,6 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
     }
   };
 
-  // Function to fetch attendance data
-  const fetchAttendanceData = async () => {
-    const userId = user?._id;
-    const month = currentMonth;
-    const year = currentYear;
-    const weekNumber = currentWeek;
-
-    try {
-      const response = await axios.get(
-        `https://capstone-project0001-2.onrender.com/attendance-weekly/get/${userId}/${month}/${year}/${weekNumber}`,
-        {
-          withCredentials: true,
-        }
-      );
-      return response.data; // Assuming the response contains the weekly attendance data
-    } catch (error) {
-      console.error(
-        "Error fetching attendance data:",
-        error.response ? error.response.data : error.message
-      );
-      throw error;
-    }
-  };
-
   useEffect(() => {
     const getUserProfile = async () => {
       try {
@@ -146,9 +93,6 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
     };
 
     getUserProfile();
-    setCurrentMonth(getCurrentMonth());
-    setCurrentYear(getCurrentYear());
-    setCurrentWeek(getCurrentWeekNumber());
   }, []);
 
   useEffect(() => {
@@ -179,22 +123,6 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
 
     fetchUserProfile();
   }, [profileRefresh]);
-  // Effect to load attendance data from the backend
-  useEffect(() => {
-    if (user) {
-      const getAttendanceData = async () => {
-        try {
-          const attendanceData = await fetchAttendanceData();
-          // Set tempAttendanceData based on the fetched data
-          setAttendanceData(attendanceData);
-        } catch (error) {
-          console.error("Failed to fetch attendance data:", error);
-        }
-      };
-
-      getAttendanceData();
-    }
-  }, [user, currentWeek, currentMonth, currentYear]); // Run when user or current week/month/year changes
 
   // Refresh user profile when profileRefresh flag changes
   useEffect(() => {
@@ -259,7 +187,7 @@ const Personal_Acc = ({ onSubmit, profileRefresh }) => {
         </div>
       </div>
       <div className="__attendance_form">
-        <Attendance_Form />
+        <Attendance_Form attendance={attendance} />
       </div>
     </div>
   );
