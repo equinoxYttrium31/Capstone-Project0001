@@ -138,7 +138,7 @@ router.get("/progress/:year/:month", authenticateToken, getProgressByMonthYear);
 
 // Logout route
 router.post("/logout", authenticateToken, logoutUser); // Ensure logout is also protected
-router.get("/check-auth", checkAuth);
+router.get("/check-auth", authenticateToken, checkAuth);
 
 //Routes from admin
 router.get("/records", getRecords);
