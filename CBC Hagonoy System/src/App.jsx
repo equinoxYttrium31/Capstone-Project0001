@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
   useNavigate,
 } from "react-router-dom";
 import axios from "axios";
@@ -37,12 +37,11 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate loading time
     setTimeout(() => {
       setFadeOut(true); // Trigger fade-out effect
       setTimeout(() => {
         setIsLoading(false); // Hide loading screen after fade-out
-      }, 600); // Match the duration of the fadeOut animation (0.5s)
+      }, 600); // Match the duration of the fadeOut animation (0.6s)
     }, 4000); // Initial loading time before fade-out begins
   }, []);
 
@@ -68,30 +67,32 @@ function App() {
   useEffect(() => {
     const token = Cookies.get("token");
 
-    // If token exists, check auth status
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      const checkAuth = async () => {
-        try {
-          const response = await axios.get(
-            "https://capstone-project0001-2.onrender.com/check-auth",
-            {
-              withCredentials: true,
-            }
-          );
-          setIsLoggedIn(response.data.isLoggedIn);
-        } catch (error) {
-          console.error(
-            "Error checking auth:",
-            error.response ? error.response.data : error.message
-          );
-          if (error.response && error.response.status === 401) {
-            setIsLoggedIn(false);
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/check-auth",
+          {
+            withCredentials: true,
           }
+        );
+        if (response.data.isLoggedIn) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
         }
-      };
-      checkAuth();
+      } catch (error) {
+        console.error(
+          "Error checking auth:",
+          error.response ? error.response.data : error.message
+        );
+        setIsLoggedIn(false);
+      }
+    };
+
+    if (token) {
+      checkAuth(); // Check auth with the existing token
+    } else {
+      setIsLoggedIn(false);
     }
   }, []); // Only run once when the app loads
 
