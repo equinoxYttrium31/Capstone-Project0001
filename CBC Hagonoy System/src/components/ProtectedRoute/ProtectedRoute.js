@@ -6,6 +6,7 @@ const ProtectedRoute = ({
   children,
   handleLoginClick,
   showOverlay,
+  attendanceID, // Add attendanceID as a prop
 }) => {
   const navigate = useNavigate();
 
@@ -19,15 +20,20 @@ const ProtectedRoute = ({
       setTimeout(() => {
         navigate("/", { replace: true });
       }, 1000); // Adjust delay as necessary
+    } else if (attendanceID) {
+      // If logged in and attendanceID is present, redirect to the specific URL
+      navigate(
+        `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
+      );
     }
-  }, [isLoggedIn, navigate, handleLoginClick, showOverlay]);
+  }, [isLoggedIn, attendanceID, navigate, handleLoginClick, showOverlay]);
 
-  // If logged in, render the children (protected page)
-  if (isLoggedIn) {
+  // If logged in and no attendanceID, render the children (protected page)
+  if (isLoggedIn && !attendanceID) {
     return children;
   }
 
-  // If not logged in, return null temporarily (the redirect will happen)
+  // If not logged in or attendanceID is being handled, return null temporarily
   return null;
 };
 

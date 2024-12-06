@@ -177,7 +177,7 @@ function App() {
               element={
                 <ProtectedRoute
                   isLoggedIn={isLoggedIn}
-                  handleLoginClick={handleLoginClick} // This line ensures the function is passed
+                  handleLoginClick={handleLoginClick}
                   showOverlay={setShowOverlay}
                 >
                   <User_Interface />
