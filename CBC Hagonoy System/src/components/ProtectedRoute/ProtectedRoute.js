@@ -29,7 +29,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
       console.log("Redirecting to user-interface...");
       window.location.href = `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`;
     }
-  }, [token, attendanceID, handleLoginClick, navigate, showOverlay]);
+  }, [handleLoginClick, navigate, showOverlay, attendanceID]); // Include attendanceID in the dependency array
 
   // If the token exists but no attendanceID, render the children (protected page)
   const token = Cookies.get("token");
