@@ -255,6 +255,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
+      domain: "client-2oru.onrender.com",
       sameSite: "None", // Adjust based on your app needs
       path: "/", // Path for the cookie
     });
