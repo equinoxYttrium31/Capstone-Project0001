@@ -12,6 +12,8 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
 
   useEffect(() => {
     const token = Cookies.get("token"); // Retrieve token from cookies
+    console.log("Token:", token);
+    console.log("AttendanceID:", attendanceID);
 
     if (!token) {
       // If no token, user is not logged in
@@ -21,14 +23,13 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
       // Redirect to home after a delay
       setTimeout(() => {
         navigate("/", { replace: true });
-      }, 1000); // Adjust delay as necessary
+      }, 1000);
     } else if (attendanceID) {
-      // If token exists and attendanceID is provided, redirect
-      navigate(
-        `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
-      );
+      // If token exists and attendanceID is provided, redirect externally
+      console.log("Redirecting to user-interface...");
+      window.location.href = `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`;
     }
-  }, [attendanceID, handleLoginClick, navigate, showOverlay]);
+  }, [handleLoginClick, navigate, showOverlay]);
 
   // If the token exists but no attendanceID, render the children (protected page)
   const token = Cookies.get("token");
