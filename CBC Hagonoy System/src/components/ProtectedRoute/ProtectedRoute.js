@@ -1,10 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie"; // To handle cookies
 
 const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // Track the authentication state
 
   // Extract attendanceID from the query parameters
   const searchParams = new URLSearchParams(location.search);
@@ -20,24 +21,32 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
       handleLoginClick("login"); // Trigger login modal
       showOverlay(true); // Show overlay for login/signup
 
-      // Redirect to home after a delay
+      // Redirect to home after a short delay
       setTimeout(() => {
         navigate("/", { replace: true });
       }, 1000);
+      setIsAuthenticated(false); // Update state to reflect the unauthenticated state
     } else if (attendanceID) {
       // If token exists and attendanceID is provided, redirect externally
       console.log("Redirecting to user-interface...");
       window.location.href = `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`;
+    } else {
+      setIsAuthenticated(true); // Set authenticated if there's a valid token and no attendanceID
     }
   }, [handleLoginClick, navigate, showOverlay, attendanceID]); // Include attendanceID in the dependency array
 
-  // If the token exists but no attendanceID, render the children (protected page)
-  const token = Cookies.get("token");
-  if (token && !attendanceID) {
+  // Conditionally render children based on authentication state
+  if (isAuthenticated === null) {
+    // Return null while checking authentication
+    return null;
+  }
+
+  if (isAuthenticated) {
+    // If the token exists and no attendanceID is present, render the children (protected page)
     return children;
   }
 
-  // If the login state is being handled or redirecting, return null
+  // If not authenticated or redirecting, return null
   return null;
 };
 
