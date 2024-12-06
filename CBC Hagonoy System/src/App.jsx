@@ -21,7 +21,7 @@ import AboutUs from "./components/NavBar_Components/About Us/AboutUs";
 import Beliefs from "./components/NavBar_Components/Beliefs/Beliefs";
 import Ministries from "./components/NavBar_Components/Ministries/ministries";
 import Events_Page from "./components/events_page/Event_Page";
-
+import Cookies from "js-cookie";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import ProtectedRoute
 
@@ -37,6 +37,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Simulate loading time
     setTimeout(() => {
       setFadeOut(true); // Trigger fade-out effect
       setTimeout(() => {
@@ -65,28 +66,34 @@ function App() {
   };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/check-auth",
-          {
-            withCredentials: true,
-          }
-        );
-        setIsLoggedIn(response.data.isLoggedIn);
-      } catch (error) {
-        console.error(
-          "Error checking auth:",
-          error.response ? error.response.data : error.message
-        );
-        if (error.response && error.response.status === 401) {
-          setIsLoggedIn(false);
-        }
-      }
-    };
+    const token = Cookies.get("token");
 
-    checkAuth();
-  }, []);
+    // If token exists, check auth status
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      const checkAuth = async () => {
+        try {
+          const response = await axios.get(
+            "https://capstone-project0001-2.onrender.com/check-auth",
+            {
+              withCredentials: true,
+            }
+          );
+          setIsLoggedIn(response.data.isLoggedIn);
+        } catch (error) {
+          console.error(
+            "Error checking auth:",
+            error.response ? error.response.data : error.message
+          );
+          if (error.response && error.response.status === 401) {
+            setIsLoggedIn(false);
+          }
+        }
+      };
+      checkAuth();
+    }
+  }, []); // Only run once when the app loads
 
   useEffect(() => {
     document.body.style.overflow =
