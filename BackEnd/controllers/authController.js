@@ -486,9 +486,11 @@ const logoutUser = async (req, res) => {
   try {
     // Clear the JWT token from the cookie
     res.clearCookie("token", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      httpOnly: false, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
+      secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
+      domain: "client-2oru.onrender.com",
+      sameSite: "None", // Adjust based on your app needs
+      path: "/",
     });
 
     // Optionally, you can send a success message or status

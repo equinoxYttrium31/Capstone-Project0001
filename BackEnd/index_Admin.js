@@ -28,6 +28,7 @@ const io = socketIo(server, {
     ], // List your frontend origins here
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    withCredentials: true,
     credentials: true, // Allow cookies to be sent/received
   },
 });
