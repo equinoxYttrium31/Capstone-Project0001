@@ -1,31 +1,21 @@
-import { useNavigate, useEffect } from "react";
-
 const ProtectedRoute = ({
   isLoggedIn,
   children,
   handleLoginClick,
   showOverlay,
 }) => {
-  const navigate = useNavigate();
+  if (!isLoggedIn) {
+    // Trigger modal actions
+    handleLoginClick("login");
+    showOverlay(true);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      // Trigger the modal to show (login or signup)
-      handleLoginClick("login"); // You can change this to 'signup' based on your logic
-      showOverlay(true); // Make sure overlay is visible
-
-      // Navigate after showing the login modal
-      navigate("/", { replace: true });
-    }
-  }, [isLoggedIn, navigate, handleLoginClick, showOverlay]);
-
-  // If the user is logged in, render the children (protected page)
-  if (isLoggedIn) {
-    return children;
+    // Redirect using browser API
+    window.location.href = "/";
+    return null;
   }
 
-  // If not logged in, return null while redirecting
-  return null;
+  // Render children if logged in
+  return children;
 };
 
 export default ProtectedRoute;
