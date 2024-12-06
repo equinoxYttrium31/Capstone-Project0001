@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   const attendanceID = searchParams.get("attendanceID");
 
   useEffect(() => {
-    const token = Cookies.get("authToken"); // Retrieve token from cookies
+    const token = Cookies.get("token"); // Retrieve token from cookies
 
     if (!token) {
       // If no token, user is not logged in
@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   }, [attendanceID, handleLoginClick, navigate, showOverlay]);
 
   // If the token exists but no attendanceID, render the children (protected page)
-  const token = Cookies.get("authToken");
+  const token = Cookies.get("token");
   if (token && !attendanceID) {
     return children;
   }
