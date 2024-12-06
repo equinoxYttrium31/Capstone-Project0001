@@ -1,39 +1,42 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Cookies from "js-cookie"; // To handle cookies
 
-const ProtectedRoute = ({
-  isLoggedIn,
-  children,
-  handleLoginClick,
-  showOverlay,
-  attendanceID, // Add attendanceID as a prop
-}) => {
+const ProtectedRoute = ({ children, handleLoginClick, showOverlay }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Extract attendanceID from the query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const attendanceID = searchParams.get("attendanceID");
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      // Trigger the modal to show (login or signup)
-      handleLoginClick("login"); // You can change this to 'signup' based on your logic
-      showOverlay(true); // Make sure overlay is visible
+    const token = Cookies.get("authToken"); // Retrieve token from cookies
 
-      // Optionally, after a short delay, redirect to the home page or login page
+    if (!token) {
+      // If no token, user is not logged in
+      handleLoginClick("login"); // Trigger login modal
+      showOverlay(true); // Show overlay for login/signup
+
+      // Redirect to home after a delay
       setTimeout(() => {
         navigate("/", { replace: true });
       }, 1000); // Adjust delay as necessary
     } else if (attendanceID) {
-      // If logged in and attendanceID is present, redirect to the specific URL
+      // If token exists and attendanceID is provided, redirect
       navigate(
         `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
       );
     }
-  }, [isLoggedIn, attendanceID, navigate, handleLoginClick, showOverlay]);
+  }, [attendanceID, handleLoginClick, navigate, showOverlay]);
 
-  // If logged in and no attendanceID, render the children (protected page)
-  if (isLoggedIn && !attendanceID) {
+  // If the token exists but no attendanceID, render the children (protected page)
+  const token = Cookies.get("authToken");
+  if (token && !attendanceID) {
     return children;
   }
 
-  // If not logged in or attendanceID is being handled, return null temporarily
+  // If the login state is being handled or redirecting, return null
   return null;
 };
 
