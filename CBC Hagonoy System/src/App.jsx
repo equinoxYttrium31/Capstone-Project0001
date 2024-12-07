@@ -67,7 +67,6 @@ function App() {
     const checkAuth = async () => {
       const token = Cookies.get("token");
 
-      console.log(token);
       if (token) {
         try {
           const response = await axios.get(
@@ -82,9 +81,11 @@ function App() {
       } else {
         setIsLoggedIn(false);
       }
+
       setAuthChecked(true); // Set authChecked to true after checking auth
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading once check is complete
     };
+
     checkAuth();
   }, []);
 
