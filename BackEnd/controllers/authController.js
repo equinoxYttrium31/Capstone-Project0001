@@ -1,5 +1,5 @@
 const ChurchUser = require("../models/ChurchUser");
-const Cookies = require("cookies");
+const cookieParser = require("cookie-parser");
 const CellGroupModel = require("../models/CellGroup");
 const NetworkModel = require("../models/NetworkLeader");
 const UserAttendanceModel = require("../models/UserAttendance");
@@ -75,9 +75,7 @@ const changePassword = async (req, res) => {
 // Middleware for token verification
 
 const authenticateToken = (req, res, next) => {
-  const Cookies = require("cookies");
-
-  const token = cookies.get("token");
+  const token = req.cookies.token; // Access the token from cookies
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
@@ -217,6 +215,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+// Login user and set the token in a cookie
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -256,14 +255,12 @@ const loginUser = async (req, res) => {
     // Log the generated token
     console.log("Generated Token:", token);
 
-    // Set the cookie with the token using the `cookies` library
-    const cookies = new Cookies(req, res); // Initialize cookies on the request and response objects
-
-    cookies.set("token", token, {
+    // Set the cookie with the token
+    res.cookie("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "Strict", // Set sameSite attribute for cross-origin requests
-      maxAge: 7 * 24 * 60 * 60 * 1000, // Set cookie expiration to 7 days
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Adjust based on your app needs // Path for the cookie
     });
 
     // Return user data without password
@@ -492,9 +489,12 @@ const initialEditUserProfile = async (req, res) => {
 // Logout user function
 const logoutUser = async (req, res) => {
   try {
-    const cookies = new Cookies(req, res);
     // Clear the JWT token from the cookie
-    cookies.set("token", "", { maxAge: 0 });
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
 
     // Optionally, you can send a success message or status
     return res.status(200).json({ message: "Logged out successfully" });
