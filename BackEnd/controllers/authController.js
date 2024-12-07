@@ -74,7 +74,8 @@ const changePassword = async (req, res) => {
 // Middleware for token verification
 
 const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token; // Access the token from cookies
+  const token =
+    req.headers.authorization && req.headers.authorization.split(" ")[1]; // Access the token from cookies
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
