@@ -709,7 +709,7 @@ const checkAuth = async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
     const userId = decoded.userId; // Adjust based on your token structure
 
     const user = await UserModel.findById(userId);
