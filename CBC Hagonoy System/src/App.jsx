@@ -49,16 +49,6 @@ function App() {
     return () => clearTimeout(initLoading);
   }, []);
 
-  // Check if we need to show the login modal
-  useEffect(() => {
-    if (location.state?.showLoginModal) {
-      setOverlayType("login");
-      setShowOverlay(true);
-      // Clear the state after triggering modal
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-  }, [location.state, location.pathname, navigate]);
-
   // Check for attendanceID in the URL search parameters
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);

@@ -79,7 +79,7 @@ function User_Interface() {
       </div>
     );
   if (error) {
-    navigate("/home", { state: { showLoginModal: true } });
+    navigate("/home");
     return null;
   }
 
