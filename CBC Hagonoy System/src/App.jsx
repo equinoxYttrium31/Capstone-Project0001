@@ -25,7 +25,6 @@ import Beliefs from "./components/NavBar_Components/Beliefs/Beliefs";
 import Ministries from "./components/NavBar_Components/Ministries/ministries";
 import Events_Page from "./components/events_page/Event_Page";
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import ProtectedRoute
 
 import "./App.css";
 
@@ -50,11 +49,12 @@ function App() {
     return () => clearTimeout(initLoading);
   }, []);
 
+  // Check if we need to show the login modal
   useEffect(() => {
     if (location.state?.showLoginModal) {
       setOverlayType("login");
       setShowOverlay(true);
-      // Reset state
+      // Clear the state after triggering modal
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location.state, location.pathname, navigate]);
