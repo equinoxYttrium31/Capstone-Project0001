@@ -262,6 +262,7 @@ const loginUser = async (req, res) => {
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000, // Adjust based on your app needs // Path for the cookie
     });
+    localStorage.setItem("token", token);
 
     // Return user data without password
     return res.json({
