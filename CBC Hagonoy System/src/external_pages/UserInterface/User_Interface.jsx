@@ -80,7 +80,6 @@ function User_Interface() {
     );
   if (error) {
     navigate("/home");
-    return null;
   }
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
