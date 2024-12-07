@@ -1,4 +1,5 @@
 const ChurchUser = require("../models/ChurchUser");
+const cookieParser = require("cookie-parser");
 const CellGroupModel = require("../models/CellGroup");
 const NetworkModel = require("../models/NetworkLeader");
 const UserAttendanceModel = require("../models/UserAttendance");
@@ -85,6 +86,7 @@ const authenticateToken = (req, res, next) => {
     }
     req.user = decoded;
     req.userID = decoded.userID;
+    console.log("Cookies received:", req.cookies);
     console.log(decoded.userID); // Store user ID in request object
     console.log("Decoded Token:", decoded); // Log the decoded token
     next(); // Proceed to the next middleware or route handler
