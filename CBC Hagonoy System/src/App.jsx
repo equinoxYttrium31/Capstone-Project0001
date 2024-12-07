@@ -71,10 +71,18 @@ function App() {
 
       if (token) {
         try {
-          const response = await axios.get(
-            "https://capstone-project0001-2.onrender.com/check-auth",
-            { withCredentials: true }
-          );
+          const response = await axios
+            .get("https://capstone-project0001-2.onrender.com/check-auth", {
+              withCredentials: true,
+            })
+            .then((response) => {
+              console.log("Auth check response:", response);
+              setIsLoggedIn(response.data.isLoggedIn);
+            })
+            .catch((error) => {
+              console.error("Auth check error:", error);
+              setIsLoggedIn(false);
+            });
 
           console.log("Auth check response:", response.data); // Log the response from server
 
