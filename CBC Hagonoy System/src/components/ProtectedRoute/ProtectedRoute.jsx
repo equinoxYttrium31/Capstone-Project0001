@@ -10,6 +10,9 @@ const ProtectedRoute = ({
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    console.log("Auth Checked:", authChecked);
+    console.log("Is Logged In:", isLoggedIn);
+
     if (authChecked) {
       setIsCheckingAuth(false);
       if (!isLoggedIn) {
