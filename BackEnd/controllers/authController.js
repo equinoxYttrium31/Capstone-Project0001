@@ -262,7 +262,7 @@ const loginUser = async (req, res) => {
     cookies.set("token", token, {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
-      sameSite: "None", // Set sameSite attribute for cross-origin requests
+      sameSite: "Strict", // Set sameSite attribute for cross-origin requests
       maxAge: 7 * 24 * 60 * 60 * 1000, // Set cookie expiration to 7 days
     });
 
