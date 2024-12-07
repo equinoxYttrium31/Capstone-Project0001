@@ -52,10 +52,12 @@ function App() {
 
   useEffect(() => {
     if (location.state?.showLoginModal) {
-      setOverlayType("login"); // Ensure the overlay type is set to "login"
-      setShowOverlay(true); // Show the overlay/modal
+      setOverlayType("login");
+      setShowOverlay(true);
+      // Reset state
+      navigate(location.pathname, { replace: true, state: {} });
     }
-  }, [location.state]);
+  }, [location.state, location.pathname, navigate]);
 
   // Check for attendanceID in the URL search parameters
   useEffect(() => {
