@@ -72,7 +72,6 @@ function App() {
         try {
           const response = await axios
             .get("https://capstone-project0001-2.onrender.com/check-auth", {
-              withCredentials: true,
               headers: {
                 Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
               },
