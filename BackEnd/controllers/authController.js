@@ -84,8 +84,8 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: "Invalid token" });
     }
     req.user = decoded;
-    req.id = decoded.id;
-    console.log(decoded.id); // Store user ID in request object
+    req.userId = decoded.userId;
+    console.log(decoded.userId); // Store user ID in request object
     console.log("Decoded Token:", decoded); // Log the decoded token
     next(); // Proceed to the next middleware or route handler
   });
@@ -712,9 +712,9 @@ const checkAuth = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
-    const userId = decoded.userId; // Adjust based on your token structure
+    const userID = decoded.userID; // Adjust based on your token structure
 
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userID);
 
     if (!user) {
       return res.status(200).json({ isLoggedIn: false }); // User not found, not authenticated
@@ -724,7 +724,7 @@ const checkAuth = async (req, res) => {
     return res.status(200).json({
       isLoggedIn: true,
       user: {
-        id: user.userId,
+        id: user.userID,
         username: user.username,
         email: user.email,
       },
