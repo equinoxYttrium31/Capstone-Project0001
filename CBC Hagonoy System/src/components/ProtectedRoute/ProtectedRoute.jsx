@@ -10,12 +10,18 @@ const ProtectedRoute = ({
 
   useEffect(() => {
     const checkAuthStatus = async () => {
-      // Wait for the auth check to complete in the parent component
-      setIsCheckingAuth(false);
+      // Simulate an auth check delay
+      setTimeout(() => {
+        setIsCheckingAuth(false);
+        if (!isLoggedIn) {
+          handleLoginClick("login");
+          showOverlay(true);
+        }
+      }, 500); // Replace with real auth check logic
     };
 
     checkAuthStatus();
-  }, []);
+  }, [isLoggedIn, handleLoginClick, showOverlay]);
 
   // Show a loading indicator while checking authentication
   if (isCheckingAuth) {
@@ -26,14 +32,6 @@ const ProtectedRoute = ({
   if (isLoggedIn) {
     return children;
   }
-
-  // If not logged in, trigger the login overlay
-  useEffect(() => {
-    if (!isLoggedIn) {
-      handleLoginClick("login");
-      showOverlay(true);
-    }
-  }, [isLoggedIn, handleLoginClick, showOverlay]);
 
   // If not logged in, return null while redirecting
   return null;
