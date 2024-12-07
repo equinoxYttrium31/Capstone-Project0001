@@ -724,7 +724,7 @@ const checkAuth = async (req, res) => {
     return res.status(200).json({
       isLoggedIn: true,
       user: {
-        id: user._id,
+        id: user.userId,
         username: user.username,
         email: user.email,
       },
