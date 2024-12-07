@@ -354,7 +354,9 @@ const updateProfilePicture = async (req, res) => {
 const fetchProfilePicture = async (req, res) => {
   try {
     const userId = req.user.userID;
-    const user = await ChurchUser.findById({ userId }).select("profilePic");
+    const user = await ChurchUser.findById({ userID: userId }).select(
+      "profilePic"
+    );
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
