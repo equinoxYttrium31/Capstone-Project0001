@@ -34,6 +34,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
 
   // Initial loading animation
@@ -79,6 +80,7 @@ function App() {
       } else {
         setIsLoggedIn(false);
       }
+      setAuthChecked(true); // Set authChecked to true after checking auth
       setIsLoading(false);
     };
     checkAuth();
@@ -166,6 +168,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   handleLoginClick={handleLoginClick}
                   showOverlay={setShowOverlay}
+                  authChecked={authChecked}
                 >
                   <User_Interface />
                 </ProtectedRoute>
