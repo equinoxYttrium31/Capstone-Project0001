@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProtectedRoute = ({
   isLoggedIn,
@@ -6,18 +6,34 @@ const ProtectedRoute = ({
   handleLoginClick,
   showOverlay,
 }) => {
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
   useEffect(() => {
-    if (!isLoggedIn) {
-      // Trigger the modal to show (login or signup)
-      handleLoginClick("login"); // You can change this to 'signup' based on your logic
-      showOverlay(true); // Make sure overlay is visible
-    }
-  }, [isLoggedIn, handleLoginClick, showOverlay]);
+    const checkAuthStatus = async () => {
+      // Wait for the auth check to complete in the parent component
+      setIsCheckingAuth(false);
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  // Show a loading indicator while checking authentication
+  if (isCheckingAuth) {
+    return <div>Loading...</div>; // Replace with your actual loading component or skeleton UI
+  }
 
   // If the user is logged in, render the children (protected page)
   if (isLoggedIn) {
     return children;
   }
+
+  // If not logged in, trigger the login overlay
+  useEffect(() => {
+    if (!isLoggedIn) {
+      handleLoginClick("login");
+      showOverlay(true);
+    }
+  }, [isLoggedIn, handleLoginClick, showOverlay]);
 
   // If not logged in, return null while redirecting
   return null;

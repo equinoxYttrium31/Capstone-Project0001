@@ -71,9 +71,7 @@ function App() {
       try {
         const response = await axios.get(
           "https://capstone-project0001-2.onrender.com/check-auth",
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
         if (response.data.isLoggedIn) {
           setIsLoggedIn(true);
@@ -94,7 +92,7 @@ function App() {
     } else {
       setIsLoggedIn(false);
     }
-  }, []); // Only run once when the app loads
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow =
