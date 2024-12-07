@@ -275,7 +275,7 @@ const loginUser = async (req, res) => {
 // Upload a new profile picture
 const uploadProfilePicture = async (req, res) => {
   try {
-    const userId = req.user.id; // Get the logged-in user's ID from the token
+    const userId = req.user.userID; // Get the logged-in user's ID from the token
     const { image } = req.body; // Get the image from the request body
 
     if (!image) {
@@ -297,7 +297,7 @@ const uploadProfilePicture = async (req, res) => {
 
     // Update the user's profile picture in the database
     const updatedUser = await ChurchUser.findByIdAndUpdate(
-      userId,
+      { userId },
       { profilePic: jpegImage },
       { new: true }
     );
@@ -318,7 +318,7 @@ const uploadProfilePicture = async (req, res) => {
 
 const updateProfilePicture = async (req, res) => {
   try {
-    const userId = req.user.id; // Get the logged-in user's ID from the token
+    const userId = req.user.userID; // Get the logged-in user's ID from the token
     console.log("User ID from token:", userId); // Log the user ID
 
     // Extract the new profile picture from the request body
@@ -331,7 +331,7 @@ const updateProfilePicture = async (req, res) => {
 
     // Update the user's profile picture in the database
     const user = await ChurchUser.findByIdAndUpdate(
-      userId,
+      { userId },
       { profilePic: image },
       { new: true } // Return the updated user document
     ).select("profilePic"); // Fetch only the profilePic field
@@ -351,8 +351,8 @@ const updateProfilePicture = async (req, res) => {
 // Fetch the profile picture
 const fetchProfilePicture = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const user = await ChurchUser.findById(userId).select("profilePic");
+    const userId = req.user.userID;
+    const user = await ChurchUser.findById({ userId }).select("profilePic");
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
@@ -368,7 +368,7 @@ const fetchProfilePicture = async (req, res) => {
 // New Function: Update the user profile (Name, Email, Birthdate, etc.)
 const updateUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // Get user ID from the token
+    const userId = req.user.userID; // Get user ID from the token
 
     // Destructure necessary fields from the request body
     const {
@@ -403,7 +403,7 @@ const updateUserProfile = async (req, res) => {
 
     // Find and update the user in the database
     const updatedUser = await ChurchUser.findByIdAndUpdate(
-      userId,
+      { userId },
       updateData,
       { new: true, select: "-password" } // Return the updated document, excluding the password
     );
@@ -724,7 +724,7 @@ const checkAuth = async (req, res) => {
     return res.status(200).json({
       isLoggedIn: true,
       user: {
-        id: user.userID,
+        userID: user.userID,
         username: user.username,
         email: user.email,
       },
