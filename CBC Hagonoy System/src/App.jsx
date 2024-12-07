@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
   useNavigate,
 } from "react-router-dom";
 import axios from "axios";
@@ -152,6 +153,7 @@ function App() {
           />
 
           <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
             <Route
               path="/home"
               element={
