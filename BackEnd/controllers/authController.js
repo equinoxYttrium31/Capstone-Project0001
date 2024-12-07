@@ -714,7 +714,7 @@ const checkAuth = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
     const userID = decoded.userID; // Adjust based on your token structure
 
-    const user = await UserModel.findById(userID);
+    const user = await ChurchUser.findById(userID);
 
     if (!user) {
       return res.status(200).json({ isLoggedIn: false }); // User not found, not authenticated
