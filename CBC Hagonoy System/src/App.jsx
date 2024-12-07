@@ -36,9 +36,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [attendanceID, setAttendanceID] = useState(null); // Track attendanceID
+  const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // To access the current URL
+  const location = useLocation();
 
   // Initial loading animation
   useEffect(() => {
@@ -50,12 +50,15 @@ function App() {
     return () => clearTimeout(initLoading);
   }, []);
 
-  // Extract attendanceID from URL query parameters
+  // Check for attendanceID in the URL search parameters
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const id = params.get("attendanceID");
-    setAttendanceID(id); // Store attendanceID if it exists
-  }, [location.search]);
+    const searchParams = new URLSearchParams(location.search);
+    const attendanceID = searchParams.get("attendanceID");
+
+    if (attendanceID) {
+      navigate(`/user-interface?attendanceID=${attendanceID}`);
+    }
+  }, [location, navigate]);
 
   // Toggle the mobile menu
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -107,6 +110,7 @@ function App() {
         setIsLoggedIn(false); // If there's no token, set logged in status to false
       }
 
+      setAuthChecked(true); // Set authChecked to true after checking auth
       setIsLoading(false); // Stop loading once check is complete
     };
 
@@ -122,14 +126,7 @@ function App() {
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setShowOverlay(false);
-
-    // After login success, check if attendanceID exists in the URL
-    if (attendanceID) {
-      // Redirect to /user-interface with the attendanceID as a query param
-      navigate(`/user-interface?attendanceID=${attendanceID}`);
-    } else {
-      navigate("/user-interface"); // Otherwise, just navigate to /user-interface
-    }
+    navigate("/user-interface");
   };
 
   // Handle logout
@@ -195,26 +192,7 @@ function App() {
               element={<Ministries onLoginClick={handleLoginClick} />}
             />
 
-            {/* Protected Routes */}
-            <Route
-              path="/user-interface"
-              element={
-                isLoggedIn ? (
-                  <User_Interface />
-                ) : (
-                  // Show the login modal if the user is not logged in
-                  <>
-                    {handleLoginClick("login")}
-                    <Login_Signup
-                      type="login"
-                      onClose={handleClose}
-                      toggleOverlayType={toggleOverlayType}
-                      onLoginSuccess={handleLoginSuccess}
-                    />
-                  </>
-                )
-              }
-            />
+            <Route path="/user-interface" element={<User_Interface />} />
           </Routes>
 
           {showOverlay && (
