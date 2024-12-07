@@ -67,19 +67,25 @@ function App() {
     const checkAuth = async () => {
       const token = Cookies.get("token");
 
+      console.log("Checking token:", token); // Log token for debugging
+
       if (token) {
         try {
           const response = await axios.get(
             "https://capstone-project0001-2.onrender.com/check-auth",
             { withCredentials: true }
           );
+
+          console.log("Auth check response:", response.data); // Log the response from server
+
+          // Check if the response is correct
           setIsLoggedIn(response.data.isLoggedIn || false);
         } catch (error) {
           console.error("Error checking auth:", error.message);
           setIsLoggedIn(false);
         }
       } else {
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); // If there's no token, set logged in status to false
       }
 
       setAuthChecked(true); // Set authChecked to true after checking auth
@@ -88,7 +94,6 @@ function App() {
 
     checkAuth();
   }, []);
-
   // Prevent scrolling when overlay is visible
   useEffect(() => {
     document.body.style.overflow = showOverlay ? "hidden" : "auto";
