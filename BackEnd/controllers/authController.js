@@ -704,6 +704,8 @@ const submitDefault = async (req, res) => {
 const checkAuth = async (req, res) => {
   const token = req.cookies.token; // Adjust if your token is stored elsewhere
 
+  console.log("Cookies received:", req.cookies);
+
   if (!token) {
     return res.status(200).json({ isLoggedIn: false }); // No token, user is not authenticated
   }
