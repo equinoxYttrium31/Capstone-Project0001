@@ -6,6 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import NavBar from "./components/header/NavBar";
 import Hero_Section from "./pages/hero/Hero_Section";
 import Activities from "./pages/activities/Activities";
@@ -21,7 +22,6 @@ import AboutUs from "./components/NavBar_Components/About Us/AboutUs";
 import Beliefs from "./components/NavBar_Components/Beliefs/Beliefs";
 import Ministries from "./components/NavBar_Components/Ministries/ministries";
 import Events_Page from "./components/events_page/Event_Page";
-import Cookies from "js-cookie";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import ProtectedRoute
 
@@ -36,19 +36,22 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Initial loading animation
   useEffect(() => {
     setTimeout(() => {
-      setFadeOut(true); // Trigger fade-out effect
+      setFadeOut(true);
       setTimeout(() => {
-        setIsLoading(false); // Hide loading screen after fade-out
-      }, 600); // Match the duration of the fadeOut animation (0.6s)
-    }, 4000); // Initial loading time before fade-out begins
+        setIsLoading(false);
+      }, 600);
+    }, 4000);
   }, []);
 
+  // Toggle the mobile menu
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
+  // Handle login overlay
   const handleLoginClick = (type) => {
     setMenuOpen(false);
     setOverlayType(type);
@@ -64,47 +67,47 @@ function App() {
     setOverlayType((prevType) => (prevType === "login" ? "signup" : "login"));
   };
 
+  // Check authentication on app load or refresh
   useEffect(() => {
-    const token = Cookies.get("token");
-
     const checkAuth = async () => {
-      try {
-        const response = await axios.get(
-          "https://capstone-project0001-2.onrender.com/check-auth",
-          { withCredentials: true }
-        );
-        if (response.data.isLoggedIn) {
-          setIsLoggedIn(true);
-        } else {
+      const token = Cookies.get("token");
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://capstone-project0001-2.onrender.com/check-auth",
+            { withCredentials: true }
+          );
+          if (response.data.isLoggedIn) {
+            setIsLoggedIn(true);
+          } else {
+            setIsLoggedIn(false);
+          }
+        } catch (error) {
+          console.error("Error checking auth:", error.message);
           setIsLoggedIn(false);
         }
-      } catch (error) {
-        console.error(
-          "Error checking auth:",
-          error.response ? error.response.data : error.message
-        );
+      } else {
         setIsLoggedIn(false);
       }
+      setIsLoading(false);
     };
-
-    if (token) {
-      checkAuth(); // Check auth with the existing token
-    } else {
-      setIsLoggedIn(false);
-    }
+    checkAuth();
   }, []);
 
+  // Prevent scrolling when overlay is visible
   useEffect(() => {
     document.body.style.overflow =
       showOverlay || isLoggedIn ? "hidden" : "auto";
   }, [showOverlay, isLoggedIn]);
 
+  // Handle successful login
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setShowOverlay(false);
     navigate("/user-interface");
   };
 
+  // Handle logout
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -112,10 +115,10 @@ function App() {
         {},
         { withCredentials: true }
       );
-      document.cookie = "token=; Max-Age=0"; // Clear the token
-      setIsLoggedIn(false); // Set isLoggedIn to false
-      document.body.style.overflow = "auto"; // Re-enable scrolling after logout
-      navigate("/"); // Redirect to the landing page
+      Cookies.remove("token"); // Clear the token
+      setIsLoggedIn(false); // Update state
+      document.body.style.overflow = "auto"; // Enable scrolling
+      navigate("/"); // Redirect to landing page
     } catch (error) {
       console.error("Error during logout:", error);
     }
