@@ -50,6 +50,13 @@ function App() {
     return () => clearTimeout(initLoading);
   }, []);
 
+  useEffect(() => {
+    if (location.state?.showLoginModal) {
+      setOverlayType("login"); // Ensure the overlay type is set to "login"
+      setShowOverlay(true); // Show the overlay/modal
+    }
+  }, [location.state]);
+
   // Check for attendanceID in the URL search parameters
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);

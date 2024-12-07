@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import User_Chart from "../User_Chart/user_chart";
-
+import { useNavigate } from "react-router-dom";
 import Personal_Acc from "../Personal_Acc/Personal_Acc";
 import User_NavBar from "../UserNavigationBar/User_NavBar";
 import Cellgroup_File from "../Cellgroup_Record_Files/Cellgroup_File";
@@ -15,6 +15,8 @@ import {
   network_ic,
   personal_ic,
 } from "../../assets/Assets";
+
+const navigate = useNavigate();
 
 function User_Interface() {
   const [userData, setUserData] = useState(null);
@@ -76,7 +78,10 @@ function User_Interface() {
         <div className="loader"></div>
       </div>
     );
-  if (error) return <div>Error loading user data: {error.message}</div>;
+  if (error) {
+    navigate("/home", { state: { showLoginModal: true } });
+    return null;
+  }
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
   const userId = userData?.userID; // Assuming _id is the userId you want to use
