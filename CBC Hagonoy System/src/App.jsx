@@ -65,7 +65,7 @@ function App() {
   // Check authentication on app load or refresh
   useEffect(() => {
     const checkAuth = async () => {
-      const token = Cookies.get("token");
+      const token = localStorage.getItem("token");
 
       console.log("Checking token:", token); // Log token for debugging
 
@@ -73,7 +73,9 @@ function App() {
         try {
           const response = await axios
             .get("https://capstone-project0001-2.onrender.com/check-auth", {
-              withCredentials: true,
+              headers: {
+                Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
+              },
             })
             .then((response) => {
               console.log("Auth check response:", response);

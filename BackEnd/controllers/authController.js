@@ -354,7 +354,7 @@ const updateProfilePicture = async (req, res) => {
 const fetchProfilePicture = async (req, res) => {
   try {
     const userId = req.user.userID;
-    const user = await ChurchUser.findById({ userID: userId }).select(
+    const user = await ChurchUser.findOne({ userID: userId }).select(
       "profilePic"
     );
 
@@ -513,11 +513,11 @@ const getWeeklyAttendance = async (req, res) => {
 
   try {
     // Find the monthly attendance for the user
-    const attendance = await UserAttendanceModel.findOne({
-      userId,
+    const attendance = await UserAttendanceModel.findOne(
+      { userID: userId },
       month,
-      year,
-    });
+      year
+    );
 
     if (!attendance) {
       console.log(
