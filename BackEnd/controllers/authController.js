@@ -109,7 +109,7 @@ const getProfile = async (req, res) => {
     const userId = req.user.userID; // Extract user ID from the token (set in the authenticateToken middleware)
 
     // Fetch the full user profile from the database based on user ID
-    const churchUser = await ChurchUser.findOne(userId).select("-password"); // Exclude the password from the response
+    const churchUser = await ChurchUser.findOne({ userId }).select("-password"); // Exclude the password from the response
     if (!churchUser) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -440,7 +440,7 @@ const initialEditUserProfile = async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    let user = await ChurchUser.findOne(userId);
+    let user = await ChurchUser.findOne({ userId });
 
     if (!user) {
       // If the user does not exist, create a new user
@@ -714,7 +714,7 @@ const checkAuth = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
     const userID = decoded.userID; // Adjust based on your token structure
 
-    const user = await ChurchUser.findOne(userID);
+    const user = await ChurchUser.findOne({ userID });
 
     if (!user) {
       return res.status(200).json({ isLoggedIn: false }); // User not found, not authenticated
