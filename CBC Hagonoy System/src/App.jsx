@@ -38,18 +38,16 @@ function App() {
 
   // Initial loading animation
   useEffect(() => {
-    setTimeout(() => {
+    const initLoading = setTimeout(() => {
       setFadeOut(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 600);
+      const finishLoading = setTimeout(() => setIsLoading(false), 600);
+      return () => clearTimeout(finishLoading);
     }, 4000);
+    return () => clearTimeout(initLoading);
   }, []);
 
   // Toggle the mobile menu
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   // Handle login overlay
   const handleLoginClick = (type) => {
@@ -58,14 +56,10 @@ function App() {
     setShowOverlay(true);
   };
 
-  const handleClose = () => {
-    setShowOverlay(false);
-    setOverlayType("");
-  };
+  const handleClose = () => setShowOverlay(false);
 
-  const toggleOverlayType = () => {
+  const toggleOverlayType = () =>
     setOverlayType((prevType) => (prevType === "login" ? "signup" : "login"));
-  };
 
   // Check authentication on app load or refresh
   useEffect(() => {
@@ -77,11 +71,7 @@ function App() {
             "https://capstone-project0001-2.onrender.com/check-auth",
             { withCredentials: true }
           );
-          if (response.data.isLoggedIn) {
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-          }
+          setIsLoggedIn(response.data.isLoggedIn || false);
         } catch (error) {
           console.error("Error checking auth:", error.message);
           setIsLoggedIn(false);
@@ -96,9 +86,8 @@ function App() {
 
   // Prevent scrolling when overlay is visible
   useEffect(() => {
-    document.body.style.overflow =
-      showOverlay || isLoggedIn ? "hidden" : "auto";
-  }, [showOverlay, isLoggedIn]);
+    document.body.style.overflow = showOverlay ? "hidden" : "auto";
+  }, [showOverlay]);
 
   // Handle successful login
   const handleLoginSuccess = () => {
@@ -117,7 +106,6 @@ function App() {
       );
       Cookies.remove("token"); // Clear the token
       setIsLoggedIn(false); // Update state
-      document.body.style.overflow = "auto"; // Enable scrolling
       navigate("/"); // Redirect to landing page
     } catch (error) {
       console.error("Error during logout:", error);
@@ -149,21 +137,11 @@ function App() {
               path="/"
               element={
                 <>
-                  <div className="herosection">
-                    <Hero_Section />
-                  </div>
-                  <div className="activity">
-                    <Activities />
-                  </div>
-                  <div className="qoutesection">
-                    <Qoutes />
-                  </div>
-                  <div className="schedules" id="schedule">
-                    <Schedule />
-                  </div>
-                  <div className="footer">
-                    <Contact_Us />
-                  </div>
+                  <Hero_Section />
+                  <Activities />
+                  <Qoutes />
+                  <Schedule />
+                  <Contact_Us />
                 </>
               }
             />
