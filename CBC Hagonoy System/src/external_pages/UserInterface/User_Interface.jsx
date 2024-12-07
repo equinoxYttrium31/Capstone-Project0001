@@ -79,7 +79,7 @@ function User_Interface() {
   if (error) return <div>Error loading user data: {error.message}</div>;
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
-  const userId = userData?._id; // Assuming _id is the userId you want to use
+  const userId = userData?.userID; // Assuming _id is the userId you want to use
 
   // Log the userId to check its value
   console.log("Extracted User ID:", userId);
