@@ -256,8 +256,7 @@ const loginUser = async (req, res) => {
       httpOnly: true, // Makes the cookie inaccessible to JavaScript, protecting against XSS attacks
       secure: process.env.NODE_ENV === "production", // Only send on HTTPS in production
       sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // Adjust based on your app needs
-      path: "/", // Path for the cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Adjust based on your app needs // Path for the cookie
     });
 
     // Return user data without password
