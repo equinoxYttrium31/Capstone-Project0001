@@ -180,19 +180,7 @@ function App() {
             />
 
             {/* Protected Routes */}
-            <Route
-              path="/user-interface"
-              element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  handleLoginClick={handleLoginClick}
-                  showOverlay={setShowOverlay}
-                  authChecked={authChecked}
-                >
-                  <User_Interface />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/user-interface" element={<User_Interface />} />
           </Routes>
 
           {showOverlay && (
