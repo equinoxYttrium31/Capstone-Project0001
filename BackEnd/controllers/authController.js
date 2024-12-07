@@ -106,10 +106,10 @@ const convertToJpeg = async (imageBuffer) => {
 // Fetch the full profile of the authenticated user
 const getProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // Extract user ID from the token (set in the authenticateToken middleware)
+    const userId = req.user.userID; // Extract user ID from the token (set in the authenticateToken middleware)
 
     // Fetch the full user profile from the database based on user ID
-    const churchUser = await ChurchUser.findById(userId).select("-password"); // Exclude the password from the response
+    const churchUser = await ChurchUser.findOne(userId).select("-password"); // Exclude the password from the response
     if (!churchUser) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -237,7 +237,7 @@ const loginUser = async (req, res) => {
     // Signing the token with relevant user information
     const token = jwt.sign(
       {
-        id: churchUser._id,
+        userID: churchUser.userID,
         email: churchUser.email,
         firstName: churchUser.firstName,
         lastName: churchUser.lastName,
@@ -261,7 +261,7 @@ const loginUser = async (req, res) => {
 
     // Return user data without password
     return res.json({
-      id: churchUser._id,
+      userID: churchUser.userID,
       firstName: churchUser.firstName,
       lastName: churchUser.lastName,
       email: churchUser.email,
@@ -424,7 +424,7 @@ const updateUserProfile = async (req, res) => {
 // New Function: Create or update user profile with new fields
 const initialEditUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // Get user ID from the token
+    const userId = req.user.userID; // Get user ID from the token
 
     const {
       firstName,
@@ -440,7 +440,7 @@ const initialEditUserProfile = async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    let user = await ChurchUser.findById(userId);
+    let user = await ChurchUser.findOne(userId);
 
     if (!user) {
       // If the user does not exist, create a new user
@@ -714,7 +714,7 @@ const checkAuth = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
     const userID = decoded.userID; // Adjust based on your token structure
 
-    const user = await ChurchUser.findById(userID);
+    const user = await ChurchUser.findOne(userID);
 
     if (!user) {
       return res.status(200).json({ isLoggedIn: false }); // User not found, not authenticated
