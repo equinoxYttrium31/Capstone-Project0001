@@ -66,6 +66,8 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       const token = Cookies.get("token");
+
+      console.log(token);
       if (token) {
         try {
           const response = await axios.get(
