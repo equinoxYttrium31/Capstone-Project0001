@@ -3,6 +3,29 @@ import { cbc_logo, placeholder_attendance } from "../../assets/Assets";
 import PropTypes from "prop-types";
 
 export default function Attendance_Form({ attendance }) {
+  const formatDate = (dateString) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const date = new Date(dateString);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+  };
+
   return (
     <div className="Form_Container">
       <div className="header_container">
@@ -14,8 +37,10 @@ export default function Attendance_Form({ attendance }) {
       </div>
       {attendance ? (
         <div className="form_container">
-          <h2 className="attendance_title">{attendance.title}</h2>
-          <p className="attendance_date">Date: {attendance.date}</p>
+          <h4 className="attendance_title">Event: {attendance.title}</h4>
+          <p className="attendance_date">Date: {formatDate(attendance.date)}</p>
+          <br />
+          <p className="instructions_text">Fill all the fields.</p>
         </div>
       ) : (
         <div className="form_container">
