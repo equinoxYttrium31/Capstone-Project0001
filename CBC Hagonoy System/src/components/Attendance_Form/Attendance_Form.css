@@ -61,7 +61,7 @@
 .form_container.valid {
   align-items: start;
   text-align: justify;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 3rem;
 }
 
 .instructions_text {
@@ -104,4 +104,14 @@
   cursor: pointer;
   border-radius: 1rem;
   box-shadow: #28282b 2px 2px 5px;
+}
+
+@media (max-width: 480px) {
+  .header_container {
+    flex-direction: column;
+  }
+
+  .header_texts {
+    align-items: center;
+  }
 }
