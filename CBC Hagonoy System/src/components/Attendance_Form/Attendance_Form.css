@@ -134,6 +134,8 @@
 
   .header_texts {
     align-items: center;
+    width: fit-content;
+    margin: auto;
   }
 
   .image_inp_holder {
@@ -159,6 +161,6 @@
   }
 
   .form_container.valid {
-    padding: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
   }
 }
