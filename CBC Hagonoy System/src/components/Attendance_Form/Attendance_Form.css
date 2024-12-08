@@ -161,7 +161,7 @@
   }
 
   .form_container.valid {
-    width: fit-content;
+    width: 60%;
     padding: 0.5rem 0.5rem;
   }
 }
