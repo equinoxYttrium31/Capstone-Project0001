@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import User_Chart from "../User_Chart/user_chart";
 
+import Login_Signup from "../../components/login_signup/Login_Signup";
+
 import Personal_Acc from "../Personal_Acc/Personal_Acc";
 import User_NavBar from "../UserNavigationBar/User_NavBar";
 import Cellgroup_File from "../Cellgroup_Record_Files/Cellgroup_File";
@@ -76,7 +78,12 @@ function User_Interface() {
         <div className="loader"></div>
       </div>
     );
-  if (error) return <div>Error loading user data: {error.message}</div>;
+  if (error)
+    return (
+      <div>
+        <Login_Signup />
+      </div>
+    );
 
   const memberType = userData?.memberType; // Optional chaining to avoid errors
   const userId = userData?.userID; // Assuming _id is the userId you want to use
