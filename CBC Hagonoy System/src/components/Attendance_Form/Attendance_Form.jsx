@@ -41,6 +41,20 @@ export default function Attendance_Form({ attendance }) {
           <p className="attendance_date">Date: {formatDate(attendance.date)}</p>
           <br />
           <p className="instructions_text">Fill all the fields.</p>
+          <div className="name_container_attendance">
+            <label className="label_Lname">Last Name: </label>
+            <input type="text" className="inp_Lname" />
+            <label className="label_Fname">First Name: </label>
+            <input type="text" className="inp_Fname" />
+          </div>
+
+          <label className="label_image">Submit a photo of the activity:</label>
+          <input
+            type="file"
+            accept="image/*"
+            name="image"
+            className="imageInput"
+          />
         </div>
       ) : (
         <div className="form_container">
