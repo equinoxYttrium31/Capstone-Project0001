@@ -158,10 +158,11 @@
 
   .Form_Container {
     height: fit-content;
+    width: 65%;
   }
 
   .form_container.valid {
-    width: 60%;
+    width: fit-content;
     padding: 0.5rem 0.5rem;
   }
 }
