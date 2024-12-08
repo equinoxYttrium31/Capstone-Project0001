@@ -603,20 +603,12 @@ const createOrUpdateAttendance = async (req, res) => {
 
 // Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
-  const { userId, month, year } = req.params;
+  const { userID, month, year } = req.params;
 
   try {
-    const user = await ChurchUser.findOne({ userID: userId });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    console.log(user._id);
-
     // Fetch attendance data using the ObjectId
     const attendance = await UserAttendanceModel.findOne({
-      userID: user._id,
+      userID,
       month,
       year: parseInt(year, 10), // Convert year to integer if needed
     });
