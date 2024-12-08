@@ -667,12 +667,12 @@ const getWeeksInMonth = (month, year) => {
 
 // Get User Progress by Month and Year
 const getProgressByMonthYear = async (req, res) => {
-  const { userId, month, year } = req.body; // Changed from req.params to req.body
+  const { userID, month, year } = req.body; // Changed from req.params to req.body
 
   try {
     // Fetch the monthly attendance for the user
     const attendance = await UserAttendanceModel.findOne({
-      userId,
+      userID,
       month,
       year,
     });
