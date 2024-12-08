@@ -137,7 +137,7 @@
 
   .church_name {
     font-size: 0.7em;
-    line-height: 0.9rem;
+    line-height: 0.7rem;
   }
 
   .header_container .header_title {
@@ -164,7 +164,7 @@
   }
 
   .imageInp {
-    width: 95%;
+    width: 100%;
   }
 
   .attendance_title {
