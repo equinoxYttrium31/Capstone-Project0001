@@ -105,7 +105,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-.form_container.valid input[type="text"] {
+.inp_Fname,
+.inp_Lname {
   width: 85%;
   height: 1rem;
   border-radius: 0.5rem;
