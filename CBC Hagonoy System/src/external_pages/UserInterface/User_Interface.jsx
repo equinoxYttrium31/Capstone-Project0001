@@ -8,15 +8,16 @@ import Personal_Acc from "../Personal_Acc/Personal_Acc";
 import User_NavBar from "../UserNavigationBar/User_NavBar";
 import Cellgroup_File from "../Cellgroup_Record_Files/Cellgroup_File";
 import Network_Record from "../Network_Record_Files/Network_Record";
-import { cbc_logo } from "../../assets/Assets";
 
-import "./User_Interface.css";
 import {
+  cbc_logo,
   cellgroup_ic,
   menus,
   network_ic,
   personal_ic,
 } from "../../assets/Assets";
+
+import "./User_Interface.css";
 
 function User_Interface() {
   const [userData, setUserData] = useState(null);
@@ -26,6 +27,7 @@ function User_Interface() {
   const [refresh, setRefresh] = useState(false);
   const [profileRefresh, setProfileRefresh] = useState(false);
   const [activeContent, setActiveContent] = useState("Personal");
+  const [overlayType, setOverlayType] = useState("login");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -40,10 +42,6 @@ function User_Interface() {
             },
           }
         );
-
-        // Log the fetched user data
-        console.log("Fetched User Data:", response.data);
-
         setUserData(response.data);
         setTimeout(() => {
           setLoading(false);
@@ -67,9 +65,15 @@ function User_Interface() {
 
   const handleAttendanceSubmit = (shouldRefresh) => {
     if (shouldRefresh) {
-      setRefresh(true); // Set refresh to true
-      setTimeout(() => setRefresh(false), 100); // Reset it back to false immediately // Toggle the refresh state to trigger a re-fetch in UserChart
+      setRefresh(true);
+      setTimeout(() => setRefresh(false), 100);
     }
+  };
+
+  const handleClose = () => setError(null); // Close login overlay
+  const handleLoginSuccess = () => {
+    setError(null); // Clear error on successful login
+    setProfileRefresh((prev) => !prev); // Trigger a refresh of user data
   };
 
   if (loading)
@@ -78,23 +82,24 @@ function User_Interface() {
         <div className="loader"></div>
       </div>
     );
+
   if (error)
     return (
       <div>
+        <h2>Please log in to continue.</h2>
         <Login_Signup
           type={overlayType}
           onClose={handleClose}
-          toggleOverlayType={toggleOverlayType}
+          toggleOverlayType={() =>
+            setOverlayType((prev) => (prev === "login" ? "signup" : "login"))
+          }
           onLoginSuccess={handleLoginSuccess}
         />
       </div>
     );
 
-  const memberType = userData?.memberType; // Optional chaining to avoid errors
-  const userId = userData?.userID; // Assuming _id is the userId you want to use
-
-  // Log the userId to check its value
-  console.log("Extracted User ID:", userId);
+  const memberType = userData?.memberType;
+  const userId = userData?.userID;
 
   const renderContent = () => {
     if (activeContent === "Personal") {
@@ -104,8 +109,7 @@ function User_Interface() {
             onSubmit={handleAttendanceSubmit}
             profileRefresh={profileRefresh}
           />
-          <User_Chart userId={userId} refresh={refresh} />{" "}
-          {/* Pass userId here */}
+          <User_Chart userId={userId} refresh={refresh} />
         </div>
       );
     } else if (
