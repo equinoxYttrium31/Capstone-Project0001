@@ -601,27 +601,68 @@ const createOrUpdateAttendance = async (req, res) => {
   }
 };
 
-// Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
   const { userID, month, year } = req.params;
 
   try {
-    // Fetch attendance data using the ObjectId
+    // Fetch attendance data for the given userID, month, and year
     const attendance = await UserAttendanceModel.findOne({
       userID,
       month,
-      year: parseInt(year, 10), // Convert year to integer if needed
+      year: parseInt(year, 10), // Ensure year is in integer format
     });
 
     if (!attendance) {
       return res.status(404).json({ message: "Attendance not found" });
     }
 
-    return res.json(attendance);
+    // Create a default weeklyAttendance array with 5 weeks
+    const totalWeeks = getWeeksInMonth(month, year);
+    const defaultAttendance = Array.from({ length: totalWeeks }, (_, i) => ({
+      weekNumber: i + 1,
+      cellGroup: false,
+      personalDevotion: false,
+      familyDevotion: false,
+      prayerMeeting: false,
+      worshipService: false,
+    }));
+
+    // Map over the existing weeklyAttendance and update the default array
+    attendance.weeklyAttendance.forEach((week) => {
+      const weekIndex = week.weekNumber - 1; // Adjust index to 0-based
+      if (weekIndex >= 0 && weekIndex < totalWeeks) {
+        defaultAttendance[weekIndex] = {
+          weekNumber: week.weekNumber,
+          cellGroup: week.cellGroup,
+          personalDevotion: week.personalDevotion,
+          familyDevotion: week.familyDevotion,
+          prayerMeeting: week.prayerMeeting,
+          worshipService: week.worshipService,
+        };
+      }
+    });
+
+    // Respond with the attendance data (including filled weeklyAttendance)
+    return res.json({
+      userID: attendance.userID,
+      month: attendance.month,
+      year: attendance.year,
+      weeklyAttendance: defaultAttendance,
+    });
   } catch (error) {
     console.error("Error fetching attendance data:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
+};
+
+// Helper function to calculate the number of weeks in a month
+const getWeeksInMonth = (month, year) => {
+  const daysInMonth = new Date(
+    year,
+    new Date(month + " 1, " + year).getMonth() + 1,
+    0
+  ).getDate();
+  return Math.ceil(daysInMonth / 7); // Calculate number of weeks
 };
 
 // Get User Progress by Month and Year
