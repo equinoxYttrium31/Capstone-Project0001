@@ -603,10 +603,10 @@ const createOrUpdateAttendance = async (req, res) => {
 
 // Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
-  const { _id, month, year } = req.params;
+  const { userId, month, year } = req.params;
 
   try {
-    const user = await ChurchUser.findOne({ userID: _id });
+    const user = await ChurchUser.findOne({ userID: userId });
 
     // Convert userId string to ObjectId
     const userObjectId = new mongoose.Types.ObjectId(user._id);
