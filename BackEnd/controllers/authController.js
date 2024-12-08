@@ -551,11 +551,11 @@ const getMonthlyAttendanceSummary = async (req, res) => {
   const { userId, month, year } = req.body; // Changed from req.params to req.body
 
   try {
-    const attendance = await UserAttendanceModel.findOne({
-      userId,
+    const attendance = await UserAttendanceModel.findOne(
+      { userID: userId },
       month,
-      year,
-    });
+      year
+    );
 
     if (!attendance) {
       return res.status(404).json({ message: "Attendance not found" });
