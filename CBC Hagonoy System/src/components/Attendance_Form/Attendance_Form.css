@@ -107,6 +107,8 @@
 
 .form_container.valid input[type="text"] {
   width: 85%;
+  height: 1rem;
+  border-radius: 0.5rem;
   all: unset;
   border: #120652 solid 1px;
   background-color: whitesmoke;
@@ -161,7 +163,7 @@
   }
 
   .imageInp {
-    width: 85%;
+    width: 95%;
   }
 
   .attendance_title {
