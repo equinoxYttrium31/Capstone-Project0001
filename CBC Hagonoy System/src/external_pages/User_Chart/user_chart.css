@@ -39,25 +39,8 @@
   border-radius: 50%;
 }
 
-.chart_center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 55%;
-  height: 55%;
-  border-radius: 50%;
-  background-color: beige;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
 .chart_percentage_cont {
-  margin-top: 20px;
+  margin-top: -150px;
   display: flex;
   flex-direction: column;
   align-items: center;

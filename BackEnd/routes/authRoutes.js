@@ -83,7 +83,7 @@ router.get("/leader/:leaderName", getCellgroupByLeader);
 router.post("/default-attendance", authenticateToken, submitDefault);
 router.post("/attendance", authenticateToken, createOrUpdateAttendance);
 router.get(
-  "/attendance-month/:userId/:month/:year",
+  "/attendance-month/:userID/:month/:year",
   authenticateToken,
   getAttendanceByMonthYear
 );
