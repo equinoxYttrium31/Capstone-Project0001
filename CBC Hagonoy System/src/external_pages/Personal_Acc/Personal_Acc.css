@@ -397,4 +397,9 @@
   .week_text {
     margin-top: 0;
   }
+
+  .__attendance_form {
+    width: 100%;
+    height: fit-content;
+  }
 }
