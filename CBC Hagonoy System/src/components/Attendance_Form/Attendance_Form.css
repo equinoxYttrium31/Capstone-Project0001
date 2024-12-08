@@ -153,4 +153,8 @@
   .attendance_date {
     font-size: 0.8em;
   }
+
+  .Form_Container {
+    height: fit-content;
+  }
 }
