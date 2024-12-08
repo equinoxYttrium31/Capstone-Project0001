@@ -157,4 +157,8 @@
   .Form_Container {
     height: fit-content;
   }
+
+  .form_container.valid {
+    padding: 0.5rem 0;
+  }
 }
