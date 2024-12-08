@@ -105,6 +105,14 @@
   transition: all 0.3s ease-in-out;
 }
 
+.form_container.valid input {
+  width: 85%;
+  all: unset;
+  border: #120652 solid 1px;
+  background-color: whitesmoke;
+  color: #28282b;
+}
+
 .submit_attendance:hover {
   cursor: pointer;
   border-radius: 1rem;
@@ -116,6 +124,7 @@
     gap: 0;
     flex-direction: column;
     text-wrap: nowrap;
+    width: 25%;
   }
 
   .church_name {
@@ -165,5 +174,14 @@
   .form_container.valid {
     width: fit-content;
     padding: 0.5rem 0.5rem;
+  }
+
+  .form_container.valid input {
+    width: 85%;
+  }
+
+  .submit_attendance {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8em;
   }
 }
