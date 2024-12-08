@@ -612,6 +612,8 @@ const getAttendanceByMonthYear = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    console.log(user._id);
+
     // Fetch attendance data using the ObjectId
     const attendance = await UserAttendanceModel.findOne({
       userID: user._id,

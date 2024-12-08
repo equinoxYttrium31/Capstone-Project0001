@@ -15,6 +15,11 @@
   align-items: center;
 }
 
+.label_Fname,
+.label_Lname {
+  text-wrap: nowrap;
+}
+
 .logo {
   width: 5rem;
   aspect-ratio: 1;
