@@ -81,9 +81,10 @@
 }
 
 .image_inp_holder {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .imageInp {
@@ -96,6 +97,7 @@
   background-color: #120652;
   border-radius: 0.5rem;
   color: whitesmoke;
+  transition: all 0.3s ease-in-out;
 }
 
 .submit_attendance:hover {
