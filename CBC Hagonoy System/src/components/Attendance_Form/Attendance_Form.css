@@ -115,6 +115,7 @@
   .header_container {
     gap: 0;
     flex-direction: column;
+    text-wrap: nowrap;
   }
 
   .church_name {
