@@ -41,7 +41,7 @@ function UserChart({ userId, refresh }) {
     prayerMeeting: [],
     worshipService: [],
   });
-  const [totalWeeks, setTotalWeeks] = useState(4);
+  const [totalWeeks, setTotalWeeks] = useState(0);
   const [currentMonth, setCurrentMonth] = useState("");
   const [currentYear, setCurrentYear] = useState("");
 
@@ -68,23 +68,26 @@ function UserChart({ userId, refresh }) {
 
       const attendance = response.data;
 
-      // Set totalWeeks based on weeklyAttendance array length
-      const weeksInAttendance = attendance.weeklyAttendance.length;
-      setTotalWeeks(weeksInAttendance);
+      // Ensure that we handle missing weeks by creating a default attendance array
+      const totalWeeksInMonth = getWeeksInMonth(month, year);
+      setTotalWeeks(totalWeeksInMonth);
 
-      // Initialize arrays for weekly progress
-      let cellGroup = [];
-      let personalDevotion = [];
-      let familyDevotion = [];
-      let prayerMeeting = [];
-      let worshipService = [];
+      let cellGroup = new Array(totalWeeksInMonth).fill(0);
+      let personalDevotion = new Array(totalWeeksInMonth).fill(0);
+      let familyDevotion = new Array(totalWeeksInMonth).fill(0);
+      let prayerMeeting = new Array(totalWeeksInMonth).fill(0);
+      let worshipService = new Array(totalWeeksInMonth).fill(0);
 
+      // Process the weekly attendance data
       attendance.weeklyAttendance.forEach((week) => {
-        cellGroup.push(week.cellGroup ? 1 : 0);
-        personalDevotion.push(week.personalDevotion ? 1 : 0);
-        familyDevotion.push(week.familyDevotion ? 1 : 0);
-        prayerMeeting.push(week.prayerMeeting ? 1 : 0);
-        worshipService.push(week.worshipService ? 1 : 0);
+        const weekIndex = week.weekNumber - 1; // Convert weekNumber to array index
+        if (weekIndex >= 0 && weekIndex < totalWeeksInMonth) {
+          cellGroup[weekIndex] = week.cellGroup ? 1 : 0;
+          personalDevotion[weekIndex] = week.personalDevotion ? 1 : 0;
+          familyDevotion[weekIndex] = week.familyDevotion ? 1 : 0;
+          prayerMeeting[weekIndex] = week.prayerMeeting ? 1 : 0;
+          worshipService[weekIndex] = week.worshipService ? 1 : 0;
+        }
       });
 
       setAttendanceProgress({
@@ -141,6 +144,16 @@ function UserChart({ userId, refresh }) {
     return monthIndex > currentMonthIndex;
   };
 
+  // Get the number of weeks in a month (defaults to 5 weeks for months that don't have a full 6th week)
+  const getWeeksInMonth = (month, year) => {
+    const daysInMonth = new Date(
+      year,
+      new Date(month + " 1, " + year).getMonth() + 1,
+      0
+    ).getDate();
+    return Math.ceil(daysInMonth / 7); // Calculate number of weeks based on the number of days
+  };
+
   // Prepare the chart data
   const chartData = {
     labels: Array.from({ length: totalWeeks }, (_, i) => `Week ${i + 1}`), // Dynamic weeks based on attendance
@@ -183,6 +196,19 @@ function UserChart({ userId, refresh }) {
     ],
   };
 
+  // Chart options with stacked bars
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true, // Enable stacking on x-axis
+      },
+      y: {
+        stacked: true, // Enable stacking on y-axis
+      },
+    },
+  };
+
   return (
     <div className="user_chart_main_cont">
       <div className="chart_header">
@@ -216,18 +242,18 @@ function UserChart({ userId, refresh }) {
       </div>
 
       <div className="chart_container">
-        <Bar data={chartData} />
+        <Bar data={chartData} options={chartOptions} />
       </div>
 
       <div className="chart_percentage_cont">
         <div className="chart_label">
           Total Attendance:{" "}
           {(
-            ((attendanceProgress.cellGroup.length +
-              attendanceProgress.personalDevotion.length +
-              attendanceProgress.familyDevotion.length +
-              attendanceProgress.prayerMeeting.length +
-              attendanceProgress.worshipService.length) /
+            ((attendanceProgress.cellGroup.filter(Boolean).length +
+              attendanceProgress.personalDevotion.filter(Boolean).length +
+              attendanceProgress.familyDevotion.filter(Boolean).length +
+              attendanceProgress.prayerMeeting.filter(Boolean).length +
+              attendanceProgress.worshipService.filter(Boolean).length) /
               (totalWeeks * 5)) *
             100
           ).toFixed(2)}
