@@ -32,7 +32,7 @@ export default function Attendance_Form({ attendance }) {
         <img src={cbc_logo} alt="CBCH Logo" className="logo" />
         <div className="header_texts">
           <h4 className="church_name">Christian Bible Church Hagonoy</h4>
-          <h1>Attendance Form</h1>
+          <h1 className="header_title">Attendance Form</h1>
         </div>
       </div>
       {attendance ? (
