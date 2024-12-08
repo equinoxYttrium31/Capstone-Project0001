@@ -603,15 +603,15 @@ const createOrUpdateAttendance = async (req, res) => {
 
 // Your route handler
 const getAttendanceByMonthYear = async (req, res) => {
-  const { userId, month, year } = req.params;
+  const { _id, month, year } = req.params;
 
   try {
     // Convert userId string to ObjectId
-    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const userObjectId = new mongoose.Types.ObjectId(_id);
 
     // Fetch attendance data using the ObjectId
     const attendance = await UserAttendanceModel.findOne({
-      userId: userObjectId,
+      userID: userObjectId,
       month,
       year: parseInt(year, 10), // Convert year to integer if needed
     });
