@@ -65,5 +65,11 @@
 }
 
 .instructions_text {
+  margin-top: -2rem;
   font-size: 0.8em;
+}
+
+.image_inp_holder {
+  display: flex;
+  flex-direction: row;
 }

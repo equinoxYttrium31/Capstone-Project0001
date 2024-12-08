@@ -48,13 +48,19 @@ export default function Attendance_Form({ attendance }) {
             <input type="text" className="inp_Fname" />
           </div>
 
-          <label className="label_image">Submit a photo of the activity:</label>
-          <input
-            type="file"
-            accept="image/*"
-            name="image"
-            className="imageInput"
-          />
+          <div className="image_inp_holder">
+            <label className="label_image">
+              Submit a photo of the activity:
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              name="image"
+              className="imageInp"
+            />
+          </div>
+
+          <button className="submit_attendance">Submit</button>
         </div>
       ) : (
         <div className="form_container">
