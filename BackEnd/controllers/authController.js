@@ -606,8 +606,10 @@ const getAttendanceByMonthYear = async (req, res) => {
   const { _id, month, year } = req.params;
 
   try {
+    const user = await ChurchUser.findOne({ userID: _id });
+
     // Convert userId string to ObjectId
-    const userObjectId = new mongoose.Types.ObjectId(_id);
+    const userObjectId = new mongoose.Types.ObjectId(user._id);
 
     // Fetch attendance data using the ObjectId
     const attendance = await UserAttendanceModel.findOne({
