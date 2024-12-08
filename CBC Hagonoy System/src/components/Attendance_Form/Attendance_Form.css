@@ -105,7 +105,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.form_container.valid input {
+.form_container.valid input::target-text {
   width: 85%;
   all: unset;
   border: #120652 solid 1px;
@@ -123,8 +123,9 @@
   .header_container {
     gap: 0;
     flex-direction: column;
-    text-wrap: nowrap;
-    width: 25%;
+    text-wrap: wrap;
+    text-align: center;
+    width: fit-content;
   }
 
   .church_name {
@@ -176,12 +177,16 @@
     padding: 0.5rem 0.5rem;
   }
 
+  .container_names {
+    width: 100%;
+  }
+
   .form_container.valid input {
     width: 85%;
   }
 
   .submit_attendance {
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 0.9rem;
     font-size: 0.8em;
   }
 }
