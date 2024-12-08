@@ -126,13 +126,19 @@
   }
 
   .container_names {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     width: 100%;
+    align-items: start;
     flex-direction: column;
   }
 
   .header_texts {
     align-items: center;
+  }
+
+  .image_inp_holder {
+    font-size: 0.8em;
+    text-align: start;
   }
 
   .imageInp {
@@ -141,7 +147,7 @@
 
   .attendance_title {
     font-size: 0.9em;
-    margin-bottom: -0.3rem;
+    margin-bottom: -0.5rem;
   }
 
   .attendance_date {
