@@ -81,7 +81,12 @@ function User_Interface() {
   if (error)
     return (
       <div>
-        <Login_Signup />
+        <Login_Signup
+          type={overlayType}
+          onClose={handleClose}
+          toggleOverlayType={toggleOverlayType}
+          onLoginSuccess={handleLoginSuccess}
+        />
       </div>
     );
 
