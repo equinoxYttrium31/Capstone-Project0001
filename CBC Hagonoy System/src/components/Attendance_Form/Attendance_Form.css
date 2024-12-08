@@ -107,10 +107,10 @@
 
 .inp_Fname,
 .inp_Lname {
-  width: 85%;
-  height: 1rem;
-  border-radius: 0.5rem;
   all: unset;
+  width: 85%;
+  height: 1.5rem;
+  border-radius: 0.5rem;
   border: #120652 solid 1px;
   background-color: whitesmoke;
   color: #28282b;
