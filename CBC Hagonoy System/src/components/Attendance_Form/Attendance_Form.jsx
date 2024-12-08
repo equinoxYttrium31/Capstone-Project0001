@@ -42,10 +42,14 @@ export default function Attendance_Form({ attendance }) {
           <br />
           <p className="instructions_text">Fill all the fields.</p>
           <div className="name_container_attendance">
-            <label className="label_Lname">Last Name: </label>
-            <input type="text" className="inp_Lname" />
-            <label className="label_Fname">First Name: </label>
-            <input type="text" className="inp_Fname" />
+            <div className="container_names">
+              <label className="label_Lname">Last Name: </label>
+              <input type="text" className="inp_Lname" />
+            </div>
+            <div className="container_names">
+              <label className="label_Fname">First Name: </label>
+              <input type="text" className="inp_Fname" />
+            </div>
           </div>
 
           <div className="image_inp_holder">

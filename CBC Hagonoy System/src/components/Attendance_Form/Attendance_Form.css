@@ -69,10 +69,25 @@
   font-size: 0.8em;
 }
 
-.image_inp_holder {
+.name_container_attendance {
+  display: flex;
+  flex-direction: column;
+}
+
+.container_names {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.image_inp_holder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageInp {
+  width: 50%;
 }
 
 .submit_attendance {
@@ -85,5 +100,6 @@
 
 .submit_attendance:hover {
   cursor: pointer;
+  border-radius: 1rem;
   box-shadow: #28282b 2px 2px 5px;
 }
