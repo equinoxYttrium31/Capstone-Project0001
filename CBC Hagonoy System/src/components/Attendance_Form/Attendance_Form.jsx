@@ -36,7 +36,7 @@ export default function Attendance_Form({ attendance }) {
         </div>
       </div>
       {attendance ? (
-        <div className="form_container">
+        <div className="form_container valid">
           <h4 className="attendance_title">Event: {attendance.title}</h4>
           <p className="attendance_date">Date: {formatDate(attendance.date)}</p>
           <br />

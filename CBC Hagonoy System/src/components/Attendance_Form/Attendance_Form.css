@@ -57,3 +57,13 @@
   margin-top: -0.5rem;
   font-size: 0.9em;
 }
+
+.form_container.valid {
+  align-items: start;
+  text-align: justify;
+  padding: 0.5rem 1rem;
+}
+
+.instructions_text {
+  font-size: 0.8em;
+}
