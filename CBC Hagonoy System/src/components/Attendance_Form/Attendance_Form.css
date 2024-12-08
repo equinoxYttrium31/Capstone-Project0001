@@ -65,11 +65,25 @@
 }
 
 .instructions_text {
-  margin-top: -2rem;
+  margin-top: -0.5rem;
   font-size: 0.8em;
 }
 
 .image_inp_holder {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.submit_attendance {
+  all: unset;
+  padding: 0.2rem 2rem;
+  background-color: #120652;
+  border-radius: 0.5rem;
+  color: whitesmoke;
+}
+
+.submit_attendance:hover {
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
 }
