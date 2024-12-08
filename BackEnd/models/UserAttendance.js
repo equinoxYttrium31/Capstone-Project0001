@@ -18,11 +18,7 @@ const WeekAttendanceSchema = new Schema(
 // Main schema for tracking monthly attendance
 const UserAttendanceSchema = new Schema(
   {
-    userID: {
-      type: Schema.Types.ObjectId,
-      ref: "ChurchUser", // Reference to the ChurchUser model
-      required: true,
-    },
+    userID: { type: String, required: true },
     month: {
       type: String, // e.g., "September"
       required: true,
