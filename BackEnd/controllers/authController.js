@@ -59,7 +59,7 @@ const submitAttendance = async (req, res) => {
       });
     }
 
-    // Calculate the day of the week (e.g., "Monday", "Tuesday", etc.)
+    // Calculate the day of the week (e.g., "Monday", "Tuesday", etc.) from the submitted date
     const dayOfWeek = submittedDate.toLocaleString("en-US", {
       weekday: "long",
     });
@@ -77,7 +77,7 @@ const submitAttendance = async (req, res) => {
         date,
         event,
         image: imageBase64,
-        dayOfWeek, // Set dayOfWeek explicitly here
+        dayOfWeek, // Set dayOfWeek explicitly here from the form's date
       });
     } else {
       // Add a new week group
@@ -88,7 +88,7 @@ const submitAttendance = async (req, res) => {
             date,
             event,
             image: imageBase64,
-            dayOfWeek, // Set dayOfWeek explicitly here
+            dayOfWeek, // Set dayOfWeek explicitly here from the form's date
           },
         ],
       });
