@@ -59,6 +59,11 @@ const submitAttendance = async (req, res) => {
       });
     }
 
+    // Calculate the day of the week (e.g., "Monday", "Tuesday", etc.)
+    const dayOfWeek = submittedDate.toLocaleString("en-US", {
+      weekday: "long",
+    });
+
     // Check if the week group exists
     const weekGroup = attendance.attendanceRecords.find((record) =>
       record.weekStart
@@ -68,12 +73,24 @@ const submitAttendance = async (req, res) => {
 
     if (weekGroup) {
       // Add to existing week group
-      weekGroup.records.push({ date, event, image: imageBase64 });
+      weekGroup.records.push({
+        date,
+        event,
+        image: imageBase64,
+        dayOfWeek, // Set dayOfWeek explicitly here
+      });
     } else {
       // Add a new week group
       attendance.attendanceRecords.push({
         weekStart,
-        records: [{ date, event, image: imageBase64 }],
+        records: [
+          {
+            date,
+            event,
+            image: imageBase64,
+            dayOfWeek, // Set dayOfWeek explicitly here
+          },
+        ],
       });
     }
 
