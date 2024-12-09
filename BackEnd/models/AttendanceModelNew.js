@@ -22,16 +22,17 @@ const AttendanceSchema = new Schema({
   ],
 });
 
-// Pre-save middleware to calculate and group by week
 AttendanceSchema.pre("save", async function (next) {
   if (this.isModified("attendanceRecords")) {
-    this.attendanceRecords = this.attendanceRecords.map((recordGroup) => {
+    this.attendanceRecords.forEach((recordGroup) => {
       recordGroup.records.forEach((record) => {
         const date = new Date(record.date);
         const dayOfWeek = date.toLocaleString("en-US", { weekday: "long" });
-        record.dayOfWeek = dayOfWeek;
+        // Only update if dayOfWeek is not already set (to prevent unnecessary writes)
+        if (!record.dayOfWeek) {
+          record.dayOfWeek = dayOfWeek;
+        }
       });
-      return recordGroup;
     });
   }
   next();

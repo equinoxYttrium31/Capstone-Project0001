@@ -67,7 +67,7 @@ const submitAttendance = async (req, res) => {
     );
 
     if (weekGroup) {
-      // Add to existing week
+      // Add to existing week group
       weekGroup.records.push({ date, event, image: imageBase64 });
     } else {
       // Add a new week group
