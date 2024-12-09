@@ -1,8 +1,15 @@
+import { useState } from "react";
 import "./Attendance_Form.css";
 import { cbc_logo, placeholder_attendance } from "../../assets/Assets";
 import PropTypes from "prop-types";
 
-export default function Attendance_Form({ attendance }) {
+export default function Attendance_Form({ attendance, user }) {
+  const [formData, setFormData] = useState({
+    lastName: "",
+    firstName: "",
+    imageBase64: "", // Store Base64 image
+  });
+
   const formatDate = (dateString) => {
     const months = [
       "January",
@@ -26,6 +33,60 @@ export default function Attendance_Form({ attendance }) {
     return `${month} ${day}, ${year}`;
   };
 
+  const handleChange = async (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "image" && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevData) => ({
+          ...prevData,
+          imageBase64: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file); // Convert image to Base64
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!formData.lastName || !formData.firstName || !formData.imageBase64) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+
+    const submissionData = {
+      userID: user.userID,
+      name: `${formData.firstName} ${formData.lastName}`,
+      date: attendance.date,
+      event: attendance.title,
+      imageBase64: formData.imageBase64,
+    };
+
+    try {
+      const response = await fetch("/api/submitAttendance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit attendance.");
+      }
+
+      alert("Attendance submitted successfully!");
+      setFormData({ lastName: "", firstName: "", imageBase64: "" }); // Reset form
+    } catch (error) {
+      console.error("Error submitting attendance:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="Form_Container">
       <div className="header_container">
@@ -44,11 +105,23 @@ export default function Attendance_Form({ attendance }) {
           <div className="name_container_attendance">
             <div className="container_names">
               <label className="label_Lname">Last Name: </label>
-              <input type="text" className="inp_Lname" />
+              <input
+                type="text"
+                name="lastName"
+                className="inp_Lname"
+                value={formData.lastName}
+                onChange={handleChange}
+              />
             </div>
             <div className="container_names">
               <label className="label_Fname">First Name: </label>
-              <input type="text" className="inp_Fname" />
+              <input
+                type="text"
+                name="firstName"
+                className="inp_Fname"
+                value={formData.firstName}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -61,10 +134,13 @@ export default function Attendance_Form({ attendance }) {
               accept="image/*"
               name="image"
               className="imageInp"
+              onChange={handleChange}
             />
           </div>
 
-          <button className="submit_attendance">Submit</button>
+          <button className="submit_attendance" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
       ) : (
         <div className="form_container">
@@ -84,6 +160,10 @@ Attendance_Form.propTypes = {
     title: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }),
+  user: PropTypes.shape({
+    userID: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 // Default Props

@@ -14,6 +14,7 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchieveUserModel = require("../models/ArchieveRecords");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const Attendance = require("../models/AttendanceModelNew");
 
 const otpStore = {};
 
@@ -32,6 +33,56 @@ const sendOtpEmail = (email, otp) => {
     html: `<p>Hello,</p><p>Your OTP for password reset is: <b>${otp}</b></p><p>This OTP is valid for 10 minutes.</p>`,
   };
   return transporter.sendMail(mailOptions);
+};
+
+const submitAttendance = async (req, res) => {
+  try {
+    const { userID, name, date, event, imageBase64 } = req.body;
+
+    if (!userID || !name || !date || !event || !imageBase64) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    // Calculate the weekStart (Sunday)
+    const submittedDate = new Date(date);
+    const weekStart = new Date(submittedDate);
+    weekStart.setDate(submittedDate.getDate() - submittedDate.getDay());
+
+    // Find the user's attendance record
+    let attendance = await Attendance.findOne({ "user.userID": userID });
+
+    if (!attendance) {
+      // Create a new record if it doesn't exist
+      attendance = new Attendance({
+        user: { userID, name },
+        attendanceRecords: [],
+      });
+    }
+
+    // Check if the week group exists
+    const weekGroup = attendance.attendanceRecords.find((record) =>
+      record.weekStart
+        .toISOString()
+        .startsWith(weekStart.toISOString().split("T")[0])
+    );
+
+    if (weekGroup) {
+      // Add to existing week
+      weekGroup.records.push({ date, event, image: imageBase64 });
+    } else {
+      // Add a new week group
+      attendance.attendanceRecords.push({
+        weekStart,
+        records: [{ date, event, image: imageBase64 }],
+      });
+    }
+
+    await attendance.save();
+    res.status(200).json({ message: "Attendance submitted successfully." });
+  } catch (error) {
+    console.error("Error saving attendance:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
 };
 
 const requestOtp = async (req, res) => {
