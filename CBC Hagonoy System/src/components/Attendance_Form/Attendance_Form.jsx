@@ -69,11 +69,14 @@ export default function Attendance_Form({ attendance, user }) {
     };
 
     try {
-      const response = await fetch("/api/submitAttendance", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(submissionData),
-      });
+      const response = await fetch(
+        "https://client-2oru.onrender.com/submitAttendance",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(submissionData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit attendance.");

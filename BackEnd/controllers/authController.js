@@ -1103,4 +1103,5 @@ module.exports = {
   getCellgroupByLeader,
   requestOtp,
   changePassword,
+  submitAttendance,
 };

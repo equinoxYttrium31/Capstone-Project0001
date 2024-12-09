@@ -28,6 +28,7 @@ const {
   requestOtp,
   changePassword,
   fetchuserUnderNetLead,
+  submitAttendance,
 } = require("../controllers/authController");
 
 const {
@@ -186,5 +187,6 @@ router.get("/network/:networkID", fetchNetworkbyID);
 router.post("/attendance-deets", storeAttendanceDeets);
 router.get("/attendance-details/:attendanceID", fetchAttendanceDeets);
 
+router.post("/submitAttendance", submitAttendance);
 // Export the router
 module.exports = router;
