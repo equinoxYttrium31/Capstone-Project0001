@@ -196,7 +196,7 @@ const Personal_Acc = ({ profileRefresh }) => {
         </div>
       </div>
       <div className="__attendance_form">
-        <Attendance_Form attendance={attendance} />
+        <Attendance_Form attendance={attendance} user={user.userID} />
       </div>
     </div>
   );
