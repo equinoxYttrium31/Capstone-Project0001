@@ -55,6 +55,11 @@ export default function Attendance_Form({ attendance, user }) {
   };
 
   const handleSubmit = async () => {
+    if (!user || !user.userID) {
+      alert("User information is missing. Please log in.");
+      return;
+    }
+
     if (!formData.lastName || !formData.firstName || !formData.imageBase64) {
       alert("Please fill in all the fields.");
       return;
@@ -69,14 +74,11 @@ export default function Attendance_Form({ attendance, user }) {
     };
 
     try {
-      const response = await fetch(
-        "https://client-2oru.onrender.com/submitAttendance",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(submissionData),
-        }
-      );
+      const response = await fetch("/api/submitAttendance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionData),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to submit attendance.");
