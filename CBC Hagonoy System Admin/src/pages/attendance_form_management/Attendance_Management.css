@@ -1,0 +1,205 @@
+.Attendance__mainContainer {
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.Attendance__headerContainer {
+  width: 73vw;
+  height: 10vh;
+}
+
+.church_name_announcement {
+  font-family: "Lato";
+  font-size: 0.75em;
+  margin-bottom: -1rem;
+  color: #28282b;
+}
+
+.page_title_announcement {
+  font-family: "Poppins";
+  margin-top: 0.8rem;
+  font-size: 1.8em;
+  color: #120652;
+}
+
+.__attendance_creation_container {
+  background-color: whitesmoke;
+  margin-top: -0.5rem;
+  margin-left: 0.5rem;
+  width: 90%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: #28282b 1px 1px 3px;
+}
+
+.__attendance_creation_header_title,
+.header_title {
+  font-family: "Poppins";
+  margin: 0;
+  font-size: 1.3em;
+  color: #120652;
+}
+
+.__attendance_creation_form {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+  color: #28282b;
+}
+
+.__event_title_lbl,
+.__set_date_lbl {
+  font-family: "poppins";
+  text-wrap: nowrap;
+  font-size: 0.8em;
+}
+
+.__other_event {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.events_list,
+.__custom_event_inp,
+.__set_date_inp {
+  outline: none;
+  height: 1.5rem;
+  border: #120652 2px solid;
+  border-radius: 0.3rem;
+  background-color: transparent;
+  padding-left: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.__set_date_inp:hover {
+  cursor: pointer;
+  box-shadow: #28282b 1px 1px 5px;
+  border-radius: 0.5rem;
+}
+
+.events_list:hover {
+  cursor: pointer;
+  box-shadow: #28282b 1px 1px 5px;
+  border-radius: 0.5rem;
+}
+
+.__attendance_creation_form button {
+  border: none;
+  padding: 0.3rem 1rem;
+  width: 13rem;
+  border-radius: 0.5rem;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  color: whitesmoke;
+  transition: all ease-in-out 0.3s;
+}
+
+.__create_attendance {
+  background-color: #120652;
+}
+
+.__generate_qr_code {
+  background-color: #f8bb33;
+}
+
+.__generate_qr_code:hover,
+.__create_attendance:hover {
+  box-shadow: #28282b 2px 2px 5px;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+/*modal*/
+
+.__qr_code_display_container {
+  background-color: #00000036;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.2px);
+  -webkit-backdrop-filter: blur(4.2px);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.__qr_holder_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 30rem;
+  width: 50rem;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+.__header_qr_modal {
+  height: 3rem;
+  width: 88%;
+  border-bottom: #28282b93 2px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 3rem;
+}
+
+.__header_title {
+  color: #2d2f65;
+  font-family: "Poppins";
+}
+
+.__qr_code_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0rem;
+  gap: 1rem;
+  font-family: "poppins";
+}
+
+.__export_qr_code {
+  border: none;
+  padding: 0.3rem 1rem;
+  width: 13rem;
+  border-radius: 0.5rem;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  color: whitesmoke;
+  background-color: #f8bb33;
+  transition: all ease-in-out 0.3s;
+}
+
+.__export_qr_code:hover {
+  box-shadow: #28282b 2px 2px 5px;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.close_btn:hover {
+  filter: drop-shadow(#28282b9b 2px 2px 5px);
+  cursor: pointer;
+}
+
+.close_btn {
+  transition: all ease-in-out 0.3s;
+}
+
+.attendance_submitted_container {
+  background-color: whitesmoke;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  width: 90%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: #28282b 1px 1px 3px;
+}

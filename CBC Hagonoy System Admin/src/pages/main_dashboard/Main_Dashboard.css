@@ -30,6 +30,10 @@
   border-radius: 15px;
 }
 
+.right_dashboard_cont {
+  width: fit-content;
+}
+
 .dashboard_title_left {
   display: flex;
   flex-direction: row;

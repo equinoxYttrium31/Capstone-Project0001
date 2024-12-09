@@ -1,8 +1,8 @@
 import axios from "axios"; // Import Axios
-import { useState } from "react";
+import { useState, useRef } from "react";
 import QRCode from "react-qr-code";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { close_ic } from "../../assets/Images";
+import { toast } from "react-hot-toast";
 import "./Attendance_Management.css";
 
 export default function Attendance_Management() {
@@ -11,18 +11,17 @@ export default function Attendance_Management() {
   const [date, setDate] = useState("");
   const [qrCodeData, setQrCodeData] = useState("");
   const [attendanceID, setAttendanceID] = useState(null); // Store the attendanceID
-  const navigate = useNavigate(); // For navigation
+  const qrCodeRef = useRef(null); // Reference for the QR Code container
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
 
   const handleCreateAttendance = async () => {
     if (!finalTitle || !date) {
-      alert("Please fill in all the required fields.");
+      toast.error("Please fill in all the required fields.");
       return;
     }
 
     try {
-      // Send the attendance details to the backend API
       const response = await axios.post(
         "https://capstone-project0001-2.onrender.com/attendance-deets",
         {
@@ -31,36 +30,84 @@ export default function Attendance_Management() {
         }
       );
 
-      // Extract the attendanceID from the response
       const { attendanceID } = response.data.data;
-
-      // Set the attendanceID and generate the QR code with the ID
       setAttendanceID(attendanceID);
 
-      // Show a success message upon successful storage
-      alert(`Attendance Created: \nEvent: ${finalTitle}\nDate: ${date}`);
+      toast.success(
+        `Attendance Created: \nEvent: ${finalTitle}\nDate: ${date}`
+      );
       console.log("Attendance Created Successfully:", response.data);
     } catch (error) {
-      alert("Error creating attendance.");
+      toast.error("Error creating attendance.");
       console.error("Error creating attendance", error);
     }
   };
 
   const handleGenerateQR = () => {
     if (!finalTitle || !date) {
-      alert("Please fill in all the required fields.");
+      toast.error("Please fill in all the required fields.");
       return;
     }
 
-    // If attendanceID exists, generate QR
     if (attendanceID) {
-      // Generate a QR code that redirects to /user-interface page
       setQrCodeData(
         `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
       );
     } else {
-      alert("Please create attendance first.");
+      toast.error("Please create attendance first.");
     }
+  };
+
+  const handleExportQRCode = async () => {
+    if (!qrCodeRef.current) return;
+
+    // Get the SVG element from the QRCode component
+    const svgElement = qrCodeRef.current.querySelector("svg");
+    if (!svgElement) return;
+
+    // Convert SVG to Canvas
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const img = new Image();
+    const svgBlob = new Blob([svgData], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+    const url = URL.createObjectURL(svgBlob);
+
+    img.onload = () => {
+      // Set canvas size to match the SVG dimensions
+      const canvasWidth = img.width;
+      const canvasHeight = img.height + 40; // Extra space for the date
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      // Fill the canvas with a white background
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // Draw the QR code on top of the white background
+      ctx.drawImage(img, 0, 0);
+
+      // Add the date below the QR code
+      const exportDate = new Date().toLocaleDateString();
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(exportDate, canvasWidth / 2, canvasHeight - 10);
+
+      // Create an image URL and trigger download
+      const image = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `AttendanceQR_${exportDate.replace(/\//g, "-")}.png`;
+      link.click();
+
+      URL.revokeObjectURL(url); // Cleanup the object URL
+    };
+
+    img.src = url;
   };
 
   return (
@@ -79,7 +126,6 @@ export default function Attendance_Management() {
           </h3>
 
           <div className="__attendance_creation_form">
-            {/* Title */}
             <label className="__event_title_lbl">Event Title:</label>
             <select
               name="events"
@@ -107,7 +153,6 @@ export default function Attendance_Management() {
               </div>
             )}
 
-            {/* Date */}
             <label htmlFor="" className="__set_date_lbl">
               Date:
             </label>
@@ -118,7 +163,6 @@ export default function Attendance_Management() {
               onChange={(e) => setDate(e.target.value)}
             />
 
-            {/* Create Attendance */}
             <button
               className="__create_attendance"
               onClick={handleCreateAttendance}
@@ -126,29 +170,43 @@ export default function Attendance_Management() {
               Create Attendance
             </button>
 
-            {/* Generate QR for Attendance */}
             <button className="__generate_qr_code" onClick={handleGenerateQR}>
               Generate QR
             </button>
-
-            {/* Modal for QR Code */}
-            {qrCodeData && (
-              <div className="__qr_code_display_container">
-                <div className="__header_qr_modal">
-                  <h2 className="__header_title">Attendance QR</h2>
-                  <img
-                    src={close_ic}
-                    alt="close button"
-                    className="close_btn"
-                  />
-                </div>
-                <h3>Generated QR Code:</h3>
-                <QRCode value={qrCodeData} />
-              </div>
-            )}
           </div>
         </div>
       </div>
+
+      <div className="attendance_submitted_container">
+        <div className="header_container">
+          <h3 className="header_title">Attendance Submitted</h3>
+        </div>
+      </div>
+
+      {qrCodeData && (
+        <div className="__qr_code_display_container">
+          <div className="__qr_holder_container">
+            <div className="__header_qr_modal">
+              <h2 className="__header_title">Attendance QR</h2>
+              <img
+                src={close_ic}
+                alt="close button"
+                className="close_btn"
+                onClick={() => setQrCodeData("")}
+              />
+            </div>
+            <div className="__qr_code_content">
+              <h3>Generated QR Code:</h3>
+              <div ref={qrCodeRef}>
+                <QRCode value={qrCodeData} />
+              </div>
+              <button className="__export_qr_code" onClick={handleExportQRCode}>
+                Export QR Code
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
