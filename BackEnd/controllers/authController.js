@@ -43,10 +43,16 @@ const submitAttendance = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Calculate the weekStart (Sunday)
+    // Convert the submitted date into a Date object
     const submittedDate = new Date(date);
+
+    // Calculate the weekStart (Sunday)
     const weekStart = new Date(submittedDate);
     weekStart.setDate(submittedDate.getDate() - submittedDate.getDay());
+
+    // Calculate the month and year from the date
+    const month = submittedDate.toLocaleString("en-US", { month: "long" }); // e.g., "January"
+    const year = submittedDate.getFullYear().toString(); // e.g., "2024"
 
     // Find the user's attendance record
     let attendance = await Attendance.findOne({ "user.userID": userID });
@@ -56,6 +62,8 @@ const submitAttendance = async (req, res) => {
       attendance = new Attendance({
         user: { userID, name },
         attendanceRecords: [],
+        month,
+        year,
       });
     }
 
