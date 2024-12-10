@@ -66,6 +66,7 @@ const fetchAttendancetoBeApproved = async (req, res) => {
       return res.status(404).json({ message: "No attendance records found." });
     }
 
+    // Ensure the correct response format
     res.status(200).json({
       message: "All attendance records fetched successfully.",
       attendance: allAttendance,

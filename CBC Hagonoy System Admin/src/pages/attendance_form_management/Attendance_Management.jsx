@@ -19,10 +19,22 @@ export default function Attendance_Management() {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await axios.get("https://your-api-url/attendance/all");
-        setAttendanceRecords(response.data);
+        const response = await axios.get(
+          "https://client-2oru.onrender.com/fetch-attendance"
+        );
+        console.log("Response Status:", response.status); // Check status
+        console.log("Response Headers:", response.headers); // Inspect headers
+        console.log("Response Data:", response.data); // Log the data
+
+        if (Array.isArray(response.data)) {
+          setAttendanceRecords(response.data);
+        } else {
+          console.error("Unexpected data format:", response.data);
+          setAttendanceRecords([]); // Default to empty array
+        }
       } catch (error) {
         console.error("Error fetching attendance records:", error);
+        setAttendanceRecords([]); // Set empty array on error
       }
     };
 
@@ -203,15 +215,15 @@ export default function Attendance_Management() {
               <th>Status</th>
             </thead>
             <tbody className="submitted_body">
-              {attendanceRecords.map((record) => (
-                <tr key={record.id}>
+              {attendanceRecords.map((record, index) => (
+                <tr key={index}>
                   <td>{record.name}</td>
                   <td>{record.date}</td>
                   <td>{record.event}</td>
                   <td>
                     <img src={record.picture} alt="User" />
                   </td>
-                  <td>{record.status}</td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>
