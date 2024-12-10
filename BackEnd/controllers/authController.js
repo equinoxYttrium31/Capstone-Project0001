@@ -484,8 +484,8 @@ const updateUserProfile = async (req, res) => {
     };
 
     // Find and update the user in the database
-    const updatedUser = await ChurchUser.findByIdAndUpdate(
-      { userId },
+    const updatedUser = await ChurchUser.findByOneAndUpdate(
+      { userID: userId },
       updateData,
       { new: true, select: "-password" } // Return the updated document, excluding the password
     );
