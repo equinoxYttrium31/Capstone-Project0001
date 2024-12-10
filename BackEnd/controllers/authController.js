@@ -411,7 +411,7 @@ const updateProfilePicture = async (req, res) => {
 
     // Update the user's profile picture in the database
     const user = await ChurchUser.findByIdAndUpdate(
-      { userId },
+      { userID: userId },
       { profilePic: image },
       { new: true } // Return the updated user document
     ).select("profilePic"); // Fetch only the profilePic field
