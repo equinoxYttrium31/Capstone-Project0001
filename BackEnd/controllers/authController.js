@@ -484,7 +484,7 @@ const updateUserProfile = async (req, res) => {
     };
 
     // Find and update the user in the database
-    const updatedUser = await ChurchUser.findByOneAndUpdate(
+    const updatedUser = await ChurchUser.findOneAndUpdate(
       { userID: userId },
       updateData,
       { new: true, select: "-password" } // Return the updated document, excluding the password
@@ -522,7 +522,7 @@ const initialEditUserProfile = async (req, res) => {
     } = req.body;
 
     // Check if the user already exists
-    let user = await ChurchUser.findOne({ userID: userId });
+    let user = await ChurchUser.findOneAndUpdate({ userID: userId });
 
     if (!user) {
       // If the user does not exist, create a new user
