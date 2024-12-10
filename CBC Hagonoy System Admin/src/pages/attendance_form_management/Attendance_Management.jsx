@@ -1,5 +1,5 @@
 import axios from "axios"; // Import Axios
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import QRCode from "react-qr-code";
 import { close_ic } from "../../assets/Images";
 import { toast } from "react-hot-toast";
@@ -7,6 +7,7 @@ import "./Attendance_Management.css";
 
 export default function Attendance_Management() {
   const [commonTitle, setCommonTitle] = useState("");
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [qrCodeData, setQrCodeData] = useState("");
@@ -14,6 +15,19 @@ export default function Attendance_Management() {
   const qrCodeRef = useRef(null); // Reference for the QR Code container
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const response = await axios.get("https://your-api-url/attendance/all");
+        setAttendanceRecords(response.data);
+      } catch (error) {
+        console.error("Error fetching attendance records:", error);
+      }
+    };
+
+    fetchAttendance();
+  }, []);
 
   const handleCreateAttendance = async () => {
     if (!finalTitle || !date) {
@@ -180,7 +194,28 @@ export default function Attendance_Management() {
       <div className="attendance_submitted_container">
         <div className="header_container">
           <h3 className="header_title">Attendance Submitted</h3>
-          <table className="attendance_submitted_list"></table>
+          <table className="attendance_submitted_list">
+            <thead className="submitted_header">
+              <th>Name</th>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Picture</th>
+              <th>Status</th>
+            </thead>
+            <tbody className="submitted_body">
+              {attendanceRecords.map((record) => (
+                <tr key={record.id}>
+                  <td>{record.name}</td>
+                  <td>{record.date}</td>
+                  <td>{record.event}</td>
+                  <td>
+                    <img src={record.picture} alt="User" />
+                  </td>
+                  <td>{record.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 

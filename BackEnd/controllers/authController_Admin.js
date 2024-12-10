@@ -8,6 +8,7 @@ const ArchivedAnnouncementModel = require("../models/ArchievedAnnouncements");
 const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchivedPrayerRequestModel = require("../models/ArchivePrayer");
 const AttendanceDeets = require("../models/AttendanceDetails");
+const Attendance = require("../models/AttendanceModelNew");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
@@ -53,6 +54,25 @@ const generateDeetsID = async () => {
   } catch (error) {
     console.error("Error generating attendance ID:", error.message);
     throw new Error("Could not generate a new attendance ID.");
+  }
+};
+
+const fetchAttendancetoBeApproved = async (req, res) => {
+  try {
+    // Fetch all attendance records from the database
+    const allAttendance = await Attendance.find();
+
+    if (!allAttendance || allAttendance.length === 0) {
+      return res.status(404).json({ message: "No attendance records found." });
+    }
+
+    res.status(200).json({
+      message: "All attendance records fetched successfully.",
+      attendance: allAttendance,
+    });
+  } catch (error) {
+    console.error("Error fetching attendance records:", error);
+    res.status(500).json({ message: "Internal server error." });
   }
 };
 
@@ -1281,5 +1301,6 @@ module.exports = {
   fetchAllNetwork,
   storeAttendanceDeets,
   fetchNetworkbyID,
+  fetchAttendancetoBeApproved,
   fetchAttendanceDeets,
 };
