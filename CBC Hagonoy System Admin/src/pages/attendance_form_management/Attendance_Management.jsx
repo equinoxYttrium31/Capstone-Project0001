@@ -22,16 +22,10 @@ export default function Attendance_Management() {
         const response = await axios.get(
           "https://client-2oru.onrender.com/fetch-attendance"
         );
-        console.log("Response Status:", response.status); // Check status
-        console.log("Response Headers:", response.headers); // Inspect headers
-        console.log("Response Data:", response.data); // Log the data
+        console.log(response.data); // Inspect the structure of the response
 
-        if (Array.isArray(response.data)) {
-          setAttendanceRecords(response.data);
-        } else {
-          console.error("Unexpected data format:", response.data);
-          setAttendanceRecords([]); // Default to empty array
-        }
+        // Directly map the records from the response
+        setAttendanceRecords(response.data); // Now response.data is the array of attendance records
       } catch (error) {
         console.error("Error fetching attendance records:", error);
         setAttendanceRecords([]); // Set empty array on error
@@ -206,28 +200,46 @@ export default function Attendance_Management() {
       <div className="attendance_submitted_container">
         <div className="header_container">
           <h3 className="header_title">Attendance Submitted</h3>
-          <table className="attendance_submitted_list">
-            <thead className="submitted_header">
-              <th>Name</th>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Picture</th>
-              <th>Status</th>
-            </thead>
-            <tbody className="submitted_body">
-              {attendanceRecords.map((record, index) => (
-                <tr key={index}>
-                  <td>{record.name}</td>
-                  <td>{record.date}</td>
-                  <td>{record.event}</td>
-                  <td>
-                    <img src={record.picture} alt="User" />
-                  </td>
-                  <td></td>
+          {attendanceRecords.length === 0 ? (
+            <p>No attendance records found.</p> // If no data is available
+          ) : (
+            <table className="attendance_submitted_list">
+              <thead className="submitted_header">
+                <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Event</th>
+                  <th>Picture</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="submitted_body">
+                {attendanceRecords.map((recordGroup, index) =>
+                  recordGroup.records.map((record, subIndex) => (
+                    <tr key={`${index}-${subIndex}`}>
+                      <td>{recordGroup.user.name}</td>{" "}
+                      {/* Name from user object */}
+                      <td>{new Date(record.date).toLocaleDateString()}</td>{" "}
+                      {/* Format date */}
+                      <td>{record.event}</td>
+                      <td>
+                        <img
+                          src={record.image} // Assuming the image is stored as 'image'
+                          alt={`${recordGroup.user.name}'s attendance`}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "50%",
+                          }} // Optional styling
+                        />
+                      </td>
+                      <td>{/* Status logic can be added here */}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
