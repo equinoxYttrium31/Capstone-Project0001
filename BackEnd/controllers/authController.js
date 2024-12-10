@@ -377,7 +377,7 @@ const uploadProfilePicture = async (req, res) => {
 
     // Update the user's profile picture in the database
     const updatedUser = await ChurchUser.findByIdAndUpdate(
-      { userId },
+      { userID: userId },
       { profilePic: jpegImage },
       { new: true }
     );

@@ -180,6 +180,7 @@ export default function Attendance_Management() {
       <div className="attendance_submitted_container">
         <div className="header_container">
           <h3 className="header_title">Attendance Submitted</h3>
+          <table className="attendance_submitted_list"></table>
         </div>
       </div>
 
