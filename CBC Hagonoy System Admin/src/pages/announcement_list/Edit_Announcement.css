@@ -26,13 +26,18 @@
   margin-bottom: 3%;
   justify-content: space-between;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
 }
 
 .close_btn {
   aspect-ratio: 1;
   width: 2rem;
+}
+
+.close_btn:hover {
+  cursor: pointer;
+  filter: drop-shadow(#28282b7b 2px 2px 5px);
 }
 
 .edit_modal_title {

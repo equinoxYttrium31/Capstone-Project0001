@@ -46,7 +46,7 @@ export default function AuditAndTrailing() {
           "https://capstone-project0001-2.onrender.com/users"
         );
 
-        const disabledUsers = response.data.filter((user) => !user.isActive); // Assuming `isActive` determines the account status
+        const disabledUsers = response.data;
         setDisabledAccounts(disabledUsers);
       } catch (error) {
         console.error("Error fetching disabled accounts", error);
@@ -57,6 +57,22 @@ export default function AuditAndTrailing() {
     fetchNetworkLeaders();
     fetchCellGroups();
   }, []);
+
+  const handleEnableAccount = async (userID) => {
+    try {
+      await axios.post(
+        `https://capstone-project0001-2.onrender.com/enable-account/${userID}`
+      );
+      alert(`Account for user ${userID} has been enabled.`);
+      // Optionally, refresh the disabled accounts list
+      setDisabledAccounts((prev) =>
+        prev.filter((user) => user.userID !== userID)
+      );
+    } catch (error) {
+      console.error("Error enabling account", error);
+      alert("Failed to enable account. Please try again.");
+    }
+  };
 
   return (
     <div className="main_container_audit">
@@ -96,17 +112,52 @@ export default function AuditAndTrailing() {
 
       <div className="disabled_accounts_container">
         <h2>Disabled Accounts</h2>
-        <ul>
-          {disabledAccounts.length > 0 ? (
-            disabledAccounts.map((user) => (
-              <li key={user.userID}>
-                {user.firstName} {user.lastName} - {user.email}
-              </li>
-            ))
-          ) : (
-            <p>No disabled accounts found.</p>
-          )}
-        </ul>
+        {disabledAccounts.length > 0 ? (
+          <table className="disabled_accounts_table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Reason</th>
+                <th>Enable Account</th>
+              </tr>
+            </thead>
+            <tbody>
+              {disabledAccounts.map((user, index) => {
+                // Calculate age from birthDate if available
+                const age = user.birthDate
+                  ? Math.floor(
+                      (new Date() - new Date(user.birthDate)) /
+                        (365.25 * 24 * 60 * 60 * 1000)
+                    )
+                  : "N/A";
+
+                return (
+                  <tr key={user.userID}>
+                    <td>{index + 1}</td>
+                    <td>
+                      {user.firstName} {user.lastName}
+                    </td>
+                    <td>{age}</td>
+                    <td>{user.reasonDisabled || "Not provided"}</td>{" "}
+                    {/* Assuming `reason` field exists */}
+                    <td>
+                      <button
+                        className="enable_account_btn"
+                        onClick={() => handleEnableAccount(user.userID)}
+                      >
+                        Enable
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <p>No disabled accounts found.</p>
+        )}
       </div>
     </div>
   );

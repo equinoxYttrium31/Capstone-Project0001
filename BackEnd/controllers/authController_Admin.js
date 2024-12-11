@@ -1328,6 +1328,47 @@ const updateAnnouncementbyID = async (req, res) => {
   }
 };
 
+const enableAcc = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Get user ID from the request parameters
+
+    // Find the user in the ChurchUser collection
+    const user = await DisableUserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Create a new archived user in the ArchieveUser collection
+    const archivedUser = new ChurchUser({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      birthDate: user.birthDate,
+      profilePic: user.profilePic,
+      address: user.address,
+      CellNum: user.CellNum,
+      TelNum: user.TelNum,
+      CellLead: user.CellLead,
+      NetLead: user.NetLead,
+      gender: user.gender,
+      dateArchieved: null,
+      reasonDisabled: null,
+    });
+
+    // Save the archived user
+    await archivedUser.save();
+
+    // Delete the user from the ChurchUser collection
+    await DisableUserModel.findByIdAndDelete(userId);
+
+    return res.json({ message: "User archived successfully" });
+  } catch (error) {
+    console.error("Error archiving user:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 setInterval(archiveExpiredAnnouncements, 24 * 60 * 60 * 1000);
 
 const getGroupedPrayerRequests = async (req, res) => {
@@ -1473,4 +1514,5 @@ module.exports = {
   Approval,
   fetchApproved,
   getDisabledUsers,
+  enableAcc,
 };

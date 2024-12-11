@@ -68,6 +68,7 @@ const {
   Approval,
   fetchApproved,
   disableAcc,
+  enableAcc,
   getDisabledUsers,
 } = require("../controllers/authController_Admin");
 
@@ -198,6 +199,7 @@ router.get("/fetchAttendance", toBeApproved);
 router.get("/fetchApprovedAttendance", fetchApproved);
 router.put("/approvedAttendance/:id", Approval);
 router.get("/users", getDisabledUsers);
+router.post("/enable-account/:id", enableAcc);
 
 // Export the router
 module.exports = router;

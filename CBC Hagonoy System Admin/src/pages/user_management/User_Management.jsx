@@ -736,7 +736,7 @@ export default function User_Management() {
         <ConfirmationDModal
           record={currentRecord}
           onCloseD={() => setConfirmationDModal(false)}
-          onConfirmD={handleConfirmArchive}
+          onConfirmD={handleConfirmDisable}
         />
       )}
     </div>
