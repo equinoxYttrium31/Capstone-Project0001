@@ -59,6 +59,7 @@ const generateDeetsID = async () => {
 };
 
 const Approval = async (req, res) => {
+  console.log("Received PUT request for ID:", req.params.id);
   const { id } = req.params; // Get attendance ID
 
   console.log("PUT request received with id:", req.params.id);
