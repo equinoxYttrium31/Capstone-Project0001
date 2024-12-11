@@ -1090,7 +1090,7 @@ const disableAcc = async (req, res) => {
     // Find the user in the ChurchUser collection
     const user = await ChurchUser.findById(userId);
 
-    const userID = generateUserID();
+    const userID = await generateUserID(user.NetLead, user.CellLead);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -1111,6 +1111,7 @@ const disableAcc = async (req, res) => {
       NetLead: user.NetLead,
       gender: user.gender,
       userID: userID,
+      role: user.role,
       dateArchieved: ArchievedDate,
     });
 
@@ -1383,6 +1384,9 @@ const enableAcc = async (req, res) => {
 
     // Find the user in the DisableUserModel collection
     const user = await DisableUserModel.findById(userId);
+
+    const userID = await generateUserID(user.NetLead, user.CellLead);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -1401,6 +1405,8 @@ const enableAcc = async (req, res) => {
       CellLead: user.CellLead,
       NetLead: user.NetLead,
       gender: user.gender,
+      userID: userID,
+      role: user.role,
       dateArchived: null, // Reset archive-related fields
       reasonDisabled: null,
     });
