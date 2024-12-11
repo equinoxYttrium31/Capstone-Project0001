@@ -191,7 +191,7 @@ router.get("/attendance-details/:attendanceID", fetchAttendanceDeets);
 
 router.post("/submitAttendance", submitAttendance);
 router.get("/fetchAttendance", toBeApproved);
-router.put("/approve-attendance/:id", Approval);
+router.put("/approvedAttendance/:id", Approval);
 
 // Export the router
 module.exports = router;

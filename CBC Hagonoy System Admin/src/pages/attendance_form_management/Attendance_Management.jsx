@@ -176,7 +176,7 @@ export default function Attendance_Management() {
 
       axios
         .put(
-          `https://client-2oru.onrender.com/approve-attendance/${recordToUpdate._id}`
+          `https://capstone-project0001-2.onrender.com/approvedAttendance/${recordToUpdate._id}`
         )
         .then(() => {
           toast.success("Attendance approved and moved successfully!");
