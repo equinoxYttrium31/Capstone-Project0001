@@ -1044,6 +1044,7 @@ const disableAcc = async (req, res) => {
 
     // Find the user in the ChurchUser collection
     const user = await ChurchUser.findById(userId);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
