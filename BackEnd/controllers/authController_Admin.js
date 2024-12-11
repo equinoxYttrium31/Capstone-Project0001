@@ -73,34 +73,66 @@ const Approval = async (req, res) => {
       return res.status(404).json({ message: "Attendance record not found" });
     }
 
-    // Step 2: Find the specific attendance record using attendanceRecordId
-    const attendanceRecord = pendingRecord.attendanceRecords.find(
-      (record) => record._id.toString() === attendanceRecordId
-    );
+    // Step 2: Check if it's the first time in the month
+    const month = pendingRecord.month;
+    const year = pendingRecord.year;
 
-    if (!attendanceRecord) {
-      return res.status(404).json({ message: "Attendance record not found" });
+    const existingApprovedRecord = await ApprovedAttendance.findOne({
+      "attendanceRecords.month": month,
+      "attendanceRecords.year": year,
+    });
+
+    if (!existingApprovedRecord) {
+      // If no record exists for the month, duplicate the entire attendance document
+      const newApprovedRecord = new ApprovedAttendance({
+        user: pendingRecord.user, // Copy user information
+        attendanceRecords: pendingRecord.attendanceRecords, // Move the whole attendance document
+        month: month,
+        year: year,
+      });
+
+      // Save the new approved record to ApprovedAttendance collection
+      await newApprovedRecord.save();
+
+      // Step 3: Remove the entire attendance record from the original Attendance schema
+      await Attendance.deleteOne({ _id: id });
+
+      res.status(200).json({
+        message: "Whole attendance document moved to approved successfully",
+        newApprovedRecord,
+      });
+    } else {
+      // If there is already an approved record for the month, move only the specific record
+      const attendanceRecord = pendingRecord.attendanceRecords.find(
+        (record) => record._id.toString() === attendanceRecordId
+      );
+
+      if (!attendanceRecord) {
+        return res.status(404).json({ message: "Attendance record not found" });
+      }
+
+      // Move the specific record to ApprovedAttendance
+      const newApprovedRecord = new ApprovedAttendance({
+        user: pendingRecord.user, // Copy user information
+        attendanceRecords: [attendanceRecord], // Move only the specific record
+        month: month,
+        year: year,
+      });
+
+      // Save the new approved record to ApprovedAttendance collection
+      await newApprovedRecord.save();
+
+      // Step 4: Remove the moved record from the original Attendance schema
+      await Attendance.updateOne(
+        { _id: id },
+        { $pull: { attendanceRecords: { _id: attendanceRecordId } } } // Remove the moved record
+      );
+
+      res.status(200).json({
+        message: "Attendance record moved to approved successfully",
+        newApprovedRecord,
+      });
     }
-
-    // Step 3: Move the record to the ApprovedAttendance schema
-    const newApprovedRecord = new ApprovedAttendance({
-      user: pendingRecord.user, // Copy user information
-      attendanceRecords: [attendanceRecord], // Move the specific attendance record
-    });
-
-    // Save the moved record to the ApprovedAttendance collection
-    await newApprovedRecord.save();
-
-    // Step 4: Remove the record from the original Attendance schema
-    await Attendance.updateOne(
-      { _id: id },
-      { $pull: { attendanceRecords: { _id: attendanceRecordId } } } // Remove the moved record
-    );
-
-    res.status(200).json({
-      message: "Attendance record moved to approved successfully",
-      newApprovedRecord,
-    });
   } catch (error) {
     console.error("Error moving attendance:", error);
     res.status(500).json({ message: "Internal server error" });

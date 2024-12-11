@@ -165,18 +165,14 @@ export default function Attendance_Management() {
       });
 
       const recordToMove = attendanceRecords[index];
-      const { _id: attendanceId } = recordToMove; // Main document _id
-      const { _id: attendanceRecordId } = recordToMove; // attendanceRecord._id
-
-      console.log("attendanceId:", attendanceId);
-      console.log("attendanceRecordId:", attendanceRecordId);
+      const { _id: attendanceId } = recordToMove;
 
       // Send both attendanceId and attendanceRecordId to the backend
       axios
         .put(
           `https://capstone-project0001-2.onrender.com/approvedAttendance/${attendanceId}`,
           {
-            attendanceRecordId: attendanceRecordId, // Send the attendance record's ID
+            attendanceRecordId: recordToMove._id, // Send the attendance record's ID
           }
         )
         .then(() => {
