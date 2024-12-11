@@ -60,7 +60,7 @@ export default function AuditAndTrailing() {
 
   const handleEnableAccount = async (userID) => {
     try {
-      await axios.post(
+      await axios.delete(
         `https://capstone-project0001-2.onrender.com/enable-account/${userID}`
       );
       alert(`Account for user ${userID} has been enabled.`);
