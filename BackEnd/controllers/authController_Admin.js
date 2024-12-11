@@ -1053,7 +1053,7 @@ const generateUserID = async (NetLead, CellLead) => {
 
   // Fetch the cellgroupID based on the cellgroupLeader name
   if (CellLead) {
-    const cellGroup = await CellGroupModel.findOne({
+    const cellGroup = await CellGroup.findOne({
       cellgroupLeader: CellLead,
     });
     if (cellGroup) {
@@ -1090,9 +1090,7 @@ const disableAcc = async (req, res) => {
     // Find the user in the ChurchUser collection
     const user = await ChurchUser.findById(userId);
 
-    console.log{
-      user
-    }
+    console.log(user);
 
     const userID = await generateUserID(user.NetLead, user.CellLead);
 
