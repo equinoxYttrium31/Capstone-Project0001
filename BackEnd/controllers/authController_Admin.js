@@ -1334,18 +1334,18 @@ const enableAcc = async (req, res) => {
   try {
     const userId = req.params.userId; // Get user ID from the request parameters
 
-    // Find the user in the ChurchUser collection
+    // Find the user in the DisableUserModel collection
     const user = await DisableUserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Create a new archived user in the ArchieveUser collection
-    const archivedUser = new ChurchUser({
+    // Move the user back to the ChurchUser collection to enable their account
+    const reEnabledUser = new ChurchUser({
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      password: user.password,
+      password: user.password, // Ensure passwords are hashed if required
       birthDate: user.birthDate,
       profilePic: user.profilePic,
       address: user.address,
@@ -1354,19 +1354,19 @@ const enableAcc = async (req, res) => {
       CellLead: user.CellLead,
       NetLead: user.NetLead,
       gender: user.gender,
-      dateArchieved: null,
+      dateArchived: null, // Reset archive-related fields
       reasonDisabled: null,
     });
 
-    // Save the archived user
-    await archivedUser.save();
+    // Save the re-enabled user to the ChurchUser collection
+    await reEnabledUser.save();
 
-    // Delete the user from the ChurchUser collection
+    // Remove the user from the DisableUserModel collection
     await DisableUserModel.findByIdAndDelete(userId);
 
-    return res.json({ message: "User archived successfully" });
+    return res.status(200).json({ message: "Account enabled successfully" });
   } catch (error) {
-    console.error("Error archiving user:", error);
+    console.error("Error enabling user account:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };

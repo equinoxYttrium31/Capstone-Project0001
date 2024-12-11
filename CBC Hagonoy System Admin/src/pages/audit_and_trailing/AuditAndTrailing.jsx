@@ -58,16 +58,14 @@ export default function AuditAndTrailing() {
     fetchCellGroups();
   }, []);
 
-  const handleEnableAccount = async (userID) => {
+  const handleEnableAccount = async (userId) => {
     try {
       await axios.delete(
-        `https://capstone-project0001-2.onrender.com/enable-account/${userID}`
+        `https://capstone-project0001-2.onrender.com/enable-account/${userId}`
       );
-      alert(`Account for user ${userID} has been enabled.`);
+      alert(`Account for user ${userId} has been enabled.`);
       // Optionally, refresh the disabled accounts list
-      setDisabledAccounts((prev) =>
-        prev.filter((user) => user.userID !== userID)
-      );
+      setDisabledAccounts((prev) => prev.filter((user) => user._id !== userId));
     } catch (error) {
       console.error("Error enabling account", error);
       alert("Failed to enable account. Please try again.");
@@ -134,7 +132,7 @@ export default function AuditAndTrailing() {
                   : "N/A";
 
                 return (
-                  <tr key={user.userID}>
+                  <tr key={user._id}>
                     <td>{index + 1}</td>
                     <td>
                       {user.firstName} {user.lastName}
@@ -145,7 +143,7 @@ export default function AuditAndTrailing() {
                     <td>
                       <button
                         className="enable_account_btn"
-                        onClick={() => handleEnableAccount(user.userID)}
+                        onClick={() => handleEnableAccount(user._id)}
                       >
                         Enable
                       </button>
