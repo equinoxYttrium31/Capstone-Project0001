@@ -62,7 +62,7 @@ export default function Attendance_Form({ attendance, user }) {
     }
 
     if (!formData.lastName || !formData.firstName || !formData.imageBase64) {
-      toast.alert("Please fill in all the fields.");
+      toast.error("Please fill in all the fields.");
       return;
     }
 
