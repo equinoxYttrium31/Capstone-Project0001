@@ -69,6 +69,8 @@ const Approval = async (req, res) => {
       "attendanceRecords._id": id,
     });
 
+    console.log("Found record:", pendingRecord);
+
     if (!pendingRecord) {
       return res.status(404).json({ message: "Attendance record not found" });
     }
