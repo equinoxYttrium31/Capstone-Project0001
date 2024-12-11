@@ -31,12 +31,16 @@ export default function Attendance_Management() {
         }
       } catch (error) {
         console.error("Error fetching attendance records:", error);
-        setAttendanceRecords([]); // Ensure it's an empty array on error
+        setAttendanceRecords([]); // Handle error gracefully
       }
     };
 
     fetchAttendance();
   }, []);
+
+  useEffect(() => {
+    console.log("Attendance Records:", attendanceRecords); // Check if records are being set
+  }, [attendanceRecords]);
 
   const handleCreateAttendance = async () => {
     if (!finalTitle || !date) {
@@ -217,21 +221,24 @@ export default function Attendance_Management() {
                 </tr>
               </thead>
               <tbody className="submitted_body">
-                {attendanceRecords.map((record, index) => (
-                  <tr key={record._id || index}>
-                    <td>{record.user.name}</td>
-                    <td>{new Date(record.date).toLocaleDateString()}</td>
-                    <td>{record.event}</td>
-                    <td>
-                      <img
-                        src={record.image}
-                        alt={record.event}
-                        style={{ width: "50px", borderRadius: "50%" }}
-                      />
-                    </td>
-                    <td>Submitted</td>
-                  </tr>
-                ))}
+                {attendanceRecords.map((record, index) => {
+                  console.log(record); // Log each record to ensure it's properly mapped
+                  return (
+                    <tr key={record._id || index}>
+                      <td>{record.user.name}</td>
+                      <td>{new Date(record.date).toLocaleDateString()}</td>
+                      <td>{record.event}</td>
+                      <td>
+                        <img
+                          src={record.image}
+                          alt={record.event}
+                          style={{ width: "50px", borderRadius: "50%" }}
+                        />
+                      </td>
+                      <td>Submitted</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}

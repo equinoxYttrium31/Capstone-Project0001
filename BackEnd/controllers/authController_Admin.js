@@ -78,7 +78,8 @@ const toBeApproved = async (req, res) => {
       return res.status(404).json({ message: "No attendance records found." });
     }
 
-    console.log(allAttendance);
+    // Debugging log: Check the structure of the aggregated data
+    console.log("Aggregated Attendance:", allAttendance);
 
     // Send the simplified data
     res.status(200).json(allAttendance);
