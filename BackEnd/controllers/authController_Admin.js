@@ -1090,6 +1090,10 @@ const disableAcc = async (req, res) => {
     // Find the user in the ChurchUser collection
     const user = await ChurchUser.findById(userId);
 
+    console.log{
+      user
+    }
+
     const userID = await generateUserID(user.NetLead, user.CellLead);
 
     if (!user) {

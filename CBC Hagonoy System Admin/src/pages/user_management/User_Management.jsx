@@ -403,10 +403,7 @@ export default function User_Management() {
   const handleConfirmDisable = async () => {
     try {
       await axios.delete(
-        `https://capstone-project0001-2.onrender.com/disable/${userId}`,
-        {
-          withCredentials: true, // If authentication is required
-        }
+        `https://capstone-project0001-2.onrender.com/disable/${userId}`
       );
       toast.success("Account Disabled successfully");
       setConfirmationDModal(false);
