@@ -59,29 +59,28 @@ const generateDeetsID = async () => {
 
 const toBeApproved = async (req, res) => {
   try {
-    // Fetch only the necessary fields
+    // Fetch all attendance records, aggregating the data and unwinding the nested arrays
     const allAttendance = await Attendance.aggregate([
-      { $unwind: "$attendanceRecords" }, // Unwind attendance records
-      { $unwind: "$attendanceRecords.records" }, // Unwind records inside attendanceRecords
+      { $unwind: "$attendanceRecords" }, // Unwind attendanceRecords array
+      { $unwind: "$attendanceRecords.records" }, // Unwind records array inside each attendanceRecords
       {
         $project: {
-          "user.name": 1,
-          "attendanceRecords.records.date": 1,
-          "attendanceRecords.records.event": 1,
-          "attendanceRecords.records.image": 1,
-          "attendanceRecords.records._id": 1, // Keep the record ID
+          "user.name": 1, // Keep the user's name
+          "attendanceRecords.records.date": 1, // Keep the attendance date
+          "attendanceRecords.records.event": 1, // Keep the event name
+          "attendanceRecords.records.image": 1, // Keep the image base64
+          "attendanceRecords.records.dayOfWeek": 1, // Keep the day of the week
+          "attendanceRecords.records._id": 1, // Keep the record's ID
         },
       },
     ]);
 
+    // If no attendance records found, return an appropriate message
     if (!allAttendance || allAttendance.length === 0) {
       return res.status(404).json({ message: "No attendance records found." });
     }
 
-    // Debugging log: Check the structure of the aggregated data
-    console.log("Aggregated Attendance:", allAttendance);
-
-    // Send the simplified data
+    // Successfully return the attendance records
     res.status(200).json(allAttendance);
   } catch (error) {
     console.error("Error fetching attendance records:", error);
