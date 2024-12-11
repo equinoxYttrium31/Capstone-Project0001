@@ -2,19 +2,25 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import QRCode from "react-qr-code";
 import { close_ic } from "../../assets/Images";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-hot-toast";
 import "./Attendance_Management.css";
 
 export default function Attendance_Management() {
   const [commonTitle, setCommonTitle] = useState("");
+  const [commonFilter, setCommonFilter] = useState("");
   const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [title, setTitle] = useState("");
+  const [titleFilter, setTitleFilter] = useState("");
   const [date, setDate] = useState("");
+  const [filterDate, setFilterDate] = useState(null);
   const [qrCodeData, setQrCodeData] = useState("");
   const [attendanceID, setAttendanceID] = useState(null); // Store the attendanceID
   const qrCodeRef = useRef(null); // Reference for the QR Code container
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
+  const finalFilter = commonFilter === "Other" ? titleFilter : commonFilter;
 
   // Fetch attendance records when component mounts
   useEffect(() => {
@@ -130,6 +136,59 @@ export default function Attendance_Management() {
     img.src = url;
   };
 
+  const filteredRecords = attendanceRecords.filter((record) => {
+    const eventMatches =
+      !commonFilter ||
+      record.attendanceRecords?.records?.some(
+        (eventRecord) =>
+          eventRecord.event &&
+          eventRecord.event.toLowerCase() === finalFilter.toLowerCase()
+      );
+
+    const dateMatches =
+      !filterDate ||
+      record.attendanceRecords?.records?.some((eventRecord) => {
+        const eventDate = new Date(eventRecord.date).setHours(0, 0, 0, 0);
+        const filterDateOnly = new Date(filterDate).setHours(0, 0, 0, 0);
+        return eventDate === filterDateOnly;
+      });
+
+    return eventMatches && dateMatches;
+  });
+
+  const handleStatusChange = (newStatus, index) => {
+    // Check if status is being changed to "Approved"
+    if (newStatus === "Approved") {
+      setAttendanceRecords((prevRecords) => {
+        const updatedRecords = [...prevRecords];
+        if (updatedRecords[index]) {
+          updatedRecords[index].status = newStatus;
+        }
+        return updatedRecords;
+      });
+
+      // Get the record to update and send to the backend
+      const recordToUpdate = attendanceRecords[index];
+
+      axios
+        .put(
+          `https://client-2oru.onrender.com/approve-attendance/${recordToUpdate.id}`,
+          {
+            status: newStatus, // Send the new status (although backend logic handles the move)
+          }
+        )
+        .then(() => {
+          toast.success("Attendance approved and moved successfully!");
+        })
+        .catch((error) => {
+          console.error("Error moving attendance:", error);
+          toast.error("Failed to move attendance.");
+        });
+    } else {
+      toast.error("Invalid status change.");
+    }
+  };
+
   return (
     <div className="Attendance__mainContainer">
       <div className="Attendance__headerContainer">
@@ -201,6 +260,37 @@ export default function Attendance_Management() {
       <div className="attendance_submitted_container">
         <div className="header_container">
           <h3 className="header_title">Attendance Submitted</h3>
+          <div className="navigation_container">
+            <select
+              className="filter_event"
+              value={commonFilter}
+              onChange={(e) => setCommonFilter(e.target.value)}
+            >
+              <option value="">Filter Event</option>
+              <option value="Sunday Service">Sunday Service</option>
+              <option value="Prayer Meeting">Prayer Meeting</option>
+              <option value="Family Devotion">Family Devotion</option>
+              <option value="Personal Devotion">Personal Devotion</option>
+              <option value="Cellgroup">Cellgroup</option>
+              <option value="Other">Other</option>
+            </select>
+
+            {commonFilter === "Other" && (
+              <input
+                type="text"
+                className="__custom_event_inp"
+                value={titleFilter}
+                onChange={(e) => setTitleFilter(e.target.value)}
+              />
+            )}
+
+            <DatePicker
+              selected={filterDate}
+              onChange={(date) => setFilterDate(date)}
+              placeholderText="Filter by Date"
+              className="filter_date"
+            />
+          </div>
           {attendanceRecords.length === 0 ? (
             <p>No attendance records found.</p>
           ) : (
@@ -215,16 +305,34 @@ export default function Attendance_Management() {
                 </tr>
               </thead>
               <tbody className="submitted_body">
-                {attendanceRecords.map((record, index) => {
-                  console.log("Record Data:", record); // Log each individual record
+                {filteredRecords.map((record, index) => {
+                  console.log("Record Data:", record); // Full log of each record
 
-                  // Access the first element of attendanceRecords (since it seems to be an array with a single element)
-                  const attendanceGroup = record.attendanceRecords?.[0]; // Check if attendanceRecords is an array and get the first item
-                  const eventRecord = attendanceGroup?.records?.[0]; // Access records, which is an array inside the group
+                  // Access the 'attendanceRecords' object directly (since it's not an array)
+                  const attendanceGroup = record.attendanceRecords;
 
-                  console.log("Event :", eventRecord);
+                  console.log("AttendanceGroup:", attendanceGroup); // Check the structure of the group
 
-                  console.log("AttendanceGroup :", attendanceGroup);
+                  if (
+                    !attendanceGroup ||
+                    !attendanceGroup.records ||
+                    attendanceGroup.records.length === 0
+                  ) {
+                    return (
+                      <tr key={record._id || index}>
+                        <td>{record.user?.name || "Unknown"}</td>
+                        <td>Invalid Date</td>
+                        <td>No Event</td>
+                        <td>No Image</td>
+                        <td>Submitted</td>
+                      </tr>
+                    );
+                  }
+
+                  // Now we can safely access the first item in the 'records' array
+                  const eventRecord = attendanceGroup.records[0];
+
+                  console.log("Event Record:", eventRecord); // Log event record to check its structure
 
                   if (!eventRecord) {
                     return (
@@ -257,13 +365,24 @@ export default function Attendance_Management() {
                           <img
                             src={eventImage}
                             alt={eventRecord.event}
-                            style={{ width: "50px", borderRadius: "50%" }}
+                            style={{ width: "10rem", borderRadius: "5%" }}
                           />
                         ) : (
                           eventImage
                         )}
                       </td>
-                      <td>Submitted</td>
+                      <td>
+                        <select
+                          value={record.status || "Submitted"} // Default to "Submitted" if no status
+                          onChange={(e) =>
+                            handleStatusChange(e.target.value, index)
+                          }
+                          className="status-dropdown"
+                        >
+                          <option value="Submitted">Submitted</option>
+                          <option value="Approved">Approved</option>
+                        </select>
+                      </td>
                     </tr>
                   );
                 })}

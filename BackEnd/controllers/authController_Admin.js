@@ -9,6 +9,7 @@ const PrayerRequestModel = require("../models/Prayer_Request");
 const ArchivedPrayerRequestModel = require("../models/ArchivePrayer");
 const AttendanceDeets = require("../models/AttendanceDetails");
 const Attendance = require("../models/AttendanceModelNew");
+const ApprovedAttendance = require("../models/Approved_AttendanceModel");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const sharp = require("sharp"); // Import sharp at the top of your file
 const moment = require("moment");
@@ -54,6 +55,41 @@ const generateDeetsID = async () => {
   } catch (error) {
     console.error("Error generating attendance ID:", error.message);
     throw new Error("Could not generate a new attendance ID.");
+  }
+};
+
+const Approval = async (req, res) => {
+  const { id } = req.params; // Get attendance ID
+  try {
+    // Find the attendance record in the pending collection
+    const pendingRecord = await Attendance.findOneAndDelete({
+      "attendanceRecords._id": id, // Match the attendance record ID
+    });
+
+    if (!pendingRecord) {
+      return res.status(404).json({ message: "Attendance record not found" });
+    }
+
+    // Move the record to the approved collection
+    const attendanceRecord = pendingRecord.attendanceRecords.find(
+      (record) => record._id.toString() === id
+    );
+
+    const newApprovedRecord = new ApprovedAttendance({
+      user: pendingRecord.user, // Same user info
+      attendanceRecords: [attendanceRecord], // Move the specific record
+    });
+
+    await newApprovedRecord.save();
+
+    // Send success response
+    res.status(200).json({
+      message: "Attendance approved and moved successfully",
+      newApprovedRecord,
+    });
+  } catch (error) {
+    console.error("Error moving attendance:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -1310,4 +1346,5 @@ module.exports = {
   fetchNetworkbyID,
   toBeApproved,
   fetchAttendanceDeets,
+  Approval,
 };

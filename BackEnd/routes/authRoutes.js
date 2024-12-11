@@ -65,6 +65,7 @@ const {
   fetchNetworkbyID,
   toBeApproved,
   fetchAttendanceDeets,
+  Approval,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -190,5 +191,7 @@ router.get("/attendance-details/:attendanceID", fetchAttendanceDeets);
 
 router.post("/submitAttendance", submitAttendance);
 router.get("/fetchAttendance", toBeApproved);
+router.put("/approve-attendance/:id", Approval);
+
 // Export the router
 module.exports = router;
