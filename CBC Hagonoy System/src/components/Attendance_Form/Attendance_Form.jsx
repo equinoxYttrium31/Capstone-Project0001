@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Attendance_Form.css";
 import { cbc_logo, placeholder_attendance } from "../../assets/Assets";
 import PropTypes from "prop-types";
+import { toast } from "react-hot-toast";
 
 export default function Attendance_Form({ attendance, user }) {
   const [formData, setFormData] = useState({
@@ -56,12 +57,12 @@ export default function Attendance_Form({ attendance, user }) {
 
   const handleSubmit = async () => {
     if (!user || !user.userID) {
-      alert("User information is missing. Please log in.");
+      toast.error("User information is missing. Please log in.");
       return;
     }
 
     if (!formData.lastName || !formData.firstName || !formData.imageBase64) {
-      alert("Please fill in all the fields.");
+      toast.alert("Please fill in all the fields.");
       return;
     }
 
@@ -87,11 +88,11 @@ export default function Attendance_Form({ attendance, user }) {
         throw new Error("Failed to submit attendance.");
       }
 
-      alert("Attendance submitted successfully!");
+      toast.success("Attendance submitted successfully!");
       setFormData({ lastName: "", firstName: "", imageBase64: "" }); // Reset form
     } catch (error) {
       console.error("Error submitting attendance:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
