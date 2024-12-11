@@ -59,49 +59,43 @@ const generateDeetsID = async () => {
 };
 
 const Approval = async (req, res) => {
-  console.log("Received PUT request for ID:", req.params.id);
-  const { id } = req.params; // Get attendance ID
+  const { id } = req.params; // Main document _id
+  const { attendanceRecordId } = req.body; // attendanceRecordId from the request body
 
-  console.log("PUT request received with id:", req.params.id);
   try {
-    // Step 1: Find the attendance record (no delete yet)
-    const pendingRecord = await Attendance.findOne({
-      "attendanceRecords._id": id,
-    });
-
-    console.log("Found record:", pendingRecord);
+    // Step 1: Find the main attendance document using _id
+    const pendingRecord = await Attendance.findOne({ _id: id });
 
     if (!pendingRecord) {
       return res.status(404).json({ message: "Attendance record not found" });
     }
 
-    // Step 2: Extract the specific attendance record
+    // Step 2: Find the specific attendance record using attendanceRecordId
     const attendanceRecord = pendingRecord.attendanceRecords.find(
-      (record) => record._id.toString() === id
+      (record) => record._id.toString() === attendanceRecordId
     );
 
     if (!attendanceRecord) {
       return res.status(404).json({ message: "Attendance record not found" });
     }
 
-    // Step 3: Move the record to the approved collection
+    // Step 3: Move the record to the ApprovedAttendance schema
     const newApprovedRecord = new ApprovedAttendance({
-      user: pendingRecord.user, // Same user info
-      attendanceRecords: [attendanceRecord], // Move the specific record
+      user: pendingRecord.user, // Copy user information
+      attendanceRecords: [attendanceRecord], // Move the specific attendance record
     });
 
-    // Save to the approved collection
+    // Save the moved record to the ApprovedAttendance collection
     await newApprovedRecord.save();
 
-    // Step 4: Delete the record from the original collection
+    // Step 4: Remove the record from the original Attendance schema
     await Attendance.updateOne(
-      { _id: pendingRecord._id },
-      { $pull: { attendanceRecords: { _id: id } } } // Remove the attendance record
+      { _id: id },
+      { $pull: { attendanceRecords: { _id: attendanceRecordId } } } // Remove the moved record
     );
 
-    // Send success response
     res.status(200).json({
-      message: "Attendance approved and moved successfully",
+      message: "Attendance record moved to approved successfully",
       newApprovedRecord,
     });
   } catch (error) {

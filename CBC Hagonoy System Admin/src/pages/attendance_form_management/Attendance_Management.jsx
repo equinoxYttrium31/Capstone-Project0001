@@ -157,29 +157,27 @@ export default function Attendance_Management() {
   });
 
   const handleStatusChange = (newStatus, index) => {
-    // Check if status is being changed to "Approved"
     if (newStatus === "Approved") {
       setAttendanceRecords((prevRecords) => {
         const updatedRecords = [...prevRecords];
-        if (updatedRecords[index]) {
-          updatedRecords[index].status = newStatus;
-        }
+        updatedRecords[index].status = newStatus;
         return updatedRecords;
       });
 
-      // Get the record to update and send to the backend
-      const recordToUpdate = attendanceRecords[index];
+      const recordToMove = attendanceRecords[index];
+      const { _id: attendanceId } = recordToMove; // Main document _id
+      const { _id: attendanceRecordId } = recordToMove; // attendanceRecord._id
 
-      // Log the attendance record and its ID
-      console.log("recordToUpdate:", recordToUpdate);
-      console.log("recordToUpdate._id:", recordToUpdate._id);
-
+      // Send both attendanceId and attendanceRecordId to the backend
       axios
         .put(
-          `https://capstone-project0001-2.onrender.com/approvedAttendance/${recordToUpdate._id}`
+          `https://capstone-project0001-2.onrender.com/approvedAttendance/${attendanceId}`,
+          {
+            attendanceRecordId: attendanceRecordId, // Send the attendance record's ID
+          }
         )
         .then(() => {
-          toast.success("Attendance approved and moved successfully!");
+          toast.success("Attendance record moved to approved successfully!");
         })
         .catch((error) => {
           console.error("Error moving attendance:", error);
