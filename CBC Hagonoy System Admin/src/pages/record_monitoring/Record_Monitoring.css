@@ -943,7 +943,8 @@
   color: #2d2f65;
 }
 
-.list_header {
+.list_header,
+.network_table_header {
   font-size: 1em;
   font-family: "Poppins";
   color: #2d2f65;
@@ -954,13 +955,15 @@
   border-bottom: 1px solid #ddd;
 }
 
-.editCellgroup_list_container {
+.editCellgroup_list_container,
+.main_editor_container {
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   margin: 1rem 0;
 }
 
-.cellgroup_list_deets {
+.cellgroup_list_deets,
+.network_table_body {
   max-height: 350px; /* Set a fixed height for scrollable content */
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden;
@@ -968,12 +971,14 @@
   font-size: 0.9em;
 }
 
-.cellgroup_list_deets tr {
+.cellgroup_list_deets tr,
+.network_table_body tr {
   table-layout: fixed;
   width: 90%; /* Match parent width */
 }
 
-.cellgroup_list {
+.cellgroup_list,
+.network_table {
   width: 90%;
   margin: auto;
   border-collapse: collapse;

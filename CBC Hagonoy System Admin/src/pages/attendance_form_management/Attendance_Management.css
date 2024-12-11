@@ -203,3 +203,42 @@
   border-radius: 1rem;
   box-shadow: #28282b 1px 1px 3px;
 }
+
+.navigation_container {
+  display: flex;
+  gap: 2rem;
+  justify-content: end;
+  font-family: "poppins";
+}
+
+.filter_event {
+  padding: 0.2rem 1rem;
+  font-size: 0.9em;
+  color: #28282b;
+  border: #120652 2px solid;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+.filter_event:hover {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
+}
+
+.filter_date {
+  padding: 0.2rem 1rem;
+  font-size: 0.9em;
+  color: #28282b;
+  border: #120652 2px solid;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+.filter_date:hover {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
+}
