@@ -20,7 +20,7 @@ export default function Attendance_Management() {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get(
-          "https://client-2oru.onrender.com/fetch-attendance"
+          "https://client-2oru.onrender.com/fetchAttendance"
         );
         console.log(response.data); // Inspect the response data
         if (Array.isArray(response.data)) {

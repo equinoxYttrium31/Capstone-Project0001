@@ -63,7 +63,7 @@ const {
   fetchAllNetwork,
   storeAttendanceDeets,
   fetchNetworkbyID,
-  fetchAttendancetoBeApproved,
+  toBeApproved,
   fetchAttendanceDeets,
 } = require("../controllers/authController_Admin");
 
@@ -189,6 +189,6 @@ router.post("/attendance-deets", storeAttendanceDeets);
 router.get("/attendance-details/:attendanceID", fetchAttendanceDeets);
 
 router.post("/submitAttendance", submitAttendance);
-router.get("/fetch-attendance", fetchAttendancetoBeApproved);
+router.get("/fetchAttendance", toBeApproved);
 // Export the router
 module.exports = router;

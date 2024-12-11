@@ -57,7 +57,7 @@ const generateDeetsID = async () => {
   }
 };
 
-const fetchAttendancetoBeApproved = async (req, res) => {
+const toBeApproved = async (req, res) => {
   try {
     // Fetch only the necessary fields
     const allAttendance = await Attendance.aggregate([
@@ -1313,6 +1313,6 @@ module.exports = {
   fetchAllNetwork,
   storeAttendanceDeets,
   fetchNetworkbyID,
-  fetchAttendancetoBeApproved,
+  toBeApproved,
   fetchAttendanceDeets,
 };
