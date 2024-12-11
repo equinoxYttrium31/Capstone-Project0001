@@ -170,12 +170,13 @@ export default function Attendance_Management() {
       // Get the record to update and send to the backend
       const recordToUpdate = attendanceRecords[index];
 
+      // Log the attendance record and its ID
+      console.log("recordToUpdate:", recordToUpdate);
+      console.log("recordToUpdate._id:", recordToUpdate._id);
+
       axios
         .put(
-          `https://client-2oru.onrender.com/approve-attendance/${recordToUpdate.id}`,
-          {
-            status: newStatus, // Send the new status (although backend logic handles the move)
-          }
+          `https://client-2oru.onrender.com/approve-attendance/${recordToUpdate._id}`
         )
         .then(() => {
           toast.success("Attendance approved and moved successfully!");

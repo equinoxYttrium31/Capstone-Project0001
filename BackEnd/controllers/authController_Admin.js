@@ -61,26 +61,38 @@ const generateDeetsID = async () => {
 const Approval = async (req, res) => {
   const { id } = req.params; // Get attendance ID
   try {
-    // Find the attendance record in the pending collection
-    const pendingRecord = await Attendance.findOneAndDelete({
-      "attendanceRecords._id": id, // Match the attendance record ID
+    // Step 1: Find the attendance record (no delete yet)
+    const pendingRecord = await Attendance.findOne({
+      "attendanceRecords._id": id,
     });
 
     if (!pendingRecord) {
       return res.status(404).json({ message: "Attendance record not found" });
     }
 
-    // Move the record to the approved collection
+    // Step 2: Extract the specific attendance record
     const attendanceRecord = pendingRecord.attendanceRecords.find(
       (record) => record._id.toString() === id
     );
 
+    if (!attendanceRecord) {
+      return res.status(404).json({ message: "Attendance record not found" });
+    }
+
+    // Step 3: Move the record to the approved collection
     const newApprovedRecord = new ApprovedAttendance({
       user: pendingRecord.user, // Same user info
       attendanceRecords: [attendanceRecord], // Move the specific record
     });
 
+    // Save to the approved collection
     await newApprovedRecord.save();
+
+    // Step 4: Delete the record from the original collection
+    await Attendance.updateOne(
+      { _id: pendingRecord._id },
+      { $pull: { attendanceRecords: { _id: id } } } // Remove the attendance record
+    );
 
     // Send success response
     res.status(200).json({
