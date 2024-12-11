@@ -60,6 +60,8 @@ const generateDeetsID = async () => {
 
 const Approval = async (req, res) => {
   const { id } = req.params; // Get attendance ID
+
+  console.log("PUT request received with id:", req.params.id);
   try {
     // Step 1: Find the attendance record (no delete yet)
     const pendingRecord = await Attendance.findOne({
