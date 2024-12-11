@@ -1,4 +1,4 @@
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import QRCode from "react-qr-code";
 import { close_ic } from "../../assets/Images";
@@ -22,8 +22,13 @@ export default function Attendance_Management() {
         const response = await axios.get(
           "https://client-2oru.onrender.com/fetch-attendance"
         );
-        console.log(response.data); // Inspect this
-        setAttendanceRecords(response.data);
+        console.log(response.data); // Inspect the response data
+        if (Array.isArray(response.data)) {
+          setAttendanceRecords(response.data); // Directly set the fetched records
+        } else {
+          console.error("Unexpected data format:", response.data);
+          setAttendanceRecords([]); // In case of an unexpected format
+        }
       } catch (error) {
         console.error("Error fetching attendance records:", error);
         setAttendanceRecords([]); // Ensure it's an empty array on error
@@ -199,7 +204,7 @@ export default function Attendance_Management() {
         <div className="header_container">
           <h3 className="header_title">Attendance Submitted</h3>
           {attendanceRecords.length === 0 ? (
-            <p>No attendance records found.</p> // If no data is available
+            <p>No attendance records found.</p>
           ) : (
             <table className="attendance_submitted_list">
               <thead className="submitted_header">
@@ -212,32 +217,21 @@ export default function Attendance_Management() {
                 </tr>
               </thead>
               <tbody className="submitted_body">
-                {Array.isArray(attendanceRecords) &&
-                attendanceRecords.length > 0 ? (
-                  attendanceRecords.map((recordGroup, index) =>
-                    recordGroup.records.map((record, subIndex) => (
-                      <tr key={`${index}-${subIndex}`}>
-                        <td>{recordGroup.user.name}</td>
-                        <td>{new Date(record.date).toLocaleDateString()}</td>
-                        <td>{record.event}</td>
-                        <td>
-                          <img
-                            src={record.image}
-                            alt={`${recordGroup.user.name}'s attendance`}
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              borderRadius: "50%",
-                            }}
-                          />
-                        </td>
-                        <td>{/* Add status logic here */}</td>
-                      </tr>
-                    ))
-                  )
-                ) : (
-                  <p>No attendance records found.</p>
-                )}
+                {attendanceRecords.map((record, index) => (
+                  <tr key={record._id || index}>
+                    <td>{record.user.name}</td>
+                    <td>{new Date(record.date).toLocaleDateString()}</td>
+                    <td>{record.event}</td>
+                    <td>
+                      <img
+                        src={record.image}
+                        alt={record.event}
+                        style={{ width: "50px", borderRadius: "50%" }}
+                      />
+                    </td>
+                    <td>Submitted</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}

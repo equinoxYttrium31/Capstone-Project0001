@@ -59,14 +59,26 @@ const generateDeetsID = async () => {
 
 const fetchAttendancetoBeApproved = async (req, res) => {
   try {
-    // Fetch all attendance records from the database
-    const allAttendance = await Attendance.find();
+    // Fetch only the necessary fields
+    const allAttendance = await Attendance.aggregate([
+      { $unwind: "$attendanceRecords" }, // Unwind attendance records
+      { $unwind: "$attendanceRecords.records" }, // Unwind records inside attendanceRecords
+      {
+        $project: {
+          "user.name": 1,
+          "attendanceRecords.records.date": 1,
+          "attendanceRecords.records.event": 1,
+          "attendanceRecords.records.image": 1,
+          "attendanceRecords.records._id": 1, // Keep the record ID
+        },
+      },
+    ]);
 
     if (!allAttendance || allAttendance.length === 0) {
       return res.status(404).json({ message: "No attendance records found." });
     }
 
-    // Return only the attendance records in the response body
+    // Send the simplified data
     res.status(200).json(allAttendance);
   } catch (error) {
     console.error("Error fetching attendance records:", error);
