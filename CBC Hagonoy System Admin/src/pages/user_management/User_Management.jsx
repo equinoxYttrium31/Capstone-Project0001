@@ -496,7 +496,6 @@ export default function User_Management() {
       };
     });
 
-    // Add data rows to the worksheet
     records.forEach((record, index) => {
       const row = worksheet.addRow([
         record.firstName,
@@ -505,7 +504,13 @@ export default function User_Management() {
         record.birthDate
           ? new Date(record.birthDate).toLocaleDateString()
           : "N/A",
-        `${record.address.baseAddress}, ${record.address.barangay}, ${record.address.city}, ${record.address.province}`,
+        record.address
+          ? `${record.address.baseAddress || "N/A"}, ${
+              record.address.barangay || "N/A"
+            }, ${record.address.city || "N/A"}, ${
+              record.address.province || "N/A"
+            }`
+          : "N/A", // Add fallback if address is undefined
         record.CellNum,
         record.TelNum,
         record.gender,

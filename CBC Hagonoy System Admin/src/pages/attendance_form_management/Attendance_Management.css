@@ -1,6 +1,6 @@
 .Attendance__mainContainer {
   width: 100%;
-  height: 100vh;
+  height: 86vh;
   overflow: auto;
 }
 
@@ -194,7 +194,12 @@
   transition: all ease-in-out 0.3s;
 }
 
-.attendance_submitted_container {
+.approved_attendance_container {
+  margin-bottom: 1rem;
+}
+
+.attendance_submitted_container,
+.approved_attendance_container {
   background-color: whitesmoke;
   margin-top: 1rem;
   margin-left: 0.5rem;
@@ -244,7 +249,8 @@
   box-shadow: #28282b 2px 2px 5px;
 }
 
-.attendance_submitted_list {
+.attendance_submitted_list,
+.approved_attendance_list {
   width: 100%;
   margin: auto;
   border-collapse: collapse;
@@ -261,7 +267,8 @@ td {
   text-overflow: ellipsis;
 }
 
-.submitted_header {
+.submitted_header,
+.approved_header {
   font-size: 1em;
   font-family: "Poppins";
   color: #2d2f65;
@@ -272,7 +279,8 @@ td {
   border-bottom: 1px solid #ddd;
 }
 
-.submitted_body {
+.submitted_body,
+.approved_body {
   max-height: 350px; /* Set a fixed height for scrollable content */
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden;

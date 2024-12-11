@@ -4,18 +4,23 @@ import axios from "axios";
 import CustomCalendar from "../../components/CustomCalendar/customCalendar";
 import "./Admin_Dashboard.css";
 
+import NewMembersChart from "../audit_and_trailing/charts/newMembers/NewMembersChart";
+import TotalMembersChart from "../audit_and_trailing/charts/totalMembers/TotalMembersChart";
+import UserDemographics from "../audit_and_trailing/charts/UserDemographics/UserDemographics";
+import PrayerRequestChart from "../audit_and_trailing/charts/PrayerRequestTraffic/PrayerRequestChart";
+
 function Admin_Dashboard() {
-  //const declaration
+  // State declarations
   const [announcements, setAnnouncements] = useState([]);
   const [totalMembers, setTotalMembers] = useState(0);
   const [cellGroups, setCellGroups] = useState([]);
   const [totalCellGroups, setTotalCellGroups] = useState(0);
   const [totalGuest, setTotalGuests] = useState(0);
   const [totalBaptized, setTotalBaptized] = useState(0);
+  const [selectedGraph, setSelectedGraph] = useState("");
 
-  //Fetching of Announcements, Users, and Cell Groups
+  // Fetching Announcements, Users, and Cell Groups
   useEffect(() => {
-    //Fetching of Announcements
     const fetchAnnouncements = async () => {
       try {
         const response = await axios.get(
@@ -29,18 +34,15 @@ function Admin_Dashboard() {
 
     const fetchUsersAndCellGroups = async () => {
       try {
-        // Fetch all users
         const usersResponse = await axios.get(
           "https://capstone-project0001-2.onrender.com/records"
         );
 
-        // Count total members excluding guests
         const filteredMembers = usersResponse.data.filter(
           (user) => user.memberType !== "Guest"
         );
-        setTotalMembers(filteredMembers.length); // Count of total members
+        setTotalMembers(filteredMembers.length);
 
-        //filter guests
         const filterGuest = usersResponse.data.filter(
           (guest) =>
             guest.memberType !== "Member" &&
@@ -49,7 +51,6 @@ function Admin_Dashboard() {
         );
         setTotalGuests(filterGuest.length);
 
-        //filter Baptized
         const filterBaptized = usersResponse.data.filter(
           (baptized) =>
             baptized.isBaptized !== "Scheduled" &&
@@ -58,19 +59,17 @@ function Admin_Dashboard() {
         );
         setTotalBaptized(filterBaptized.length);
 
-        // Fetch all cell groups
         const cellGroupsResponse = await axios.get(
           "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
         );
 
-        // Filter out specific cell groups
         const filteredCellGroups = cellGroupsResponse.data.filter(
           (group) =>
             group.cellgroupName !== "Marc Dexter Raymundo's Team" &&
             group.cellgroupName !== "Guest Lists"
         );
         setCellGroups(filteredCellGroups);
-        setTotalCellGroups(filteredCellGroups.length); // Set the count of filtered cell groups
+        setTotalCellGroups(filteredCellGroups.length);
       } catch (error) {
         console.error("Error fetching users or cell groups", error);
       }
@@ -97,10 +96,31 @@ function Admin_Dashboard() {
       "November",
       "December",
     ];
-    const month = monthNames[date.getMonth()]; // Get month name
+    const month = monthNames[date.getMonth()];
     const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
-    return `${month} ${day}, ${year}`; // Format: Month Day, Year
+    return `${month} ${day}, ${year}`;
+  };
+
+  // Handler to update the selected graph
+  const handleGraphChange = (e) => {
+    setSelectedGraph(e.target.value);
+  };
+
+  // Map for conditional rendering of charts
+  const renderGraph = () => {
+    switch (selectedGraph) {
+      case "New Members":
+        return <NewMembersChart />;
+      case "Total Members":
+        return <TotalMembersChart />;
+      case "User Demographics":
+        return <UserDemographics />;
+      case "Prayer Request":
+        return <PrayerRequestChart />;
+      default:
+        return <NewMembersChart />;
+    }
   };
 
   return (
@@ -138,10 +158,14 @@ function Admin_Dashboard() {
           <div className="graphs_container">
             <div className="graph_mainCont">
               <div className="header_container">
-                <h3 className="header_text">Admin Analytics</h3>
+                <h3 className="header_title">Admin Analytics</h3>
               </div>
               <div className="header_navigation">
-                <select className="navigation_graphs">
+                <select
+                  className="navigation_graphs"
+                  value={selectedGraph}
+                  onChange={handleGraphChange}
+                >
                   <option value="">Filter Graph</option>
                   <option value="New Members">New Members</option>
                   <option value="Total Members">Total Members</option>
@@ -149,13 +173,16 @@ function Admin_Dashboard() {
                   <option value="Prayer Request">Prayer Request</option>
                 </select>
               </div>
+
+              <div className="graph_display">{renderGraph()}</div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="right_container_adminDash">
         <div className="right_top_container">
-          <CustomCalendar></CustomCalendar>
+          <CustomCalendar />
         </div>
         <div className="right_bot_container">
           <h2 className="event_header_admin">Upcoming Events...</h2>
