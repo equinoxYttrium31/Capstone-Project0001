@@ -168,6 +168,9 @@ export default function Attendance_Management() {
       const { _id: attendanceId } = recordToMove; // Main document _id
       const { _id: attendanceRecordId } = recordToMove; // attendanceRecord._id
 
+      console.log("attendanceId:", attendanceId);
+      console.log("attendanceRecordId:", attendanceRecordId);
+
       // Send both attendanceId and attendanceRecordId to the backend
       axios
         .put(

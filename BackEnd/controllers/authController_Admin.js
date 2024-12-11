@@ -62,6 +62,9 @@ const Approval = async (req, res) => {
   const { id } = req.params; // Main document _id
   const { attendanceRecordId } = req.body; // attendanceRecordId from the request body
 
+  console.log("Received ID:", id);
+  console.log("Received Attendance Record ID:", attendanceRecordId);
+
   try {
     // Step 1: Find the main attendance document using _id
     const pendingRecord = await Attendance.findOne({ _id: id });
