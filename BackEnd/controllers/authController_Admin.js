@@ -59,18 +59,13 @@ const generateDeetsID = async () => {
 
 const toBeApproved = async (req, res) => {
   try {
-    // Fetch all attendance records, aggregating the data and unwinding the nested arrays
+    // Fetch all attendance records without unwinding the nested records array
     const allAttendance = await Attendance.aggregate([
       { $unwind: "$attendanceRecords" }, // Unwind attendanceRecords array
-      { $unwind: "$attendanceRecords.records" }, // Unwind records array inside each attendanceRecords
       {
         $project: {
           "user.name": 1, // Keep the user's name
-          "attendanceRecords.records.date": 1, // Keep the attendance date
-          "attendanceRecords.records.event": 1, // Keep the event name
-          "attendanceRecords.records.image": 1, // Keep the image base64
-          "attendanceRecords.records.dayOfWeek": 1, // Keep the day of the week
-          "attendanceRecords.records._id": 1, // Keep the record's ID
+          "attendanceRecords.records": 1, // Keep the records array without unwinding
         },
       },
     ]);

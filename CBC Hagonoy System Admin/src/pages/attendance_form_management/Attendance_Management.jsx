@@ -16,31 +16,25 @@ export default function Attendance_Management() {
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
 
+  // Fetch attendance records when component mounts
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get(
-          "https://client-2oru.onrender.com/fetchAttendance"
+          "https://capstone-project0001-2.onrender.com/fetchAttendance"
         );
-        console.log(response.data); // Inspect the response data
         if (Array.isArray(response.data)) {
-          setAttendanceRecords(response.data); // Directly set the fetched records
+          setAttendanceRecords(response.data);
         } else {
-          console.error("Unexpected data format:", response.data);
-          setAttendanceRecords([]); // In case of an unexpected format
+          setAttendanceRecords([]);
         }
       } catch (error) {
         console.error("Error fetching attendance records:", error);
-        setAttendanceRecords([]); // Handle error gracefully
+        setAttendanceRecords([]);
       }
     };
-
     fetchAttendance();
   }, []);
-
-  useEffect(() => {
-    console.log("Attendance Records:", attendanceRecords); // Check if records are being set
-  }, [attendanceRecords]);
 
   const handleCreateAttendance = async () => {
     if (!finalTitle || !date) {
@@ -61,9 +55,10 @@ export default function Attendance_Management() {
       setAttendanceID(attendanceID);
 
       toast.success(
-        `Attendance Created: \nEvent: ${finalTitle}\nDate: ${date}`
+        `Attendance Created: \nEvent: ${finalTitle}\nDate: ${new Date(
+          date
+        ).toLocaleDateString()}`
       );
-      console.log("Attendance Created Successfully:", response.data);
     } catch (error) {
       toast.error("Error creating attendance.");
       console.error("Error creating attendance", error);
@@ -71,18 +66,16 @@ export default function Attendance_Management() {
   };
 
   const handleGenerateQR = () => {
-    if (!finalTitle || !date) {
-      toast.error("Please fill in all the required fields.");
+    if (!finalTitle || !date || !attendanceID) {
+      toast.error(
+        "Please fill in all the required fields and create attendance first."
+      );
       return;
     }
 
-    if (attendanceID) {
-      setQrCodeData(
-        `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
-      );
-    } else {
-      toast.error("Please create attendance first.");
-    }
+    setQrCodeData(
+      `https://client-2oru.onrender.com/user-interface?attendanceID=${attendanceID}`
+    );
   };
 
   const handleExportQRCode = async () => {
@@ -168,6 +161,7 @@ export default function Attendance_Management() {
               <option value="Cellgroup">Cellgroup</option>
               <option value="Other">Other</option>
             </select>
+
             {commonTitle === "Other" && (
               <div className="__other_event">
                 <label className="__event_title_lbl">Other:</label>
@@ -222,18 +216,52 @@ export default function Attendance_Management() {
               </thead>
               <tbody className="submitted_body">
                 {attendanceRecords.map((record, index) => {
-                  console.log(record); // Log each record to ensure it's properly mapped
+                  console.log("Record Data:", record); // Log each individual record
+
+                  // Access the first element of attendanceRecords (since it seems to be an array with a single element)
+                  const attendanceGroup = record.attendanceRecords?.[0]; // Check if attendanceRecords is an array and get the first item
+                  const eventRecord = attendanceGroup?.records?.[0]; // Access records, which is an array inside the group
+
+                  console.log("Event :", eventRecord);
+
+                  console.log("AttendanceGroup :", attendanceGroup);
+
+                  if (!eventRecord) {
+                    return (
+                      <tr key={record._id || index}>
+                        <td>{record.user?.name || "Unknown"}</td>
+                        <td>Invalid Date</td>
+                        <td>No Event</td>
+                        <td>No Image</td>
+                        <td>Submitted</td>
+                      </tr>
+                    );
+                  }
+
+                  // Convert date
+                  const parsedDate = new Date(eventRecord.date);
+                  const formattedDate = isNaN(parsedDate)
+                    ? "Invalid Date"
+                    : parsedDate.toLocaleDateString();
+
+                  // Handle missing image
+                  const eventImage = eventRecord.image || "No Image";
+
                   return (
                     <tr key={record._id || index}>
-                      <td>{record.user.name}</td>
-                      <td>{new Date(record.date).toLocaleDateString()}</td>
-                      <td>{record.event}</td>
+                      <td>{record.user?.name || "Unknown"}</td>
+                      <td>{formattedDate}</td>
+                      <td>{eventRecord.event || "No Event"}</td>
                       <td>
-                        <img
-                          src={record.image}
-                          alt={record.event}
-                          style={{ width: "50px", borderRadius: "50%" }}
-                        />
+                        {eventImage !== "No Image" ? (
+                          <img
+                            src={eventImage}
+                            alt={eventRecord.event}
+                            style={{ width: "50px", borderRadius: "50%" }}
+                          />
+                        ) : (
+                          eventImage
+                        )}
                       </td>
                       <td>Submitted</td>
                     </tr>
