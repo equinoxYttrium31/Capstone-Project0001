@@ -540,6 +540,7 @@ const archivePrayerRequests = async () => {
 };
 
 const schedule = require("node-schedule");
+const DisableUserModel = require("../models/DisableRecords");
 
 schedule.scheduleJob("0 0 1 * *", async () => {
   console.log("Running monthly prayer request archiving job...");
@@ -1037,6 +1038,46 @@ const archiveRecord = async (req, res) => {
   }
 };
 
+const disableAcc = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Get user ID from the request parameters
+
+    // Find the user in the ChurchUser collection
+    const user = await ChurchUser.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Create a new archived user in the ArchieveUser collection
+    const archivedUser = new DisableUserModel({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      birthDate: user.birthDate,
+      profilePic: user.profilePic,
+      address: user.address,
+      CellNum: user.CellNum,
+      TelNum: user.TelNum,
+      CellLead: user.CellLead,
+      NetLead: user.NetLead,
+      gender: user.gender,
+      dateArchieved: ArchievedDate,
+    });
+
+    // Save the archived user
+    await archivedUser.save();
+
+    // Delete the user from the ChurchUser collection
+    await ChurchUser.findByIdAndDelete(userId);
+
+    return res.json({ message: "User archived successfully" });
+  } catch (error) {
+    console.error("Error archiving user:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 // Controller to get a user by ID
 const getUserById = async (req, res) => {
   try {
@@ -1062,6 +1103,17 @@ const getArchivedUsers = async (req, res) => {
     res.json(archivedUsers);
   } catch (error) {
     console.error("Error fetching archived users:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Controller to get all archived users
+const getDisabledUsers = async (req, res) => {
+  try {
+    const disabledUsers = await DisableUserModel.find(); // Fetch archived users from the database
+    res.json(disabledUsers);
+  } catch (error) {
+    console.error("Error fetching disabled users:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -1388,6 +1440,7 @@ module.exports = {
   addNewRecord,
   updateRecord,
   archiveRecord,
+  disableAcc,
   getUserById,
   getArchivedUsers,
   createNewCellGroup,
@@ -1419,4 +1472,5 @@ module.exports = {
   fetchAttendanceDeets,
   Approval,
   fetchApproved,
+  getDisabledUsers,
 };

@@ -48,6 +48,31 @@ function ConfirmationModal({ record, onClose, onConfirm }) {
   );
 }
 
+function ConfirmationDModal({ record, onCloseD, onConfirmD }) {
+  return (
+    <div className="confirmation_modal_container">
+      <div className="confirmation_modal_content">
+        <h2 className="confirm_modal_header">Disable User</h2>
+        <p className="confirm_modal_context">
+          Are you sure you want to Disable{" "}
+          <strong>
+            {record.firstName} {record.lastName}
+          </strong>
+          ?
+        </p>
+        <div className="confirmation_modal_actions">
+          <button className="edit_Modal_button" onClick={onConfirmD}>
+            Confirm
+          </button>
+          <button className="modal_cancel_button" onClick={onCloseD}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 ConfirmationModal.propTypes = {
   record: PropTypes.shape({
     _id: PropTypes.string.isRequired, // Make sure _id is required
@@ -56,6 +81,16 @@ ConfirmationModal.propTypes = {
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+};
+
+ConfirmationDModal.propTypes = {
+  record: PropTypes.shape({
+    _id: PropTypes.string.isRequired, // Make sure _id is required
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }).isRequired,
+  onCloseD: PropTypes.func.isRequired,
+  onConfirmD: PropTypes.func.isRequired,
 };
 
 //end of confirmation
@@ -327,6 +362,7 @@ export default function User_Management() {
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [modalEdit, setModalEdit] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [confirmationDModal, setConfirmationDModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
   const [userId, setUserId] = useState("");
 
@@ -364,11 +400,38 @@ export default function User_Management() {
     }
   };
 
+  const handleConfirmDisable = async () => {
+    try {
+      await axios.delete(
+        `https://capstone-project0001-2.onrender.com/disable/${userId}`,
+        {
+          withCredentials: true, // If authentication is required
+        }
+      );
+      toast.success("Account Disabled successfully");
+      setConfirmationDModal(false);
+      fetchRecords(); // Refresh the list after archiving
+    } catch (error) {
+      console.error("Error archiving user:", error);
+      toast.error("Failed to archive user. Please try again.");
+    }
+  };
+
   const handleOpenConfirmation = (record) => {
     if (record && record._id) {
       setUserId(record._id);
       setCurrentRecord(record);
       setConfirmationModal(true);
+    } else {
+      console.error("Invalid record:", record);
+    }
+  };
+
+  const handleOpenConfirmationD = (record) => {
+    if (record && record._id) {
+      setUserId(record._id);
+      setCurrentRecord(record);
+      setConfirmationDModal(true);
     } else {
       console.error("Invalid record:", record);
     }
@@ -633,6 +696,12 @@ export default function User_Management() {
                         Archive
                       </button>
                     </div>
+                    <button
+                      className="disable"
+                      onClick={() => handleOpenConfirmationD(record)}
+                    >
+                      Disable Account
+                    </button>
                   </td>
                 </tr>
               ))
@@ -660,6 +729,14 @@ export default function User_Management() {
           record={currentRecord}
           onClose={() => setConfirmationModal(false)}
           onConfirm={handleConfirmArchive}
+        />
+      )}
+
+      {confirmationDModal && currentRecord && (
+        <ConfirmationDModal
+          record={currentRecord}
+          onCloseD={() => setConfirmationDModal(false)}
+          onConfirmD={handleConfirmArchive}
         />
       )}
     </div>

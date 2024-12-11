@@ -67,6 +67,8 @@ const {
   fetchAttendanceDeets,
   Approval,
   fetchApproved,
+  disableAcc,
+  getDisabledUsers,
 } = require("../controllers/authController_Admin");
 
 // Define a test route
@@ -148,6 +150,7 @@ router.get("/check-auth", checkAuth);
 router.get("/records", getRecords);
 router.post("/add-record", addNewRecord);
 router.delete("/archive/:userId", archiveRecord);
+router.delete("/disable/:userId", disableAcc);
 router.put("/update-record/:userId", updateRecord);
 router.get("/churchUser/:userId", getUserById);
 router.get("/archivedUsers", getArchivedUsers);
@@ -194,6 +197,7 @@ router.post("/submitAttendance", submitAttendance);
 router.get("/fetchAttendance", toBeApproved);
 router.get("/fetchApprovedAttendance", fetchApproved);
 router.put("/approvedAttendance/:id", Approval);
+router.get("/users", getDisabledUsers);
 
 // Export the router
 module.exports = router;

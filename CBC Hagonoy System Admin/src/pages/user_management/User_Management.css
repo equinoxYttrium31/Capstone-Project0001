@@ -169,7 +169,25 @@
 }
 
 .user_edit_management {
+  text-align: center;
   width: 30%;
+}
+
+.disable {
+  width: 50%;
+  margin: 0.5rem 5rem;
+  padding: 0.3rem 1rem;
+  background-color: #f8bb33;
+  border: none;
+  color: #28282b;
+  transition: all 0.3s ease-in-out;
+  border-radius: 0.3rem;
+}
+
+.disable:hover {
+  border-radius: 0.8rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
 }
 
 .user_edit_management_btn_cont {
@@ -183,6 +201,7 @@
   background-color: #2d2f65;
   width: 5rem;
   border: 1px solid #2d2f65;
+  font-family: "Poppins";
   color: whitesmoke;
   font-family: "Poppins";
   border-radius: 0.3rem;
