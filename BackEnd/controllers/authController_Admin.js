@@ -138,6 +138,32 @@ const Approval = async (req, res) => {
   }
 };
 
+const fetchApproved = async (req, res) => {
+  try {
+    // Fetch all attendance records without unwinding the nested records array
+    const allAttendance = await ApprovedAttendance.aggregate([
+      { $unwind: "$attendanceRecords" }, // Unwind attendanceRecords array
+      {
+        $project: {
+          "user.name": 1, // Keep the user's name
+          "attendanceRecords.records": 1, // Keep the records array without unwinding
+        },
+      },
+    ]);
+
+    // If no attendance records found, return an appropriate message
+    if (!allAttendance || allAttendance.length === 0) {
+      return res.status(404).json({ message: "No attendance records found." });
+    }
+
+    // Successfully return the attendance records
+    res.status(200).json(allAttendance);
+  } catch (error) {
+    console.error("Error fetching attendance records:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
 const toBeApproved = async (req, res) => {
   try {
     // Fetch all attendance records without unwinding the nested records array
@@ -1392,4 +1418,5 @@ module.exports = {
   toBeApproved,
   fetchAttendanceDeets,
   Approval,
+  fetchApproved,
 };

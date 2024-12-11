@@ -135,6 +135,22 @@ function Admin_Dashboard() {
               <h2 className="count_content_admin">{totalCellGroups}</h2>
             </div>
           </div>
+          <div className="graphs_container">
+            <div className="graph_mainCont">
+              <div className="header_container">
+                <h3 className="header_text">Admin Analytics</h3>
+              </div>
+              <div className="header_navigation">
+                <select className="navigation_graphs">
+                  <option value="">Filter Graph</option>
+                  <option value="New Members">New Members</option>
+                  <option value="Total Members">Total Members</option>
+                  <option value="User Demographics">User Demographics</option>
+                  <option value="Prayer Request">Prayer Request</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="right_container_adminDash">

@@ -27,7 +27,7 @@
   background-color: whitesmoke;
   margin-top: -0.5rem;
   margin-left: 0.5rem;
-  width: 90%;
+  width: 85%;
   padding: 0.5rem 1.5rem;
   border-radius: 1rem;
   box-shadow: #28282b 1px 1px 3px;
@@ -198,7 +198,7 @@
   background-color: whitesmoke;
   margin-top: 1rem;
   margin-left: 0.5rem;
-  width: 90%;
+  width: 85%;
   padding: 0.5rem 1.5rem;
   border-radius: 1rem;
   box-shadow: #28282b 1px 1px 3px;
@@ -209,6 +209,7 @@
   gap: 2rem;
   justify-content: end;
   font-family: "poppins";
+  margin-bottom: 1rem;
 }
 
 .filter_event {
@@ -238,6 +239,58 @@
 }
 
 .filter_date:hover {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
+}
+
+.attendance_submitted_list {
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #ddd;
+  overflow: hidden; /* Prevent content overflow */
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis;
+}
+
+.submitted_header {
+  font-size: 1em;
+  font-family: "Poppins";
+  color: #2d2f65;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: rgb(212, 237, 253); /* Header background color */
+  border-bottom: 1px solid #ddd;
+}
+
+.submitted_body {
+  max-height: 350px; /* Set a fixed height for scrollable content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  font-family: "lato";
+  font-size: 0.9em;
+}
+
+.status-dropdown {
+  padding: 0.2rem 1rem;
+  font-size: 0.9em;
+  color: #28282b;
+  border: #120652 2px solid;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+.status-dropdown:hover {
   border-radius: 0.5rem;
   cursor: pointer;
   box-shadow: #28282b 2px 2px 5px;

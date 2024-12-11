@@ -11,6 +11,9 @@ export default function Attendance_Management() {
   const [commonTitle, setCommonTitle] = useState("");
   const [commonFilter, setCommonFilter] = useState("");
   const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [approvedAttendanceRecords, setApprovedAttendanceRecords] = useState(
+    []
+  );
   const [title, setTitle] = useState("");
   const [titleFilter, setTitleFilter] = useState("");
   const [date, setDate] = useState("");
@@ -21,6 +24,45 @@ export default function Attendance_Management() {
 
   const finalTitle = commonTitle === "Other" ? title : commonTitle;
   const finalFilter = commonFilter === "Other" ? titleFilter : commonFilter;
+
+  useEffect(() => {
+    const fetchApprovedAttendance = async () => {
+      try {
+        const response = await axios.get(
+          "https://capstone-project0001-2.onrender.com/fetchApprovedAttendance"
+        );
+        if (Array.isArray(response.data)) {
+          setApprovedAttendanceRecords(response.data);
+        } else {
+          setApprovedAttendanceRecords([]);
+        }
+      } catch (error) {
+        console.error("Error fetching approved attendance records:", error);
+        setApprovedAttendanceRecords([]);
+      }
+    };
+    fetchApprovedAttendance();
+  }, []);
+
+  const filteredApprovedRecords = approvedAttendanceRecords.filter((record) => {
+    const eventMatches =
+      !commonFilter ||
+      record.attendanceRecords?.records?.some(
+        (eventRecord) =>
+          eventRecord.event &&
+          eventRecord.event.toLowerCase() === finalFilter.toLowerCase()
+      );
+
+    const dateMatches =
+      !filterDate ||
+      record.attendanceRecords?.records?.some((eventRecord) => {
+        const eventDate = new Date(eventRecord.date).setHours(0, 0, 0, 0);
+        const filterDateOnly = new Date(filterDate).setHours(0, 0, 0, 0);
+        return eventDate === filterDateOnly;
+      });
+
+    return eventMatches && dateMatches;
+  });
 
   // Fetch attendance records when component mounts
   useEffect(() => {
@@ -380,6 +422,132 @@ export default function Attendance_Management() {
                           <option value="Submitted">Submitted</option>
                           <option value="Approved">Approved</option>
                         </select>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      <div className="approved_attendance_container">
+        <div className="header_container">
+          <h3 className="header_title">Approved Attendance</h3>
+          <div className="navigation_container">
+            <select
+              className="filter_event"
+              value={commonFilter}
+              onChange={(e) => setCommonFilter(e.target.value)}
+            >
+              <option value="">Filter Event</option>
+              <option value="Sunday Service">Sunday Service</option>
+              <option value="Prayer Meeting">Prayer Meeting</option>
+              <option value="Family Devotion">Family Devotion</option>
+              <option value="Personal Devotion">Personal Devotion</option>
+              <option value="Cellgroup">Cellgroup</option>
+              <option value="Other">Other</option>
+            </select>
+
+            {commonFilter === "Other" && (
+              <input
+                type="text"
+                className="__custom_event_inp"
+                value={titleFilter}
+                onChange={(e) => setTitleFilter(e.target.value)}
+              />
+            )}
+
+            <DatePicker
+              selected={filterDate}
+              onChange={(date) => setFilterDate(date)}
+              placeholderText="Filter by Date"
+              className="filter_date"
+            />
+          </div>
+          {approvedAttendanceRecords.length === 0 ? (
+            <p>No approved attendance records found.</p>
+          ) : (
+            <table className="approved_attendance_list">
+              <thead className="approved_header">
+                <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Event</th>
+                  <th>Picture</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody className="approved_body">
+                {filteredApprovedRecords.map((record, index) => {
+                  console.log("Approved Record Data:", record); // Full log of each approved record
+
+                  // Access the 'attendanceRecords' object directly
+                  const attendanceGroup = record.attendanceRecords;
+
+                  console.log("Approved Attendance Group:", attendanceGroup); // Check the structure of the group
+
+                  if (
+                    !attendanceGroup ||
+                    !attendanceGroup.records ||
+                    attendanceGroup.records.length === 0
+                  ) {
+                    return (
+                      <tr key={record._id || index}>
+                        <td>{record.user?.name || "Unknown"}</td>
+                        <td>Invalid Date</td>
+                        <td>No Event</td>
+                        <td>No Image</td>
+                        <td>Approved</td>
+                      </tr>
+                    );
+                  }
+
+                  // Now we can safely access the first item in the 'records' array
+                  const eventRecord = attendanceGroup.records[0];
+
+                  console.log("Event Record:", eventRecord); // Log event record to check its structure
+
+                  if (!eventRecord) {
+                    return (
+                      <tr key={record._id || index}>
+                        <td>{record.user?.name || "Unknown"}</td>
+                        <td>Invalid Date</td>
+                        <td>No Event</td>
+                        <td>No Image</td>
+                        <td>Approved</td>
+                      </tr>
+                    );
+                  }
+
+                  // Convert date
+                  const parsedDate = new Date(eventRecord.date);
+                  const formattedDate = isNaN(parsedDate)
+                    ? "Invalid Date"
+                    : parsedDate.toLocaleDateString();
+
+                  // Handle missing image
+                  const eventImage = eventRecord.image || "No Image";
+
+                  return (
+                    <tr key={record._id || index}>
+                      <td>{record.user?.name || "Unknown"}</td>
+                      <td>{formattedDate}</td>
+                      <td>{eventRecord.event || "No Event"}</td>
+                      <td>
+                        {eventImage !== "No Image" ? (
+                          <img
+                            src={eventImage}
+                            alt={eventRecord.event}
+                            style={{ width: "10rem", borderRadius: "5%" }}
+                          />
+                        ) : (
+                          eventImage
+                        )}
+                      </td>
+                      <td>
+                        <span className="status-approved">Approved</span>
                       </td>
                     </tr>
                   );
