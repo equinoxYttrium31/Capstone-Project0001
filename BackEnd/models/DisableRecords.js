@@ -24,6 +24,7 @@ const DisableUser = new Schema({
     type: String,
     default: null,
   },
+  userID: { type: String, default: null, unique: true },
   CellLead: { type: String, default: null },
   NetLead: { type: String, default: null },
   gender: { type: String, default: null },

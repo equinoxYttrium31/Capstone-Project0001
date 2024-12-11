@@ -1062,6 +1062,7 @@ const disableAcc = async (req, res) => {
       CellLead: user.CellLead,
       NetLead: user.NetLead,
       gender: user.gender,
+      userID: user.userID,
       dateArchieved: ArchievedDate,
     });
 
