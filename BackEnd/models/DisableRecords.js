@@ -29,7 +29,7 @@ const DisableUser = new Schema({
   NetLead: { type: String, default: null },
   gender: { type: String, default: null },
   dateDisabled: { type: String, default: null },
-  reasonDisabled: { type: String, default: "Pastor Disabled this Account!" },
+  reasonDisabled: { type: String, default: "Pastor Disabled this Account." },
 });
 
 const DisableUserModel = mongoose.model(
