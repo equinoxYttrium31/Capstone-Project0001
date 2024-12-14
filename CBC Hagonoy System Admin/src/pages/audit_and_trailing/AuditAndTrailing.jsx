@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./AuditAndTrailing.css";
 import { xlsx_icon } from "../../assets/Images";
 import axios from "axios";
+import ExcelJS from "exceljs";
 
 export default function AuditAndTrailing() {
   // State for network leaders and cell groups
@@ -72,6 +73,116 @@ export default function AuditAndTrailing() {
     }
   };
 
+  const handleDownloadXLSX = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Disabled Acc and Violations", {
+      pageSetup: {
+        orientation: "landscape", // Set the orientation to landscape
+        paperSize: 5,
+      },
+    });
+
+    // Add title row at the top
+    worksheet.mergeCells("A1:J1"); // Merge the cells across the columns for the title
+    const titleRow = worksheet.getCell("A1");
+    titleRow.value = "Christian Bible Church Hagonoy User Information"; // Set title text
+    titleRow.style = {
+      font: {
+        size: 18,
+        bold: true,
+        color: { argb: "FFFFFF" },
+      },
+      alignment: {
+        vertical: "middle",
+        horizontal: "center",
+      },
+      fill: {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "4F81BD" }, // Light blue background
+      },
+    };
+
+    // Set height for title row to give it enough space
+    worksheet.getRow(1).height = 40; // Adjust the row height for the title
+
+    // Add headers manually
+    const headerRow = worksheet.addRow([
+      "First Name",
+      "Last Name",
+      "Age",
+      "Violation",
+    ]);
+
+    // Style table headers
+    headerRow.font = { bold: true, color: { argb: "FFFFFF" } };
+    headerRow.alignment = { horizontal: "center", vertical: "middle" };
+    headerRow.eachCell((cell, colNumber) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "2E75B6" }, // Dark blue background for headers
+      };
+      cell.border = {
+        top: { style: "thin", color: { argb: "000000" } },
+        left: { style: "thin", color: { argb: "000000" } },
+        bottom: { style: "thin", color: { argb: "000000" } },
+        right: { style: "thin", color: { argb: "000000" } },
+      };
+    });
+
+    disabledAccounts.forEach((disabledAccount, index) => {
+      const row = worksheet.addRow([
+        disabledAccount.firstName,
+        disabledAccount.lastName,
+        disabledAccount.birthDate
+          ? new Date(disabledAccount.birthDate).toLocaleDateString()
+          : "N/A",
+        disabledAccount.reasonDisabled,
+      ]);
+
+      // Style data rows with alternating row colors
+      row.eachCell((cell, colNumber) => {
+        // Add borders
+        cell.border = {
+          top: { style: "thin", color: { argb: "000000" } },
+          left: { style: "thin", color: { argb: "000000" } },
+          bottom: { style: "thin", color: { argb: "000000" } },
+          right: { style: "thin", color: { argb: "000000" } },
+        };
+      });
+
+      // Alternate row background color for better readability
+      if (index % 2 === 0) {
+        row.eachCell((cell, colNumber) => {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "F2F2F2" }, // Light gray for alternate rows
+          };
+        });
+      }
+    });
+
+    // Set custom column widths based on category
+    worksheet.getColumn(1).width = 15; // First Name
+    worksheet.getColumn(2).width = 15; // Last Name
+    worksheet.getColumn(3).width = 30; // Email
+    worksheet.getColumn(4).width = 10; // Birth Date
+
+    // Write the workbook to a file and trigger a download
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    // Create a link element to trigger download
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Disabled Acc and Violations.xlsx";
+    link.click();
+  };
+
   return (
     <div className="main_container_audit">
       <div className="header_container">
@@ -82,37 +193,17 @@ export default function AuditAndTrailing() {
       </div>
 
       <div className="navigation_bar">
-        <button className="export_button" onClick={() => alert("Exporting...")}>
+        <button className="export_button" onClick={handleDownloadXLSX}>
           <img src={xlsx_icon} alt="" className="export_icon" />
           Export
         </button>
-
-        {/* Network Leader Dropdown */}
-        <select className="Filter_Network">
-          <option value="">Filter by Network Leader</option>
-          {networkLeaders.map((leader) => (
-            <option key={leader.networkID} value={leader.networkID}>
-              {leader.networkLeader}
-            </option>
-          ))}
-        </select>
-
-        {/* Cell Group Dropdown */}
-        <select className="Filter_Cellgroup">
-          <option value="">Filter by Cell Group</option>
-          {cellGroups.map((group) => (
-            <option key={group.cellgroupID} value={group.cellgroupID}>
-              {group.cellgroupName}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="disabled_accounts_container">
         <h2>Disabled Accounts</h2>
         {disabledAccounts.length > 0 ? (
           <table className="disabled_accounts_table">
-            <thead>
+            <thead className="disabled_accounts_header">
               <tr>
                 <th>No.</th>
                 <th>Name</th>
@@ -121,7 +212,7 @@ export default function AuditAndTrailing() {
                 <th>Enable Account</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="disabled_accounts_body">
               {disabledAccounts.map((user, index) => {
                 // Calculate age from birthDate if available
                 const age = user.birthDate
