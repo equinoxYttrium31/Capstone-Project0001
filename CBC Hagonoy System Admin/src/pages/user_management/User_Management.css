@@ -23,6 +23,40 @@
   margin-top: -1.3rem;
 }
 
+.reset_btn {
+  background-color: red;
+  width: 5rem;
+  border: 1px solid red;
+  color: whitesmoke;
+  font-family: "Poppins";
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.reset_btn:hover {
+  border-radius: 0.8rem;
+  cursor: pointer;
+  box-shadow: #28282b 2px 2px 5px;
+}
+
+label {
+  font-family: "Poppins";
+  font-size: 0.7em;
+  margin: 0 0.5rem;
+}
+
+select,
+.date-picker {
+  outline: none;
+  height: 1.5rem;
+  border: #120652 2px solid;
+  border-radius: 0.3rem;
+  background-color: transparent;
+  padding-left: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
 .search_bar_cont_userManage {
   position: relative;
   width: 100%;
@@ -30,7 +64,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: end;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .search_bar_userManage {
@@ -129,11 +163,11 @@
 }
 
 .number_management {
-  width: 5%;
+  width: 25%;
 }
 
 .name_management {
-  width: 40%;
+  width: 35%;
 }
 
 .table-body-userManagement tr {
@@ -154,6 +188,10 @@
   overflow-y: auto;
   margin-bottom: 5rem;
   animation: slowLoading 0.3s ease-in-out;
+}
+
+th {
+  text-align: center;
 }
 
 .user_number_management {

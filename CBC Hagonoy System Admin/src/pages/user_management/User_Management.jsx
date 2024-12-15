@@ -365,6 +365,34 @@ export default function User_Management() {
   const [confirmationDModal, setConfirmationDModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
   const [userId, setUserId] = useState("");
+  const [networks, setNetworks] = useState([]);
+  const [cellGroups, setCellGroups] = useState([]);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    network: "",
+    dateJoined: "",
+    cellGroup: "",
+  });
+
+  const fetchDropdownOptions = async () => {
+    try {
+      const [networksResponse, cellGroupsResponse] = await Promise.all([
+        axios.get("https://capstone-project0001-2.onrender.com/network"),
+        axios.get(
+          "https://capstone-project0001-2.onrender.com/fetch-cellgroups"
+        ),
+      ]);
+      setNetworks(networksResponse.data);
+      setCellGroups(cellGroupsResponse.data);
+    } catch (error) {
+      console.error("Error fetching dropdown options:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+    fetchDropdownOptions();
+  }, []);
 
   const fetchRecords = async () => {
     try {
@@ -432,27 +460,6 @@ export default function User_Management() {
     } else {
       console.error("Invalid record:", record);
     }
-  };
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    handleApplyFilters(value);
-  };
-
-  const filterRecords = (query) => {
-    return records.filter((record) => {
-      const matchesSearchQuery =
-        record.firstName.toLowerCase().startsWith(query.toLowerCase()) ||
-        record.lastName.toLowerCase().startsWith(query.toLowerCase());
-
-      return matchesSearchQuery;
-    });
-  };
-
-  const handleApplyFilters = (query) => {
-    const filtered = filterRecords(query);
-    setFilteredRecords(filtered);
   };
 
   const handleEditModal = (record) => {
@@ -556,26 +563,26 @@ export default function User_Management() {
       };
     });
 
-    records.forEach((record, index) => {
+    filteredRecords.forEach((filteredRecord, index) => {
       const row = worksheet.addRow([
-        record.firstName,
-        record.lastName,
-        record.email,
-        record.birthDate
-          ? new Date(record.birthDate).toLocaleDateString()
+        filteredRecord.firstName,
+        filteredRecord.lastName,
+        filteredRecord.email,
+        filteredRecord.birthDate
+          ? new Date(filteredRecord.birthDate).toLocaleDateString()
           : "N/A",
-        record.address
-          ? `${record.address.baseAddress || "N/A"}, ${
-              record.address.barangay || "N/A"
-            }, ${record.address.city || "N/A"}, ${
-              record.address.province || "N/A"
+        filteredRecord.address
+          ? `${filteredRecord.address.baseAddress || "N/A"}, ${
+              filteredRecord.address.barangay || "N/A"
+            }, ${filteredRecord.address.city || "N/A"}, ${
+              filteredRecord.address.province || "N/A"
             }`
           : "N/A", // Add fallback if address is undefined
-        record.CellNum,
-        record.TelNum,
-        record.gender,
-        record.memberType,
-        record.isBaptized,
+        filteredRecord.CellNum,
+        filteredRecord.TelNum,
+        filteredRecord.gender,
+        filteredRecord.memberType,
+        filteredRecord.isBaptized,
       ]);
 
       // Style data rows with alternating row colors
@@ -626,6 +633,118 @@ export default function User_Management() {
     link.click();
   };
 
+  const applyFilters = () => {
+    const filtered = records.filter((record) => {
+      // Split userID by the hyphen to extract each part
+      if (!record.userID) {
+        return false; // Skip this record if userID is missing
+      }
+
+      // Split userID by the hyphen to extract each part
+      const userIDParts = record.userID.split("-");
+
+      // Ensure there are enough parts in the split userID
+      if (userIDParts.length < 3) {
+        return false; // Skip this record if the userID doesn't have the expected number of parts
+      }
+
+      // Extract the parts from the userID
+      const networkPart = userIDParts[0]; // First part ("01")
+      const datePart = userIDParts[1]; // Second part ("202410")
+      const cellGroupPart = userIDParts[2]; // Third part ("0001")
+
+      // Match the "network" part with the filter value
+      const matchesNetwork = filters.network
+        ? networkPart === filters.network
+        : true;
+
+      // Format the date filter to "YYYYMM"
+      const formattedDateFilter = filters.dateJoined
+        ? filters.dateJoined.slice(0, 7).replace("-", "") // Extract "YYYYMM" from "YYYY-MM-DD"
+        : null;
+
+      // Match the "date" part with the filter value
+      const matchesDate = formattedDateFilter
+        ? datePart === formattedDateFilter
+        : true;
+
+      // Match the "cellGroup" part with the filter value
+      const matchesCellGroup = filters.cellGroup
+        ? cellGroupPart === filters.cellGroup
+        : true;
+
+      // Check if the search query matches first or last name
+      const matchesSearchQuery =
+        filters.searchTerm === "" ||
+        (record.firstName &&
+          record.firstName
+            .toLowerCase()
+            .startsWith(filters.searchTerm.toLowerCase())) ||
+        (record.lastName &&
+          record.lastName
+            .toLowerCase()
+            .startsWith(filters.searchTerm.toLowerCase()));
+
+      // Return filtered results if all conditions match
+      return (
+        matchesSearchQuery && matchesNetwork && matchesDate && matchesCellGroup
+      );
+    });
+
+    setFilteredRecords(filtered);
+  };
+
+  useEffect(() => {
+    applyFilters();
+  }, [filters]);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    console.log("Search term changed:", value);
+    setFilters((prev) => ({ ...prev, searchTerm: value })); // Sync with filters
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      searchTerm: "",
+      network: "",
+      dateJoined: "",
+      cellGroup: "",
+    });
+    setSearchTerm(""); // Clear search term
+    setFilteredRecords(records); // Restore full list of records
+  };
+
+  const handleNetworkChange = (e) => {
+    const newNetwork = e.target.value;
+    console.log("Setting network filter to:", newNetwork); // Log network value before setting
+    setFilters((prev) => ({
+      ...prev,
+      network: newNetwork,
+    }));
+    applyFilters(); // Reapply filters
+  };
+
+  const handleCellGroupChange = (e) => {
+    const newCellGroup = e.target.value;
+    console.log("Setting cell group filter to:", newCellGroup); // Log cell group value before setting
+    setFilters((prev) => ({
+      ...prev,
+      cellGroup: newCellGroup,
+    }));
+    applyFilters(); // Reapply filters
+  };
+
+  const handleDateChange = (e) => {
+    const newDateJoined = e.target.value;
+    console.log("Setting date filter to:", newDateJoined); // Log date value before setting
+    setFilters((prev) => ({
+      ...prev,
+      dateJoined: newDateJoined,
+    }));
+    applyFilters(); // Reapply filters
+  };
+
   return (
     <div className="main_user_management_cont">
       <div className="header_user_management">
@@ -636,6 +755,58 @@ export default function User_Management() {
       </div>
 
       <div className="search_bar_cont_userManage">
+        <label>
+          Network:
+          <select value={filters.network} onChange={handleNetworkChange}>
+            <option value="">All Networks</option>
+            {networks.map((network) => (
+              <option key={network.networkID} value={network.networkID}>
+                {network.networkLeader}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          Date Joined:
+          <input
+            className="date-picker"
+            type="date"
+            value={filters.dateJoined}
+            onChange={handleDateChange}
+          />
+        </label>
+
+        <label>
+          Cell Group:
+          <select value={filters.cellGroup} onChange={handleCellGroupChange}>
+            <option value="">All Cell Groups</option>
+            {cellGroups && cellGroups.length > 0 ? (
+              cellGroups.map((cellGroup, index) => {
+                const cellgroupID = cellGroup.cellgroupID;
+                const fourDigitID =
+                  cellgroupID && typeof cellgroupID === "string"
+                    ? cellgroupID.split("-")[1]
+                    : null;
+
+                const key = `${fourDigitID}-${cellgroupID}-${index}`;
+
+                return (
+                  <option key={key} value={fourDigitID}>
+                    {cellGroup.cellgroupName}
+                  </option>
+                );
+              })
+            ) : (
+              <option disabled>No Cell Groups Available</option>
+            )}
+          </select>
+        </label>
+
+        <button className="reset_btn" onClick={resetFilters}>
+          Reset
+        </button>
+
         <button className="export_button" onClick={handleDownloadXLSX}>
           <img src={xlsx_icon} alt="" className="expport_icon" />
           Export
@@ -643,7 +814,7 @@ export default function User_Management() {
         <input
           type="text"
           className="search_bar_userManage"
-          value={searchTerm}
+          value={filters.searchTerm}
           onChange={handleSearchChange}
           placeholder="Search for users"
         />
@@ -659,7 +830,7 @@ export default function User_Management() {
         <table className="user-management-accounts-table">
           <thead className="user-management-table-headers">
             <tr className="table-header-row">
-              <th className="table-header number_management">No.</th>
+              <th className="table-header number_management">UserID</th>
               <th className="table-header name_management">Name</th>
               <th className="table-header age_management">Age</th>
               <th className="table-header gender_management">Gender</th>
@@ -670,7 +841,7 @@ export default function User_Management() {
             {filteredRecords.length > 0 ? (
               filteredRecords.map((record, index) => (
                 <tr key={record.id}>
-                  <td className="user_number_management">{index + 1}</td>
+                  <td className="user_number_management">{record.userID}</td>
                   <td className="user_name_management">
                     {record.firstName} {record.lastName}
                   </td>
